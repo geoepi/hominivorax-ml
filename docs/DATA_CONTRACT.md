@@ -76,3 +76,23 @@ geometry or graph topology.
 
 The contract smoke test also records SHA-256 checksums and shape/dtype
 invariants. Production tensorization and model fitting are outside this phase.
+
+## Preflight diagnostics
+
+The week inventory records parsed ISO week identifiers, missing and duplicate
+weeks, unexpected filenames, per-file metadata headers, and exact geometry
+comparison to the first available reference raster. The observation diagnostic
+records assignments only within the candidate complete-week period and
+separates valid-cell assignments, outside-extent records, masked/nodata
+records, and invalid coordinates. Its zero counts mean no recorded detection,
+not biological absence.
+
+Livestock metadata are reported separately. Units and whether a layer is a
+count, density, or transformed quantity must come from explicit metadata; the
+inventory does not infer a resampling rule from a filename.
+
+The GPU smoke output records GConvGRU constructor/forward signatures and source
+inspection flags for edge weights, normalization, self-loops, and lambda_max.
+Those observations are used only to verify that the paired binary edge table
+is passed in the representation expected by the installed library; they do
+not change the approved queen topology.

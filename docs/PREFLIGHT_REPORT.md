@@ -11,13 +11,15 @@ modified.
 
 ## 1. Executive summary
 
-The local repository bootstrap and reproducible preflight scaffolding are
+The local repository bootstrap and reproducible preflight implementation are
 complete. The canonical Atlas checkout and external output root could not be
 verified because the configured SSH host atlas returned “Could not resolve
-hostname atlas: No such host is known.” The local environment also lacks
-Rscript and Python. Therefore the data audit, raster inventory, canonical-grid
-selection, graph artifact, R/Python interoperability test, and GPU smoke test
-have not been run and must not be represented as successful.
+hostname atlas: No such host is known.” Python is unavailable and Rscript is
+not on PATH, although a bundled local R 4.5.0 runtime is available. Therefore
+all Atlas-derived checks remain not attempted;
+the new inventory, observation-to-grid, canonical-template validation, CPU
+orchestration, and manifest code must not be represented as successful runtime
+results.
 
 ## 2. Repository/bootstrap status
 
@@ -45,10 +47,13 @@ the supplied starting module stack but is not labeled production-ready.
 
 ## 5. R geospatial environment
 
-Pending compute-node validation. Required evidence remains:
+Pending Atlas compute-node validation. Required evidence remains:
 sessionInfo(), sf::sf_extSoftVersion(), terra::gdal(lib = "all"), and
 shell-level GDAL, GEOS, PROJ, UDUNITS, and Intel MKL versions. The local
-Windows session reported Rscript unavailable.
+Windows session used bundled R 4.5.0 only for synthetic checks; it is not the
+canonical Atlas R 4.4.3 environment. The local package check found terra
+1.8.42, sf 1.0.20, data.table 1.17.0, arrow 20.0.0, and ggplot2 3.5.2; these
+versions are not substituted for the required Atlas stack.
 
 ## 6. Python/GPU environment
 
@@ -78,67 +83,75 @@ must be compared after inventory and must not be silently truncated.
 
 ## 9. Environmental weekly-data inventory
 
-Pending Atlas access. The twelve required products and their weekly-only
-directory rule are encoded in scripts/inventory_rasters.R. Counts, endpoints,
-missing/duplicate weeks, metadata, valid-cell counts, and exact geometry
-comparisons remain unobserved.
+Not attempted on Atlas. scripts/inventory_rasters.R now records parsed ISO
+year/week, missing and duplicate weeks, unexpected filenames, metadata-only
+headers, common coverage, and exact geometry comparisons without reading every
+weekly raster cell.
 
 ## 10. Canonical-grid assessment
 
-Pending. The intended template is one validated weekly environmental raster
-whose geometry is common to the products. Selection is based on geometry
-consistency only. No canonical product or environmental mask was selected in
-this session.
+Not attempted. The intended template is one validated weekly environmental
+raster whose geometry is common to the products. Selection is based on
+geometry consistency only. scripts/validate_canonical_template.R now refuses a
+template that does not exactly match the inventory reference; no canonical
+product or environmental mask was selected in this session.
 
 ## 11. Observation-to-grid assessment
 
-Pending. No observation coordinates were read. The R implementation is designed
-to interpret lon/lat as WGS84, transform to the template CRS, assign valid
-cells, and aggregate diagnostic detection counts by node and ISO week. It will
-report outside-extent and nodata assignments separately and will not call
-unobserved cells biological absences.
+Not attempted. scripts/observation_to_grid.R now interprets lon/lat as WGS84,
+transforms to the template CRS, assigns valid cells, aggregates detection
+counts by node and ISO week, and writes a summary plus Parquet node-week
+diagnostic. It reports outside-extent, masked/nodata, and invalid-coordinate
+records separately and does not call unobserved cells biological absences.
 
 ## 12. Livestock-data inventory
 
-Pending Atlas access. The five required source filenames are encoded in the
-inventory entry point. CRS, dimensions, resolution, extent, nodata, data type,
-value range, units metadata, and relationship to the canonical grid are not
-yet observed. No definitive resampling or aggregation method was chosen.
+Not attempted on Atlas. The five required source filenames are encoded in the
+inventory entry point. Metadata, descriptive tags, and static-layer min/max
+checks are collected when available; units and count/density semantics remain
+unresolved unless explicitly stated by the raster metadata. No definitive
+resampling or aggregation method was chosen.
 
 ## 13. Queen-graph assessment
 
-The deterministic R graph constructor and unit tests are present, but no
-production node universe exists until the canonical raster is validated. The
-representation is paired directed edges for a fixed binary queen graph with
-no self-loops. QA covers symmetry, duplicates, index validity, degree,
-isolates, connected components, boundary behavior, and masked-cell handling.
+Implementation verified by inspection only; no Atlas node universe exists
+until the canonical raster is validated. The representation is paired
+directed edges for a fixed binary queen graph with no self-loops. QA covers
+symmetry, duplicates, index validity, degree, isolates, connected components,
+boundary behavior, and masked-cell handling. The masked-cell test now compares
+expected raster-cell adjacency rather than compact node IDs.
 
 ## 14. R/Python interoperability test
 
-Pending because no validated R or Python runtime is available locally and no
-Atlas artifacts exist. The contract specifies Parquet node/edge artifacts and
-zero-based contiguous node IDs suitable for direct PyG edge_index conversion.
+Not attempted because no validated R or Python runtime is available locally and
+no Atlas artifacts exist. The CPU orchestration now writes nodes.parquet and
+edges_queen.parquet, runs the Python contract check, and records artifact
+checksums in the final manifest.
 
 ## 15. GConvGRU synthetic GPU smoke test
 
-Pending GPU allocation. The test uses a four-node synthetic directed graph,
-allocates inputs and edges on CUDA, runs GConvGRU forward propagation, computes
-a differentiable scalar loss, runs backward propagation, and checks finite
-gradients. It does not use real environmental or observation tensors.
+Not attempted because no GPU allocation was available. The test uses a
+four-node synthetic directed graph, allocates inputs and edges on CUDA, runs
+GConvGRU forward propagation, computes a differentiable scalar loss, runs
+backward propagation, checks finite gradients, and records package versions and
+GConvGRU source/signature inspection. It does not use real data.
 
 ## 16. Tests performed
 
-The R and Python test suites were added but not executed because the local
-environment has neither Rscript nor Python. No test result is claimed. Atlas
-execution should run the ordinary R testthat suite separately from the
-environment and GPU smoke tests.
+The R unit suite passed locally with 39 tests using bundled R 4.5.0. Synthetic
+inventory and observation-to-grid CLI checks also passed, including JSON and
+Parquet output validation. These are not Atlas environment results. Python
+contract and GPU tests were not executed because Python is unavailable. The
+Atlas sequence is available in scripts/run_cpu_preflight.sh; GPU validation
+remains a separate SLURM smoke test.
 
 ## 17. Problems encountered and resolutions
 
 1. Atlas SSH host resolution failed. Resolution: stop Atlas-dependent work and
    record the blocker; do not fabricate inventory results.
-2. Rscript and Python are absent locally. Resolution: keep runtime validation
-   on Atlas compute nodes as required.
+2. Python is absent locally and Rscript is not on PATH. Resolution: use the
+   bundled R 4.5.0 only for synthetic/unit checks and keep canonical runtime
+   validation on Atlas compute nodes as required.
 3. The checkout Git metadata initially required an explicit permission to
    create the requested branch. The feature branch was then created; no merge
    or history rewrite was performed.
@@ -160,7 +173,7 @@ production preprocessing contract.
 
 ## 20. Git status and commit history
 
-The local bootstrap and preflight scaffolding were committed as 9df0ef5
-(bootstrap Atlas preflight project structure) on
-feature/atlas-preflight-data-contract and pushed to origin. This report update
-will be committed separately. The branch must not be merged into main.
+The prior branch head b47730c was reconciled before Task 1B changes. The
+implementation is committed as 79665b3 (complete Task 1B preflight
+diagnostics). This documentation update will be committed separately. The
+branch must not be merged into main.

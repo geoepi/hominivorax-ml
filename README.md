@@ -6,7 +6,10 @@ This branch implements the Task 1 preflight scaffolding: Atlas environment wrapp
 
 ## Current status
 
-The local repository bootstrap is complete. Atlas-derived inventory and runtime results remain pending because the current execution environment cannot resolve the configured atlas SSH host. See docs/PREFLIGHT_REPORT.md for the evidence and the precise stop condition.
+The local repository bootstrap and Task 1B execution scaffolding are complete.
+Atlas-derived inventory and runtime results remain pending because the current
+execution environment cannot resolve the configured atlas SSH host. See
+docs/PREFLIGHT_REPORT.md for the evidence and precise stop condition.
 
 ## Scope boundary
 

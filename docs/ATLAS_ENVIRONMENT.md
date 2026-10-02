@@ -46,6 +46,24 @@ The report must include sessionInfo(), sf::sf_extSoftVersion(), and
 terra::gdal(lib = "all"), plus shell-level versions for GDAL, GEOS, PROJ,
 UDUNITS, and Intel MKL.
 
+For the complete CPU preflight, set the read-only source paths and the
+validated canonical template explicitly, then run:
+
+    export STGNN_OBSERVATIONS=/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2027-07-31.csv
+    export STGNN_ENVIRONMENTAL_ROOT=/project/disease_ecology/cds-datagrab-output/data/production
+    export STGNN_LIVESTOCK_ROOT=/project/disease_ecology/animal-data-warehouse/livestock
+    export STGNN_TEMPLATE_PATH=/path/to/validated/weekly/template.tif
+    export STGNN_TEMPLATE_PRODUCT=validated_product_name
+    export STGNN_TEMPLATE_WEEK=YYYY-Www
+    export STGNN_PYTHON_ENV=/path/to/validated/python/environment
+    source scripts/run_cpu_preflight.sh
+
+The orchestration refuses to guess the canonical template, product, week, or
+Python environment. It writes only to STGNN_OUTPUT_ROOT and runs environment
+validation, source audits, week/geometry inventory, canonical-template
+validation, node/graph construction, observation-to-grid diagnostics, R tests,
+and the Parquet contract smoke test.
+
 ### CPU batch
 
 Submit hpc/run_cpu_preflight.sbatch only after creating the external output
@@ -83,3 +101,5 @@ backward, and verify finite gradients.
 - No Python environment is committed to this repository.
 - The GPU partition and exact package versions are intentionally unresolved
   until Atlas is reachable.
+- The environment report records LOADEDMODULES/module-list output, shell-level
+  GDAL/GEOS/PROJ/UDUNITS checks, MKLROOT, and the required R package versions.
