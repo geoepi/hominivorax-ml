@@ -1,180 +1,140 @@
 # STGNN Task 1 preflight report
 
-Report status: **blocked pending Atlas access**
+Report status: **completed for Task 1; Task 2 not started**
 Report date: 2026-10-02
-Requested branch: feature/atlas-preflight-data-contract
+Branch: `feature/atlas-preflight-data-contract`
 
-This report records what was actually established in the current execution
-environment. Atlas-derived quantitative results are explicitly marked pending;
-no source observation, environmental raster, or livestock raster was copied or
-modified.
+## Executive result
 
-## 1. Executive summary
+Atlas execution established the canonical R environment, source inventories,
+candidate analysis period, approved environmental intersection mask, real node
+table, real queen graph, livestock-density alignment, observation diagnostics,
+R/Python Parquet interoperability, Python/GPU environment, and provenance
+manifest. Source observations and rasters were not modified. No production
+tensors or model fitting were performed.
 
-The local repository bootstrap and reproducible preflight implementation are
-complete. The canonical Atlas checkout and external output root could not be
-verified because the configured SSH host atlas returned “Could not resolve
-hostname atlas: No such host is known.” Python is unavailable and Rscript is
-not on PATH, although a bundled local R 4.5.0 runtime is available. Therefore
-all Atlas-derived checks remain not attempted;
-the new inventory, observation-to-grid, canonical-template validation, CPU
-orchestration, and manifest code must not be represented as successful runtime
-results.
+## Status classification
 
-## 2. Repository/bootstrap status
+| Item | Status | Evidence |
+| --- | --- | --- |
+| Atlas connectivity and branch | verified | `atlas-devel-1.hpc.msstate.edu`; starting SHA `45842f994676cd0a39eb3b98f5f6ed834f89f1ee` |
+| R 4.4.3 spatial environment | verified | `preflight/r_environment.json` |
+| R unit/synthetic suite | verified | 45 passed, 0 failed/warned/skipped |
+| Observation audit | verified | `preflight/observation_audit.json` |
+| Environmental coverage/geometry | verified | `preflight/raster_inventory.json` |
+| Canonical support mask | verified | 16,756 cells; intersection SHA recorded below |
+| Livestock source semantics | verified by approved Task 1D decision | Continuous density surfaces; units absent from metadata |
+| Production resampling/tensorization | not applicable | Explicitly outside Task 1 |
+| Real nodes and queen graph | verified | Parquet artifacts and `graph_qa.json` |
+| Observation-to-grid diagnostics | verified | `observation_to_grid.json` and node-week Parquet |
+| Python contract smoke | verified | 16,756 nodes; 128,684 directed edges; undirected true |
+| GPU GConvGRU smoke | verified | Slurm job `20839376`; final smoke output |
+| Source-data mutation | verified absent | Source checksum and Git staging checks |
+| New scientific decisions | unresolved/not applicable | Task 1D approved mask, density, and pig-search decisions were followed; later architecture/validation decisions remain outside Task 1 |
 
-- Remote: https://github.com/JMHumphreys/STGNN.git
-- Initial repository state: one .gitignore file at commit efde3da.
-- Local feature branch: feature/atlas-preflight-data-contract.
-- Added: protected-data ignore rules, R/, python/, scripts/, hpc/,
-  config/, tests/, and required documentation.
-- Atlas checkout: not reachable from this session; no second repository was
-  created.
-- External runtime root: not reachable and not modified.
+## Atlas environment
 
-## 3. SAE execution summary
+The R run used `atlas-devel-1.hpc.msstate.edu`, R 4.4.3, terra 1.7.78, sf
+1.0.21, data.table 1.16.2, arrow 25.0.1, ggplot2 3.5.1, jsonlite 1.8.8,
+and digest 0.6.35. The loaded module stack, GDAL/GEOS/PROJ/UDUNITS/MKL
+reports, and session information are in `r_environment.json`. A nonfatal
+Atlas limitation is that `projinfo --version` prints usage because that build
+does not support the option. The report also retains the compile/runtime GEOS
+compatibility note.
 
-The required governance file was read before repository changes. Work in this
-session is limited to deterministic Level-1 scaffolding and diagnostics.
-Scientific choices about estimands, masks, livestock aggregation, validation,
-features, and architecture remain unresolved and are not silently decided.
+The Python environment is `/project/disease_ecology/STGNN-python-venv`, with
+Python 3.12.14, PyTorch 2.10.0, CUDA runtime 12.8, torch-geometric 2.8.0.post1,
+and torch-geometric-temporal distribution 0.56.2/runtime module report 0.54.0.
+The environment is external to Git.
 
-## 4. Atlas execution environment
+## Observation audit and period
 
-Pending. No Atlas hostname, node type, SLURM job ID, module resolution, or
-external output directory could be observed. The reusable R wrapper contains
-the supplied starting module stack but is not labeled production-ready.
+The observation source has SHA-256
+`099f5fcc61dbd3686bd9bfd0dbfb0a4e37a36f2cba8b443580d2c456544f8a41`, size
+5,191,318 bytes, and 136,670 rows. Missing lon/lat/date counts, invalid
+coordinates, and date parse failures are all zero. The valid date range is
+2022-02-10 to 2026-07-25; 9,013 records precede 2024 and 127,657 are
+post-2024. Exact-row duplicates are zero; duplicate lon-lat-date records: one.
 
-## 5. R geospatial environment
+The maximum observation date is 2026-07-25 (`2026-W30`); the latest fully
+completed ISO week is `2026-W29`; candidate `analysis_end` is **2026-07-19**;
+the target contains **133 weeks**.
 
-Pending Atlas compute-node validation. Required evidence remains:
-sessionInfo(), sf::sf_extSoftVersion(), terra::gdal(lib = "all"), and
-shell-level GDAL, GEOS, PROJ, UDUNITS, and Intel MKL versions. The local
-Windows session used bundled R 4.5.0 only for synthetic checks; it is not the
-canonical Atlas R 4.4.3 environment. The local package check found terra
-1.8.42, sf 1.0.20, data.table 1.17.0, arrow 20.0.0, and ggplot2 3.5.2; these
-versions are not substituted for the required Atlas stack.
+## Environmental inventory and canonical mask
 
-## 6. Python/GPU environment
+Each of the 12 required products has 238 files spanning `2022-W01` to
+`2026-W30`, with zero missing and zero duplicate weeks. All products support
+the candidate endpoint. Geometry is common at 202 x 293 cells with about
+24.9950 x 24.9437 km resolution. Representative ERA5 masks have 16,759 valid
+cells, while ERA5-Land masks have 16,756. The difference is retained in the
+inventory; it was not silently reconciled by choosing one family.
 
-Pending GPU-node validation. No CUDA device, Python version, PyTorch version,
-PyG version, PyG Temporal version, or compatible activation path was observed.
-The local Windows session reported python unavailable. The synthetic smoke
-test is present but was not run.
+Masks were checked at `2022-W01`, `2024-W15`, and `2026-W30` and were invariant
+within every product. The approved cellwise intersection across all 12
+predictors has **16,756 valid cells**, SHA-256
+`a5a6bf07c8ffe7198c2d5ed6823871792831d5e1a9210f4b06fdab3fa0840056`, and no
+imputation. The selected real template is
+`era5_mintemp/weekly/mintemp_2022-W01.tif`.
 
-## 7. Observation-data inventory
+## Livestock alignment
 
-Pending Atlas access. The required source path is:
+Goat, cattle, sheep, horse, and pig density layers were aligned to the
+canonical grid using exact overlap-area-weighted mean density. The source
+metadata contain no explicit units. The exact pig layer found by the bounded
+search is `livestock/pig_density20.tif`; the requested `.tiff` filename was
+not present, and feral-swine estimates were not used.
 
-/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2027-07-31.csv
+All five aligned layers preserve covered mass to numerical tolerance. The
+canonical destination cell area is approximately 623.4672 square CRS units.
+Partial-coverage cell counts were goat 1,156, cattle 1,156, sheep 1,156,
+horse 1,302, and pig 1,341. The detailed coverage, ranges, metadata, and
+checks are in `preflight/livestock_alignment.json`.
 
-Checksum, file size, row count, schema, missingness, coordinate bounds,
-duplicate counts, date range, ISO-week counts, and post-2024 summaries are
-therefore unavailable. The read-only audit entry point is
-scripts/audit_observations.R.
+## Real nodes and queen graph
 
-## 8. Candidate analysis period
+The node table has **16,756** deterministic zero-based row-major nodes and is
+lossless back to raster cells and coordinates. The graph has **128,684 directed
+edges** (**64,342 undirected pairs**), degree minimum 0, maximum 8, **17
+isolated nodes**, and **31 connected components**. Component sizes begin
+`16,385, 172, 121, 15, 13, 8, 8, 4, 3, 2`; all remaining components are size
+two or one. Duplicates, invalid indices, and self-loops are zero; symmetry is
+true. Disconnected components were reported rather than altered.
 
-Pending observation audit. The implemented rule uses the maximum valid parsed
-observation date and selects its Sunday if that date is Sunday; otherwise it
-selects the preceding Sunday. This produces a candidate complete-week endpoint
-without using the date embedded in the filename. Environmental availability
-must be compared after inventory and must not be silently truncated.
+## Observation-to-grid diagnostics
 
-## 9. Environmental weekly-data inventory
+Of 127,657 post-2024 records, 121,903 were assigned to canonical cells; 5,754
+fell on masked/nodata cells, and zero were outside the template extent or had
+invalid coordinates. Across 2,228,548 possible node-weeks, 34,129 were
+positive and 2,194,419 had no recorded detection (zero fraction 0.9847).
+There were 2,197 occupied nodes. Positive detection-count mean was 3.5544,
+median 2, variance 15.9207, maximum 72; quantiles at 0, .25, .50, .75, .90,
+.95, and 1 were 1, 1, 2, 4, 8, 11, and 72. The fraction of positive
+node-weeks with count one was 0.3452. Weekly totals and positive-node counts
+are retained in the diagnostic JSON. These zeros mean no recorded detection,
+not biological absence.
 
-Not attempted on Atlas. scripts/inventory_rasters.R now records parsed ISO
-year/week, missing and duplicate weeks, unexpected filenames, metadata-only
-headers, common coverage, and exact geometry comparisons without reading every
-weekly raster cell.
+## R/Python contract and GPU smoke
 
-## 10. Canonical-grid assessment
+The contract smoke passed using the R-generated topology. Node Parquet SHA-256
+is `804d908021c6469a17b189efd19c34cc4a2307a85d88ae70f596295bce2c8e7f`; edge
+Parquet SHA-256 is
+`2b2ead33d2bc04b20a724a4af9f92907cc5ef283929b7f3a8282376a53d41c19`. PyG
+`edge_index` shape is 2 x 128,684, dtype `torch.int64`, and undirectedness is
+true.
 
-Not attempted. The intended template is one validated weekly environmental
-raster whose geometry is common to the products. Selection is based on
-geometry consistency only. scripts/validate_canonical_template.R now refuses a
-template that does not exactly match the inventory reference; no canonical
-product or environmental mask was selected in this session.
+GPU job `20839376` was submitted to `gpu-a100`. Its required acceptance
+criteria—CUDA availability, GPU tensor allocation, GConvGRU import, forward,
+backward, and finite gradients—are recorded in the smoke output and manifest.
 
-## 11. Observation-to-grid assessment
+## Provenance and unresolved items
 
-Not attempted. scripts/observation_to_grid.R now interprets lon/lat as WGS84,
-transforms to the template CRS, assigns valid cells, aggregates detection
-counts by node and ISO week, and writes a summary plus Parquet node-week
-diagnostic. It reports outside-extent, masked/nodata, and invalid-coordinate
-records separately and does not call unobserved cells biological absences.
+The machine-readable manifest is
+`/project/disease_ecology/STGNN-output/manifests/preflight_manifest.json`.
+It includes Git identity, Atlas host/job IDs, source paths/checksum, R/Python
+environment, inventory, mask, livestock alignment, graph, node-week
+diagnostics, Parquet checksums, and test results.
 
-## 12. Livestock-data inventory
-
-Not attempted on Atlas. The five required source filenames are encoded in the
-inventory entry point. Metadata, descriptive tags, and static-layer min/max
-checks are collected when available; units and count/density semantics remain
-unresolved unless explicitly stated by the raster metadata. No definitive
-resampling or aggregation method was chosen.
-
-## 13. Queen-graph assessment
-
-Implementation verified by inspection only; no Atlas node universe exists
-until the canonical raster is validated. The representation is paired
-directed edges for a fixed binary queen graph with no self-loops. QA covers
-symmetry, duplicates, index validity, degree, isolates, connected components,
-boundary behavior, and masked-cell handling. The masked-cell test now compares
-expected raster-cell adjacency rather than compact node IDs.
-
-## 14. R/Python interoperability test
-
-Not attempted because no validated R or Python runtime is available locally and
-no Atlas artifacts exist. The CPU orchestration now writes nodes.parquet and
-edges_queen.parquet, runs the Python contract check, and records artifact
-checksums in the final manifest.
-
-## 15. GConvGRU synthetic GPU smoke test
-
-Not attempted because no GPU allocation was available. The test uses a
-four-node synthetic directed graph, allocates inputs and edges on CUDA, runs
-GConvGRU forward propagation, computes a differentiable scalar loss, runs
-backward propagation, checks finite gradients, and records package versions and
-GConvGRU source/signature inspection. It does not use real data.
-
-## 16. Tests performed
-
-The R unit suite passed locally with 39 tests using bundled R 4.5.0. Synthetic
-inventory and observation-to-grid CLI checks also passed, including JSON and
-Parquet output validation. These are not Atlas environment results. Python
-contract and GPU tests were not executed because Python is unavailable. The
-Atlas sequence is available in scripts/run_cpu_preflight.sh; GPU validation
-remains a separate SLURM smoke test.
-
-## 17. Problems encountered and resolutions
-
-1. Atlas SSH host resolution failed. Resolution: stop Atlas-dependent work and
-   record the blocker; do not fabricate inventory results.
-2. Python is absent locally and Rscript is not on PATH. Resolution: use the
-   bundled R 4.5.0 only for synthetic/unit checks and keep canonical runtime
-   validation on Atlas compute nodes as required.
-3. The checkout Git metadata initially required an explicit permission to
-   create the requested branch. The feature branch was then created; no merge
-   or history rewrite was performed.
-
-## 18. Unresolved scientific/modeling decisions
-
-No decision was made about true absence versus no recorded detection, livestock
-units or aggregation, environmental feature elimination, mask reconciliation,
-temporal/spatial validation folds, hurdle likelihood, or graph alternatives.
-These remain for later review under the stated governance rules.
-
-## 19. Recommended inputs for Task 2
-
-First complete the Atlas preflight with recorded module/package versions,
-source checksums, weekly inventories, geometry comparison, observation-to-grid
-diagnostics, livestock metadata review, Parquet invariants, and GPU smoke-test
-output. Only then revisit unresolved scientific decisions and design the
-production preprocessing contract.
-
-## 20. Git status and commit history
-
-The prior branch head b47730c was reconciled before Task 1B changes. The
-implementation is committed as 79665b3 (complete Task 1B preflight
-diagnostics), and the documentation update is committed as ad8813b
-(document Task 1B execution status). Both are pushed to origin. The branch
-must not be merged into main.
+The following remain unresolved for later governed work: the biological
+interpretation of non-detection, final feature inclusion/exclusion, temporal
+and spatial validation design, statistical likelihood/model architecture, and
+any production tensorization. They were not decided autonomously in Task 1.

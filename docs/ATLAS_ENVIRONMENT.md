@@ -1,105 +1,81 @@
 # Atlas environment
 
-## Validation status
+Status: **verified for Task 1 preflight** on 2026-10-02. No production model
+fit or production tensor generation was performed.
 
-The canonical module and Python environment have not yet been validated from
-this session. The configured host name atlas did not resolve over SSH on
-2026-10-02, and the local Windows execution environment has neither Rscript
-nor Python on PATH. Consequently, no production-readiness claim is made here.
+## Access and checkout
 
-The supplied R stack remains the required starting point:
+- SSH endpoint: `atlas-login.hpc.msstate.edu` using the established Step SSH
+  configuration; the allocated compute host was
+  `atlas-devel-1.hpc.msstate.edu`.
+- Atlas repository: `/project/disease_ecology/STGNN`.
+- Branch: `feature/atlas-preflight-data-contract`.
+- Starting commit: `45842f994676cd0a39eb3b98f5f6ed834f89f1ee` (Task 1B
+  provenance commit; no merge, rebase, or force-push was used).
+- External runtime root: `/project/disease_ecology/STGNN-output`.
 
-    module purge
-    module load udunits proj geos/3.12.1 gdal/3.8.5 \
-      intel-oneapi-mkl/2023.2.0 r/4.4.3
+## R and spatial stack
 
-The exact resolved versions must be captured on Atlas from a compute node.
+The compute-node stack was loaded through `hpc/env_r.sh`:
 
-## Execution classes
+```text
+udunits/2.2.28
+proj/9.7.0
+zlib-ng/2.2.4
+geos/3.14.0
+gdal/3.8.5
+intel-oneapi-mkl/2023.2.0
+openblas/0.3.30
+xz/5.6.3
+r/4.4.3
+```
 
-### Login node
+R was `4.4.3 (2025-02-28)`. Package versions were terra 1.7.78, sf 1.0.21,
+data.table 1.16.2, arrow 25.0.1, ggplot2 3.5.1, jsonlite 1.8.8, and digest
+0.6.35. The project R library is external to Git at
+`/project/disease_ecology/STGNN-r-lib`.
 
-Use only for Git, path and file inventory, text/configuration work, small
-metadata checks known to be safe, SLURM submission, and SLURM state inspection.
-Do not use the login node to validate spatial-library runtime behavior or GPU
-software.
+GDAL was 3.8.5. The report records PROJ runtime 9.2.1 and GEOS runtime
+3.14.0; `sf`/Terra report their compiled spatial-library versions separately
+(GEOS 3.12.1 and PROJ 9.2.1 in the package report). This compile/runtime
+difference was observed and retained as a compatibility note. `projinfo
+--version` is unsupported by this Atlas build and therefore returned its usage
+text; this is a diagnostic limitation, not a failed spatial operation.
 
-### Interactive CPU development
+The authoritative Atlas R suite passed: **45 tests, 0 failures, 0 warnings,
+0 skips**. The R report is
+`/project/disease_ecology/STGNN-output/preflight/r_environment.json`.
 
-After the repository is available on Atlas:
+## Python and GPU stack
 
-    srun \
-      --account=disease_ecology \
-      --partition=development \
-      --nodes=1 \
-      --ntasks=16 \
-      --pty bash
+The validated environment is external to Git:
+`/project/disease_ecology/STGNN-python-venv`. The helper loads
+`py-torch/2.10.0`, which supplies CUDA 12.8 and PyTorch 2.10.0. Installed
+versions were Python 3.12.14, NumPy 2.5.3, pandas 3.0.6, pyarrow 25.0.1,
+scikit-learn 1.9.1, torch-geometric 2.8.0.post1, and
+torch-geometric-temporal distribution 0.56.2 (the installed module reports
+runtime version 0.54.0). The validated PyG extension wheels were
+torch-scatter 2.1.2+pt210cu128 and torch-sparse 0.6.18+pt210cu128.
 
-Then run:
+Atlas GPU partitions inspected included `gpu-v100`, `gpu-a100-mig7`,
+`gpu-a100`, and `gpu-l40s`. The final smoke test was submitted to `gpu-a100`
+as Slurm job `20839376`; its completion record and output are retained under
+`/project/disease_ecology/STGNN-output/logs/slurm/` and in the final manifest.
 
-    source hpc/env_r.sh
-    Rscript scripts/atlas_r_environment_report.R \
-      --output /project/disease_ecology/STGNN-output/preflight/r_environment.json
-    Rscript -e "testthat::test_dir('tests/testthat')"
+## Reproducible execution
 
-The report must include sessionInfo(), sf::sf_extSoftVersion(), and
-terra::gdal(lib = "all"), plus shell-level versions for GDAL, GEOS, PROJ,
-UDUNITS, and Intel MKL.
+The approved source paths are set explicitly before running
+`scripts/run_cpu_preflight.sh`. The workflow writes only to the external
+STGNN output root. It inventories sources read-only, constructs the approved
+environmental intersection mask, builds the real node and graph artifacts,
+aligns livestock densities by exact cell-overlap area weighting, runs the
+observation diagnostic, executes the R suite and Python contract test, and
+assembles the manifest.
 
-For the complete CPU preflight, set the read-only source paths and the
-validated canonical template explicitly, then run:
+Runtime output directories are:
 
-    export STGNN_OBSERVATIONS=/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2027-07-31.csv
-    export STGNN_ENVIRONMENTAL_ROOT=/project/disease_ecology/cds-datagrab-output/data/production
-    export STGNN_LIVESTOCK_ROOT=/project/disease_ecology/animal-data-warehouse/livestock
-    export STGNN_TEMPLATE_PATH=/path/to/validated/weekly/template.tif
-    export STGNN_TEMPLATE_PRODUCT=validated_product_name
-    export STGNN_TEMPLATE_WEEK=YYYY-Www
-    export STGNN_PYTHON_ENV=/path/to/validated/python/environment
-    source scripts/run_cpu_preflight.sh
+```text
+/project/disease_ecology/STGNN-output/{manifests,preflight,derived,graph,runs,logs/slurm}
+```
 
-The orchestration refuses to guess the canonical template, product, week, or
-Python environment. It writes only to STGNN_OUTPUT_ROOT and runs environment
-validation, source audits, week/geometry inventory, canonical-template
-validation, node/graph construction, observation-to-grid diagnostics, R tests,
-and the Parquet contract smoke test.
-
-### CPU batch
-
-Submit hpc/run_cpu_preflight.sbatch only after creating the external output
-directories:
-
-    mkdir -p /project/disease_ecology/STGNN-output/{manifests,preflight,derived,graph,runs,logs/slurm}
-    sbatch hpc/run_cpu_preflight.sbatch
-
-Record the resulting SLURM job ID in the preflight manifest.
-
-### GPU batch
-
-Do not guess the GPU partition or CUDA compatibility. Inspect Atlas first:
-
-    sinfo
-    scontrol show partition
-    module spider cuda
-
-Create or activate the validated Python environment only after the available
-CUDA toolchain and PyTorch/PyG compatibility are known. Set
-STGNN_PYTHON_ENV to that environment, then submit:
-
-    source hpc/env_python.sh
-    python python/gconvgru_smoke.py
-
-The helper hpc/submit_gpu_smoke.sh accepts the inspected GPU partition as its
-sole argument and requests one GPU. The smoke test must import PyTorch,
-confirm CUDA, allocate a GPU tensor, import PyG and GConvGRU, run forward and
-backward, and verify finite gradients.
-
-## Known constraints
-
-- Production source paths are external to Git and must remain read-only.
-- Runtime artifacts belong under /project/disease_ecology/STGNN-output.
-- No Python environment is committed to this repository.
-- The GPU partition and exact package versions are intentionally unresolved
-  until Atlas is reachable.
-- The environment report records LOADEDMODULES/module-list output, shell-level
-  GDAL/GEOS/PROJ/UDUNITS checks, MKLROOT, and the required R package versions.
+No Python environment or source raster/CSV is stored in Git.
