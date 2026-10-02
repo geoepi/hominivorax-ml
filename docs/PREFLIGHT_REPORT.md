@@ -1,7 +1,7 @@
 # STGNN Task 1 preflight report
 
-Report status: **blocked pending Atlas access**  
-Report date: 2026-10-02  
+Report status: **blocked pending Atlas access**
+Report date: 2026-10-02
 Requested branch: feature/atlas-preflight-data-contract
 
 This report records what was actually established in the current execution
