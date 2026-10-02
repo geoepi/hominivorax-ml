@@ -1,49 +1,81 @@
-# History files
+# R session/build artifacts
 .Rhistory
 .Rapp.history
-
-# Session Data files
 .RData
 .RDataTmp
-
-# User-specific files
 .Ruserdata
-
-# Example code in package build process
-*-Ex.R
-
-# Output files from R CMD build
-/*.tar.gz
-
-# Output files from R CMD check
-/*.Rcheck/
-
-# RStudio files
+.Renviron
 .Rproj.user/
-
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
-
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
-
-# knitr and R markdown default cache directories
+*.Rcheck/
+*.tar.gz
 *_cache/
-/cache/
-
-# Temporary files created by R markdown
 *.utf8.md
 *.knit.md
 
-# R Environment Variables
-.Renviron
+# Python environments and caches
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
 
-# pkgdown site
-docs/
+# Local credentials and machine-specific configuration
+.env
+.env.*
+!.env.example
 
-# translation temp files
-po/*~
+# Protected source data and derived data products
+*.csv
+*.csv.gz
+*.parquet
+*.feather
+*.arrow
+*.tif
+*.tiff
+*.vrt
+*.nc
+*.h5
+*.hdf5
+*.npy
+*.npz
+*.pt
+*.pth
+*.ckpt
+*.safetensors
 
-# RStudio Connect folder
-rsconnect/
+# Runtime outputs, checkpoints, and logs
+output/
+outputs/
+runs/
+logs/
+slurm-*.out
+slurm-*.err
+*.log
+*.tmp
+*.temp
+
+# Local Atlas/runtime roots should never be vendored
+STGNN-output/
+
+# Keep documentation and source templates tracked
+!docs/
+!docs/**
+!config/
+!config/**
+!hpc/
+!hpc/**
+!R/
+!R/**
+!python/
+!python/**
+!scripts/
+!scripts/**
+!tests/
+!tests/**
+
+# Keep intentional example fixtures despite broad data protections
+!tests/fixtures/
+!tests/fixtures/**

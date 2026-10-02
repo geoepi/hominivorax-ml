@@ -1,0 +1,62 @@
+{
+  "status": "pending_atlas_execution",
+  "git_sha": null,
+  "branch": "feature/atlas-preflight-data-contract",
+  "timestamp_utc": null,
+  "atlas": {
+    "hostname": null,
+    "node_type": null,
+    "slurm_job_ids": []
+  },
+  "r_environment": {
+    "version": null,
+    "modules": [
+      "udunits",
+      "proj",
+      "geos/3.12.1",
+      "gdal/3.8.5",
+      "intel-oneapi-mkl/2023.2.0",
+      "r/4.4.3"
+    ],
+    "packages": {},
+    "external_libraries": {}
+  },
+  "python_environment": {
+    "python": null,
+    "pytorch": null,
+    "cuda": null,
+    "torch_geometric": null,
+    "torch_geometric_temporal": null,
+    "numpy": null,
+    "pandas": null,
+    "pyarrow": null,
+    "scikit_learn": null
+  },
+  "observation_data": {
+    "path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2027-07-31.csv",
+    "sha256": null,
+    "row_count": null,
+    "date_min": null,
+    "date_max": null,
+    "retained_from_2024_01_01": null
+  },
+  "environmental_data": {
+    "root": "/project/disease_ecology/cds-datagrab-output/data/production",
+    "products": {}
+  },
+  "livestock_data": {
+    "root": "/project/disease_ecology/animal-data-warehouse/livestock",
+    "layers": {}
+  },
+  "analysis_period": {
+    "candidate_analysis_end": null,
+    "target_week_count": null
+  },
+  "canonical_grid": {},
+  "graph": {
+    "node_count": null,
+    "directed_edge_count": null,
+    "connected_components": null
+  },
+  "artifacts": []
+}
