@@ -10,6 +10,10 @@
 set -euo pipefail
 source hpc/env_r.sh
 
-mkdir -p "${STGNN_OUTPUT_ROOT}/logs/slurm" "${STGNN_OUTPUT_ROOT}/preflight"
-Rscript scripts/atlas_r_environment_report.R \
-  --output "${STGNN_OUTPUT_ROOT}/preflight/r_environment.json"
+: "${STGNN_OBSERVATIONS:?set STGNN_OBSERVATIONS}"
+: "${STGNN_ENVIRONMENTAL_ROOT:?set STGNN_ENVIRONMENTAL_ROOT}"
+: "${STGNN_LIVESTOCK_ROOT:?set STGNN_LIVESTOCK_ROOT}"
+: "${STGNN_TEMPLATE_PATH:?set STGNN_TEMPLATE_PATH}"
+: "${STGNN_PYTHON_ENV:?set STGNN_PYTHON_ENV}"
+
+source scripts/run_cpu_preflight.sh

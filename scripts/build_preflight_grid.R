@@ -12,6 +12,7 @@ value_for <- function(flag) {
 template_path <- value_for("--template")
 node_output <- value_for("--nodes")
 edge_output <- value_for("--edges")
+qa_output <- value_for("--qa-output")
 
 if (!requireNamespace("terra", quietly = TRUE)) {
   stop("terra is required")
@@ -31,4 +32,7 @@ qa <- queen_graph_qa(nodes, edges)
 
 arrow::write_parquet(nodes, node_output)
 arrow::write_parquet(edges, edge_output)
+if (!is.null(qa_output)) {
+  jsonlite::write_json(qa, qa_output, auto_unbox = TRUE, pretty = TRUE, na = "null")
+}
 message(jsonlite::toJSON(qa, auto_unbox = TRUE, pretty = TRUE))

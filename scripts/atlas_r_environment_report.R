@@ -16,6 +16,13 @@ package_versions <- function(packages) {
   }), packages)
 }
 
+shell_report <- function(command) {
+  tryCatch(
+    paste(system(command, intern = TRUE, ignore.stderr = FALSE), collapse = "\n"),
+    error = function(error) paste("ERROR:", conditionMessage(error))
+  )
+}
+
 external <- list()
 if (requireNamespace("sf", quietly = TRUE)) {
   external$sf_extSoftVersion <- sf::sf_extSoftVersion()
@@ -33,6 +40,15 @@ result <- list(
   r_version = R.version.string,
   session_info = capture.output(utils::sessionInfo()),
   external_library_report = external,
+  shell_and_module_report = list(
+    loaded_modules_environment = Sys.getenv("LOADEDMODULES", unset = NA_character_),
+    mkl_root = Sys.getenv("MKLROOT", unset = NA_character_),
+    module_list = shell_report("module list 2>&1"),
+    gdal = shell_report("gdalinfo --version 2>&1"),
+    geos = shell_report("geos-config --version 2>&1"),
+    proj = shell_report("projinfo --version 2>&1"),
+    udunits = shell_report("udunits2 -h 2>&1")
+  ),
   package_versions = package_versions(c("terra", "sf", "data.table", "arrow", "ggplot2", "jsonlite", "digest"))
 )
 

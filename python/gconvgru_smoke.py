@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import inspect
 import platform
 
 
@@ -13,7 +14,23 @@ def main() -> int:
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is not available; run this smoke test on an allocated GPU node")
 
+    import torch_geometric
+    import torch_geometric_temporal
     from torch_geometric_temporal.nn.recurrent import GConvGRU
+
+    init_signature = str(inspect.signature(GConvGRU.__init__))
+    forward_signature = str(inspect.signature(GConvGRU.forward))
+    forward_source = inspect.getsource(GConvGRU.forward)
+    source_inspection = {
+        "init_signature": init_signature,
+        "forward_signature": forward_signature,
+        "module": GConvGRU.__module__,
+        "accepts_edge_weight": "edge_weight" in forward_signature,
+        "mentions_lambda_max": "lambda_max" in forward_source,
+        "mentions_self_loops": "self_loop" in forward_source.lower(),
+        "mentions_normalization": "normal" in forward_source.lower(),
+        "forward_source": forward_source,
+    }
 
     device = torch.device("cuda")
     x = torch.tensor(
@@ -49,12 +66,16 @@ def main() -> int:
         "python": platform.python_version(),
         "pytorch": torch.__version__,
         "cuda_runtime": torch.version.cuda,
+        "cuda_available": torch.cuda.is_available(),
         "device": torch.cuda.get_device_name(device),
+        "torch_geometric": torch_geometric.__version__,
+        "torch_geometric_temporal": torch_geometric_temporal.__version__,
         "input_shape": list(x.shape),
         "edge_index_shape": list(edge_index.shape),
         "hidden_shape": list(hidden.shape),
         "loss": float(loss.detach().cpu()),
         "finite_gradients": True,
+        "gconvgru_source_inspection": source_inspection,
     }
     print(json.dumps(result, indent=2))
     return 0

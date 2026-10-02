@@ -53,7 +53,7 @@ latest_complete_iso_week <- function(
   candidate_start <- candidate_end - 6L
   available <- candidate_end >= analysis_start
   target_week_count <- if (available) {
-    as.integer((candidate_end - analysis_start + 1L) %/% 7L)
+    as.integer(as.integer(candidate_end - analysis_start + 1L) %/% 7L)
   } else {
     0L
   }
