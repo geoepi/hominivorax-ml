@@ -175,5 +175,6 @@ production preprocessing contract.
 
 The prior branch head b47730c was reconciled before Task 1B changes. The
 implementation is committed as 79665b3 (complete Task 1B preflight
-diagnostics). This documentation update will be committed separately. The
-branch must not be merged into main.
+diagnostics), and the documentation update is committed as ad8813b
+(document Task 1B execution status). Both are pushed to origin. The branch
+must not be merged into main.
