@@ -11,4 +11,4 @@
 
 set -euo pipefail
 source hpc/env_python.sh
-python python/gconvgru_smoke.py
+python python/gconvgru_smoke.py --output /project/disease_ecology/STGNN-output/preflight/gpu_gconvgru_smoke.json

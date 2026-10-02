@@ -14,6 +14,7 @@ inventory_path <- value_for("--inventory")
 output_path <- value_for("--output")
 product <- value_for("--product")
 week_id <- value_for("--week")
+mask_path <- value_for("--mask")
 
 if (!requireNamespace("jsonlite", quietly = TRUE)) {
   stop("jsonlite is required")
@@ -29,15 +30,18 @@ if (is.null(reference)) {
   stop("inventory has no reference raster")
 }
 if (!isTRUE(inventory$geometry_comparison$common_geometry)) {
-  stop("environmental raster geometries are not common; no mask/geometry reconciliation is authorized")
+  stop("environmental raster geometries are not common")
 }
 mask_comparison <- inventory$mask_comparison
 if (is.null(mask_comparison) ||
     !isTRUE(mask_comparison$all_required_products_have_representative_masks)) {
   stop("not all required environmental products have representative masks")
 }
-if (!isTRUE(mask_comparison$all_required_representative_masks_equal)) {
-  stop("representative environmental masks differ; escalate the Level-2 mask decision")
+temporal_masks <- inventory$temporal_mask_comparison
+if (is.null(temporal_masks) ||
+    !isTRUE(temporal_masks$all_selected_masks_available) ||
+    !isTRUE(temporal_masks$all_selected_masks_invariant)) {
+  stop("selected environmental masks are not complete and temporally invariant")
 }
 products <- inventory$environmental_products
 selected_product <- Filter(
@@ -74,6 +78,33 @@ if (!identical(template_signature, reference_signature)) {
   stop("canonical template geometry does not exactly match inventory reference")
 }
 
+if (is.null(mask_path)) {
+  stop("--mask is required for the approved environmental support intersection")
+}
+mask <- terra::rast(mask_path)
+mask_header <- safe_raster_header(mask_path, include_values = FALSE)
+crs_equal <- if ("same.crs" %in% getNamespaceExports("terra")) {
+  isTRUE(terra::same.crs(mask, terra::rast(template_path)))
+} else {
+  identical(mask_header$crs, template_header$crs)
+}
+geometry_equal <- crs_equal &&
+  identical(c(mask_header$nrow, mask_header$ncol), c(template_header$nrow, template_header$ncol)) &&
+  isTRUE(all.equal(mask_header$resolution, template_header$resolution)) &&
+  isTRUE(all.equal(mask_header$extent, template_header$extent)) &&
+  isTRUE(all.equal(mask_header$origin, template_header$origin))
+if (!geometry_equal) {
+  stop("canonical mask geometry does not match the selected template")
+}
+mask_values <- terra::values(mask, mat = FALSE)
+if (!all(is.na(mask_values) | mask_values == 1)) {
+  stop("canonical mask must contain only 1 and nodata")
+}
+mask_hash <- digest::digest(as.vector(!is.na(mask_values)), algo = "sha256")
+if (!identical(mask_hash, temporal_masks$canonical_intersection_sha256)) {
+  stop("canonical mask does not match the approved environmental intersection")
+}
+
 result <- list(
   status = "validated",
   product = product,
@@ -81,8 +112,10 @@ result <- list(
   iso_week = week_id,
   geometry = template_header,
   geometry_matches_inventory_reference = TRUE,
-  valid_cell_count = sum(!is.na(terra::values(terra::rast(template_path), mat = FALSE))),
-  mask_policy = "all valid cells in the template; no mask reconciliation performed"
+  valid_cell_count = sum(!is.na(mask_values)),
+  canonical_mask_path = normalizePath(mask_path, winslash = "/", mustWork = TRUE),
+  canonical_mask_sha256 = mask_hash,
+  mask_policy = "cellwise intersection of valid support across all 12 required environmental predictors; no imputation"
 )
 jsonlite::write_json(result, output_path, auto_unbox = TRUE, pretty = TRUE, na = "null")
 message("Canonical template validated: ", template_path)

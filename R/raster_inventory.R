@@ -264,10 +264,91 @@ inventory_livestock_layer <- function(path) {
     include_values = FALSE,
     include_minmax = TRUE
   )
-  result$units_assessment <- "Not inferred from filename; report only explicit raster metadata."
+  result$units_assessment <-
+    "No explicit units were present in the raster metadata; no unit label is inferred."
   result$quantity_semantics_assessment <-
-    "Density/count semantics remain unresolved pending metadata review."
+    "Treated as a continuous animal-density surface under the approved Task 1D decision."
   result
+}
+
+environmental_mask_comparison <- function(environmental_inventory, common_week_ids = NULL) {
+  if (!requireNamespace("terra", quietly = TRUE)) {
+    stop("terra is required for environmental mask comparison")
+  }
+  if (!requireNamespace("digest", quietly = TRUE)) {
+    stop("digest is required for environmental mask comparison")
+  }
+  if (is.null(common_week_ids)) {
+    week_sets <- lapply(environmental_inventory, function(product) {
+      product$files$week_id[!is.na(product$files$week_id)]
+    })
+    common_week_ids <- if (length(week_sets)) Reduce(intersect, week_sets) else character()
+  }
+  if (!length(common_week_ids)) {
+    return(list(
+      selected_week_ids = character(),
+      all_selected_masks_available = FALSE,
+      all_selected_masks_invariant = FALSE,
+      assessment = "No common environmental weeks were available for mask comparison."
+    ))
+  }
+  ordered_weeks <- sort(common_week_ids)
+  selected_week_ids <- unique(ordered_weeks[c(1L, ceiling(length(ordered_weeks) / 2), length(ordered_weeks))])
+  mask_records <- list()
+  canonical_masks <- list()
+  for (product_index in seq_along(environmental_inventory)) {
+    product <- environmental_inventory[[product_index]]
+    product_name <- product$product
+    product_records <- list()
+    for (week_id in selected_week_ids) {
+      file_index <- match(week_id, product$files$week_id)
+      if (is.na(file_index) || file_index > length(product$headers)) next
+      path <- product$headers[[file_index]]$path
+      values <- terra::values(terra::rast(path, lyrs = 1), mat = FALSE)
+      valid_mask <- !is.na(values)
+      hash <- digest::digest(valid_mask, algo = "sha256")
+      product_records[[week_id]] <- list(
+        filename = basename(path),
+        path = path,
+        valid_cell_count = sum(valid_mask),
+        valid_cell_mask_sha256 = hash
+      )
+      canonical_masks[[length(canonical_masks) + 1L]] <- valid_mask
+    }
+    mask_records[[product_name]] <- product_records
+  }
+  all_available <- all(vapply(mask_records, function(records) {
+    length(records) == length(selected_week_ids)
+  }, logical(1L)))
+  hashes_by_product <- lapply(mask_records, function(records) {
+    vapply(records, function(record) record$valid_cell_mask_sha256, character(1L))
+  })
+  invariant_by_product <- if (all_available) {
+    vapply(hashes_by_product, function(hashes) length(unique(hashes)) == 1L, logical(1L))
+  } else {
+    setNames(rep(FALSE, length(hashes_by_product)), names(hashes_by_product))
+  }
+  intersection <- if (all_available) Reduce(`&`, canonical_masks) else logical()
+  list(
+    selected_week_ids = selected_week_ids,
+    masks_by_product_and_week = mask_records,
+    all_selected_masks_available = all_available,
+    mask_invariant_by_product = invariant_by_product,
+    all_selected_masks_invariant = all(invariant_by_product),
+    canonical_intersection_valid_cell_count = if (length(intersection)) sum(intersection) else NA_integer_,
+    canonical_intersection_sha256 = if (length(intersection)) {
+      digest::digest(as.vector(intersection), algo = "sha256")
+    } else NA_character_,
+    mask_policy = paste(
+      "cellwise intersection of valid support across all 12 required environmental",
+      "predictors, checked at earliest/middle/latest common weeks; no imputation"
+    ),
+    assessment = if (all_available && all(invariant_by_product)) {
+      "Selected-week masks are invariant within every product; the cellwise intersection is temporally stable over the checked weeks."
+    } else {
+      "Mask variation or missing selected-week masks requires review before canonical-mask construction."
+    }
+  )
 }
 
 compare_inventory_geometry <- function(environmental_inventory) {

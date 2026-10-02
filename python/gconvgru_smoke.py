@@ -6,9 +6,14 @@ from __future__ import annotations
 import json
 import inspect
 import platform
+import argparse
+from pathlib import Path
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args()
     import torch
 
     if not torch.cuda.is_available():
@@ -77,7 +82,10 @@ def main() -> int:
         "finite_gradients": True,
         "gconvgru_source_inspection": source_inspection,
     }
-    print(json.dumps(result, indent=2))
+    rendered = json.dumps(result, indent=2)
+    print(rendered)
+    if args.output:
+        args.output.write_text(rendered + "\n", encoding="utf-8")
     return 0
 
 

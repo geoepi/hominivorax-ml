@@ -4,7 +4,8 @@ observation_to_grid_diagnostic <- function(
   observation_path,
   template_path,
   nodes,
-  analysis_start = as.Date("2024-01-01")
+  analysis_start = as.Date("2024-01-01"),
+  mask_path = NULL
 ) {
   required_nodes <- c("node_id", "raster_cell", "row", "column")
   if (!all(required_nodes %in% names(nodes))) {
@@ -50,7 +51,24 @@ observation_to_grid_diagnostic <- function(
   classification <- rep(NA_character_, length(classification_positions))
   classification[!valid_coordinate[classification_positions]] <- "invalid_coordinate"
 
-  template_values <- terra::values(template, mat = FALSE)
+  template_values <- if (is.null(mask_path)) {
+    terra::values(template, mat = FALSE)
+  } else {
+    mask <- terra::rast(mask_path)
+    mask_crs_equal <- if ("same.crs" %in% getNamespaceExports("terra")) {
+      isTRUE(terra::same.crs(mask, template))
+    } else {
+      identical(terra::crs(mask), terra::crs(template))
+    }
+    if (!identical(terra::nrow(mask), terra::nrow(template)) ||
+        !identical(terra::ncol(mask), terra::ncol(template)) ||
+        !isTRUE(all.equal(as.vector(terra::ext(mask)), as.vector(terra::ext(template)))) ||
+        !isTRUE(all.equal(as.numeric(terra::res(mask)), as.numeric(terra::res(template)))) ||
+        !mask_crs_equal) {
+      stop("canonical mask geometry does not match the observation template")
+    }
+    terra::values(mask, mat = FALSE)
+  }
   valid_template_cells <- !is.na(template_values)
   cells <- rep(NA_integer_, length(coordinate_positions))
   node_ids <- rep(NA_integer_, length(coordinate_positions))

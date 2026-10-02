@@ -72,6 +72,11 @@ common_endpoint <- if (length(common_week_ids)) {
   NA_character_
 }
 
+temporal_mask_comparison <- environmental_mask_comparison(
+  environmental_inventory,
+  common_week_ids = common_week_ids
+)
+
 result <- list(
   generated_at_utc = format(Sys.time(), tz = "UTC", usetz = TRUE),
   weekly_root = normalizePath(weekly_root, winslash = "/", mustWork = FALSE),
@@ -80,6 +85,7 @@ result <- list(
   livestock_layers = livestock_inventory,
   geometry_comparison = geometry,
   mask_comparison = mask_comparison,
+  temporal_mask_comparison = temporal_mask_comparison,
   common_week_ids = common_week_ids,
   common_environmental_earliest_week = if (length(common_week_ids)) {
     min(common_week_ids)

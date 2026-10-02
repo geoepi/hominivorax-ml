@@ -84,7 +84,11 @@ node_table_from_terra <- function(template) {
   template_crs <- terra::crs(template)
   if (!is.na(template_crs) && nzchar(template_crs) &&
       !terra::is.lonlat(template)) {
-    points <- terra::vect(xy, geom = c("x", "y"), crs = template_crs)
+    points <- terra::vect(
+      data.frame(x = xy[, 1L], y = xy[, 2L]),
+      geom = c("x", "y"),
+      crs = template_crs
+    )
     lonlat <- terra::crds(terra::project(points, "EPSG:4326"))
   }
 

@@ -16,6 +16,11 @@ inventory_path <- value_for("--inventory")
 diagnostic_path <- value_for("--diagnostic")
 graph_qa_path <- value_for("--graph-qa")
 canonical_path <- value_for("--canonical")
+canonical_mask_path <- value_for("--canonical-mask")
+livestock_alignment_path <- value_for("--livestock-alignment")
+livestock_nodes_path <- value_for("--livestock-nodes")
+python_environment_path <- value_for("--python-environment")
+gpu_smoke_path <- value_for("--gpu-smoke")
 contract_path <- value_for("--contract")
 diagnostic_counts_path <- value_for("--diagnostic-counts")
 template_path <- value_for("--template")
@@ -54,7 +59,7 @@ git_sha <- tryCatch(
   error = function(error) NA_character_
 )
 git_branch <- tryCatch(
-  paste(system2("git", "branch", "--show-current", stdout = TRUE), collapse = ""),
+  paste(system2("git", args = c("branch", "--show-current"), stdout = TRUE), collapse = ""),
   error = function(error) NA_character_
 )
 environment_report <- read_json(environment_path)
@@ -63,6 +68,8 @@ inventory_report <- read_json(inventory_path)
 diagnostic_report <- read_json(diagnostic_path)
 graph_report <- read_json(graph_qa_path)
 contract_report <- read_json(contract_path)
+livestock_alignment_report <- read_json(livestock_alignment_path)
+gpu_smoke_report <- read_json(gpu_smoke_path)
 
 template_geometry <- NULL
 if (!is.null(template_path) && file.exists(template_path) &&
@@ -96,7 +103,14 @@ result <- list(
   livestock_inventory = if (is.null(inventory_report)) NULL else inventory_report$livestock_layers,
   canonical_template = list(
     validation = read_json(canonical_path),
-    geometry = template_geometry
+    geometry = template_geometry,
+    mask = read_json(canonical_mask_path),
+    mask_artifact = file_record(canonical_mask_path)
+  ),
+  livestock_alignment = livestock_alignment_report,
+  python_environment = list(
+    path = python_environment_path,
+    gpu_smoke = gpu_smoke_report
   ),
   graph = graph_report,
   observation_to_grid = diagnostic_report,
@@ -109,7 +123,8 @@ result <- list(
     nodes = file_record(nodes_path),
     edges = file_record(edges_path),
     contract = file_record(contract_path),
-    diagnostic_counts = file_record(diagnostic_counts_path)
+    diagnostic_counts = file_record(diagnostic_counts_path),
+    livestock_nodes = file_record(livestock_nodes_path)
   ),
   artifacts = list(
     environment = file_record(environment_path),
@@ -117,7 +132,9 @@ result <- list(
     inventory = file_record(inventory_path),
     diagnostic = file_record(diagnostic_path),
     graph_qa = file_record(graph_qa_path),
-    canonical = file_record(canonical_path)
+    canonical = file_record(canonical_path),
+    livestock_alignment = file_record(livestock_alignment_path),
+    gpu_smoke = file_record(gpu_smoke_path)
   )
 )
 jsonlite::write_json(result, manifest_path, auto_unbox = TRUE, pretty = TRUE, na = "null")

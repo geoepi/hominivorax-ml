@@ -14,6 +14,7 @@ template_path <- value_for("--template")
 nodes_path <- value_for("--nodes")
 output_json <- value_for("--output-json")
 output_parquet <- value_for("--output-parquet")
+mask_path <- value_for("--mask")
 
 if (!requireNamespace("arrow", quietly = TRUE)) {
   stop("arrow is required")
@@ -28,7 +29,8 @@ nodes <- arrow::read_parquet(nodes_path, as_data_frame = TRUE)
 result <- observation_to_grid_diagnostic(
   observation_path = observation_path,
   template_path = template_path,
-  nodes = nodes
+  nodes = nodes,
+  mask_path = mask_path
 )
 aggregation <- result$aggregation
 result$aggregation <- NULL

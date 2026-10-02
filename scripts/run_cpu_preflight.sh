@@ -14,6 +14,7 @@ cd "${repository_root}"
 : "${STGNN_PYTHON_ENV:?set STGNN_PYTHON_ENV to the validated Python environment}"
 
 mkdir -p "${STGNN_OUTPUT_ROOT}/manifests" "${STGNN_OUTPUT_ROOT}/preflight" "${STGNN_OUTPUT_ROOT}/graph" "${STGNN_OUTPUT_ROOT}/logs/slurm"
+mkdir -p "${STGNN_OUTPUT_ROOT}/derived/livestock_aligned"
 
 environment_json="${STGNN_OUTPUT_ROOT}/preflight/r_environment.json"
 observation_json="${STGNN_OUTPUT_ROOT}/preflight/observation_audit.json"
@@ -22,8 +23,12 @@ nodes_parquet="${STGNN_OUTPUT_ROOT}/preflight/nodes.parquet"
 edges_parquet="${STGNN_OUTPUT_ROOT}/preflight/edges_queen.parquet"
 graph_qa_json="${STGNN_OUTPUT_ROOT}/preflight/graph_qa.json"
 canonical_json="${STGNN_OUTPUT_ROOT}/preflight/canonical_template_validation.json"
+canonical_mask="${STGNN_OUTPUT_ROOT}/preflight/canonical_environment_mask.tif"
+canonical_mask_json="${STGNN_OUTPUT_ROOT}/preflight/canonical_environment_mask.json"
 diagnostic_json="${STGNN_OUTPUT_ROOT}/preflight/observation_to_grid.json"
 diagnostic_parquet="${STGNN_OUTPUT_ROOT}/preflight/observation_node_week_counts.parquet"
+livestock_json="${STGNN_OUTPUT_ROOT}/preflight/livestock_alignment.json"
+livestock_nodes="${STGNN_OUTPUT_ROOT}/preflight/livestock_node_covariates.parquet"
 contract_json="${STGNN_OUTPUT_ROOT}/preflight/contract_smoke.json"
 manifest_json="${STGNN_OUTPUT_ROOT}/manifests/preflight_manifest.json"
 
@@ -40,13 +45,15 @@ if [[ -n "${candidate_end}" ]]; then
   inventory_args+=(--candidate-end "${candidate_end}")
 fi
 Rscript scripts/inventory_rasters.R "${inventory_args[@]}"
-Rscript scripts/validate_canonical_template.R --template "${STGNN_TEMPLATE_PATH}" --inventory "${inventory_json}" --output "${canonical_json}" --product "${STGNN_TEMPLATE_PRODUCT}" --week "${STGNN_TEMPLATE_WEEK}"
+Rscript scripts/build_canonical_mask.R --inventory "${inventory_json}" --template "${STGNN_TEMPLATE_PATH}" --output "${canonical_mask}" --metadata "${canonical_mask_json}"
+Rscript scripts/validate_canonical_template.R --template "${STGNN_TEMPLATE_PATH}" --mask "${canonical_mask}" --inventory "${inventory_json}" --output "${canonical_json}" --product "${STGNN_TEMPLATE_PRODUCT}" --week "${STGNN_TEMPLATE_WEEK}"
 
-Rscript scripts/build_preflight_grid.R --template "${STGNN_TEMPLATE_PATH}" --nodes "${nodes_parquet}" --edges "${edges_parquet}" --qa-output "${graph_qa_json}"
-Rscript scripts/observation_to_grid.R --observations "${STGNN_OBSERVATIONS}" --template "${STGNN_TEMPLATE_PATH}" --nodes "${nodes_parquet}" --output-json "${diagnostic_json}" --output-parquet "${diagnostic_parquet}"
+Rscript scripts/build_preflight_grid.R --template "${STGNN_TEMPLATE_PATH}" --mask "${canonical_mask}" --nodes "${nodes_parquet}" --edges "${edges_parquet}" --qa-output "${graph_qa_json}"
+Rscript scripts/align_livestock.R --livestock-root "${STGNN_LIVESTOCK_ROOT}" --search-root "$(dirname "${STGNN_LIVESTOCK_ROOT}")" --template "${STGNN_TEMPLATE_PATH}" --mask "${canonical_mask}" --nodes "${nodes_parquet}" --output-directory "${STGNN_OUTPUT_ROOT}/derived/livestock_aligned" --summary "${livestock_json}" --node-output "${livestock_nodes}"
+Rscript scripts/observation_to_grid.R --observations "${STGNN_OBSERVATIONS}" --template "${STGNN_TEMPLATE_PATH}" --mask "${canonical_mask}" --nodes "${nodes_parquet}" --output-json "${diagnostic_json}" --output-parquet "${diagnostic_parquet}"
 
 Rscript -e "testthat::test_dir('tests/testthat')"
 source hpc/env_python.sh
 python python/contract_smoke.py --nodes "${nodes_parquet}" --edges "${edges_parquet}" --output "${contract_json}"
 
-Rscript scripts/assemble_preflight_manifest.R --output "${manifest_json}" --environment "${environment_json}" --observation "${observation_json}" --inventory "${inventory_json}" --diagnostic "${diagnostic_json}" --diagnostic-counts "${diagnostic_parquet}" --graph-qa "${graph_qa_json}" --canonical "${canonical_json}" --contract "${contract_json}" --template "${STGNN_TEMPLATE_PATH}" --nodes "${nodes_parquet}" --edges "${edges_parquet}" --job-ids "${STGNN_JOB_IDS:-}"
+Rscript scripts/assemble_preflight_manifest.R --output "${manifest_json}" --environment "${environment_json}" --observation "${observation_json}" --inventory "${inventory_json}" --diagnostic "${diagnostic_json}" --diagnostic-counts "${diagnostic_parquet}" --graph-qa "${graph_qa_json}" --canonical "${canonical_json}" --canonical-mask "${canonical_mask_json}" --livestock-alignment "${livestock_json}" --python-environment "${STGNN_PYTHON_ENV}" --contract "${contract_json}" --template "${STGNN_TEMPLATE_PATH}" --nodes "${nodes_parquet}" --edges "${edges_parquet}" --livestock-nodes "${livestock_nodes}" --job-ids "${STGNN_JOB_IDS:-}"
