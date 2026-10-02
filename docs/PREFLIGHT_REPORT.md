@@ -160,7 +160,7 @@ production preprocessing contract.
 
 ## 20. Git status and commit history
 
-At report drafting time, the feature branch contains the local preflight
-scaffolding and this report; the final commit SHA, push status, and clean-tree
-status must be filled after the changes are committed. The branch must not be
-merged into main.
+The local bootstrap and preflight scaffolding were committed as 9df0ef5
+(bootstrap Atlas preflight project structure) on
+feature/atlas-preflight-data-contract and pushed to origin. This report update
+will be committed separately. The branch must not be merged into main.
