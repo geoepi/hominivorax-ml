@@ -28,7 +28,7 @@ tensors or model fitting were performed.
 | Real nodes and queen graph | verified | Parquet artifacts and `graph_qa.json` |
 | Observation-to-grid diagnostics | verified | `observation_to_grid.json` and node-week Parquet |
 | Python contract smoke | verified | 16,756 nodes; 128,684 directed edges; undirected true |
-| GPU GConvGRU smoke | verified | Slurm job `20839376`; final smoke output |
+| GPU GConvGRU smoke | verified | Slurm job `20838640`; final smoke output |
 | Source-data mutation | verified absent | Source checksum and Git staging checks |
 | New scientific decisions | unresolved/not applicable | Task 1D approved mask, density, and pig-search decisions were followed; later architecture/validation decisions remain outside Task 1 |
 
@@ -122,7 +122,7 @@ Parquet SHA-256 is
 `edge_index` shape is 2 x 128,684, dtype `torch.int64`, and undirectedness is
 true.
 
-GPU job `20839376` was submitted to `gpu-a100`. Its required acceptance
+GPU job `20838640` ran on `gpu-a100`. Its required acceptance
 criteria—CUDA availability, GPU tensor allocation, GConvGRU import, forward,
 backward, and finite gradients—are recorded in the smoke output and manifest.
 

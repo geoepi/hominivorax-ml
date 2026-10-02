@@ -59,7 +59,7 @@ torch-scatter 2.1.2+pt210cu128 and torch-sparse 0.6.18+pt210cu128.
 
 Atlas GPU partitions inspected included `gpu-v100`, `gpu-a100-mig7`,
 `gpu-a100`, and `gpu-l40s`. The final smoke test was submitted to `gpu-a100`
-as Slurm job `20839376`; its completion record and output are retained under
+as Slurm job `20838640`; its completion record and output are retained under
 `/project/disease_ecology/STGNN-output/logs/slurm/` and in the final manifest.
 
 ## Reproducible execution
