@@ -1,6 +1,7 @@
 # Task 2E — Revised-domain baseline results
 
-Status: completed on Atlas in development-only Slurm job `20844173`. The
+Status: completed on Atlas in final development-only Slurm job `20844180`
+(the preceding metric rerun was `20844173`). The
 baseline outputs are under
 `/project/disease_ecology/STGNN-output/revised_model_data/validation/`.
 No predictive metric was calculated for the terminal holdout.

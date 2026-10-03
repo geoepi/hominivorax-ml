@@ -1,7 +1,7 @@
 # Task 2E — Revised production dataset
 
-Status: verified on Atlas in refresh job `20844162` and baseline-contract
-validation job `20844173`. The authoritative artifacts are outside Git at
+Status: verified on Atlas in refresh job `20844162` and final baseline-contract
+validation job `20844180` (the preceding metric rerun was `20844173`). The authoritative artifacts are outside Git at
 `/project/disease_ecology/STGNN-output/revised_model_data/`. The Task 2D audit
 output under `STGNN-output/revised_domain/` remains unchanged.
 
