@@ -1,5 +1,14 @@
 # Task 2D — Revised domain audit
 
+> **Historical audit notice.** This document records the Task 2D audit against
+> the superseded observation source (`099f5fcc61dbd3686bd9bfd0dbfb0a4e37a36f2cba8b443580d2c456544f8a41`,
+> 136,670 rows). Its zero-U.S.-detection result and audit-only tables are
+> preserved for provenance and must not be used as the current production
+> dataset. Task 2E rebuilt the authoritative production artifacts from the
+> refreshed source; see [`REVISED_PRODUCTION_DATASET.md`](REVISED_PRODUCTION_DATASET.md),
+> [`OBSERVATION_SOURCE_REFRESH.md`](OBSERVATION_SOURCE_REFRESH.md), and
+> [`REVISED_BASELINE_RESULTS.md`](REVISED_BASELINE_RESULTS.md).
+
 This document defines the audit-only implementation for the revised STGNN
 analysis domain. It is intentionally separate from `model_data/`; the
 original Task-2A dataset is never overwritten.

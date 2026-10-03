@@ -67,7 +67,11 @@ task2d_resolve_paths <- function(args) {
   args
 }
 
-`%||%` <- function(x, y) if (is.null(x) || !nzchar(x)) y else x
+`%||%` <- function(x, y) {
+  if (is.null(x) || !length(x)) return(y)
+  if (length(x) == 1L && is.character(x) && !nzchar(x)) return(y)
+  x
+}
 
 task2d_require_files <- function(paths) {
   missing <- paths[!file.exists(paths)]
