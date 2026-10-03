@@ -1,0 +1,35 @@
+evaluation_mode: development
+final_test_weeks: [2026-W04, 2026-W29]
+input_width: 24
+dynamic_feature_names:
+  - era5_mintemp
+  - era5_soilmoist
+  - era5_lai_low
+  - agera5_relhum_min
+  - era5land_tmean
+  - era5land_soiltemp_l1_mean
+  - era5land_soiltemp_l2_mean
+  - era5land_soilwater_l1_mean
+  - era5land_soilwater_l2_mean
+  - era5land_surface_pressure_mean
+  - era5land_lai_high_mean
+  - era5land_lai_low_mean
+livestock_density_transform: log1p
+livestock_indicators: unscaled_binary
+calendar_features: [week_sin, week_cos]
+warmup_weeks: 52
+tbptt_weeks: 13
+gradient_clip_norm: 1.0
+positive_loss_multiplier: 1.0
+hidden_widths: [32, 64, 128]
+chebyshev_K: [2, 3]
+dropout: [0.0, 0.1, 0.3]
+learning_rate: [0.0001, 0.0003, 0.001]
+max_epochs: 100
+early_stopping_patience: 12
+screening_seeds: [20261002, 20261003]
+finalist_seeds: [20261002, 20261003, 20261004, 20261005, 20261006]
+graph:
+  normalization: sym
+  edge_weights: uniform_one
+  topology: persisted_fixed_binary_queen

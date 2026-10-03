@@ -1,0 +1,16 @@
+# Task-2B finalist refit preparation. Final-test scoring remains prohibited.
+evaluation_mode: development
+train_weeks: [2024-W01, 2026-W03]
+locked_final_test_weeks: [2026-W04, 2026-W29]
+model: gconvgru
+matched_comparator: gru
+hidden_width: 64
+chebyshev_K: 3
+dropout: 0.1
+learning_rate: 0.0003
+warmup_weeks: 52
+tbptt_weeks: 13
+gradient_clip_norm: 1.0
+positive_loss_multiplier: 1.0
+seed_set: [20261002, 20261003, 20261004, 20261005, 20261006]
+feature_variant: all
