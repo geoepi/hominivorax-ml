@@ -1,0 +1,11 @@
+final_test_weeks: 26
+spatial_block_cells: [5, 5]
+spatial_fold_count: 5
+spatial_assignment_seed: null
+temporal_folds:
+  - {train: [2024-W01, 2024-W52], validate: [2025-W01, 2025-W13]}
+  - {train: [2024-W01, 2025-W13], validate: [2025-W14, 2025-W26]}
+  - {train: [2024-W01, 2025-W26], validate: [2025-W27, 2025-W39]}
+  - {train: [2024-W01, 2025-W39], validate: [2025-W40, 2025-W52]}
+scaling: training_period_only
+combined_masks: temporal_validation_x_spatial_holdout

@@ -1,0 +1,33 @@
+dynamic:
+  - era5_mintemp
+  - era5_soilmoist
+  - era5_lai_low
+  - agera5_relhum_min
+  - era5land_tmean
+  - era5land_soiltemp_l1_mean
+  - era5land_soiltemp_l2_mean
+  - era5land_soilwater_l1_mean
+  - era5land_soilwater_l2_mean
+  - era5land_surface_pressure_mean
+  - era5land_lai_high_mean
+  - era5land_lai_low_mean
+static:
+  - cattle_density
+  - goat_density
+  - sheep_density
+  - horse_density
+  - pig_density
+  - cattle_density_imputed
+  - goat_density_imputed
+  - sheep_density_imputed
+  - horse_density_imputed
+  - pig_density_imputed
+calendar:
+  - week_sin
+  - week_cos
+calendar_period_weeks: 52.1775
+environmental_transform: identity
+livestock_density_transform: log1p
+livestock_indicator_transform: identity
+livestock_imputation: nearest_valid_aligned_density_by_species
+coordinates_in_primary_tensor: false

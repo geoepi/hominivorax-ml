@@ -1,0 +1,10 @@
+task: 2A
+output_root: /project/disease_ecology/STGNN-output
+task1_manifest: /project/disease_ecology/STGNN-output/manifests/preflight_manifest.json
+analysis_start: 2024-01-01
+analysis_end: 2026-07-19
+history_weeks: 52
+response_count: number of recorded detections assigned to a canonical node-week
+response_presence: 1 when detection_count > 0, otherwise 0
+coordinates_as_predictors: false
+response_lags: false

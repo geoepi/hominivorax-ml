@@ -1,0 +1,13 @@
+occurrence_metric_primary: calibrated_probability
+occurrence_metrics: [log_loss, brier_score, pr_auc, roc_auc, calibration_intercept, calibration_slope]
+positive_count_metrics: [negative_binomial_log_loss, mae, rmse, mean_observed, mean_predicted]
+seasonal_baseline: true
+non_spatial_hurdle: true
+xgboost:
+  enabled_if_available: true
+  n_estimators: 80
+  max_depth: 4
+  learning_rate: 0.05
+  tree_method: hist
+  random_state: 20261002
+final_test_metrics: false
