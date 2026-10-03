@@ -260,6 +260,8 @@ def train_run(
     model_type: str, hidden_size: int, k: int, dropout: float, lr: float, seed: int,
     fold: int, regime: str, max_epochs: int, patience: int, chunk: int, device: torch.device,
     output_root: Path, evaluation_mode: str = "development", feature_variant: str = "all", spatial_fold: int | None = None,
+    loss_objective: str = "balanced_multitask_loss", positive_loss_multiplier: float = 1.0,
+    experiment: str = "task2b",
 ) -> dict[str, Any]:
     torch.manual_seed(seed); np.random.seed(seed)
     if device.type == "cuda": torch.cuda.manual_seed_all(seed)
@@ -284,8 +286,13 @@ def train_run(
     trajectories = []
     started = time.time()
     clip_count = 0; nonfinite_events = 0
+    if loss_objective not in {"balanced_multitask_loss", "exact_joint_hurdle_nll"}:
+        raise ValueError(f"unknown loss objective: {loss_objective}")
+    if positive_loss_multiplier < 0:
+        raise ValueError("positive loss multiplier must be nonnegative")
     for epoch in range(1, max_epochs + 1):
         model.train(); hidden = None; epoch_losses = []
+        epoch_components = {"bernoulli_nll": [], "zt_nb_nll": [], "balanced_multitask_loss": [], "exact_joint_hurdle_nll": [], "weighted_bernoulli_contribution": [], "weighted_zt_nb_contribution": []}
         # Environmental context initializes the state but never contributes loss.
         with torch.no_grad():
             for time_index in range(context):
@@ -300,16 +307,25 @@ def train_run(
             local = train_mask_t[start - context:stop - context]
             loss_result = None
             for local_index, (logits, mu, theta, mask) in enumerate(zip(logits_list, mu_list, theta_list, local)):
-                current = __import__("hurdle_zt_nb").hurdle_losses(logits, mu, model.heads.raw_theta, counts[start - context + local_index], mask)
-                loss_result = current if loss_result is None else {key: loss_result[key] + current[key] for key in ["optimization_loss", "bernoulli_nll", "zt_nb_nll", "joint_nll", "positive_count"]}
+                current = __import__("hurdle_zt_nb").hurdle_losses(
+                    logits, mu, model.heads.raw_theta, counts[start - context + local_index], mask,
+                    positive_weight=positive_loss_multiplier,
+                )
+                keys = ["balanced_multitask_loss", "exact_joint_hurdle_nll", "optimization_loss", "bernoulli_nll", "zt_nb_nll", "joint_nll", "positive_count", "weighted_bernoulli_contribution", "weighted_zt_nb_contribution"]
+                loss_result = current if loss_result is None else {key: loss_result[key] + current[key] for key in keys}
             if loss_result is None: raise RuntimeError("empty training chunk")
-            loss = loss_result["optimization_loss"] / max(1, stop - start)
+            steps = max(1, stop - start)
+            balanced_value = loss_result["balanced_multitask_loss"] / steps
+            exact_value = loss_result["exact_joint_hurdle_nll"] / steps
+            loss = exact_value if loss_objective == "exact_joint_hurdle_nll" else balanced_value
             if not torch.isfinite(loss): raise FloatingPointError("non-finite training loss")
             loss.backward()
             grad_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             if not torch.isfinite(grad_norm): raise FloatingPointError("non-finite gradient norm")
             if float(grad_norm) > 1.0: clip_count += 1
             optimizer.step(); epoch_losses.append(float(loss.detach().cpu()))
+            for key in epoch_components:
+                epoch_components[key].append(float((loss_result[key] / steps).detach().cpu()))
             hidden = hidden.detach()
         # Sequential validation starts from post-training history for future
         # weeks. Spatial evaluation uses the same development weeks as
@@ -329,7 +345,21 @@ def train_run(
         eval_count_slice = np.asarray(data["counts"])[first_eval:eval_last - context]
         metrics = exact_metrics(eval_count_slice[eval_mask_slice], np.asarray(pred_logits)[eval_mask_slice], np.asarray(pred_mu)[eval_mask_slice], float(np.mean(pred_theta)))
         score = metrics["joint_hurdle_nll"]
-        trajectories.append({"epoch": epoch, "training_optimization_loss": float(np.mean(epoch_losses)), "validation_joint_nll": score, "validation_pr_auc": metrics["pr_auc"], "theta": float(np.mean(pred_theta))})
+        trajectories.append({
+            "epoch": epoch,
+            "loss_objective": loss_objective,
+            "positive_loss_multiplier": positive_loss_multiplier,
+            "training_optimization_loss": float(np.mean(epoch_losses)),
+            "training_balanced_multitask_loss": float(np.mean(epoch_components["balanced_multitask_loss"])),
+            "training_exact_joint_hurdle_nll": float(np.mean(epoch_components["exact_joint_hurdle_nll"])),
+            "training_bernoulli_nll": float(np.mean(epoch_components["bernoulli_nll"])),
+            "training_zt_nb_nll": float(np.mean(epoch_components["zt_nb_nll"])),
+            "training_weighted_bernoulli_contribution": float(np.mean(epoch_components["weighted_bernoulli_contribution"])),
+            "training_weighted_zt_nb_contribution": float(np.mean(epoch_components["weighted_zt_nb_contribution"])),
+            "validation_joint_nll": score,
+            "validation_pr_auc": metrics["pr_auc"],
+            "theta": float(np.mean(pred_theta)),
+        })
         if score < best_score - 1e-5:
             best_score = score; best_epoch = epoch; wait = 0; best_state = copy.deepcopy(model.state_dict())
         else:
@@ -353,13 +383,14 @@ def train_run(
     counts_eval = np.asarray(data["counts"])[eval_indices[0]:eval_indices[-1] + 1]
     final_metrics = exact_metrics(counts_eval[mask_eval], logits_eval[mask_eval], mu_eval[mask_eval], theta)
     spatial_token = "" if spatial_fold is None else f"_spatial{spatial_fold}"
-    run_id = f"{model_type}_fold{fold}_{regime}{spatial_token}_{feature_variant}_seed{seed}_h{hidden_size}_k{k}_d{dropout:g}_lr{lr:g}"
-    run_dir = output_root / "runs/task2b"; model_dir = output_root / "models/task2b"; run_dir.mkdir(parents=True, exist_ok=True); model_dir.mkdir(parents=True, exist_ok=True)
-    torch.save({"state_dict": model.state_dict(), "run_id": run_id, "metrics": final_metrics}, model_dir / f"{run_id}.pt")
+    loss_token = "" if experiment == "task2b" else f"_loss{loss_objective}_lam{positive_loss_multiplier:g}"
+    run_id = f"{model_type}_fold{fold}_{regime}{spatial_token}_{feature_variant}_seed{seed}_h{hidden_size}_k{k}_d{dropout:g}_lr{lr:g}{loss_token}"
+    run_dir = output_root / f"runs/{experiment}"; model_dir = output_root / f"models/{experiment}"; run_dir.mkdir(parents=True, exist_ok=True); model_dir.mkdir(parents=True, exist_ok=True)
+    torch.save({"state_dict": model.state_dict(), "run_id": run_id, "metrics": final_metrics, "loss_objective": loss_objective, "positive_loss_multiplier": positive_loss_multiplier}, model_dir / f"{run_id}.pt")
     git_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=Path(__file__).resolve().parents[1], text=True).strip()
     dataset_manifest_path = data["model_root"] / "manifests/dataset_manifest.json"
     split_manifest_path = data["model_root"] / "splits/temporal_splits.json"
-    record = {"run_id": run_id, "model": model_type, "feature_variant": feature_variant, "input_width": n_features, "fold": fold, "regime": regime, "spatial_fold": spatial_fold, "seed": seed, "hidden_size": hidden_size, "K": k, "dropout": dropout, "learning_rate": lr, "chunk_length": chunk, "max_epochs": max_epochs, "best_epoch": best_epoch, "runtime_seconds": elapsed, "gradient_clip_norm": 1.0, "gradient_clip_frequency": clip_count, "nonfinite_gradient_events": nonfinite_events, "positive_loss_multiplier": 1.0, "git_sha": git_sha, "dataset_manifest_sha256": sha256_file(dataset_manifest_path), "split_manifest_sha256": sha256_file(split_manifest_path), "python": platform.python_version(), "pytorch": torch.__version__, "cuda_available": bool(torch.cuda.is_available()), "cuda_runtime": torch.version.cuda, "gpu_model": torch.cuda.get_device_name(device) if device.type == "cuda" else None, "torch_geometric": __import__("torch_geometric").__version__ if model_type == "gconvgru" else None, "torch_geometric_temporal": __import__("torch_geometric_temporal").__version__ if model_type == "gconvgru" else None, "mixed_precision": False, "metrics": final_metrics, "training_trajectory": trajectories, "final_test_predictive_metrics_calculated": False}
+    record = {"run_id": run_id, "experiment": experiment, "model": model_type, "feature_variant": feature_variant, "input_width": n_features, "fold": fold, "regime": regime, "spatial_fold": spatial_fold, "seed": seed, "hidden_size": hidden_size, "K": k, "dropout": dropout, "learning_rate": lr, "loss_objective": loss_objective, "positive_loss_multiplier": positive_loss_multiplier, "chunk_length": chunk, "max_epochs": max_epochs, "best_epoch": best_epoch, "runtime_seconds": elapsed, "gradient_clip_norm": 1.0, "gradient_clip_frequency": clip_count, "nonfinite_gradient_events": nonfinite_events, "git_sha": git_sha, "dataset_manifest_sha256": sha256_file(dataset_manifest_path), "split_manifest_sha256": sha256_file(split_manifest_path), "python": platform.python_version(), "pytorch": torch.__version__, "cuda_available": bool(torch.cuda.is_available()), "cuda_runtime": torch.version.cuda, "gpu_model": torch.cuda.get_device_name(device) if device.type == "cuda" else None, "torch_geometric": __import__("torch_geometric").__version__ if model_type == "gconvgru" else None, "torch_geometric_temporal": __import__("torch_geometric_temporal").__version__ if model_type == "gconvgru" else None, "mixed_precision": False, "metrics": final_metrics, "training_trajectory": trajectories, "final_test_predictive_metrics_calculated": False}
     write_json(run_dir / f"{run_id}.json", record)
     return record
 
@@ -412,6 +443,9 @@ def main() -> int:
     parser.add_argument("--cpu", action="store_true")
     parser.add_argument("--evaluation-mode", choices=["development", "final"], default="development")
     parser.add_argument("--feature-variant", choices=["all", "without_livestock", "without_calendar"], default="all")
+    parser.add_argument("--loss-objective", choices=["balanced_multitask_loss", "exact_joint_hurdle_nll"], default="balanced_multitask_loss")
+    parser.add_argument("--positive-loss-multiplier", type=float, default=1.0)
+    parser.add_argument("--experiment", default="task2b")
     parser.add_argument("--write-preprocessor", action="store_true")
     args = parser.parse_args()
     if args.evaluation_mode != "development":
@@ -427,7 +461,7 @@ def main() -> int:
     train_mask, eval_mask = make_masks(data, args.fold, args.regime, args.spatial_fold)
     if not args.cpu and not torch.cuda.is_available(): raise RuntimeError("CUDA is unavailable; use an allocated Atlas GPU node")
     device = torch.device("cpu" if args.cpu else "cuda")
-    record = train_run(data, features, train_mask, eval_mask, args.model, args.hidden, args.k, args.dropout, args.lr, args.seed, args.fold, args.regime, args.epochs, args.patience, args.chunk, device, args.output_root, feature_variant=args.feature_variant, spatial_fold=args.spatial_fold)
+    record = train_run(data, features, train_mask, eval_mask, args.model, args.hidden, args.k, args.dropout, args.lr, args.seed, args.fold, args.regime, args.epochs, args.patience, args.chunk, device, args.output_root, feature_variant=args.feature_variant, spatial_fold=args.spatial_fold, loss_objective=args.loss_objective, positive_loss_multiplier=args.positive_loss_multiplier, experiment=args.experiment)
     print(json.dumps(jsonable(record), indent=2))
     return 0
 

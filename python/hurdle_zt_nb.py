@@ -81,11 +81,12 @@ def hurdle_losses(
     eligible: Tensor | None = None,
     positive_weight: float = 1.0,
 ) -> dict[str, Tensor]:
-    """Return normalized optimization loss and exact observation likelihood.
+    """Return both approved Task-2C training objectives and diagnostics.
 
-    ``optimization_loss`` is the component-balanced training objective.  The
-    exact joint hurdle NLL is separately returned as ``joint_nll`` and averages
-    the observation-level likelihood over all eligible node-weeks.
+    ``balanced_multitask_loss`` averages the Bernoulli and positive-count
+    components separately. ``exact_joint_hurdle_nll`` averages the actual
+    observation-level hurdle likelihood over eligible node-weeks. The legacy
+    ``optimization_loss`` key is retained as an alias for Task-2B readers.
     """
     if eligible is None:
         eligible = torch.ones_like(counts, dtype=torch.bool)
@@ -100,17 +101,23 @@ def hurdle_losses(
     eligible_count = torch.clamp(eligible.sum(), min=1)
     positive_eligible = positive & eligible
     positive_count = torch.clamp(positive_eligible.sum(), min=1)
-    opt = occurrence[eligible].mean() + positive_weight * pos_count[positive_eligible].mean()
+    bernoulli_mean = occurrence[eligible].mean()
+    zt_nb_mean = pos_count[positive_eligible].mean()
+    balanced = bernoulli_mean + positive_weight * zt_nb_mean
     exact = torch.where(
         positive,
         -F.logsigmoid(logits) + pos_count,
         F.softplus(logits),
     )
     return {
-        "optimization_loss": opt,
+        "balanced_multitask_loss": balanced,
+        "exact_joint_hurdle_nll": exact[eligible].mean(),
+        "optimization_loss": balanced,
         "bernoulli_nll": occurrence[eligible].sum() / eligible_count,
         "zt_nb_nll": pos_count[positive_eligible].sum() / positive_count,
         "joint_nll": exact[eligible].mean(),
+        "weighted_bernoulli_contribution": bernoulli_mean,
+        "weighted_zt_nb_contribution": positive_weight * zt_nb_mean,
         "theta": theta,
         "positive_count": positive_eligible.sum().to(logits.dtype),
     }
