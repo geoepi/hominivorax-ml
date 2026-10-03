@@ -1,6 +1,7 @@
 # Task 2B model selection
 
-Status: verified development-only comparison on Atlas. The final 26-week
+Status: Task-2C audit complete; the provisional Task-2B architecture is not
+eligible for final-test evaluation. The final 26-week
 period, 2026-W04 through 2026-W29, was not scored, mapped, or used for model
 selection.
 
@@ -13,7 +14,7 @@ environment. Neural screening used limited width/K/dropout/learning-rate
 experiments, followed by a complete finalist evaluation with 20 temporal runs
 per model: four rolling folds and five seeds per fold.
 
-The selected matched configuration is:
+The provisional matched configuration carried into Task 2C is:
 
 | Model | Input | Hidden | K | Dropout | Learning rate | Temporal runs |
 |---|---:|---:|---:|---:|---:|---:|
@@ -22,8 +23,10 @@ The selected matched configuration is:
 
 The representative-fold refinement also tested dropout 0, 0.1, and 0.3 and
 learning rates 1e-4, 3e-4, and 1e-3. The complete four-fold comparison above
-is the selection evidence; the refinement is retained as sensitivity evidence
-and was not treated as a final-test result.
+was the Task-2B screening evidence; the refinement is retained as sensitivity
+evidence and was not treated as a final-test result. Task 2C re-evaluated this
+architecture under exact joint and limited balanced-loss objectives. The
+development classification is **DO NOT ADVANCE**.
 
 ## Temporal development metrics
 
@@ -96,17 +99,20 @@ produced joint NLL 0.6202, PR-AUC 0.1118, and positive-count MAE 2.7292.
 These are diagnostic comparisons, not causal attribution and not final-test
 results.
 
-## Selection rationale and remaining issues
+## Task-2C decision and remaining issues
 
-The GConvGRU finalist is preferred because it consistently improves joint
-likelihood, occurrence Brier score/PR-AUC, and spatial/combined joint metrics
-over the matched non-graph GRU across all four temporal folds. Performance is
-still weak relative to the Task-2A hurdle-regression occurrence baseline,
-especially in later temporal regimes, so this result is a development finding
-and not evidence of production superiority. The global-dispersion ZTNB model
-was numerically stable, but count calibration remains imperfect. Final-test
-evaluation, threshold selection, production prediction rasters, and neural
-architecture expansion remain deferred.
+The GConvGRU remained better than the matched GRU on the main joint and Brier
+metrics, but it did not approach the non-spatial hurdle regression. Under exact
+joint loss its temporal means were PR-AUC 0.018855, Brier 0.048030, Brier skill
+-1.5286, joint NLL 0.279639, and positive-count MAE 2.6231. The balanced
+λ=0.10 sensitivity improved PR-AUC to 0.031656 but had worse Brier and joint
+NLL, with negative Brier skill in all folds. The exact-loss GConvGRU also had
+mean predicted probability 0.1702 against prevalence approximately 0.0191.
+
+The global-dispersion ZTNB model was numerically stable, but occurrence
+calibration and discrimination remain inadequate. The development decision is
+**DO NOT ADVANCE**. Final-test evaluation, threshold selection, production
+prediction rasters, and further neural architecture expansion remain deferred.
 
 ## Provenance
 
