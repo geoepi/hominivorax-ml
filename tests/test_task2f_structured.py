@@ -1,3 +1,4 @@
+import json
 import sys
 from pathlib import Path
 
@@ -30,8 +31,10 @@ def test_antecedent_windows_use_only_previous_environmental_weeks():
 def test_feature_widths_and_order_are_pre_specified():
     assert [len(task2f.CANDIDATES[name]) for name in task2f.CANDIDATES] == [24, 41, 60, 77]
     assert task2f.CANDIDATES["Hurdle-Spatial"][24].endswith("_localmean")
-    assert task2f.CANDIDATES["Hurdle-Temporal"][24].endswith("_lag1")
-    assert task2f.CANDIDATES["Hurdle-Temporal"][-1].endswith("_prev13mean")
+    temporal = task2f.CANDIDATES["Hurdle-Temporal"]
+    assert temporal[24:36] == [f"{name}_lag1" for name in task2f.ENV_FEATURES]
+    assert temporal[36:48] == [f"{name}_prev4mean" for name in task2f.ENV_FEATURES]
+    assert temporal[48:60] == [f"{name}_prev13mean" for name in task2f.ENV_FEATURES]
 
 
 def test_fold_safe_scaling_leaves_indicators_and_calendar_natural():
@@ -92,3 +95,15 @@ def test_terminal_guard_and_class_degenerate_metric_safeguard():
     assert result["pr_auc"] is None
     assert result["roc_auc"] is None
     assert "lacks both classes" in result["regional_metric_note"]
+
+
+def test_completed_task2e_reproduction_manifest_when_available():
+    manifest_path = Path(
+        "/project/disease_ecology/STGNN-output/revised_model_data/structured/"
+        "diagnostics/task2e_baseline_reproduction.json"
+    )
+    if not manifest_path.exists():
+        return
+    manifest = json.loads(manifest_path.read_text())
+    assert manifest["passed"] is True
+    assert manifest["maximum_absolute_difference"] <= manifest["tolerance"]
