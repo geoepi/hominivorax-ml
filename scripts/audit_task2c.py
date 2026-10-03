@@ -102,8 +102,6 @@ def neural_audit(root: Path, experiment: str, pattern: str | None, cpu: bool = F
     records: list[dict] = []
     for path in selected_neural_paths(root, experiment, pattern):
         record = json.loads(path.read_text())
-        if record.get("regime") != "temporal":
-            continue
         if experiment == "task2b" and not (record.get("hidden_size") == 64 and record.get("K") == 3 and abs(record.get("dropout", -1) - .1) < 1e-9 and abs(record.get("learning_rate", -1) - .0003) < 1e-12):
             continue
         fold = int(record["fold"])

@@ -68,6 +68,26 @@ The final preferred exact-loss GConvGRU still has mean predicted probability
 intercept -5.083, calibration slope -0.899, and negative Brier skill in every
 fold. This is a calibration failure, not a threshold-selection issue.
 
+## Spatial and combined exact-loss diagnostics
+
+The completed spatial/combined job (`20840127`) was scored by corrected audit
+job `20841217`. The audit processed all 50 existing run manifests after a
+Level-1 fix removed an unintended temporal-only filter. Results are pooled
+over the five spatial folds, or over the twenty combined runs as indicated.
+
+| Regime | Model | Joint NLL | PR-AUC | Brier | Brier skill | Bernoulli NLL | ZTNB NLL | Positive MAE |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| Spatial | GConvGRU | 0.131301 | 0.029636 | 0.015478 | -0.106614 | 0.092969 | 2.677573 | 2.560903 |
+| Spatial | GRU | 0.236145 | 0.024903 | 0.036447 | -1.628782 | 0.199629 | 2.551959 | 2.550327 |
+| Combined | GConvGRU | 0.261841 | 0.030806 | 0.041187 | -1.193889 | 0.201971 | 3.086878 | 2.645127 |
+| Combined | GRU | 0.528472 | 0.027992 | 0.142734 | -6.821763 | 0.472750 | 2.881304 | 2.587131 |
+
+The exact-loss GConvGRU was better than the matched GRU in both regimes on
+joint likelihood, Brier score, and all-cell error. Nevertheless, Brier skill
+remained negative, and both neural models remained below the frozen
+non-spatial hurdle regression. The spatial and combined evidence therefore
+does not authorize advancement or final-test evaluation.
+
 ## Advancement classification
 
 **DO NOT ADVANCE.** Neither neural formulation meets the Task-2C advancement

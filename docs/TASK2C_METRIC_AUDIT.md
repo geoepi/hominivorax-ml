@@ -121,6 +121,29 @@ hurdle regression, whose mean PR-AUC is 0.277434, mean Brier 0.016224, mean
 Bernoulli NLL 0.074363, and mean joint NLL 0.119783. Task 2C classification is
 **DO NOT ADVANCE**. No final-test evaluation is authorized.
 
+## Spatial and combined validation
+
+The completed spatial job was `20840127`; its scoring job was rerun as
+`20841217` after correcting a Level-1 audit-filter bug that had discarded
+non-temporal regimes. The corrected audit scored all 50 existing runs:
+five spatial folds and twenty combined spatiotemporal runs for each matched
+model. No model was retrained and the final-test interval remained locked.
+
+| Regime | Model | Joint NLL | PR-AUC | Brier | Brier skill | Bernoulli NLL | ROC-AUC | ZTNB NLL | Positive MAE | All-cell MAE |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Spatial | GConvGRU | 0.131301 | 0.029636 | 0.015478 | -0.106614 | 0.092969 | 0.742656 | 2.677573 | 2.560903 | 0.159951 |
+| Spatial | GRU | 0.236145 | 0.024903 | 0.036447 | -1.628782 | 0.199629 | 0.723752 | 2.551959 | 2.550327 | 0.368532 |
+| Combined | GConvGRU | 0.261841 | 0.030806 | 0.041187 | -1.193889 | 0.201971 | 0.646520 | 3.086878 | 2.645127 | 0.343681 |
+| Combined | GRU | 0.528472 | 0.027992 | 0.142734 | -6.821763 | 0.472750 | 0.629410 | 2.881304 | 2.587131 | 0.687721 |
+
+Spatial GConvGRU PR-AUC ranged from 0.023043 to 0.037521 across held-out
+blocks, with Brier skill negative in all five blocks. Combined GConvGRU
+temporal-fold means were PR-AUC 0.013955, 0.028453, 0.038947, and 0.041871
+for Folds 1-4, with Brier skill -2.9022, -0.9689, -0.4836, and -0.4208.
+The matched GRU was worse on Brier and joint likelihood in both regimes.
+These results provide the required transductive spatial and combined
+development evidence but do not change the **DO NOT ADVANCE** decision.
+
 ## Guard and interpretation
 
 All audit and remediation run manifests set

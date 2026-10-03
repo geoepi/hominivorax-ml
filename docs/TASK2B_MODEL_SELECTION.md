@@ -67,13 +67,16 @@ fixed-graph validation, not prediction for entirely unseen geography.
 
 | Regime | Model | Joint NLL | PR-AUC | Brier | All-cell MAE |
 |---|---|---:|---:|---:|---:|
-| Spatial | GConvGRU | 0.3347 | 0.0213 | 0.0712 | 0.5761 |
-| Spatial | GRU | 0.5484 | 0.0085 | 0.1630 | 0.7917 |
-| Combined | GConvGRU | 0.5655 | 0.0536 | 0.1641 | 0.7742 |
-| Combined | GRU | 0.6490 | 0.0181 | 0.2021 | 0.7701 |
+| Spatial | GConvGRU | 0.131301 | 0.029636 | 0.015478 | 0.159951 |
+| Spatial | GRU | 0.236145 | 0.024903 | 0.036447 | 0.368532 |
+| Combined | GConvGRU | 0.261841 | 0.030806 | 0.041187 | 0.343681 |
+| Combined | GRU | 0.528472 | 0.027992 | 0.142734 | 0.687721 |
 
-Spatial GConvGRU PR-AUC ranged from 0.0164 to 0.0245 across the five held-out
-folds. Combined GConvGRU PR-AUC ranged from 0.0386 to 0.0745.
+The completed spatial run was job `20840127`; corrected metric scoring was job
+`20841217`. Spatial GConvGRU PR-AUC ranged from 0.023043 to 0.037521 across
+the five held-out blocks, with negative Brier skill in every block. Combined
+GConvGRU temporal-fold mean PR-AUC ranged from 0.013955 to 0.041871 and its
+Brier skill remained negative in every fold.
 
 ## Calibration and count diagnostics
 
