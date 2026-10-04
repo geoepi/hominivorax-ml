@@ -57,6 +57,7 @@ def main() -> None:
     manifest.update({
         "git_sha": git_sha(repo),
         "branch": git_branch(repo),
+        "v2_specification_frozen_date": "2026-10-03",
         "finalized_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "optimizer_settings": decisions.get("optimizer_settings", {}),
         "model_selection_criteria": decisions.get("model_selection_criteria", {}),
@@ -122,7 +123,7 @@ The M0 reproduction is recorded in `metrics/v1_reproduction.csv`; the absolute j
 
 ## Validation policy
 
-No currently available 2025–2026 observations qualify as a genuinely unseen V2 test. If this candidate is carried forward, the V2 specification-freeze date must be recorded before accumulating a future independent evaluation period.
+Development specification-freeze date: **2026-10-03**. No currently available 2025–2026 observations qualify as a genuinely unseen V2 test. Observations arriving after this date form the first genuinely independent V2 evaluation period; V2-A remains a development-frozen candidate, not a validated final production model.
 """
     (repo / "docs" / "TASK3B_V2A_MODEL_SELECTION.md").write_text(doc, encoding="utf-8")
     history = repo / "docs" / "MODEL_DEVELOPMENT_HISTORY.md"
