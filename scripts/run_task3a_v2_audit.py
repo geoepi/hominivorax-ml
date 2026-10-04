@@ -389,12 +389,28 @@ def build_front_audit(data: dict[str, Any], histories: dict[str, Any]) -> dict[s
         previous4 = np.unique(np.concatenate(positive_sets[max(0, w - 4):w])) if w else np.array([], dtype=int)
         previous13 = np.unique(np.concatenate(positive_sets[max(0, w - 13):w])) if w else np.array([], dtype=int)
         prior_tree = cKDTree(xy[prior_ever]) if len(prior_ever) else None
+        previous4_tree = cKDTree(xy[previous4]) if len(previous4) else None
+        previous13_tree = cKDTree(xy[previous13]) if len(previous13) else None
         previous_tree = cKDTree(xy[previous]) if len(previous) else None
         new = current[~np.isin(current, prior_ever)]
         if prior_tree is not None and len(new):
             distance_any, nearest_any = prior_tree.query(xy[new], k=1)
             distance_any = np.asarray(distance_any)
             nearest_any = prior_ever[np.asarray(nearest_any, dtype=int)]
+            if previous4_tree is not None:
+                distance_previous4, nearest_previous4 = previous4_tree.query(xy[new], k=1)
+                distance_previous4 = np.asarray(distance_previous4)
+                nearest_previous4 = previous4[np.asarray(nearest_previous4, dtype=int)]
+            else:
+                distance_previous4 = np.full(len(new), np.nan)
+                nearest_previous4 = np.full(len(new), -1, dtype=int)
+            if previous13_tree is not None:
+                distance_previous13, nearest_previous13 = previous13_tree.query(xy[new], k=1)
+                distance_previous13 = np.asarray(distance_previous13)
+                nearest_previous13 = previous13[np.asarray(nearest_previous13, dtype=int)]
+            else:
+                distance_previous13 = np.full(len(new), np.nan)
+                nearest_previous13 = np.full(len(new), -1, dtype=int)
             first_distance_rows.extend({
                 "week": weeks.iloc[w]["week"],
                 "week_index": w,
@@ -405,7 +421,13 @@ def build_front_audit(data: dict[str, Any], histories: dict[str, Any]) -> dict[s
                 "observed_count": int(counts[w, node_id]),
                 "distance_to_nearest_any_prior_km": float(distance),
                 "nearest_any_prior_node_id": int(nearest),
-            } for node_id, distance, nearest in zip(new, distance_any, nearest_any))
+                "distance_to_nearest_previous4_km": float(distance4),
+                "nearest_previous4_node_id": int(nearest4),
+                "distance_to_nearest_previous13_km": float(distance13),
+                "nearest_previous13_node_id": int(nearest13),
+            } for node_id, distance, nearest, distance4, nearest4, distance13, nearest13 in zip(
+                new, distance_any, nearest_any, distance_previous4, nearest_previous4, distance_previous13, nearest_previous13
+            ))
         else:
             distance_any = np.full(len(new), np.nan)
         previous_distance = previous_tree.query(current_xy, k=1)[0] if previous_tree is not None and len(current) else np.array([])
@@ -837,7 +859,7 @@ def main() -> None:
     write_csv(args.output / "observation_process" / "first_vs_recurrent_weekly.csv", histories["weekly_new_recurrent"])
     write_csv(args.output / "observation_process" / "first_positive_distance_summary.csv", pd.DataFrame([
         {"metric": key, **quantiles(front["first_distances"][key])}
-        for key in ("distance_to_nearest_any_prior_km",)
+        for key in front["first_distances"].columns if key.endswith("_km")
     ]))
     write_csv(args.output / "observation_process" / "zero_distance_transition_summary.csv", transitions)
     write_csv(args.output / "observation_process" / "time_since_nearby_detection_transition.csv", time_since)
