@@ -91,3 +91,82 @@ def test_freeze_checksum_verification_is_independent_of_terminal_targets():
         checked, actual = task2g.verify_freeze(output)
         assert checked["status"] == "frozen_before_terminal_unlock"
         assert actual == digest
+
+
+def test_persisted_terminal_output_schema_and_expectation_consistency():
+    output = Path("/project/disease_ecology/STGNN-output/terminal_evaluation")
+    prediction_path = output / "predictions" / "terminal_predictions.parquet"
+    if not prediction_path.exists():
+        return
+
+    frame = pd.read_parquet(prediction_path)
+    assert len(frame) == 13 * 10037
+    required = {
+        "week", "node_id", "latitude", "longitude", "state", "region",
+        "observed_count", "observed_presence", "predicted_occurrence_probability",
+        "predicted_conditional_positive_mean", "predicted_unconditional_mean",
+    }
+    assert required.issubset(frame.columns)
+    assert set(frame["week"]) == {f"2026-W{i:02d}" for i in range(17, 30)}
+    assert np.all((frame["predicted_occurrence_probability"] >= 0) &
+                  (frame["predicted_occurrence_probability"] <= 1))
+    assert np.all(frame["predicted_conditional_positive_mean"] > 0)
+    assert np.all(frame["predicted_unconditional_mean"] >= 0)
+    assert np.allclose(
+        frame["predicted_unconditional_mean"],
+        frame["predicted_occurrence_probability"] *
+        frame["predicted_conditional_positive_mean"],
+        rtol=1e-10,
+        atol=1e-12,
+    )
+    assert np.array_equal(
+        frame["observed_presence"].to_numpy(dtype=int),
+        (frame["observed_count"].to_numpy(dtype=int) > 0).astype(int),
+    )
+
+
+def test_persisted_terminal_regional_and_us_partitions_are_consistent():
+    output = Path("/project/disease_ecology/STGNN-output/terminal_evaluation")
+    prediction_path = output / "predictions" / "terminal_predictions.parquet"
+    regional_path = output / "regional" / "terminal_regional_metrics.csv"
+    us_path = output / "us_transfer" / "terminal_us_positive_ranks.csv"
+    us_summary_path = output / "us_transfer" / "terminal_us_summary.json"
+    if not all(path.exists() for path in (prediction_path, regional_path, us_path, us_summary_path)):
+        return
+
+    frame = pd.read_parquet(prediction_path)
+    regional = pd.read_csv(regional_path)
+    us_ranks = pd.read_csv(us_path)
+    us_summary = json.loads(us_summary_path.read_text(encoding="utf-8"))
+    full = regional.loc[regional["region"] == "full_revised_domain"].iloc[0]
+    regional_parts = regional.loc[regional["region"].isin(["Mexico", "United States"])]
+    assert regional_parts["node_weeks"].sum() == full["node_weeks"]
+    assert regional_parts["positive_node_weeks"].sum() == full["positive_node_weeks"]
+    assert regional_parts["observed_total_detections"].sum() == full["observed_total_detections"]
+    assert len(us_ranks) == us_summary["positive_node_weeks"]
+    assert np.all(us_ranks["observed_count"] > 0)
+    assert np.all((us_ranks["percentile_rank_among_us_nodes"] >= 0) &
+                  (us_ranks["percentile_rank_among_us_nodes"] <= 100))
+    assert np.all((us_ranks["percentile_rank_among_revised_domain_nodes"] >= 0) &
+                  (us_ranks["percentile_rank_among_revised_domain_nodes"] <= 100))
+    assert int((frame["region"] == "U.S.-to-40N").sum()) == us_summary["terminal_node_weeks"]
+
+
+def test_persisted_terminal_reporting_outputs_have_required_shapes():
+    output = Path("/project/disease_ecology/STGNN-output/terminal_evaluation")
+    weekly_path = output / "metrics" / "terminal_weekly_metrics.csv"
+    latitude_path = output / "metrics" / "terminal_latitude_metrics.csv"
+    calibration_path = output / "metrics" / "terminal_calibration.csv"
+    if not all(path.exists() for path in (weekly_path, latitude_path, calibration_path)):
+        return
+
+    weekly = pd.read_csv(weekly_path)
+    latitude = pd.read_csv(latitude_path)
+    calibration = pd.read_csv(calibration_path)
+    assert len(weekly) == 13
+    assert set(weekly["week"]) == {f"2026-W{i:02d}" for i in range(17, 30)}
+    assert set(latitude["latitude_band"]) == {"<20N", "20-25N", "25-30N", "30-35N", "35-40N"}
+    assert len(latitude) == 13 * 5
+    assert {"region", "adaptive_bin", "mean_predicted_probability", "observed_prevalence", "sample_count"}.issubset(calibration.columns)
+    assert set(calibration["region"]) >= {"full_revised_domain", "Mexico", "United States"}
+    assert np.all(calibration["sample_count"] > 0)

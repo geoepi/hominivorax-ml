@@ -575,10 +575,13 @@ def classify_us_transfer(us_primary: dict[str, Any], ranks: list[dict[str, Any]]
 
 
 def generate_maps(data: dict[str, Any], counts: np.ndarray, p: np.ndarray, output: Path) -> list[str]:
-    import matplotlib
+    try:
+        import matplotlib
 
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+    except ModuleNotFoundError:
+        return generate_svg_maps(data, counts, p, output)
 
     nodes = data["nodes"]
     lon = nodes["lon"].to_numpy(float)
@@ -620,6 +623,91 @@ def generate_maps(data: dict[str, Any], counts: np.ndarray, p: np.ndarray, outpu
             week = str(data["weeks"]["iso_week"].iloc[global_t])
             focus = (lat >= 20.0) & (lat < 41.0) & (lon >= -125.0) & (lon <= -95.0)
             save_map(f"us_northern_mexico_probability_{week}.png", f"Task 2G U.S./northern Mexico probability — {week}", p[local_t], counts[local_t] > 0, focus)
+    return generated
+
+
+def generate_svg_maps(data: dict[str, Any], counts: np.ndarray, p: np.ndarray, output: Path) -> list[str]:
+    """Write dependency-free vector maps when matplotlib is unavailable."""
+    from xml.sax.saxutils import escape
+
+    nodes = data["nodes"]
+    lon = nodes["lon"].to_numpy(float)
+    lat = nodes["lat"].to_numpy(float)
+    vmax = max(float(np.max(p)), EPS)
+    generated: list[str] = []
+    width, height = 1200, 720
+    left, right, top, bottom = 78, 30, 58, 70
+
+    def color(value: float) -> str:
+        ratio = min(max(float(value) / vmax, 0.0), 1.0)
+        # Perceptually ordered dark-purple -> blue -> green -> yellow scale.
+        stops = [(68, 1, 84), (59, 82, 139), (33, 145, 140), (94, 201, 98), (253, 231, 37)]
+        position = ratio * (len(stops) - 1)
+        lower = min(int(position), len(stops) - 2)
+        fraction = position - lower
+        rgb = tuple(round(stops[lower][i] + fraction * (stops[lower + 1][i] - stops[lower][i])) for i in range(3))
+        return "#%02x%02x%02x" % rgb
+
+    def save_map(name: str, title: str, values: np.ndarray, positive: np.ndarray, focus: np.ndarray | None = None) -> None:
+        use = np.ones(len(nodes), dtype=bool) if focus is None else focus
+        if not use.any():
+            return
+        x_values = lon[use]
+        y_values = lat[use]
+        x_min, x_max = float(x_values.min()), float(x_values.max())
+        y_min, y_max = float(y_values.min()), float(y_values.max())
+        x_span = max(x_max - x_min, 1.0)
+        y_span = max(y_max - y_min, 1.0)
+
+        def project(x: float, y: float) -> tuple[float, float]:
+            px = left + (x - x_min) / x_span * (width - left - right)
+            py = height - bottom - (y - y_min) / y_span * (height - top - bottom)
+            return px, py
+
+        elements = [
+            f'<rect width="{width}" height="{height}" fill="white"/>',
+            f'<text x="{left}" y="30" font-family="sans-serif" font-size="20">{escape(title)}</text>',
+            f'<line x1="{left}" y1="{height-bottom}" x2="{width-right}" y2="{height-bottom}" stroke="#555"/>',
+            f'<line x1="{left}" y1="{top}" x2="{left}" y2="{height-bottom}" stroke="#555"/>',
+            f'<text x="{(left + width - right) / 2:.1f}" y="{height-20}" text-anchor="middle" font-family="sans-serif" font-size="14">Longitude</text>',
+            f'<text x="18" y="{(top + height-bottom) / 2:.1f}" transform="rotate(-90 18 {(top + height-bottom) / 2:.1f})" text-anchor="middle" font-family="sans-serif" font-size="14">Latitude</text>',
+        ]
+        for node_id in np.flatnonzero(use):
+            px, py = project(lon[node_id], lat[node_id])
+            elements.append(f'<circle cx="{px:.2f}" cy="{py:.2f}" r="2" fill="{color(values[node_id])}" fill-opacity="0.75"/>')
+        for node_id in np.flatnonzero(positive & use):
+            px, py = project(lon[node_id], lat[node_id])
+            elements.append(f'<circle cx="{px:.2f}" cy="{py:.2f}" r="5" fill="none" stroke="#d62728" stroke-width="1.2"/>')
+        elements.extend([
+            f'<text x="{width-220}" y="{top+18}" font-family="sans-serif" font-size="12">common scale: 0 to {vmax:.4g}</text>',
+            f'<text x="{width-220}" y="{top+38}" font-family="sans-serif" font-size="12" fill="#d62728">red outline = observed positive</text>',
+        ])
+        path = output / "figures" / name
+        path.write_text(
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">' + "".join(elements) + "</svg>\n",
+            encoding="utf-8",
+        )
+        generated.append(str(path))
+
+    for global_t in REQUIRED_TERMINAL_WEEKS:
+        local_t = TERMINAL_INDICES.index(global_t)
+        week = str(data["weeks"]["iso_week"].iloc[global_t])
+        save_map(f"terminal_probability_{week}.svg", f"Task 2G terminal probability — {week}", p[local_t], counts[local_t] > 0)
+
+    max_probability = p.max(axis=0)
+    max_week = np.asarray([str(data["weeks"]["iso_week"].iloc[TERMINAL_INDICES[index]]) for index in p.argmax(axis=0)], dtype=object)
+    pd.DataFrame({"node_id": np.arange(len(nodes)), "week_of_max_predicted_probability": max_week, "max_predicted_probability": max_probability}).to_csv(output / "metrics" / "terminal_node_max_probability.csv", index=False)
+    save_map("terminal_probability_maximum.svg", "Task 2G maximum terminal probability", max_probability, counts.max(axis=0) > 0)
+
+    us_mask = data["nodes"]["country_or_domain_region"].astype(str).to_numpy() == "U.S.-to-40N"
+    first_positive = np.flatnonzero((counts[:, us_mask] > 0).any(axis=1))
+    if len(first_positive):
+        first_local = int(first_positive[0])
+        focus = (lat >= 20.0) & (lat < 41.0) & (lon >= -125.0) & (lon <= -95.0)
+        for local_t in sorted(set([max(0, first_local - 1), first_local, min(len(TERMINAL_INDICES) - 1, first_local + 1)])):
+            global_t = TERMINAL_INDICES[local_t]
+            week = str(data["weeks"]["iso_week"].iloc[global_t])
+            save_map(f"us_northern_mexico_probability_{week}.svg", f"Task 2G U.S./northern Mexico probability — {week}", p[local_t], counts[local_t] > 0, focus)
     return generated
 
 
