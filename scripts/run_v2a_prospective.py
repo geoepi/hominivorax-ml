@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import html
 import json
 import math
 import shutil
@@ -105,7 +106,7 @@ def week_range(start: str, end: str) -> list[str]:
 
 def week_end_timestamp(week: str) -> str:
     end = iso_date(week) + timedelta(days=6, hours=23, minutes=59, seconds=59)
-    return end.replace(tzinfo=timezone.utc).isoformat(timespec="seconds")
+    return datetime.combine(end, datetime.max.time(), tzinfo=timezone.utc).isoformat(timespec="seconds")
 
 
 def require_frozen_model(output: Path) -> tuple[dict[str, Any], dict[str, Any], str, str]:
@@ -323,6 +324,8 @@ def source_observations(path: Path, forecast_week: str, node_count: int) -> tupl
         raw = raw.rename(columns={"node_id": "model_node_id"})
     if "model_node_id" not in raw.columns:
         raise RuntimeError("score mode requires a node-assigned observation parquet with model_node_id; raw lon/lat CSVs require an upstream audited assignment step")
+    if "revised_domain_membership" in raw.columns:
+        raw = raw.loc[raw["revised_domain_membership"].astype(bool)].copy()
     if "iso_week" in raw.columns:
         raw["week"] = raw["iso_week"].astype(str)
     elif "week" not in raw.columns and "date" in raw.columns:
@@ -335,8 +338,6 @@ def source_observations(path: Path, forecast_week: str, node_count: int) -> tupl
     raw["model_node_id"] = pd.to_numeric(raw["model_node_id"], errors="coerce")
     if raw["model_node_id"].isna().any() or (raw["model_node_id"] < 0).any() or (raw["model_node_id"] >= node_count).any():
         raise RuntimeError("observation node assignment is invalid")
-    if "revised_domain_membership" in raw.columns:
-        raw = raw.loc[raw["revised_domain_membership"].astype(bool)].copy()
     count_column = "observed_count" if "observed_count" in raw.columns else "count" if "count" in raw.columns else None
     if count_column is None:
         raw["event_count"] = 1
@@ -360,6 +361,9 @@ def source_observations(path: Path, forecast_week: str, node_count: int) -> tupl
         "file_mtime_utc": datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc).isoformat(timespec="seconds"),
         "ingestion_timestamp_utc": utc_now(),
         "forecast_week": forecast_week,
+        "forecast_week_event_rows": int((raw["week"] == forecast_week).sum()),
+        "forecast_week_mexico_rows": int(((raw["week"] == forecast_week) & raw.get("country_code", pd.Series("", index=raw.index)).astype(str).str.upper().isin(["MX", "MEXICO"])).sum()),
+        "forecast_week_us_rows": int(((raw["week"] == forecast_week) & raw.get("country_code", pd.Series("", index=raw.index)).astype(str).str.upper().isin(["US", "USA", "UNITED STATES"])).sum()),
     }
     return grouped, metadata
 
@@ -415,25 +419,40 @@ def score_frame(predictions: pd.DataFrame, outcomes: pd.DataFrame, history: pd.D
 
 
 def write_map(frame: pd.DataFrame, path: Path, title: str, observed: np.ndarray | None = None) -> None:
-    try:
-        import matplotlib.pyplot as plt
-    except Exception as exc:  # pragma: no cover - environment-specific fallback
-        write_json(Path(str(path) + ".unavailable.json"), {"status": "map_unavailable", "error": str(exc)})
-        return
-    fig, ax = plt.subplots(figsize=(10, 7))
-    points = ax.scatter(frame["lon"], frame["lat"], c=frame["predicted_probability"], s=3, cmap="viridis", vmin=0, vmax=1)
-    if observed is not None and np.any(observed > 0):
-        sub = frame.loc[observed > 0]
-        ax.scatter(sub["lon"], sub["lat"], facecolors="none", edgecolors="red", s=20, linewidths=0.7, label="recorded positive")
-        ax.legend(loc="upper left")
-    ax.set_title(title)
-    ax.set_xlabel("longitude")
-    ax.set_ylabel("latitude")
-    fig.colorbar(points, ax=ax, label="predicted recorded-detection probability")
-    fig.tight_layout()
+    """Write a dependency-light SVG map with a common 0--1 probability scale."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(path, format="svg")
-    plt.close(fig)
+    lon = frame["lon"].to_numpy(float)
+    lat = frame["lat"].to_numpy(float)
+    probability = np.clip(frame["predicted_probability"].to_numpy(float), 0.0, 1.0)
+    left, right = float(np.nanmin(lon)), float(np.nanmax(lon))
+    bottom, top = float(np.nanmin(lat)), float(np.nanmax(lat))
+    lon_span = max(right - left, 1e-9)
+    lat_span = max(top - bottom, 1e-9)
+    width, height, margin = 1000, 700, 40
+    x = margin + (lon - left) / lon_span * (width - 2 * margin)
+    y = height - margin - (lat - bottom) / lat_span * (height - 2 * margin)
+    lines = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
+        f'<title>{html.escape(title)}</title>',
+        '<rect width="100%" height="100%" fill="white"/>',
+        f'<text x="{margin}" y="24" font-family="sans-serif" font-size="16">{html.escape(title)}</text>',
+        f'<rect x="{margin}" y="{margin}" width="{width-2*margin}" height="{height-2*margin}" fill="#f4f7fb" stroke="#9aa7b5"/>',
+    ]
+    for xi, yi, value in zip(x, y, probability):
+        red = int(round(255 * value))
+        blue = int(round(255 * (1.0 - value)))
+        green = int(round(90 + 90 * (1.0 - value)))
+        lines.append(f'<circle cx="{xi:.2f}" cy="{yi:.2f}" r="1.8" fill="rgb({red},{green},{blue})" fill-opacity="0.72"/>')
+    if observed is not None and np.any(observed > 0):
+        mask = np.asarray(observed, dtype=int) > 0
+        for xi, yi in zip(x[mask], y[mask]):
+            lines.append(f'<circle cx="{xi:.2f}" cy="{yi:.2f}" r="4.0" fill="none" stroke="#d62728" stroke-width="1.2"/>')
+    lines.extend([
+        f'<text x="{margin}" y="{height-12}" font-family="sans-serif" font-size="11">longitude {left:.2f} to {right:.2f}; latitude {bottom:.2f} to {top:.2f}</text>',
+        '<text x="820" y="50" font-family="sans-serif" font-size="11">blue: low p; red: high p</text>',
+        '</svg>',
+    ])
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def run_forecast(args: argparse.Namespace) -> dict[str, Any]:
@@ -489,6 +508,36 @@ def append_source_history(output: Path, metadata: dict[str, Any], eligible: bool
     row["status"] = "prospective_eligible" if eligible else "historical_backfill"
     row["prospective_eligible_rows"] = int(eligible)
     append_unique_csv(path, row, ["sha256"])
+
+
+def write_source_refresh_report(output: Path, metadata: dict[str, Any], eligible: bool, test_root: Path) -> None:
+    """Persist a source-refresh audit before outcome scoring begins."""
+    history_path = output / "manifests" / "source_history_manifest.csv"
+    previous_sha = None
+    previous_rows = None
+    if history_path.exists():
+        history = pd.read_csv(history_path)
+        if len(history):
+            previous_sha = str(history.iloc[-1].get("sha256"))
+            previous_rows = int(history.iloc[-1].get("row_count", 0))
+    payload = {
+        "previous_sha256": previous_sha,
+        "new_sha256": metadata["sha256"],
+        "row_count": int(metadata["row_count"]),
+        "row_count_change": None if previous_rows is None else int(metadata["row_count"]) - previous_rows,
+        "new_event_dates": [metadata["forecast_week"]] if int(metadata.get("forecast_week_event_rows", 0)) else [],
+        "forecast_week": metadata["forecast_week"],
+        "forecast_week_event_rows": int(metadata.get("forecast_week_event_rows", 0)),
+        "new_mexico_records": int(metadata.get("forecast_week_mexico_rows", 0)),
+        "new_us_records": int(metadata.get("forecast_week_us_rows", 0)),
+        "historical_backfill_rows": int(metadata["row_count"]) if not eligible else 0,
+        "prospective_eligible_records": int(metadata.get("forecast_week_event_rows", 0)) if eligible else 0,
+        "source_available_timestamp_utc": metadata.get("file_mtime_utc"),
+        "audit_timestamp_utc": utc_now(),
+        "prospective_eligible": bool(eligible),
+        "limitation": "No explicit report-ingestion timestamp was available; file mtime/model-run chronology is used conservatively.",
+    }
+    write_json(test_root / "manifests" / f"source_refresh_{metadata['forecast_week']}.json", payload)
 
 
 def write_diagnostics(output: Path, merged: pd.DataFrame, metadata: dict[str, Any], eligible: bool, test_root: Path) -> None:
@@ -585,9 +634,10 @@ def run_score(args: argparse.Namespace) -> dict[str, Any]:
         regional_rows.append(reg)
     for reg in regional_rows:
         append_unique_csv(root / "scores" / "prospective_regional_scores.csv", {key: value for key, value in reg.items() if not isinstance(value, (dict, list, np.ndarray))}, ["scope", "forecast_week", "region"])
+    write_source_refresh_report(args.output, metadata, eligible, root)
     write_diagnostics(args.output, merged, metadata, eligible, root)
     ledger_columns = [
-        "forecast_week", "forecast_issue_timestamp_utc", "outcome_ingestion_timestamp_utc", "prospective_eligible", "model_node_id", "canonical_node_id", "region", "predicted_probability", "predicted_conditional_positive_mean", "predicted_underlying_mu", "predicted_unconditional_mean", "observed_presence", "observed_count", "first_ever_positive_flag", "previously_positive_flag", "occurrence_nll_contribution", "joint_nll_contribution", "positive_count_absolute_error", "positive_count_squared_error", "distance_to_any_prior_positive_km", "distance_to_prev4_positive_km", "weeks_since_detection_within_50km", "percentile_rank_region", "percentile_rank_full_domain",
+        "forecast_week", "forecast_issue_timestamp_utc", "outcome_ingestion_timestamp_utc", "prospective_eligible", "historical_backfill", "source_sha256", "model_node_id", "canonical_node_id", "region", "predicted_probability", "predicted_conditional_positive_mean", "predicted_underlying_mu", "predicted_unconditional_mean", "observed_presence", "observed_count", "first_ever_positive_flag", "previously_positive_flag", "occurrence_nll_contribution", "joint_nll_contribution", "positive_count_absolute_error", "positive_count_squared_error", "distance_to_any_prior_positive_km", "distance_to_prev4_positive_km", "weeks_since_detection_within_50km", "percentile_rank_region", "percentile_rank_full_domain",
     ]
     ledger_rows = merged[ledger_columns].copy()
     ledger_path = root / "prospective_evaluation_ledger.parquet"
@@ -643,7 +693,7 @@ def run_score(args: argparse.Namespace) -> dict[str, Any]:
             if not ((prior_history["week"].astype(str) == args.forecast_week).any()):
                 pd.concat([prior_history, new_positive], ignore_index=True).drop_duplicates(["week", "model_node_id"]).sort_values(["week", "model_node_id"]).to_parquet(args.output / "state" / "recorded_detection_history.parquet", index=False)
         update_status(args.output)
-        write_map(predictions, args.output / "maps" / f"forecast_{args.forecast_week}_scored.svg", f"{MODEL_ID} forecast {args.forecast_week} — scored", merged["observed_count"].to_numpy(int))
+        write_map(predictions, root / "maps" / f"forecast_{args.forecast_week}_scored.svg", f"{MODEL_ID} forecast {args.forecast_week} — scored", merged["observed_count"].to_numpy(int))
     print(json.dumps({"status": "scored", "forecast_week": args.forecast_week, "prospective_eligible": eligible, "historical_backfill": historical_backfill, "observed_positive_node_weeks": int(merged["observed_presence"].sum()), "score_path": str(score_path)}, indent=2))
     return {"metrics": metrics, "eligible": eligible}
 

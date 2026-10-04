@@ -99,7 +99,7 @@ def source_metadata() -> dict[str, Any]:
     source = pd.read_csv(SOURCE_PATH, usecols=["date"])
     dates = pd.to_datetime(source["date"], errors="coerce")
     return {
-        "file_path": str(SOURCE_PATH),
+        "source_path": str(SOURCE_PATH),
         "sha256": sha256_file(SOURCE_PATH),
         "row_count": int(len(source)),
         "minimum_date": str(dates.min().date()),
@@ -172,6 +172,7 @@ def initialize_registry(output: Path, model_manifest_sha: str, input_manifest_sh
         pd.DataFrame(columns=[
             "forecast_week", "forecast_issue_timestamp_utc", "outcome_ingestion_timestamp_utc",
             "prospective_eligible", "model_node_id", "canonical_node_id", "region",
+            "historical_backfill", "source_sha256",
             "predicted_probability", "predicted_conditional_positive_mean", "predicted_unconditional_mean",
             "predicted_underlying_mu",
             "observed_presence", "observed_count", "first_ever_positive_flag", "previously_positive_flag",
