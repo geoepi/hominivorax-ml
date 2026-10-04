@@ -49,13 +49,12 @@ def main() -> None:
     v1 = pd.read_csv(output / "metrics" / "v1_reproduction.csv")
     ranks = pd.read_csv(output / "metrics" / "new_cell_ranking_summary.csv")
     selected = pd.read_csv(output / "metrics" / "selected_penalty_metrics.csv")
+    prior_jobs = [value.strip() for value in args.prior_jobs.split(",") if value.strip()]
     manifest.update({
         "git_sha": git_sha(repo),
         "finalized_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "slurm_jobs": {
-            "initial_source_contract_failure": "20844276",
-            "cancelled_preflight_diagnostic": "20844278",
-            "initial_batch_nonconvergence": "20844279",
+            "prior_attempts": prior_jobs,
             "completed_v2a_cpu_workflow": str(args.job_id),
         },
         "finalization_status": "complete_after_metric_and_schema_review",
