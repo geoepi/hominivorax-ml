@@ -44,7 +44,7 @@ def main() -> None:
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
     assert manifest["git_sha"] == head, (manifest["git_sha"], head)
     assert manifest["branch"] == "feature/v2-front-hurdle"
-    assert manifest["source_observation_sha"] == SOURCE_SHA
+    assert manifest["source_observation_sha256"] == SOURCE_SHA
     assert manifest["predictive_models_outside_v2a_fitted"] is False
     assert manifest["neural_models_fitted"] is False
     assert manifest["optimizer_settings"]["method"] == "L-BFGS-B"
