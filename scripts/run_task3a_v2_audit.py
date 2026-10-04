@@ -735,7 +735,7 @@ def build_background_design(data: dict[str, Any], histories: dict[str, Any]) -> 
     return sample_frame, pd.DataFrame(summary), pd.DataFrame(weekly)
 
 
-def build_transition_figures(output: Path, weekly: pd.DataFrame, histories: dict[str, Any], front: dict[str, Any], transitions: pd.DataFrame) -> None:
+def build_transition_figures(output: Path, weekly: pd.DataFrame, histories: dict[str, Any], front: dict[str, Any], transitions: pd.DataFrame, background_samples: pd.DataFrame) -> None:
     figures = output / "figures"
     figures.mkdir(parents=True, exist_ok=True)
 
@@ -801,8 +801,30 @@ def build_transition_figures(output: Path, weekly: pd.DataFrame, histories: dict
     chart(transition_path, "Subsequent positivity by time since nearby detection (50 km)", [(str(h), subset.loc[subset["horizon_weeks"] == h, "subsequent_positive_probability"].to_numpy(float)) for h in (1, 4, 13)], "probability")
 
     bg_path = figures / "08_presence_background_candidate_coverage.svg"
-    base = weekly[["week_index", "week", "positive_nodes"]].copy()
-    chart(bg_path, "Positive-node temporal coverage used by background designs", [("positive nodes", base["positive_nodes"].to_numpy(float))], "node-weeks")
+    coverage = background_samples.loc[
+        (background_samples["scheme"] == "C_temporally_matched_region_latitude_nonpositive")
+    ].copy()
+    positives = coverage.loc[coverage["class"] == "positive"]
+    backgrounds = coverage.loc[coverage["class"] == "background"].sample(
+        n=min(5000, int((coverage["class"] == "background").sum())),
+        random_state=RNG_SEED,
+    )
+    all_points = pd.concat([positives[["lon", "lat"]], backgrounds[["lon", "lat"]]], ignore_index=True)
+    xmin, xmax = all_points["lon"].min(), all_points["lon"].max()
+    ymin, ymax = all_points["lat"].min(), all_points["lat"].max()
+    point_svg = []
+    for row in backgrounds.itertuples(index=False):
+        px = 40 + 1020 * (row.lon - xmin) / (xmax - xmin)
+        py = 560 - 500 * (row.lat - ymin) / (ymax - ymin)
+        point_svg.append(f'<circle cx="{px:.2f}" cy="{py:.2f}" r="1.0" fill="#4393c3" fill-opacity="0.20"/>')
+    for row in positives.itertuples(index=False):
+        px = 40 + 1020 * (row.lon - xmin) / (xmax - xmin)
+        py = 560 - 500 * (row.lat - ymin) / (ymax - ymin)
+        point_svg.append(f'<circle cx="{px:.2f}" cy="{py:.2f}" r="1.8" fill="#b2182b" fill-opacity="0.55"/>')
+    bg_path.write_text(
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620"><rect width="100%" height="100%" fill="white"/><text x="40" y="25" font-size="20">Presence/background candidate geographic coverage (scheme C)</text><text x="40" y="48" font-size="13" fill="#b2182b">positive node-weeks</text><text x="170" y="48" font-size="13" fill="#4393c3">sampled background</text>{"".join(point_svg)}</svg>',
+        encoding="utf-8",
+    )
 
 
 def build_proxy_inventory() -> pd.DataFrame:
@@ -883,7 +905,7 @@ def main() -> None:
     write_csv(args.output / "tables" / "reporting_proxy_inventory.csv", proxies)
     write_csv(args.output / "tables" / "v2_model_family_comparison.csv", families)
     write_csv(args.output / "tables" / "validation_strategy_comparison.csv", validation)
-    build_transition_figures(args.output, front["weekly"], histories, {**front, "nodes": data["nodes"]}, time_since)
+    build_transition_figures(args.output, front["weekly"], histories, {**front, "nodes": data["nodes"]}, time_since, backgrounds)
 
     manifest = {
         "status": "task3a_v2_audit_complete_no_predictive_fit",
