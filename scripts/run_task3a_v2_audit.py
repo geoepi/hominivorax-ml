@@ -393,7 +393,7 @@ def build_front_audit(data: dict[str, Any], histories: dict[str, Any]) -> dict[s
         new = current[~np.isin(current, prior_ever)]
         if prior_tree is not None and len(new):
             distance_any, nearest_any = prior_tree.query(xy[new], k=1)
-            distance_any = np.asarray(distance_any) / 1000.0
+            distance_any = np.asarray(distance_any)
             nearest_any = prior_ever[np.asarray(nearest_any, dtype=int)]
             first_distance_rows.extend({
                 "week": weeks.iloc[w]["week"],
@@ -408,7 +408,7 @@ def build_front_audit(data: dict[str, Any], histories: dict[str, Any]) -> dict[s
             } for node_id, distance, nearest in zip(new, distance_any, nearest_any))
         else:
             distance_any = np.full(len(new), np.nan)
-        previous_distance = previous_tree.query(current_xy, k=1)[0] / 1000.0 if previous_tree is not None and len(current) else np.array([])
+        previous_distance = previous_tree.query(current_xy, k=1)[0] if previous_tree is not None and len(current) else np.array([])
         centroid = current_xy.mean(axis=0) if len(current) else None
         centroid_delta = centroid - previous_centroid if centroid is not None and previous_centroid is not None else None
         current_angle, current_axis = principal_axis(current_xy)
