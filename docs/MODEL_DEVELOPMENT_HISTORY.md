@@ -13,6 +13,8 @@ terminal holdout is not used for model selection.
 | 2F | Structured spatial and antecedent augmentations | HOLD / AMBIGUOUS | Augmented models improved average temporal and spatial summaries, but no candidate met every worst-fold and consistency guardrail. Current hurdle remains preferred. |
 | 2G | Frozen Hurdle-Current terminal evaluation | PARTIAL GENERALIZATION | Full-domain and Mexico discrimination/Brier skill remain positive, but joint NLL and calibration deteriorate; U.S. transfer is WEAK / AMBIGUOUS. Primary remains Hurdle-Current. |
 | 3A | V1 closure and V2 observation/front audit | V1 FROZEN; V2 AUDIT COMPLETE | Observation zeros are strongly structured by prior reporting proximity; causal front states are audit-only. V2-A is recommended next subject to estimand review; V2-D is not identifiable from current data. No V2 predictive model was fit. |
+| 3B | V2-A causal front-state hurdle development | V2-A ADVANCES | M1 with 30 predictors and penalty 0.01 improved aggregate historical development performance and first-ever-positive localization; the latitude ablation was REDUNDANT. Folds 5–6 remain historical pseudo-prospective and non-independent. |
+| 3C | V2-A frozen development fit and prospective harness | HARNESS READY — AWAITING FUTURE DATA | STGNN-Hurdle-V2A is frozen on 2026-10-03. No post-freeze outcomes were available for independent scoring; forecasts, outcome ingestion, scoring, ledgers, and backfill safeguards are operational. |
 
 Task 2F retains the following decisions for subsequent work:
 
@@ -25,4 +27,3 @@ Task 3A initiates a distinct V2 design cycle. Its observation-process and
 moving-front diagnostics are descriptive and audit-only. No V2 production
 likelihood, response estimand, front-state definition, or future validation
 design is authorized by this history entry.
-| 3B | V2-A causal front-state hurdle development | V2-A ADVANCES | Historical rolling-origin development; latitude ablation LATITUDE REDUNDANT; no unseen V2 test. |
