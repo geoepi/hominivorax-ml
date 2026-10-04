@@ -94,3 +94,23 @@ def test_manifest_marks_audit_only_and_no_predictive_fit():
     assert manifest["no_v2_predictive_model_fitted"] is True
     assert "AUDIT ONLY" in manifest["front_state_status"]
     assert manifest["former_terminal_status"] == "historical_evaluated_data"
+
+
+def test_persisted_front_state_and_long_jump_schema():
+    output = Path("/project/disease_ecology/STGNN-output/v2_audit")
+    states_path = output / "front_states" / "front_state_node_week.parquet"
+    long_jump_path = output / "front_states" / "first_positive_distance_summary.csv"
+    if not states_path.exists() or not long_jump_path.exists():
+        return
+    states = pd.read_parquet(states_path)
+    assert len(states) == 133 * 10037
+    assert states["node_id"].nunique() == 10037
+    assert states["week"].nunique() == 133
+    assert states[["week_index", "node_id"]].duplicated().sum() == 0
+    assert {"distance_to_any_prior_detection_km", "distance_to_previous4_detection_km", "distance_to_previous13_detection_km"}.issubset(states.columns)
+    long_jump = pd.read_csv(long_jump_path)
+    assert set(long_jump["metric"]) >= {
+        "distance_to_nearest_any_prior_km",
+        "distance_to_nearest_previous4_km",
+        "distance_to_nearest_previous13_km",
+    }
