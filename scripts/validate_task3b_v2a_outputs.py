@@ -101,8 +101,8 @@ def main() -> None:
         assert cutoff == expected_cutoff, (week, cutoff, expected_cutoff)
 
     reproduction = pd.read_csv(OUTPUT / "metrics/v1_reproduction.csv")
-    assert reproduction["joint_nll_abs_diff"].max() <= 1e-3
-    assert reproduction["brier_skill_abs_diff"].max() <= 1e-3
+    assert reproduction["joint_nll_abs_difference"].max() <= 1e-3
+    assert reproduction["brier_skill_abs_difference"].max() <= 1e-3
 
     checksums = pd.read_csv(OUTPUT / "manifests/task3b_v2a_checksums.csv")
     assert len(checksums) > 0
