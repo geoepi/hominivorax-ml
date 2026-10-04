@@ -58,7 +58,7 @@ def main() -> None:
 
     predictions = pd.read_parquet(OUTPUT / "validation/validation_predictions.parquet")
     expected = {
-        "model", "fold", "week", "node_id", "observed_presence", "observed_count",
+        "model", "fold", "week", "model_node_id", "canonical_node_id", "observed_presence", "observed_count",
         "first_ever_positive_flag", "previously_positive_flag", "predicted_probability",
         "predicted_conditional_mean", "predicted_unconditional_mean",
     }
