@@ -154,6 +154,7 @@ def test_production_registry_and_status_are_initially_awaiting_data():
     assert registry_frame.empty
     status_json = status.read_text(encoding="utf-8")
     assert "HARNESS READY" in status_json
+    assert "AWAITING ELIGIBLE NOWCAST WINDOW" in status_json or "AWAITING FUTURE DATA" in status_json
     ledger = OUTPUT / "prospective_evaluation_ledger.parquet"
     if ledger.exists():
         assert {"historical_backfill", "source_sha256"}.issubset(pd.read_parquet(ledger).columns)

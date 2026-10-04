@@ -43,6 +43,14 @@ LATITUDE_BANDS = [
     ("30_35N", 30.0, 35.0),
     ("35_40N", 35.0, 40.0),
 ]
+ELIGIBILITY_STATES = {
+    "prospective_eligible",
+    "retrospective_only",
+    "environment_not_available",
+    "outcome_already_available",
+    "availability_uncertain",
+}
+OUTCOME_MATURITY = {"provisional", "mature"}
 
 
 def utc_now() -> str:
@@ -109,6 +117,29 @@ def week_end_timestamp(week: str) -> str:
     return datetime.combine(end, datetime.max.time(), tzinfo=timezone.utc).isoformat(timespec="seconds")
 
 
+def timestamp_or_none(value: Any) -> str | None:
+    if value is None or str(value).strip().lower() in {"", "none", "nan", "nat", "unknown"}:
+        return None
+    return parse_timestamp(str(value)).isoformat(timespec="seconds")
+
+
+def week_start_timestamp(week: str) -> str:
+    return datetime.combine(iso_date(week), datetime.min.time(), tzinfo=timezone.utc).isoformat(timespec="seconds")
+
+
+def score_version(value: Any) -> int:
+    version = int(value)
+    if version < 1:
+        raise ValueError("score version must be a positive integer")
+    return version
+
+
+def effective_history_mode(args: argparse.Namespace) -> str:
+    if args.history_mode:
+        return args.history_mode
+    return "event_causal" if args.test_mode else "availability_causal"
+
+
 def require_frozen_model(output: Path) -> tuple[dict[str, Any], dict[str, Any], str, str]:
     manifest_path = output / "manifests" / "v2a_frozen_specification_manifest.json"
     checksum_path = Path(str(manifest_path) + ".sha256")
@@ -158,6 +189,168 @@ def load_predictor_bundle(bundle: Path) -> dict[str, Any]:
     return {"bundle": bundle, "dynamic": dynamic, "static": static, "calendar": calendar, "weeks": labels, "nodes": nodes}
 
 
+def ensure_status_fields(output: Path) -> dict[str, Any]:
+    path = output / "prospective_status.json"
+    status = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    status.setdefault("model_id", MODEL_ID)
+    status.setdefault("operational_mode", "delayed_prospective_nowcast")
+    status.setdefault("environment_latency_status", "uncertain")
+    status.setdefault("observation_latency_status", "uncertain")
+    status.setdefault("latest_eligible_nowcast_week", None)
+    status.setdefault("genuine_prospective_forecasts", 0)
+    status.setdefault("genuine_prospective_scored_weeks", 0)
+    status.setdefault("latest_score_version", None)
+    status.setdefault("evaluation_status", "HARNESS READY — AWAITING ELIGIBLE NOWCAST WINDOW")
+    write_json(path, status)
+    return status
+
+
+def source_history_schema() -> list[str]:
+    return [
+        "source_path", "sha256", "row_count", "first_seen_timestamp", "file_timestamp",
+        "minimum_date", "maximum_date", "new_rows", "new_current_week_rows",
+        "historical_backfill_rows", "source_status",
+    ]
+
+
+def ensure_source_history(output: Path, root: Path) -> pd.DataFrame:
+    path = root / "source_history" / "observation_source_history.parquet"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists():
+        frame = pd.read_parquet(path)
+    else:
+        legacy = output / "manifests" / "source_history_manifest.csv"
+        rows = []
+        if legacy.exists():
+            old = pd.read_csv(legacy)
+            for _, row in old.iterrows():
+                file_timestamp = row.get("file_timestamp", row.get("file_mtime_utc"))
+                rows.append({
+                    "source_path": row.get("source_path", row.get("file_path")),
+                    "sha256": row.get("sha256"),
+                    "row_count": row.get("row_count"),
+                    "first_seen_timestamp": file_timestamp,
+                    "file_timestamp": file_timestamp,
+                    "minimum_date": row.get("minimum_date"),
+                    "maximum_date": row.get("maximum_date"),
+                    "new_rows": 0,
+                    "new_current_week_rows": 0,
+                    "historical_backfill_rows": 0,
+                    "source_status": row.get("status", "historical_initialization_not_prospective"),
+                })
+        frame = pd.DataFrame(rows, columns=source_history_schema())
+        frame.to_parquet(path, index=False)
+    for column in source_history_schema():
+        if column not in frame.columns:
+            frame[column] = 0 if column in {"new_rows", "new_current_week_rows", "historical_backfill_rows"} else None
+    return frame[source_history_schema()].sort_values(["first_seen_timestamp", "sha256"], na_position="last").reset_index(drop=True)
+
+
+def bundle_inventory(predictor: dict[str, Any], forecast_week: str, environment_timestamp: str | None, availability_status: str) -> tuple[pd.DataFrame, dict[str, Any]]:
+    raw = predictor["bundle"] / "raw"
+    files = [raw / name for name in ["dynamic_features.npy", "static_features.npy", "calendar_features.parquet", "weeks.parquet", "nodes.parquet"]]
+    if not all(path.exists() for path in files):
+        raise RuntimeError("environment bundle files are incomplete")
+    file_hashes = [f"{path.name}:{sha256_file(path)}" for path in files]
+    bundle_sha = hashlib.sha256("|".join(file_hashes).encode("utf-8")).hexdigest()
+    file_timestamp = max(datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc) for path in files).isoformat(timespec="seconds")
+    complete = 12 if predictor["dynamic"].shape[2] == 12 else int(predictor["dynamic"].shape[2])
+    rows = []
+    verified_timestamp = timestamp_or_none(environment_timestamp) if availability_status == "verified" else None
+    for week in predictor["weeks"]:
+        is_target = str(week) == str(forecast_week)
+        status = "verified" if is_target and verified_timestamp else "availability_uncertain"
+        first_verified = verified_timestamp if is_target else None
+        lag = None
+        if first_verified:
+            lag = (parse_timestamp(first_verified) - parse_timestamp(week_end_timestamp(str(week)))).total_seconds() / 86400.0
+        rows.append({
+            "represented_week": str(week),
+            "bundle_path": str(predictor["bundle"]),
+            "bundle_sha256": bundle_sha,
+            "file_modification_timestamp": file_timestamp,
+            "first_verified_available_timestamp": first_verified,
+            "complete_predictor_count": complete,
+            "availability_status": status,
+            "availability_lag_days": lag,
+            "ready_for_nowcast": bool(complete == 12 and status == "verified" and first_verified),
+        })
+    return pd.DataFrame(rows), {"bundle_sha256": bundle_sha, "file_timestamp": file_timestamp, "complete_predictor_count": complete}
+
+
+def ensure_environment_history(output: Path, root: Path, predictor: dict[str, Any], forecast_week: str, environment_timestamp: str | None, availability_status: str) -> pd.DataFrame:
+    path = root / "availability" / "environment_bundle_history.parquet"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fresh, _ = bundle_inventory(predictor, forecast_week, environment_timestamp, availability_status)
+    if path.exists():
+        existing = pd.read_parquet(path)
+        fresh = pd.concat([existing, fresh], ignore_index=True)
+        fresh = fresh.sort_values(["represented_week", "first_verified_available_timestamp"], na_position="last").drop_duplicates("represented_week", keep="last")
+    fresh.to_parquet(path, index=False)
+    verified = fresh.loc[fresh["availability_status"].eq("verified") & fresh["availability_lag_days"].notna(), "availability_lag_days"].astype(float)
+    summary = {
+        "n_verified_bundles": int(len(verified)),
+        "median_days": None if len(verified) == 0 else float(verified.median()),
+        "minimum_days": None if len(verified) == 0 else float(verified.min()),
+        "maximum_days": None if len(verified) == 0 else float(verified.max()),
+        "iqr_days": None if len(verified) == 0 else float(verified.quantile(0.75) - verified.quantile(0.25)),
+        "initial_expectation_days": "approximately 7–14 days; measured rather than imposed",
+    }
+    write_json(root / "availability" / "environment_latency_summary.json", summary)
+    return fresh
+
+
+def source_week_series(path: Path) -> pd.Series:
+    if path.suffix.lower() == ".parquet":
+        columns = pd.read_parquet(path, engine="pyarrow").columns.tolist()
+        use = [column for column in ["iso_week", "week", "date"] if column in columns]
+        raw = pd.read_parquet(path, columns=use)
+    else:
+        raw = pd.read_csv(path)
+    if "iso_week" in raw.columns:
+        return raw["iso_week"].astype(str)
+    if "week" in raw.columns:
+        return raw["week"].astype(str)
+    if "date" in raw.columns:
+        dates = pd.to_datetime(raw["date"], errors="coerce")
+        if dates.isna().any():
+            raise RuntimeError("observation dates contain invalid values")
+        iso = dates.dt.isocalendar()
+        return iso.year.astype(str) + "-W" + iso.week.astype(str).str.zfill(2)
+    raise RuntimeError("observation source lacks iso_week/week/date")
+
+
+def source_metadata_for_readiness(path: Path, forecast_week: str, available_timestamp: str | None) -> dict[str, Any]:
+    if not path.exists():
+        return {"source_path": str(path), "exists": False, "available_timestamp": None, "contains_forecast_week": False}
+    weeks = source_week_series(path)
+    stat = path.stat()
+    file_timestamp = datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc).isoformat(timespec="seconds")
+    available = timestamp_or_none(available_timestamp) or file_timestamp
+    return {
+        "source_path": str(path),
+        "exists": True,
+        "sha256": sha256_file(path),
+        "row_count": int(len(weeks)),
+        "minimum_week": str(weeks.min()),
+        "maximum_week": str(weeks.max()),
+        "file_timestamp": file_timestamp,
+        "first_seen_timestamp": available,
+        "contains_forecast_week": bool((weeks == forecast_week).any()),
+        "forecast_week_rows": int((weeks == forecast_week).sum()),
+    }
+
+
+def resolve_observation_source(output: Path, root: Path, requested: Path | None) -> Path | None:
+    if requested is not None:
+        return requested
+    history = ensure_source_history(output, root)
+    if len(history):
+        candidate = Path(str(history.iloc[-1]["source_path"]))
+        return candidate if candidate.exists() else None
+    return None
+
+
 def load_history(output: Path) -> pd.DataFrame:
     path = output / "state" / "recorded_detection_history.parquet"
     if not path.exists():
@@ -169,17 +362,40 @@ def load_history(output: Path) -> pd.DataFrame:
     history["week"] = history["week"].astype(str)
     history["model_node_id"] = history["model_node_id"].astype(int)
     history["observed_count"] = history["observed_count"].astype(int)
+    if "first_available_timestamp" not in history.columns:
+        source_history = ensure_source_history(output, output)
+        fallback = None if len(source_history) == 0 else source_history.iloc[0]["first_seen_timestamp"]
+        history["first_available_timestamp"] = fallback
+    history["first_available_timestamp"] = history["first_available_timestamp"].map(timestamp_or_none)
     if history[["week", "model_node_id"]].duplicated().any() or (history["observed_count"] <= 0).any():
         raise RuntimeError("recorded-detection history contains invalid or duplicate positive rows")
     return history.sort_values(["week", "model_node_id"]).reset_index(drop=True)
 
 
-def front_state_for_week(history: pd.DataFrame, forecast_week: str, nodes: pd.DataFrame) -> dict[str, np.ndarray | str | float]:
+def history_visible_at_issue(history: pd.DataFrame, forecast_week: str, issue_timestamp: str, history_mode: str) -> pd.DataFrame:
+    visible = history.loc[history["week"] < forecast_week].copy()
+    if history_mode == "availability_causal":
+        issue = parse_timestamp(issue_timestamp)
+        available = pd.to_datetime(visible["first_available_timestamp"], utc=True, errors="coerce")
+        visible = visible.loc[available < issue].copy()
+    elif history_mode != "event_causal":
+        raise RuntimeError(f"unsupported history mode: {history_mode}")
+    return visible
+
+
+def front_state_for_week(history: pd.DataFrame, forecast_week: str, nodes: pd.DataFrame, history_mode: str = "event_causal", issue_timestamp: str | None = None) -> dict[str, np.ndarray | str | float]:
     if forecast_week <= SOURCE_HISTORY_START:
         labels = week_range(SOURCE_HISTORY_START, forecast_week)
     else:
         labels = week_range(SOURCE_HISTORY_START, forecast_week)
-    grouped = history.loc[history["week"].isin(labels) & (history["week"] < forecast_week)].groupby("week")["model_node_id"]
+    eligible_history = history.loc[history["week"].isin(labels) & (history["week"] < forecast_week)].copy()
+    if history_mode == "availability_causal":
+        if issue_timestamp is None:
+            raise RuntimeError("availability-causal history requires an issue timestamp")
+        eligible_history = history_visible_at_issue(eligible_history, forecast_week, issue_timestamp, history_mode)
+    elif history_mode != "event_causal":
+        raise RuntimeError(f"unsupported history mode: {history_mode}")
+    grouped = eligible_history.groupby("week")["model_node_id"]
     positive_sets = [grouped.get_group(label).to_numpy(int) if label in grouped.groups else np.array([], dtype=int) for label in labels]
     positive_sets.append(np.array([], dtype=int))
     labels_with_current = labels + [forecast_week] if labels[-1] != forecast_week else labels
@@ -207,6 +423,8 @@ def front_state_for_week(history: pd.DataFrame, forecast_week: str, nodes: pd.Da
         "prev4_available": prev4_available.astype(np.int8),
         "recency_available": recency_available.astype(np.int8),
         "history_cutoff_week": previous_week(forecast_week),
+        "history_information_cutoff_timestamp": issue_timestamp or "unknown",
+        "history_mode": history_mode,
         "prior_positive_nodes": np.unique(np.concatenate(positive_sets[:-1])) if positive_sets[:-1] else np.array([], dtype=int),
     }
 
@@ -219,12 +437,14 @@ def make_prediction_frame(
     history: pd.DataFrame,
     forecast_week: str,
     issue_timestamp: str,
+    history_mode: str,
+    chronology: dict[str, Any],
 ) -> pd.DataFrame:
     if forecast_week not in predictor["weeks"]:
         raise RuntimeError(f"current-week environmental predictors for {forecast_week} are not available")
     index = predictor["weeks"].index(forecast_week)
     nodes = predictor["nodes"]
-    front = front_state_for_week(history, forecast_week, nodes)
+    front = front_state_for_week(history, forecast_week, nodes, history_mode=history_mode, issue_timestamp=issue_timestamp)
     density = np.log1p(predictor["static"][:, :5])
     indicators = predictor["static"][:, 5:]
     base = np.concatenate([predictor["dynamic"][index], density, indicators, np.broadcast_to(predictor["calendar"][index], (NODE_COUNT, 2))], axis=1)
@@ -250,8 +470,17 @@ def make_prediction_frame(
     frame = pd.DataFrame({
         "forecast_week": forecast_week,
         "forecast_issue_timestamp_utc": issue_timestamp,
+        "environment_bundle_available_timestamp": chronology.get("environment_available_timestamp", "unknown"),
+        "observation_source_available_timestamp": chronology.get("observation_source_available_timestamp", "unknown"),
+        "history_information_cutoff_timestamp": issue_timestamp,
         "history_cutoff_week": front["history_cutoff_week"],
         "history_cutoff_timestamp": week_end_timestamp(front["history_cutoff_week"]),
+        "history_mode": history_mode,
+        "prospective_eligibility": chronology["prospective_eligibility"],
+        "outcome_maturity": "unscored",
+        "score_version": 0,
+        "nowcast_window_open_timestamp": chronology.get("nowcast_window_open_timestamp", "unknown"),
+        "nowcast_window_close_timestamp": chronology.get("nowcast_window_close_timestamp", "unknown"),
         "model_id": MODEL_ID,
         "model_manifest_sha": model_manifest_sha,
         "input_manifest_sha": input_manifest_sha,
@@ -410,7 +639,18 @@ def score_frame(predictions: pd.DataFrame, outcomes: pd.DataFrame, history: pd.D
     conditional = merged["predicted_conditional_positive_mean"].to_numpy(float)
     mu = merged["predicted_underlying_mu"].to_numpy(float)
     joint, count_nll = nb_joint_contributions(y, p, mu, theta)
-    prior_nodes = set(history.loc[history["week"] < str(predictions["forecast_week"].iloc[0]), "model_node_id"].astype(int))
+    forecast_week = str(predictions["forecast_week"].iloc[0])
+    if "history_information_cutoff_timestamp" in predictions.columns:
+        issue_timestamp = str(predictions["history_information_cutoff_timestamp"].iloc[0])
+    elif "forecast_issue_timestamp_utc" in predictions.columns:
+        issue_timestamp = str(predictions["forecast_issue_timestamp_utc"].iloc[0])
+    elif "forecast_issue_timestamp" in predictions.columns:
+        issue_timestamp = str(predictions["forecast_issue_timestamp"].iloc[0])
+    else:
+        raise RuntimeError("forecast artifact is missing its issue timestamp")
+    history_mode = str(predictions.get("history_mode", pd.Series(["event_causal"])).iloc[0])
+    prior_visible = history_visible_at_issue(history, forecast_week, issue_timestamp, history_mode)
+    prior_nodes = set(prior_visible["model_node_id"].astype(int))
     merged["first_ever_positive_flag"] = ((y > 0) & ~merged["model_node_id"].isin(prior_nodes)).astype(np.int8)
     merged["previously_positive_flag"] = ((y > 0) & merged["model_node_id"].isin(prior_nodes)).astype(np.int8)
     merged["region"] = merged["country_or_region"]
@@ -470,50 +710,203 @@ def write_map(frame: pd.DataFrame, path: Path, title: str, observed: np.ndarray 
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def assess_nowcast_chronology(
+    output: Path,
+    root: Path,
+    predictor: dict[str, Any],
+    forecast_week: str,
+    issue_timestamp: str,
+    history_mode: str,
+    environment_timestamp: str | None,
+    environment_status: str,
+    observation_source: Path | None,
+    observation_timestamp: str | None,
+) -> dict[str, Any]:
+    ensure_source_history(output, root)
+    environment_history = ensure_environment_history(output, root, predictor, forecast_week, environment_timestamp, environment_status)
+    environment_row = environment_history.loc[environment_history["represented_week"].astype(str).eq(forecast_week)]
+    environment_available = bool(len(environment_row) and environment_row.iloc[-1]["complete_predictor_count"] == 12)
+    environment_verified = bool(len(environment_row) and environment_row.iloc[-1]["availability_status"] == "verified")
+    environment_available_timestamp = None if not environment_verified else timestamp_or_none(environment_row.iloc[-1]["first_verified_available_timestamp"])
+    source_info = source_metadata_for_readiness(observation_source, forecast_week, observation_timestamp) if observation_source else {"exists": False, "contains_forecast_week": False, "first_seen_timestamp": None}
+    source_available_timestamp = timestamp_or_none(source_info.get("first_seen_timestamp"))
+    issue = parse_timestamp(issue_timestamp)
+    outcome_known_before_issue = bool(
+        source_info.get("exists")
+        and source_info.get("contains_forecast_week")
+        and source_available_timestamp is not None
+        and parse_timestamp(source_available_timestamp) < issue
+    )
+    if not environment_available:
+        state = "environment_not_available"
+        reason = "all 12 represented-week environmental predictors are not available in the predictor bundle"
+    elif outcome_known_before_issue:
+        state = "outcome_already_available"
+        reason = "the observation source already contained the forecast-week event records before forecast issue"
+    elif not environment_verified or environment_available_timestamp is None:
+        state = "availability_uncertain"
+        reason = "environment bundle timing is not verified; file modification time is only a conservative proxy"
+    elif history_mode != "availability_causal":
+        state = "retrospective_only"
+        reason = "production nowcasts require availability_causal front history"
+    else:
+        state = "prospective_eligible"
+        reason = None
+    if state not in ELIGIBILITY_STATES:
+        raise RuntimeError(f"invalid prospective eligibility state: {state}")
+    return {
+        "forecast_week": forecast_week,
+        "prospective_eligibility": state,
+        "reason": reason,
+        "environment_ready": environment_available,
+        "environment_verified": environment_verified,
+        "environment_available_timestamp": environment_available_timestamp or "unknown",
+        "observation_source_available_timestamp": source_available_timestamp or "unknown",
+        "observation_outcome_already_available": outcome_known_before_issue,
+        "history_information_cutoff_timestamp": issue_timestamp,
+        "history_cutoff_week": previous_week(forecast_week),
+        "history_mode": history_mode,
+        "nowcast_window_open_timestamp": environment_available_timestamp or "unknown",
+        "nowcast_window_close_timestamp": source_available_timestamp or "unknown",
+        "source_info": source_info,
+    }
+
+
+def ensure_registry_schema(output: Path) -> pd.DataFrame:
+    path = output / "forecast_registry" / "prospective_forecast_registry.csv"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    columns = [
+        "forecast_week", "environment_available_timestamp", "forecast_issue_timestamp", "history_cutoff",
+        "history_mode", "prediction_path", "prediction_sha", "prediction_sha256", "model_sha256", "input_sha256",
+        "prospective_eligibility", "outcome_first_available_timestamp", "latest_score_version",
+        "outcome_maturity", "outcomes_ingested", "score_status", "test_mode",
+    ]
+    frame = pd.read_csv(path) if path.exists() else pd.DataFrame()
+    for column in columns:
+        if column not in frame.columns:
+            frame[column] = None
+    frame = frame[columns]
+    frame.to_csv(path, index=False)
+    return frame
+
+
+def run_readiness(args: argparse.Namespace) -> dict[str, Any]:
+    manifest, _, model_manifest_sha, frozen_input_sha = require_frozen_model(args.output)
+    predictor = load_predictor_bundle(args.input_bundle or args.model_output)
+    root = args.output / "sandbox" if args.test_mode else args.output
+    issue_timestamp = args.issue_timestamp_utc or utc_now()
+    history_mode = effective_history_mode(args)
+    observation_source = resolve_observation_source(args.output, root, args.observation_source)
+    chronology = assess_nowcast_chronology(
+        args.output, root, predictor, args.forecast_week, issue_timestamp, history_mode,
+        args.environment_available_timestamp_utc, args.environment_availability_status,
+        observation_source, args.source_available_timestamp_utc,
+    )
+    result = {
+        "status": "READY" if chronology["prospective_eligibility"] == "prospective_eligible" else "NOT_READY",
+        "operational_mode": "delayed_prospective_nowcast",
+        "forecast_week": args.forecast_week,
+        "environment_ready": chronology["environment_ready"],
+        "environment_available_timestamp": chronology["environment_available_timestamp"],
+        "observation_source_available_timestamp": chronology["observation_source_available_timestamp"],
+        "observation_outcome_already_available": chronology["observation_outcome_already_available"],
+        "forecast_issue_timestamp": issue_timestamp,
+        "history_information_cutoff_timestamp": issue_timestamp,
+        "history_cutoff_week": chronology["history_cutoff_week"],
+        "history_mode": history_mode,
+        "prospective_eligibility": chronology["prospective_eligibility"],
+        "nowcast_window_open_timestamp": chronology["nowcast_window_open_timestamp"],
+        "nowcast_window_close_timestamp": chronology["nowcast_window_close_timestamp"],
+        "model_manifest_sha": model_manifest_sha,
+        "input_manifest_sha": frozen_input_sha,
+        "reason": chronology["reason"],
+        "test_mode": bool(args.test_mode),
+    }
+    if not args.test_mode:
+        # Keep the production registry schema current even while no eligible
+        # forecast has yet been issued.  Readiness is intentionally read-only
+        # with respect to forecast artifacts, but it may initialize contracts.
+        ensure_registry_schema(args.output)
+        status = ensure_status_fields(args.output)
+        status["operational_mode"] = "delayed_prospective_nowcast"
+        status["environment_latency_status"] = "verified" if chronology["environment_verified"] else "uncertain"
+        status["observation_latency_status"] = "known" if chronology["observation_source_available_timestamp"] != "unknown" else "uncertain"
+        if chronology["prospective_eligibility"] != "prospective_eligible" and status.get("genuine_prospective_forecasts", 0) == 0:
+            status["evaluation_status"] = "HARNESS READY — AWAITING ELIGIBLE NOWCAST WINDOW"
+        write_json(args.output / "prospective_status.json", status)
+    print(json.dumps(result, indent=2))
+    return result
+
+
 def run_forecast(args: argparse.Namespace) -> dict[str, Any]:
     manifest, model, model_manifest_sha, frozen_input_sha = require_frozen_model(args.output)
     predictor = load_predictor_bundle(args.input_bundle or args.model_output)
     history = load_history(args.output)
-    if iso_date(args.forecast_week) <= date.fromisoformat(FREEZE_DATE) and not args.test_mode:
-        raise RuntimeError("historical weeks require --test-mode; production forecasts must be post-freeze")
-    available = args.forecast_week in predictor["weeks"]
+    root = args.output / "sandbox" if args.test_mode else args.output
+    history_mode = effective_history_mode(args)
+    issue_timestamp = args.issue_timestamp_utc or utc_now()
+    observation_source = resolve_observation_source(args.output, root, args.observation_source)
+    chronology = assess_nowcast_chronology(
+        args.output, root, predictor, args.forecast_week, issue_timestamp, history_mode,
+        args.environment_available_timestamp_utc, args.environment_availability_status,
+        observation_source, args.source_available_timestamp_utc,
+    )
+    available = bool(chronology["environment_ready"] and args.forecast_week in predictor["weeks"])
     if args.mode == "dry-run":
         result = {
-            "status": "READY" if available else "NOT_READY",
+            "status": "READY" if chronology["prospective_eligibility"] == "prospective_eligible" else "NOT_READY",
             "forecast_week": args.forecast_week,
             "history_cutoff_week": previous_week(args.forecast_week),
             "predictor_week_available": available,
             "model_manifest_sha": model_manifest_sha,
             "input_manifest_sha": frozen_input_sha,
             "test_mode": bool(args.test_mode),
+            "operational_mode": "delayed_prospective_nowcast",
+            "history_mode": history_mode,
+            "environment_ready": chronology["environment_ready"],
+            "environment_verified": chronology["environment_verified"],
+            "prospective_eligibility": chronology["prospective_eligibility"],
             "operational_feasibility": "PARTIAL" if available else "FALSE",
-            "reason": None if available else "no current-week environmental predictor bundle is available",
+            "reason": chronology["reason"],
         }
         print(json.dumps(result, indent=2))
         return result
-    issue_timestamp = args.issue_timestamp_utc or utc_now()
-    frame = make_prediction_frame(predictor, model, model_manifest_sha, frozen_input_sha, history, args.forecast_week, issue_timestamp)
-    root = args.output / "sandbox" if args.test_mode else args.output
+    if not args.test_mode and chronology["prospective_eligibility"] != "prospective_eligible":
+        raise RuntimeError(f"delayed nowcast is not eligible: {chronology['prospective_eligibility']}; {chronology['reason']}")
+    frame = make_prediction_frame(
+        predictor, model, model_manifest_sha, frozen_input_sha, history, args.forecast_week,
+        issue_timestamp, history_mode, chronology,
+    )
     prediction_path = root / "predictions" / f"prospective_predictions_{args.forecast_week}.parquet"
     prediction_sha = immutable_parquet(frame, prediction_path)
     write_map(frame, root / "maps" / f"forecast_{args.forecast_week}_preoutcome.svg", f"{MODEL_ID} forecast {args.forecast_week} — pre-outcome", None)
     if not args.test_mode:
+        ensure_registry_schema(args.output)
         append_unique_csv(args.output / "forecast_registry" / "prospective_forecast_registry.csv", {
             "forecast_week": args.forecast_week,
-            "issue_timestamp": issue_timestamp,
+            "environment_available_timestamp": chronology["environment_available_timestamp"],
+            "forecast_issue_timestamp": issue_timestamp,
+            "history_mode": history_mode,
             "prediction_path": str(prediction_path),
+            "prediction_sha": prediction_sha,
             "prediction_sha256": prediction_sha,
             "model_sha256": model_manifest_sha,
             "input_sha256": frozen_input_sha,
             "history_cutoff": previous_week(args.forecast_week),
+            "prospective_eligibility": chronology["prospective_eligibility"],
+            "outcome_first_available_timestamp": chronology["observation_source_available_timestamp"],
+            "latest_score_version": 0,
+            "outcome_maturity": "unscored",
             "outcomes_ingested": False,
             "score_status": "awaiting_outcomes",
             "test_mode": False,
         }, ["forecast_week"])
-        status = json.loads((args.output / "prospective_status.json").read_text())
+        status = ensure_status_fields(args.output)
         status["latest_forecast_week"] = args.forecast_week
+        status["latest_eligible_nowcast_week"] = args.forecast_week
+        status["evaluation_status"] = "DELAYED PROSPECTIVE EVALUATION ACTIVE"
         write_json(args.output / "prospective_status.json", status)
-    print(json.dumps({"status": "forecast_frozen", "forecast_week": args.forecast_week, "prediction_path": str(prediction_path), "prediction_sha256": prediction_sha, "test_mode": bool(args.test_mode)}, indent=2))
+    print(json.dumps({"status": "forecast_frozen", "forecast_week": args.forecast_week, "prediction_path": str(prediction_path), "prediction_sha256": prediction_sha, "prospective_eligibility": chronology["prospective_eligibility"], "history_mode": history_mode, "test_mode": bool(args.test_mode)}, indent=2))
     return {"frame": frame, "prediction_path": prediction_path, "prediction_sha": prediction_sha, "manifest": manifest, "model": model, "model_manifest_sha": model_manifest_sha, "history": history, "predictor": predictor}
 
 
@@ -523,6 +916,31 @@ def append_source_history(output: Path, metadata: dict[str, Any], eligible: bool
     row["status"] = "prospective_eligible" if eligible else "historical_backfill"
     row["prospective_eligible_rows"] = int(eligible)
     append_unique_csv(path, row, ["sha256"])
+
+
+def append_source_version(output: Path, root: Path, metadata: dict[str, Any], available_timestamp: str | None, forecast_week: str) -> pd.DataFrame:
+    path = root / "source_history" / "observation_source_history.parquet"
+    history = ensure_source_history(output, root)
+    if str(metadata["sha256"]) in history["sha256"].astype(str).tolist():
+        return history
+    previous_rows = int(history.iloc[-1]["row_count"]) if len(history) else 0
+    current_rows = int(metadata.get("row_count", 0))
+    row = {
+        "source_path": metadata.get("source_path"),
+        "sha256": metadata.get("sha256"),
+        "row_count": current_rows,
+        "first_seen_timestamp": timestamp_or_none(available_timestamp) or metadata.get("file_mtime_utc"),
+        "file_timestamp": metadata.get("file_mtime_utc"),
+        "minimum_date": metadata.get("minimum_date"),
+        "maximum_date": metadata.get("maximum_date"),
+        "new_rows": max(0, current_rows - previous_rows),
+        "new_current_week_rows": int(metadata.get("forecast_week_event_rows", 0)),
+        "historical_backfill_rows": max(0, current_rows - int(metadata.get("forecast_week_event_rows", 0))),
+        "source_status": "observed_first_available_timestamp",
+    }
+    history = pd.concat([history, pd.DataFrame([row])], ignore_index=True)
+    history.to_parquet(path, index=False)
+    return history
 
 
 def write_source_refresh_report(output: Path, metadata: dict[str, Any], eligible: bool, test_root: Path) -> None:
@@ -585,31 +1003,40 @@ def write_diagnostics(output: Path, merged: pd.DataFrame, metadata: dict[str, An
 
 
 def update_status(output: Path) -> None:
-    status = json.loads((output / "prospective_status.json").read_text())
+    status = ensure_status_fields(output)
     scores_path = output / "scores" / "prospective_scores.csv"
     ledger_path = output / "prospective_evaluation_ledger.parquet"
     if scores_path.exists():
         scores = pd.read_csv(scores_path)
-        eligible = scores.loc[(scores["scope"] == "weekly") & (scores["prospective_eligible"].astype(str).str.lower() == "true")]
+        eligible = scores.loc[
+            (scores["scope"].astype(str) == "weekly")
+            & (scores["prospective_eligible"].astype(str).str.lower() == "true")
+        ]
         status["number_genuine_prospective_weeks"] = int(eligible["forecast_week"].nunique())
     if ledger_path.exists():
         ledger = pd.read_parquet(ledger_path)
-        eligible_ledger = ledger.loc[ledger["prospective_eligible"].astype(bool)]
+        eligible_ledger = ledger.loc[
+            ledger["prospective_eligible"].astype(str).str.lower() == "true"
+        ]
         status["number_genuine_prospective_positive_node_weeks"] = int(eligible_ledger["observed_presence"].sum())
         status["number_first_ever_positive_nodes"] = int(eligible_ledger["first_ever_positive_flag"].sum())
-    status["evaluation_status"] = "PROSPECTIVE EVALUATION ACTIVE" if status["number_genuine_prospective_weeks"] else "HARNESS READY — AWAITING FUTURE DATA"
+    status["evaluation_status"] = (
+        "DELAYED PROSPECTIVE EVALUATION ACTIVE"
+        if status.get("number_genuine_prospective_weeks", 0)
+        else "HARNESS READY — AWAITING ELIGIBLE NOWCAST WINDOW"
+    )
     write_json(output / "prospective_status.json", status)
 
 
 def run_score(args: argparse.Namespace) -> dict[str, Any]:
     manifest, model, model_manifest_sha, _ = require_frozen_model(args.output)
     root = args.output / "sandbox" if args.test_mode else args.output
+    version = score_version(args.score_version)
     prediction_path = root / "predictions" / f"prospective_predictions_{args.forecast_week}.parquet"
     checksum_path = Path(str(prediction_path) + ".sha256")
     if not prediction_path.exists() or not checksum_path.exists():
         raise RuntimeError("no immutable forecast exists for score mode")
-    stored_sha = checksum_path.read_text().split()[0]
-    if stored_sha != sha256_file(prediction_path):
+    if checksum_path.read_text().split()[0] != sha256_file(prediction_path):
         raise RuntimeError("forecast checksum does not match archived forecast")
     predictions = pd.read_parquet(prediction_path)
     if "observed_count" in predictions.columns or "observed_presence" in predictions.columns:
@@ -618,101 +1045,121 @@ def run_score(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("forecast model manifest does not match frozen model")
     history = load_history(args.output)
     outcomes, metadata = source_observations(args.observation_source, args.forecast_week, NODE_COUNT)
-    issue_timestamp = parse_timestamp(str(predictions["forecast_issue_timestamp_utc"].iloc[0]))
-    source_available = parse_timestamp(args.source_available_timestamp_utc) if args.source_available_timestamp_utc else parse_timestamp(metadata["file_mtime_utc"])
-    eligible = (not args.test_mode) and (iso_date(args.forecast_week) > iso_date("2026-W29")) and source_available > issue_timestamp
+    issue_timestamp = str(predictions["forecast_issue_timestamp_utc"].iloc[0])
+    source_available = timestamp_or_none(args.source_available_timestamp_utc) or timestamp_or_none(metadata["file_mtime_utc"])
+    archived_state = str(predictions.get("prospective_eligibility", pd.Series(["retrospective_only"])).iloc[0])
+    eligible = (not args.test_mode) and archived_state == "prospective_eligible"
     historical_backfill = not eligible
+    outcome_path = root / "outcomes" / f"prospective_outcomes_{args.forecast_week}_v{version}.parquet"
     full_outcomes = pd.DataFrame({"forecast_week": args.forecast_week, "model_node_id": np.arange(NODE_COUNT, dtype=int), "observed_count": 0})
     selected = outcomes.loc[outcomes["week"] == args.forecast_week, ["model_node_id", "observed_count"]]
     full_outcomes.loc[selected["model_node_id"].to_numpy(int), "observed_count"] = selected["observed_count"].to_numpy(int)
     full_outcomes["observed_presence"] = (full_outcomes["observed_count"] > 0).astype(np.int8)
     full_outcomes["source_sha256"] = metadata["sha256"]
     full_outcomes["outcome_ingestion_timestamp_utc"] = utc_now()
+    full_outcomes["observation_first_available_timestamp"] = source_available or "unknown"
+    source_known_before_forecast = bool(
+        source_available
+        and parse_timestamp(source_available) < parse_timestamp(issue_timestamp)
+    )
+    positive_availability_class = (
+        "known_before_forecast"
+        if source_known_before_forecast
+        else "prospective_new_outcome"
+    )
+    full_outcomes["outcome_availability_class"] = np.where(
+        full_outcomes["observed_presence"].astype(bool),
+        positive_availability_class,
+        "no_recorded_observation",
+    )
     full_outcomes["prospective_eligible"] = eligible
     full_outcomes["historical_backfill"] = historical_backfill
-    outcome_path = root / "outcomes" / f"prospective_outcomes_{args.forecast_week}.parquet"
+    full_outcomes["outcome_maturity"] = args.outcome_maturity
+    full_outcomes["score_version"] = version
+    full_outcomes["source_available_timestamp"] = source_available or "unknown"
     if outcome_path.exists():
-        existing_outcomes = pd.read_parquet(outcome_path)
-        if not {"forecast_week", "model_node_id", "observed_count", "source_sha256"}.issubset(existing_outcomes.columns):
-            raise RuntimeError("existing outcome artifact schema is incomplete")
-        if str(existing_outcomes["source_sha256"].iloc[0]) != metadata["sha256"]:
-            raise RuntimeError("existing outcome artifact source checksum differs")
-        immutable_outcome_columns = [column for column in full_outcomes.columns if column != "outcome_ingestion_timestamp_utc"]
-        pd.testing.assert_frame_equal(
-            existing_outcomes[immutable_outcome_columns].sort_values("model_node_id").reset_index(drop=True),
-            full_outcomes[immutable_outcome_columns].sort_values("model_node_id").reset_index(drop=True),
-            check_dtype=False,
-            check_exact=False,
-            rtol=1e-7,
-            atol=1e-9,
-        )
-        full_outcomes = existing_outcomes
+        existing = pd.read_parquet(outcome_path)
+        immutable_columns = [column for column in full_outcomes.columns if column != "outcome_ingestion_timestamp_utc"]
+        if not set(immutable_columns).issubset(existing.columns):
+            raise RuntimeError("existing versioned outcome artifact schema is incomplete")
+        pd.testing.assert_frame_equal(existing[immutable_columns].sort_values("model_node_id").reset_index(drop=True), full_outcomes[immutable_columns].sort_values("model_node_id").reset_index(drop=True), check_dtype=False, check_exact=False, rtol=1e-7, atol=1e-9)
+        full_outcomes = existing
     else:
         immutable_parquet(full_outcomes, outcome_path)
+    write_source_refresh_report(args.output, metadata, eligible, root)
+    append_source_version(args.output, root, metadata, source_available, args.forecast_week)
     training_prevalence = float(manifest["fit_metrics"].get("training_prevalence", 0.0))
     metrics, merged = score_frame(predictions, full_outcomes, history, predictions, float(model["theta"]), training_prevalence, eligible)
-    metrics["historical_backfill"] = historical_backfill
-    metrics["source_sha256"] = metadata["sha256"]
-    score_path = root / "scores" / "prospective_scores.csv"
-    row = {"scope": "weekly", "region": "full_revised_domain", **{key: value for key, value in metrics.items() if not isinstance(value, (dict, list, np.ndarray))}}
-    append_unique_csv(score_path, row, ["scope", "forecast_week", "region"])
+    for column in ["environment_bundle_available_timestamp", "observation_source_available_timestamp", "history_mode", "prospective_eligibility"]:
+        merged[column] = predictions[column].iloc[0] if column in predictions.columns else ("event_causal" if column == "history_mode" else "retrospective_only")
+    merged["outcome_maturity"] = args.outcome_maturity
+    merged["score_version"] = version
+    metrics.update({"historical_backfill": historical_backfill, "source_sha256": metadata["sha256"], "score_version": version, "outcome_maturity": args.outcome_maturity, "score_timestamp": utc_now()})
+    score_row = {"scope": "weekly", "region": "full_revised_domain", **{key: value for key, value in metrics.items() if not isinstance(value, (dict, list, np.ndarray))}}
     regional_rows = []
     for region in ["Mexico", "United States", "full_revised_domain"]:
         sub = merged if region == "full_revised_domain" else merged.loc[merged["country_or_region"] == region]
         if len(sub) == 0:
             continue
         reg = safe_metrics(sub["observed_count"].to_numpy(int), sub["predicted_probability"].to_numpy(float), sub["predicted_conditional_positive_mean"].to_numpy(float), sub["predicted_underlying_mu"].to_numpy(float), float(model["theta"]), training_prevalence, region, 0, MODEL_ID)
-        reg.update({"scope": "weekly", "region": region, "forecast_week": args.forecast_week, "prospective_eligible": eligible, "historical_backfill": historical_backfill})
+        reg.update({"scope": "weekly", "region": region, "forecast_week": args.forecast_week, "prospective_eligible": eligible, "historical_backfill": historical_backfill, "score_version": version, "outcome_maturity": args.outcome_maturity})
         regional_rows.append(reg)
-    for reg in regional_rows:
-        append_unique_csv(root / "scores" / "prospective_regional_scores.csv", {key: value for key, value in reg.items() if not isinstance(value, (dict, list, np.ndarray))}, ["scope", "forecast_week", "region"])
-    write_source_refresh_report(args.output, metadata, eligible, root)
+    version_rows = pd.DataFrame([score_row] + [{key: value for key, value in row.items() if not isinstance(value, (dict, list, np.ndarray))} for row in regional_rows])
+    version_dir = root / "score_versions"
+    version_dir.mkdir(parents=True, exist_ok=True)
+    version_path = version_dir / f"prospective_scores_{args.forecast_week}_v{version}.csv"
+    if version_path.exists():
+        pd.testing.assert_frame_equal(pd.read_csv(version_path), version_rows, check_dtype=False, check_exact=False, rtol=1e-10, atol=1e-12)
+    else:
+        version_rows.to_csv(version_path, index=False)
+    append_unique_csv(root / "scores" / "prospective_scores.csv", score_row, ["scope", "forecast_week", "region", "score_version"])
+    for row in regional_rows:
+        append_unique_csv(root / "scores" / "prospective_regional_scores.csv", {key: value for key, value in row.items() if not isinstance(value, (dict, list, np.ndarray))}, ["scope", "forecast_week", "region", "score_version"])
     write_diagnostics(args.output, merged, metadata, eligible, root)
     ledger_columns = [
-        "forecast_week", "forecast_issue_timestamp_utc", "outcome_ingestion_timestamp_utc", "prospective_eligible", "historical_backfill", "source_sha256", "model_node_id", "canonical_node_id", "region", "predicted_probability", "predicted_conditional_positive_mean", "predicted_underlying_mu", "predicted_unconditional_mean", "observed_presence", "observed_count", "first_ever_positive_flag", "previously_positive_flag", "occurrence_nll_contribution", "joint_nll_contribution", "positive_count_absolute_error", "positive_count_squared_error", "distance_to_any_prior_positive_km", "distance_to_prev4_positive_km", "weeks_since_detection_within_50km", "percentile_rank_region", "percentile_rank_full_domain",
+        "forecast_week", "environment_bundle_available_timestamp", "forecast_issue_timestamp_utc", "observation_first_available_timestamp", "outcome_ingestion_timestamp_utc", "history_mode", "prospective_eligibility", "prospective_eligible", "historical_backfill", "outcome_maturity", "score_version", "source_sha256", "outcome_availability_class", "model_node_id", "canonical_node_id", "region", "predicted_probability", "predicted_conditional_positive_mean", "predicted_underlying_mu", "predicted_unconditional_mean", "observed_presence", "observed_count", "first_ever_positive_flag", "previously_positive_flag", "occurrence_nll_contribution", "joint_nll_contribution", "positive_count_absolute_error", "positive_count_squared_error", "distance_to_any_prior_positive_km", "distance_to_prev4_positive_km", "weeks_since_detection_within_50km", "percentile_rank_region", "percentile_rank_full_domain",
     ]
+    for column, default in [("environment_bundle_available_timestamp", "unknown"), ("history_mode", "event_causal"), ("prospective_eligibility", "retrospective_only"), ("outcome_maturity", args.outcome_maturity), ("score_version", version), ("source_sha256", metadata["sha256"]), ("outcome_availability_class", "no_recorded_observation")]:
+        if column not in merged.columns:
+            merged[column] = predictions[column].iloc[0] if column in predictions.columns else default
     ledger_rows = merged[ledger_columns].copy()
     ledger_path = root / "prospective_evaluation_ledger.parquet"
-    if ledger_path.exists():
-        existing = pd.read_parquet(ledger_path)
-        if len(existing) and (existing["forecast_week"].astype(str) == args.forecast_week).any():
-            old = existing.loc[existing["forecast_week"].astype(str) == args.forecast_week].sort_values("model_node_id").reset_index(drop=True)
-            new = ledger_rows.sort_values("model_node_id").reset_index(drop=True)
-            pd.testing.assert_frame_equal(old[ledger_columns], new[ledger_columns], check_dtype=False, check_exact=False, rtol=1e-7, atol=1e-9)
-        else:
-            pd.concat([existing, ledger_rows], ignore_index=True).to_parquet(ledger_path, index=False)
+    existing = pd.read_parquet(ledger_path) if ledger_path.exists() else pd.DataFrame()
+    for column in ledger_columns:
+        if column not in existing.columns:
+            existing[column] = None
+    existing = existing[ledger_columns] if len(existing.columns) else existing
+    key_mask = np.zeros(len(existing), dtype=bool) if not len(existing) else (existing["forecast_week"].astype(str) == args.forecast_week) & (pd.to_numeric(existing["score_version"], errors="coerce").fillna(-1).astype(int) == version)
+    if key_mask.any():
+        old = existing.loc[key_mask].sort_values("model_node_id").reset_index(drop=True)
+        new = ledger_rows.sort_values("model_node_id").reset_index(drop=True)
+        compare = [column for column in ledger_columns if column not in {"outcome_ingestion_timestamp_utc"}]
+        pd.testing.assert_frame_equal(old[compare], new[compare], check_dtype=False, check_exact=False, rtol=1e-7, atol=1e-9)
     else:
-        ledger_rows.to_parquet(ledger_path, index=False)
+        existing = pd.concat([existing, ledger_rows], ignore_index=True) if len(existing.columns) else ledger_rows
+        existing.to_parquet(ledger_path, index=False)
     if eligible:
-        cumulative = pd.read_parquet(ledger_path).loc[lambda frame: frame["prospective_eligible"].astype(bool)].copy()
+        cumulative = pd.read_parquet(ledger_path)
+        cumulative = cumulative.loc[cumulative["prospective_eligible"].astype(bool)].sort_values(["forecast_week", "score_version"]).drop_duplicates("forecast_week", keep="last")
         for region in ["full_revised_domain", "Mexico", "United States"]:
             sub = cumulative if region == "full_revised_domain" else cumulative.loc[cumulative["region"] == region]
             if len(sub) == 0:
                 continue
-            cumulative_metrics = safe_metrics(
-                sub["observed_count"].to_numpy(int),
-                sub["predicted_probability"].to_numpy(float),
-                sub["predicted_conditional_positive_mean"].to_numpy(float),
-                sub["predicted_underlying_mu"].to_numpy(float),
-                float(model["theta"]), training_prevalence, region, 0, MODEL_ID,
-            )
-            cumulative_metrics.update({
-                "scope": "cumulative",
-                "region": region,
-                "forecast_week": args.forecast_week,
-                "prospective_eligible": True,
-                "historical_backfill": False,
-                "number_weeks": int(sub["forecast_week"].nunique()),
-            })
-            append_unique_csv(root / "scores" / "prospective_scores.csv", {key: value for key, value in cumulative_metrics.items() if not isinstance(value, (dict, list, np.ndarray))}, ["scope", "forecast_week", "region"])
+            cumulative_metrics = safe_metrics(sub["observed_count"].to_numpy(int), sub["predicted_probability"].to_numpy(float), sub["predicted_conditional_positive_mean"].to_numpy(float), sub["predicted_underlying_mu"].to_numpy(float), float(model["theta"]), training_prevalence, region, 0, MODEL_ID)
+            cumulative_metrics.update({"scope": "cumulative", "region": region, "forecast_week": args.forecast_week, "prospective_eligible": True, "historical_backfill": False, "number_weeks": int(sub["forecast_week"].nunique()), "score_version": version, "outcome_maturity": args.outcome_maturity})
+            append_unique_csv(root / "scores" / "prospective_scores.csv", {key: value for key, value in cumulative_metrics.items() if not isinstance(value, (dict, list, np.ndarray))}, ["scope", "forecast_week", "region", "score_version"])
     if not args.test_mode:
+        ensure_registry_schema(args.output)
         append_source_history(args.output, metadata, eligible)
         registry_row = pd.read_csv(args.output / "forecast_registry" / "prospective_forecast_registry.csv")
         mask = registry_row["forecast_week"].astype(str) == args.forecast_week
         if not mask.any():
             raise RuntimeError("forecast registry entry is missing")
         registry_row.loc[mask, "outcomes_ingested"] = True
-        registry_row.loc[mask, "score_status"] = "prospective_eligible_scored" if eligible else "historical_backfill_scored"
+        registry_row.loc[mask, "latest_score_version"] = version
+        registry_row.loc[mask, "outcome_maturity"] = args.outcome_maturity
+        registry_row.loc[mask, "outcome_first_available_timestamp"] = source_available or "unknown"
+        registry_row.loc[mask, "score_status"] = f"{archived_state}_scored_v{version}_{args.outcome_maturity}"
         registry_row.to_csv(args.output / "forecast_registry" / "prospective_forecast_registry.csv", index=False)
         if len(merged.loc[merged["observed_count"] > 0]):
             prior_history = history.copy()
@@ -721,22 +1168,33 @@ def run_score(args: argparse.Namespace) -> dict[str, Any]:
             new_positive["source"] = metadata["sha256"]
             new_positive["available_before_week"] = args.forecast_week
             new_positive["historical_initialization"] = False
-            new_positive = new_positive[["week", "model_node_id", "observed_count", "source", "available_before_week", "historical_initialization"]]
+            new_positive["first_available_timestamp"] = source_available or "unknown"
+            new_positive = new_positive[["week", "model_node_id", "observed_count", "source", "available_before_week", "historical_initialization", "first_available_timestamp"]]
             if not ((prior_history["week"].astype(str) == args.forecast_week).any()):
                 pd.concat([prior_history, new_positive], ignore_index=True).drop_duplicates(["week", "model_node_id"]).sort_values(["week", "model_node_id"]).to_parquet(args.output / "state" / "recorded_detection_history.parquet", index=False)
-        update_status(args.output)
+        status = ensure_status_fields(args.output)
+        status["latest_scored_week"] = args.forecast_week
+        status["latest_score_version"] = version
+        status["genuine_prospective_scored_weeks"] = int(pd.read_csv(root / "scores" / "prospective_scores.csv").query("scope == 'weekly' and prospective_eligible == True")["forecast_week"].nunique()) if (root / "scores" / "prospective_scores.csv").exists() else 0
+        status["evaluation_status"] = "DELAYED PROSPECTIVE EVALUATION ACTIVE"
+        write_json(args.output / "prospective_status.json", status)
     write_map(predictions, root / "maps" / f"forecast_{args.forecast_week}_scored.svg", f"{MODEL_ID} forecast {args.forecast_week} — scored", merged["observed_count"].to_numpy(int))
-    print(json.dumps({"status": "scored", "forecast_week": args.forecast_week, "prospective_eligible": eligible, "historical_backfill": historical_backfill, "observed_positive_node_weeks": int(merged["observed_presence"].sum()), "score_path": str(score_path)}, indent=2))
-    return {"metrics": metrics, "eligible": eligible}
+    print(json.dumps({"status": "scored", "forecast_week": args.forecast_week, "prospective_eligibility": archived_state, "prospective_eligible": eligible, "historical_backfill": historical_backfill, "score_version": version, "outcome_maturity": args.outcome_maturity, "observed_positive_node_weeks": int(merged["observed_presence"].sum()), "score_path": str(version_path)}, indent=2))
+    return {"metrics": metrics, "eligible": eligible, "score_version": version}
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--forecast-week", required=True)
-    parser.add_argument("--mode", choices=["forecast", "score", "dry-run"], required=True)
+    parser.add_argument("--mode", choices=["forecast", "score", "dry-run", "readiness"], required=True)
     parser.add_argument("--observation-source", type=Path)
     parser.add_argument("--source-available-timestamp-utc")
+    parser.add_argument("--environment-available-timestamp-utc")
+    parser.add_argument("--environment-availability-status", choices=["verified", "uncertain"], default="uncertain")
     parser.add_argument("--issue-timestamp-utc")
+    parser.add_argument("--history-mode", choices=["event_causal", "availability_causal"])
+    parser.add_argument("--score-version", type=int, default=1)
+    parser.add_argument("--outcome-maturity", choices=sorted(OUTCOME_MATURITY), default="provisional")
     parser.add_argument("--test-mode", action="store_true")
     parser.add_argument("--model-output", type=Path, default=Path("/project/disease_ecology/STGNN-output/revised_model_data"))
     parser.add_argument("--output", type=Path, default=Path("/project/disease_ecology/STGNN-output/v2_prospective"))
@@ -744,8 +1202,11 @@ def main() -> None:
     args = parser.parse_args()
     if args.mode == "score" and args.observation_source is None:
         parser.error("--observation-source is required for --mode score")
+    args.score_version = score_version(args.score_version)
     if args.mode == "score":
         run_score(args)
+    elif args.mode == "readiness":
+        run_readiness(args)
     else:
         run_forecast(args)
 

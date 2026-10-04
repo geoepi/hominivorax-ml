@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# CPU-only weekly V2-A prospective harness.
-# Submit with: sbatch --export=ALL,FORECAST_WEEK=2026-W30,MODE=dry-run hpc/run_v2a_prospective.sbatch
+# CPU-only STGNN-Hurdle-V2A delayed prospective nowcast harness.
+# Submit with: sbatch --export=ALL,FORECAST_WEEK=2026-W30,MODE=readiness hpc/run_v2a_prospective.sbatch
 # Score mode additionally requires OBSERVATION_SOURCE=/path/to/node_assigned.parquet.
 # TEST_MODE=1 is reserved for historical sandbox checks and never updates the
 # production registry or prospective ledger.
@@ -24,7 +24,7 @@ export OPENBLAS_NUM_THREADS=1
 export MKL_NUM_THREADS=1
 
 : "${FORECAST_WEEK:?FORECAST_WEEK is required}"
-: "${MODE:?MODE must be forecast, score, or dry-run}"
+: "${MODE:?MODE must be readiness, forecast, score, or dry-run}"
 
 args=(--forecast-week "${FORECAST_WEEK}" --mode "${MODE}")
 if [[ -n "${OBSERVATION_SOURCE:-}" ]]; then
@@ -33,8 +33,23 @@ fi
 if [[ -n "${SOURCE_AVAILABLE_TIMESTAMP_UTC:-}" ]]; then
   args+=(--source-available-timestamp-utc "${SOURCE_AVAILABLE_TIMESTAMP_UTC}")
 fi
+if [[ -n "${ENVIRONMENT_AVAILABLE_TIMESTAMP_UTC:-}" ]]; then
+  args+=(--environment-available-timestamp-utc "${ENVIRONMENT_AVAILABLE_TIMESTAMP_UTC}")
+fi
+if [[ -n "${ENVIRONMENT_AVAILABILITY_STATUS:-}" ]]; then
+  args+=(--environment-availability-status "${ENVIRONMENT_AVAILABILITY_STATUS}")
+fi
 if [[ -n "${ISSUE_TIMESTAMP_UTC:-}" ]]; then
   args+=(--issue-timestamp-utc "${ISSUE_TIMESTAMP_UTC}")
+fi
+if [[ -n "${HISTORY_MODE:-}" ]]; then
+  args+=(--history-mode "${HISTORY_MODE}")
+fi
+if [[ -n "${SCORE_VERSION:-}" ]]; then
+  args+=(--score-version "${SCORE_VERSION}")
+fi
+if [[ -n "${OUTCOME_MATURITY:-}" ]]; then
+  args+=(--outcome-maturity "${OUTCOME_MATURITY}")
 fi
 if [[ "${TEST_MODE:-0}" == "1" ]]; then
   args+=(--test-mode)
