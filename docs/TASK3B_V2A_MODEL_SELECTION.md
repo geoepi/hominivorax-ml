@@ -44,4 +44,4 @@ The M0 reproduction is recorded in `metrics/v1_reproduction.csv`; the absolute j
 
 ## Validation policy
 
-No currently available 2025–2026 observations qualify as a genuinely unseen V2 test. If this candidate is carried forward, the V2 specification-freeze date must be recorded before accumulating a future independent evaluation period.
+Development specification-freeze date: **2026-10-03**. No currently available 2025–2026 observations qualify as a genuinely unseen V2 test. Observations arriving after this date form the first genuinely independent V2 evaluation period; V2-A remains a development-frozen candidate, not a validated final production model.
