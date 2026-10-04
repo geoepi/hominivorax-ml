@@ -28,7 +28,8 @@ def test_front_features_are_strictly_temporally_causal():
     left = causal_front_descriptors(original, xy, lat, weeks).set_index(["week_index", "node_id"])
     right = causal_front_descriptors(mutated, xy, lat, weeks).set_index(["week_index", "node_id"])
     pd.testing.assert_frame_equal(left.loc[left.index.get_level_values(0) < 2], right.loc[right.index.get_level_values(0) < 2])
-    assert not np.array_equal(left.loc[2]["northmost_prior_latitude"], right.loc[2]["northmost_prior_latitude"])
+    pd.testing.assert_frame_equal(left.loc[2], right.loc[2])
+    assert not np.array_equal(left.loc[3]["northmost_prior_latitude"], right.loc[3]["northmost_prior_latitude"])
 
 
 def test_current_response_cannot_change_current_predictor():

@@ -25,6 +25,10 @@ def git_sha(repo: Path) -> str:
     return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip()
 
 
+def git_branch(repo: Path) -> str:
+    return subprocess.check_output(["git", "branch", "--show-current"], cwd=repo, text=True).strip()
+
+
 def fmt(value) -> str:
     if pd.isna(value):
         return "NA"
@@ -52,6 +56,7 @@ def main() -> None:
     prior_jobs = [value.strip() for value in args.prior_jobs.split(",") if value.strip()]
     manifest.update({
         "git_sha": git_sha(repo),
+        "branch": git_branch(repo),
         "finalized_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "optimizer_settings": decisions.get("optimizer_settings", {}),
         "model_selection_criteria": decisions.get("model_selection_criteria", {}),
