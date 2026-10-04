@@ -120,7 +120,8 @@ def convex_hull_area_km2(xy: np.ndarray) -> float:
     if len(xy) < 3:
         return 0.0
     try:
-        return float(ConvexHull(xy).volume / 1_000_000.0)
+        # The canonical Albers axes are explicitly kilometre-scaled.
+        return float(ConvexHull(xy).volume)
     except Exception:
         return 0.0
 
@@ -145,7 +146,8 @@ def tree_distances(xy: np.ndarray, node_ids: np.ndarray, query_xy: np.ndarray) -
         return np.full(len(query_xy), np.nan), np.full(len(query_xy), -1, dtype=int)
     tree = cKDTree(xy[node_ids])
     distance, nearest = tree.query(query_xy, k=1)
-    return np.asarray(distance, dtype=float) / 1000.0, node_ids[np.asarray(nearest, dtype=int)]
+    # Existing node x/y coordinates use the canonical Albers kilometre axes.
+    return np.asarray(distance, dtype=float), node_ids[np.asarray(nearest, dtype=int)]
 
 
 def causal_front_descriptors(
@@ -199,7 +201,7 @@ def causal_front_descriptors(
         frames.append(frame)
         if len(current):
             current_tree = cKDTree(xy[current])
-            current_dist = current_tree.query(xy, k=1)[0] / 1000.0
+            current_dist = current_tree.query(xy, k=1)[0]
             for radius in (25, 50, 100):
                 exposed = current_dist <= radius
                 last_seen[radius][exposed] = week_index
@@ -410,7 +412,7 @@ def build_front_audit(data: dict[str, Any], histories: dict[str, Any]) -> dict[s
         centroid = current_xy.mean(axis=0) if len(current) else None
         centroid_delta = centroid - previous_centroid if centroid is not None and previous_centroid is not None else None
         current_angle, current_axis = principal_axis(current_xy)
-        principal_projection = float(np.dot(centroid_delta, previous_axis) / 1000.0) if centroid_delta is not None and previous_axis is not None else np.nan
+        principal_projection = float(np.dot(centroid_delta, previous_axis)) if centroid_delta is not None and previous_axis is not None else np.nan
         new_vectors = []
         new_direction = np.nan
         if prior_tree is not None and len(new):
@@ -440,11 +442,11 @@ def build_front_audit(data: dict[str, Any], histories: dict[str, Any]) -> dict[s
             "occupied_25km_cells": int(nodes.iloc[current].groupby(["row", "column"]).ngroups) if len(current) else 0,
             "convex_hull_area_km2": convex_hull_area_km2(current_xy),
             "principal_axis_angle_deg": current_angle,
-            "centroid_x_km": float(centroid[0] / 1000.0) if centroid is not None else np.nan,
-            "centroid_y_km": float(centroid[1] / 1000.0) if centroid is not None else np.nan,
-            "centroid_displacement_km": float(np.linalg.norm(centroid_delta) / 1000.0) if centroid_delta is not None else np.nan,
-            "centroid_dx_km": float(centroid_delta[0] / 1000.0) if centroid_delta is not None else np.nan,
-            "centroid_dy_km": float(centroid_delta[1] / 1000.0) if centroid_delta is not None else np.nan,
+            "centroid_x_km": float(centroid[0]) if centroid is not None else np.nan,
+            "centroid_y_km": float(centroid[1]) if centroid is not None else np.nan,
+            "centroid_displacement_km": float(np.linalg.norm(centroid_delta)) if centroid_delta is not None else np.nan,
+            "centroid_dx_km": float(centroid_delta[0]) if centroid_delta is not None else np.nan,
+            "centroid_dy_km": float(centroid_delta[1]) if centroid_delta is not None else np.nan,
             "principal_axis_displacement_km": principal_projection,
             "nearest_new_cell_direction_deg": new_direction,
             "northmost_change_km": float((current_lat.max() - lat[positive_sets[w - 1]].max()) * LATITUDE_KM) if w and len(current) and len(previous) else np.nan,
@@ -882,7 +884,7 @@ def main() -> None:
             "E": "distance to nearest node positive in any prior week",
             "F": "distance to nearest node positive in prior four weeks",
         },
-        "distance_definitions": {"coordinate_system": "existing projected node x/y coordinates", "units": "kilometres", "radii_km": [25, 50, 100], "zero_distance_bins_km": [0, 25, 50, 100, 250, "inf"]},
+        "distance_definitions": {"coordinate_system": "canonical Albers equal-area projected node x/y axes with kilometre length units", "units": "kilometres", "radii_km": [25, 50, 100], "zero_distance_bins_km": [0, 25, 50, 100, 250, "inf"]},
         "front_state_status": "AUDIT ONLY — NOT YET AUTHORIZED AS MODEL FEATURES",
         "background_designs": ["A_all_available_domain_node_weeks", "B_temporally_matched_random_nonpositive", "C_temporally_matched_region_latitude_nonpositive"],
         "reporting_proxies_found": proxies.to_dict("records"),
