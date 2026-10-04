@@ -431,6 +431,7 @@ def build_front_audit(data: dict[str, Any], histories: dict[str, Any]) -> dict[s
         else:
             distance_any = np.full(len(new), np.nan)
         previous_distance = previous_tree.query(current_xy, k=1)[0] if previous_tree is not None and len(current) else np.array([])
+        within_week_nearest = cKDTree(current_xy).query(current_xy, k=2)[0][:, 1] if len(current) > 1 else np.array([])
         centroid = current_xy.mean(axis=0) if len(current) else None
         centroid_delta = centroid - previous_centroid if centroid is not None and previous_centroid is not None else None
         current_angle, current_axis = principal_axis(current_xy)
@@ -481,6 +482,9 @@ def build_front_audit(data: dict[str, Any], histories: dict[str, Any]) -> dict[s
             "new_to_prior_distance_max_km": float(np.nanmax(distance_any)) if len(distance_any) and np.isfinite(distance_any).any() else np.nan,
             "previous_week_distance_median_km": float(np.nanmedian(previous_distance)) if len(previous_distance) else np.nan,
             "previous_week_distance_p95_km": float(np.nanpercentile(previous_distance, 95)) if len(previous_distance) else np.nan,
+            "positive_node_nearest_neighbor_median_km": float(np.nanmedian(within_week_nearest)) if len(within_week_nearest) else np.nan,
+            "positive_node_nearest_neighbor_p95_km": float(np.nanpercentile(within_week_nearest, 95)) if len(within_week_nearest) else np.nan,
+            "positive_node_nearest_neighbor_max_km": float(np.nanmax(within_week_nearest)) if len(within_week_nearest) else np.nan,
         }
         weekly_rows.append(row)
         previous_centroid = centroid
