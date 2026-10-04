@@ -473,6 +473,8 @@ def stratum_mask(values: np.ndarray, available: np.ndarray, bins: list[tuple[str
 
 def correlation_rows(array: np.ndarray, feature_names: list[str], train_times: list[int], fold: int, model: str) -> list[dict[str, Any]]:
     target_names = [name for name in feature_names if name in PRIMARY_FRONT_CONTINUOUS + ["prior13_latitude_p95_log1p"]]
+    if not target_names:
+        return []
     indices = [feature_names.index(name) for name in target_names]
     values = selected_matrix(array, train_times)[:, indices]
     if len(values) > 200000:
@@ -621,6 +623,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 }
                 for feature, (values, available, bins) in front_sources.items():
                     for stratum, mask in stratum_mask(values, available, bins):
+                        if not np.any(mask):
+                            continue
                         subset_metrics = safe_metrics(y[mask], p[mask], conditional[mask], mu[mask], theta, float((counts[np.asarray(fold["train_indices"])] > 0).mean()), stratum, int(fold["fold"]), model)
                         front_strata_rows.append(metric_row(subset_metrics, model, penalty, fold) | {"front_feature": feature, "stratum": stratum})
             for case_label, mask in [("first_ever_positive", first), ("recurrent_positive", recurrent)]:
