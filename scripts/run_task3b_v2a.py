@@ -623,10 +623,14 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     "weeks_since_detection_within_50km": (front["recency50"][fold["validation_indices"]], front["recency_available"][fold["validation_indices"]], RECENCY_BINS),
                 }
                 for feature, (values, available, bins) in front_sources.items():
+                    y_flat = y.reshape(-1)
+                    p_flat = p.reshape(-1)
+                    conditional_flat = conditional.reshape(-1)
+                    mu_flat = mu.reshape(-1)
                     for stratum, mask in stratum_mask(values, available, bins):
                         if not np.any(mask):
                             continue
-                        subset_metrics = safe_metrics(y[mask], p[mask], conditional[mask], mu[mask], theta, float((counts[np.asarray(fold["train_indices"])] > 0).mean()), stratum, int(fold["fold"]), model)
+                        subset_metrics = safe_metrics(y_flat[mask], p_flat[mask], conditional_flat[mask], mu_flat[mask], theta, float((counts[np.asarray(fold["train_indices"])] > 0).mean()), stratum, int(fold["fold"]), model)
                         front_strata_rows.append(metric_row(subset_metrics, model, penalty, fold) | {"front_feature": feature, "stratum": stratum})
             for case_label, mask in [("first_ever_positive", first), ("recurrent_positive", recurrent)]:
                 count_rows.append(count_case_row(model, fold, case_label, y[mask], p[mask], conditional[mask]))
