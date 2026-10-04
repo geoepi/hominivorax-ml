@@ -65,7 +65,7 @@ PRIMARY_FRONT_AVAILABILITY = [
     "detection_within_50km_ever_available",
 ]
 LATITUDE_FEATURES = ["prior13_latitude_p95_log1p", "prior13_latitude_p95_available"]
-OPTIMIZER_MAXITER = 1000
+OPTIMIZER_MAXITER = 2000
 MODELS = {
     "M0": BASE_FEATURES,
     "M1": BASE_FEATURES + PRIMARY_FRONT_CONTINUOUS + PRIMARY_FRONT_AVAILABILITY,
