@@ -53,6 +53,8 @@ def main() -> None:
     manifest.update({
         "git_sha": git_sha(repo),
         "finalized_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "optimizer_settings": decisions.get("optimizer_settings", {}),
+        "model_selection_criteria": decisions.get("model_selection_criteria", {}),
         "slurm_jobs": {
             "prior_attempts": prior_jobs,
             "completed_v2a_cpu_workflow": str(args.job_id),

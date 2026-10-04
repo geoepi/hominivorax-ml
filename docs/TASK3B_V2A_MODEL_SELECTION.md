@@ -1,25 +1,47 @@
 # Task 3B — V2-A Model Development and Selection
 
-This document records the historical development comparison of the frozen V1 benchmark and the two authorized V2-A candidates. It must not be interpreted as a final V2 validation: all currently available 2025–2026 outcomes are previously seen historical data.
+V2-A was evaluated as a historical development experiment. It models recorded detections conditional on current covariates and prior recorded detections; it does not estimate occupancy, detection probability, abundance, or biological dispersal. The former V1 terminal period is historical evaluated data, not an unseen test.
 
-## Models and validation
+## Decision
 
-M0 is `STGNN-Hurdle-V1` reproduced without specification changes. M1 is V2-A with the three causal recorded-detection history features. M2 is the single latitude ablation. The six rolling-origin folds are exactly:
+- V2-A decision: **V2-A ADVANCES**
+- Latitude ablation: **LATITUDE REDUNDANT**
+- Selected penalties: `{"M0": 0.0, "M1": 0.01, "M2": 0.01}`
+- Predictive models outside V2-A fitted: **NO**
+- Neural models fitted: **NO**
 
-| Fold | Training | Validation | Status |
-|---|---|---|---|
-| 1 | 2025-W01–W26 | 2025-W27–W39 | historical development |
-| 2 | 2025-W01–W39 | 2025-W40–W52 | historical development |
-| 3 | 2025-W01–W52 | 2026-W01–W08 | historical development |
-| 4 | 2025-W01–2026-W08 | 2026-W09–W16 | historical development |
-| 5 | 2025-W01–2026-W16 | 2026-W17–W22 | historical pseudo-prospective, non-independent |
-| 6 | 2025-W01–2026-W22 | 2026-W23–W29 | historical pseudo-prospective, non-independent |
+Selection used Folds 1–4 only. M0 remained fixed at penalty 0. M1 and M2 used only the authorized grid and were selected by mean Folds 1–4 joint hurdle NLL, then Brier skill and smaller penalty as tie-breakers. Folds 5–6 are historical pseudo-prospective and non-independent.
 
-M0 is fixed at penalty 0. M1 and M2 use only the authorized grid `0`, `1e-4`, `1e-3`, `1e-2`; penalty selection uses Folds 1–4 only, minimizing mean joint hurdle NLL with Brier skill and then smaller penalty as tie-breakers.
+## Development summary — Folds 1–4
 
-## Results
+| Model | Mean joint NLL | Mean Brier skill | Mean PR-AUC | Mean positive-count MAE |
+|---|---:|---:|---:|---:|
+| M0 | 0.132177 | 0.0531563 | 0.227395 | 2.3718 |
+| M1 | 0.0775795 | 0.366593 | 0.456112 | 2.39983 |
+| M2 | 0.0768659 | 0.366663 | 0.456162 | 2.24894 |
 
-The final fold-level metrics, regularization comparison, first-ever versus recurrent diagnostics, new-cell ranks, transfer diagnostics, calibration, count diagnostics, coefficient stability, and collinearity are machine-readable under `STGNN-output/v2_model/metrics/`. The decision and selected penalties are recorded in `metrics/task3b_decisions.json` and `manifests/task3b_v2a_manifest.json`.
+## Historical pseudo-prospective summary — Folds 5–6
 
-The final decision classification is populated only after the CPU workflow completes. No V2-B, V2-C, V2-D, GRU, or GConvGRU model is fitted in Task 3B.
+| Model | Mean joint NLL | Mean Brier skill | Mean PR-AUC | Mean positive-count MAE |
+|---|---:|---:|---:|---:|
+| M0 | 0.201236 | 0.0920386 | 0.228364 | 1.83086 |
+| M1 | 0.144861 | 0.330335 | 0.444092 | 1.71527 |
+| M2 | 0.14373 | 0.330488 | 0.444278 | 1.24125 |
 
+## First-ever positive localization — Folds 1–4
+
+| Model | Median percentile | Fraction >=75th | Fraction >=90th |
+|---|---:|---:|---:|
+| M0 | 91.8842 | 0.893106 | 0.596087 |
+| M1 | 93.471 | 1 | 0.853943 |
+| M2 | 93.471 | 1 | 0.853943 |
+
+The full case-level ranks, first-ever versus recurrent count summaries, calibration by prior-history state, front-distance strata, geographic transfer diagnostics, coefficient stability, and collinearity are in `STGNN-output/v2_model/metrics/`.
+
+## V1 reproduction
+
+The M0 reproduction is recorded in `metrics/v1_reproduction.csv`; the absolute joint-NLL and Brier-skill differences against the persisted Task 2F reference are expected to be within numerical tolerance. The response contract uses the immutable V1 target array. A small source-classification versus V1-target reconciliation is documented in the manifest because the earlier classification table and preflight assignment differ for a small number of response cells.
+
+## Validation policy
+
+No currently available 2025–2026 observations qualify as a genuinely unseen V2 test. If this candidate is carried forward, the V2 specification-freeze date must be recorded before accumulating a future independent evaluation period.

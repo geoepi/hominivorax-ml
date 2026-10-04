@@ -25,3 +25,4 @@ Task 3A initiates a distinct V2 design cycle. Its observation-process and
 moving-front diagnostics are descriptive and audit-only. No V2 production
 likelihood, response estimand, front-state definition, or future validation
 design is authorized by this history entry.
+| 3B | V2-A causal front-state hurdle development | V2-A ADVANCES | Historical rolling-origin development; latitude ablation LATITUDE REDUNDANT; no unseen V2 test. |
