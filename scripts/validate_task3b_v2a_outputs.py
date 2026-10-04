@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import json
 import subprocess
+from datetime import date, timedelta
 from pathlib import Path
 
 import numpy as np
@@ -91,7 +92,13 @@ def main() -> None:
     assert front[["week", "model_node_id"]].duplicated().sum() == 0
     assert len(front) == 81 * 10037
     assert np.isfinite(front.select_dtypes(include=[np.number]).to_numpy()).all()
-    assert set(front["history_cutoff_week"].unique()) == set(front["week"].unique())
+    cutoff_by_week = front.groupby("week")["history_cutoff_week"].nunique()
+    assert (cutoff_by_week == 1).all()
+    for week, cutoff in front.groupby("week", sort=True)["history_cutoff_week"].first().items():
+        year, iso_week = (int(part) for part in week.split("-W"))
+        previous = date.fromisocalendar(year, iso_week, 1) - timedelta(weeks=1)
+        expected_cutoff = f"{previous.isocalendar().year:04d}-W{previous.isocalendar().week:02d}"
+        assert cutoff == expected_cutoff, (week, cutoff, expected_cutoff)
 
     reproduction = pd.read_csv(OUTPUT / "metrics/v1_reproduction.csv")
     assert reproduction["joint_nll_abs_diff"].max() <= 1e-3
