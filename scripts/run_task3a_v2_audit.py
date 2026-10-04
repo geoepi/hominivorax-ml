@@ -249,7 +249,7 @@ def archive_v1_artifacts(output: Path, git_sha: str) -> dict[str, Any]:
     archive = output / "v1_archive"
     manifest_path = archive / "v1_artifact_archive_manifest.json"
     if manifest_path.exists():
-        raise FileExistsError(f"V1 archive already exists: {manifest_path}")
+        return json.loads(manifest_path.read_text(encoding="utf-8"))
     required = [
         "manifests/model_freeze_manifest.json",
         "manifests/model_freeze_manifest.sha256",
@@ -556,7 +556,9 @@ def build_zero_transitions(data: dict[str, Any], front_states: pd.DataFrame) -> 
 def build_environment_comparison(data: dict[str, Any], histories: dict[str, Any], background_samples: pd.DataFrame) -> pd.DataFrame:
     model_output = Path(data["model_output"])
     raw_weeks = pd.read_parquet(model_output / "raw" / "weeks.parquet")
-    raw_week_map = dict(zip(raw_weeks["iso_week"], raw_weeks["week_index"]))
+    # The parquet week_index is global to the production response history,
+    # while dynamic_features.npy is stored in the local row order of weeks.parquet.
+    raw_week_map = {week: index for index, week in enumerate(raw_weeks["iso_week"])}
     dynamic = np.load(model_output / "raw" / "dynamic_features.npy")
     static = np.load(model_output / "raw" / "static_features.npy")
     week_map = dict(zip(data["weeks"]["week"], data["weeks"]["audit_week_index"]))
