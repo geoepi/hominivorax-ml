@@ -308,7 +308,22 @@ def append_unique_csv(path: Path, row: dict[str, Any], keys: list[str]) -> None:
             mask &= frame[key].astype(str).to_numpy() == str(row[key])
         if mask.any():
             old = frame.loc[mask].iloc[0].to_dict()
-            if any(str(old.get(key)) != str(row.get(key)) for key in row):
+            equivalent = True
+            for column, value in row.items():
+                old_value = old.get(column)
+                try:
+                    if np.isfinite(float(old_value)) and np.isfinite(float(value)):
+                        if not np.isclose(float(old_value), float(value), rtol=1e-12, atol=1e-12):
+                            equivalent = False
+                            break
+                    elif str(old_value) != str(value):
+                        equivalent = False
+                        break
+                except (TypeError, ValueError):
+                    if str(old_value) != str(value):
+                        equivalent = False
+                        break
+            if not equivalent:
                 raise RuntimeError(f"append-only ledger conflict for {keys}")
             return
     frame = pd.concat([frame, pd.DataFrame([row])], ignore_index=True)
@@ -616,7 +631,24 @@ def run_score(args: argparse.Namespace) -> dict[str, Any]:
     full_outcomes["prospective_eligible"] = eligible
     full_outcomes["historical_backfill"] = historical_backfill
     outcome_path = root / "outcomes" / f"prospective_outcomes_{args.forecast_week}.parquet"
-    immutable_parquet(full_outcomes, outcome_path)
+    if outcome_path.exists():
+        existing_outcomes = pd.read_parquet(outcome_path)
+        if not {"forecast_week", "model_node_id", "observed_count", "source_sha256"}.issubset(existing_outcomes.columns):
+            raise RuntimeError("existing outcome artifact schema is incomplete")
+        if str(existing_outcomes["source_sha256"].iloc[0]) != metadata["sha256"]:
+            raise RuntimeError("existing outcome artifact source checksum differs")
+        immutable_outcome_columns = [column for column in full_outcomes.columns if column != "outcome_ingestion_timestamp_utc"]
+        pd.testing.assert_frame_equal(
+            existing_outcomes[immutable_outcome_columns].sort_values("model_node_id").reset_index(drop=True),
+            full_outcomes[immutable_outcome_columns].sort_values("model_node_id").reset_index(drop=True),
+            check_dtype=False,
+            check_exact=False,
+            rtol=1e-7,
+            atol=1e-9,
+        )
+        full_outcomes = existing_outcomes
+    else:
+        immutable_parquet(full_outcomes, outcome_path)
     training_prevalence = float(manifest["fit_metrics"].get("training_prevalence", 0.0))
     metrics, merged = score_frame(predictions, full_outcomes, history, predictions, float(model["theta"]), training_prevalence, eligible)
     metrics["historical_backfill"] = historical_backfill
@@ -693,7 +725,7 @@ def run_score(args: argparse.Namespace) -> dict[str, Any]:
             if not ((prior_history["week"].astype(str) == args.forecast_week).any()):
                 pd.concat([prior_history, new_positive], ignore_index=True).drop_duplicates(["week", "model_node_id"]).sort_values(["week", "model_node_id"]).to_parquet(args.output / "state" / "recorded_detection_history.parquet", index=False)
         update_status(args.output)
-        write_map(predictions, root / "maps" / f"forecast_{args.forecast_week}_scored.svg", f"{MODEL_ID} forecast {args.forecast_week} — scored", merged["observed_count"].to_numpy(int))
+    write_map(predictions, root / "maps" / f"forecast_{args.forecast_week}_scored.svg", f"{MODEL_ID} forecast {args.forecast_week} — scored", merged["observed_count"].to_numpy(int))
     print(json.dumps({"status": "scored", "forecast_week": args.forecast_week, "prospective_eligible": eligible, "historical_backfill": historical_backfill, "observed_positive_node_weeks": int(merged["observed_presence"].sum()), "score_path": str(score_path)}, indent=2))
     return {"metrics": metrics, "eligible": eligible}
 
