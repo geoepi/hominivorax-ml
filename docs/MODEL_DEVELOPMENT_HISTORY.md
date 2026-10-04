@@ -12,7 +12,7 @@ terminal holdout is not used for model selection.
 | 2E | Revised-domain hurdle baselines | ADVANCE | Current 24-feature hurdle baseline became the locked reference. |
 | 2F | Structured spatial and antecedent augmentations | HOLD / AMBIGUOUS | Augmented models improved average temporal and spatial summaries, but no candidate met every worst-fold and consistency guardrail. Current hurdle remains preferred. |
 | 2G | Frozen Hurdle-Current terminal evaluation | PARTIAL GENERALIZATION | Full-domain and Mexico discrimination/Brier skill remain positive, but joint NLL and calibration deteriorate; U.S. transfer is WEAK / AMBIGUOUS. Primary remains Hurdle-Current. |
-| 3A | V1 closure and V2 observation/front audit | V1 FROZEN; V2 AUDIT INITIATED | The consumed 2026-W17–W29 period is historical evaluated data. No V2 predictive model is fit in this audit. |
+| 3A | V1 closure and V2 observation/front audit | V1 FROZEN; V2 AUDIT COMPLETE | Observation zeros are strongly structured by prior reporting proximity; causal front states are audit-only. V2-A is recommended next subject to estimand review; V2-D is not identifiable from current data. No V2 predictive model was fit. |
 
 Task 2F retains the following decisions for subsequent work:
 
