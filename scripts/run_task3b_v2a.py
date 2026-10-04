@@ -65,6 +65,7 @@ PRIMARY_FRONT_AVAILABILITY = [
     "detection_within_50km_ever_available",
 ]
 LATITUDE_FEATURES = ["prior13_latitude_p95_log1p", "prior13_latitude_p95_available"]
+OPTIMIZER_MAXITER = 1000
 MODELS = {
     "M0": BASE_FEATURES,
     "M1": BASE_FEATURES + PRIMARY_FRONT_CONTINUOUS + PRIMARY_FRONT_AVAILABILITY,
@@ -389,7 +390,7 @@ def fit_state(array: np.ndarray, feature_names: list[str], counts: np.ndarray, t
     x_eval = apply_scaling(selected_matrix(array, eval_times), scaling)
     y_train = counts[np.asarray(train_times)].reshape(-1)
     y_eval = counts[np.asarray(eval_times)]
-    model = ExactHurdleRegressor() if penalty == 0 else RegularizedExactHurdleRegressor(penalty)
+    model = ExactHurdleRegressor(maxiter=OPTIMIZER_MAXITER) if penalty == 0 else RegularizedExactHurdleRegressor(penalty, maxiter=OPTIMIZER_MAXITER)
     model.fit(x_train, y_train)
     if not model.fit_info.get("occurrence_success") or not model.fit_info.get("count_success"):
         raise RuntimeError(f"non-converged {penalty} fit: {model.fit_info}")
@@ -694,6 +695,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         latitude_decision = "LATITUDE REDUNDANT"
     decisions = {
         "selected_penalties": selected_penalties,
+        "optimizer_settings": {"maxiter": OPTIMIZER_MAXITER, "method": "L-BFGS-B", "objective": "exact_joint_hurdle_nll", "technical_reason": "reproducible CPU convergence safeguard; no statistical specification change"},
         "selection_rule": "M0 fixed at 0; M1/M2 minimize mean Folds 1-4 joint hurdle NLL, ties favor higher Brier skill then smaller penalty; Folds 5-6 never enter selection.",
         "v2a_decision": decision,
         "latitude_ablation_decision": latitude_decision,

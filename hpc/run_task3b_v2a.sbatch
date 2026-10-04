@@ -14,6 +14,9 @@ set -euo pipefail
 cd /project/disease_ecology/STGNN
 export STGNN_PYTHON_ENV=/project/disease_ecology/STGNN-python-venv
 source hpc/env_python.sh
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
 
 python scripts/run_task3b_v2a.py \
   --model-output /project/disease_ecology/STGNN-output/revised_model_data \
