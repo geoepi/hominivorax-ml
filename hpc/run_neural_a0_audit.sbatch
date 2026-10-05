@@ -22,6 +22,5 @@ mkdir -p /project/disease_ecology/STGNN-output/neural_a0_architecture_audit/logs
 
 python scripts/run_neural_a0_architecture_audit.py \
   --mode run \
-  --output-root /project/disease_ecology/STGNN-output \
-  --repo /project/disease_ecology/STGNN-output/worktrees/stgnn-a3-ablation \
+  --output-root /project/disease_ecology/STGNN-output/neural_a0_architecture_audit \
   --task-index "${SLURM_ARRAY_TASK_ID}"
