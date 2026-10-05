@@ -388,7 +388,9 @@ def build_tensors(output_root: Path, force: bool = False) -> dict[str, Any]:
     static = np.asarray(inputs["static"], dtype=np.float32)
     density = np.log1p(np.maximum(static[:, :5], 0.0))
     indicators = static[:, 5:]
-    calendar_index = np.arange(-WARMUP_WEEKS, DEVELOPMENT_WEEKS, dtype=np.float64)
+    # The revised production calendar is persisted on the continuous global
+    # phase whose 2025-W01 target index is 52; retain that phase for warm-up.
+    calendar_index = np.arange(SEQUENCE_WEEKS, dtype=np.float64)
     calendar = np.column_stack([
         np.sin(2 * np.pi * calendar_index / PERIOD),
         np.cos(2 * np.pi * calendar_index / PERIOD),
