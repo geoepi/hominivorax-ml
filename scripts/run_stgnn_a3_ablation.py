@@ -35,8 +35,11 @@ from scipy.special import gammaln
 SCRIPT_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_ROOT.parent
 sys.path.insert(0, str(REPO_ROOT / "python"))
+sys.path.insert(0, str(REPO_ROOT / "scripts"))
 from hurdle_zt_nb import hurdle_losses, positive_parameter  # noqa: E402
 from task2b_models import GConvGRUHurdleNB, model_metadata  # noqa: E402
+from run_task3a_v2_audit import causal_front_descriptors  # noqa: E402
+from run_task3b_v2a import load_data as load_v2a_data  # noqa: E402
 
 
 OUTPUT_ROOT_DEFAULT = Path("/project/disease_ecology/STGNN-output")
@@ -302,11 +305,20 @@ def load_static_additions(output_root: Path, nodes: pd.DataFrame) -> tuple[pd.Da
 
 
 def build_front_sequence(output_root: Path, inputs: dict[str, Any]) -> tuple[np.ndarray, dict[str, Any]]:
-    front_path = output_root / "v2_audit" / "front_states" / "front_state_node_week.parquet"
     persisted_path = output_root / "v2_model" / "front_features" / "causal_front_features.parquet"
-    require(front_path.exists(), f"missing compatible warm-up front-state artifact: {front_path}")
     require(persisted_path.exists(), f"missing persisted V2-A front features: {persisted_path}")
-    frame = pd.read_parquet(front_path).sort_values(["week_index", "node_id"]).reset_index(drop=True)
+    # Reuse the authoritative V2-A causal builder with the refreshed response
+    # array reconciled by run_task3b_v2a.load_data.  The older v2_audit table
+    # is retained for provenance, but its target front states predate the
+    # refreshed observation source and therefore cannot be used for identity.
+    v2_data = load_v2a_data(inputs["revised"], output_root / "v2_audit")
+    positive_sets = [np.flatnonzero(v2_data["audit_counts"][week_index] > 0) for week_index in range(len(v2_data["audit_week_labels"]))]
+    frame = causal_front_descriptors(
+        positive_sets,
+        inputs["nodes"][["x", "y"]].to_numpy(float),
+        inputs["nodes"]["lat"].to_numpy(float),
+        v2_data["audit_week_labels"],
+    ).sort_values(["week_index", "node_id"]).reset_index(drop=True)
     require(frame.shape == (133 * EXPECTED_NODE_COUNT, 16), f"unexpected front-state shape: {frame.shape}")
     require(frame["week_index"].nunique() == 133 and frame["node_id"].nunique() == EXPECTED_NODE_COUNT, "front-state dimensions changed")
     nodes = inputs["nodes"]
@@ -338,9 +350,20 @@ def build_front_sequence(output_root: Path, inputs: dict[str, Any]) -> tuple[np.
     require(front_max_abs <= 2e-6, f"reconstructed front features differ from persisted V2-A features: {front_max_abs}")
     selected = front[:SEQUENCE_WEEKS]
     sequence_labels = frame[["week", "week_index"]].drop_duplicates().sort_values("week_index")["week"].astype(str).tolist()[:SEQUENCE_WEEKS]
+    current_front_path = experiment_root(output_root) / "front_features" / "causal_front_features_current.parquet"
+    current_front_path.parent.mkdir(parents=True, exist_ok=True)
+    target_frame = pd.DataFrame({
+        "week": np.repeat(v2_data["audit_week_labels"][WARMUP_WEEKS:], EXPECTED_NODE_COUNT),
+        "week_index": np.repeat(np.arange(EXPECTED_RESPONSE_WEEKS), EXPECTED_NODE_COUNT),
+        "model_node_id": np.tile(np.arange(EXPECTED_NODE_COUNT), EXPECTED_RESPONSE_WEEKS),
+        **{name: target_matrix[:, :, index].reshape(-1) for index, name in enumerate(FRONT_FEATURES)},
+    })
+    target_frame.to_parquet(current_front_path, index=False)
     return selected, {
-        "source_path": front_path,
-        "source_sha256": sha256_file(front_path),
+        "source_path": current_front_path,
+        "source_sha256": sha256_file(current_front_path),
+        "source_builder": "scripts/run_task3b_v2a.py plus scripts/run_task3a_v2_audit.py causal_front_descriptors",
+        "source_revised_manifest_sha256": sha256_file(inputs["manifest_path"]),
         "persisted_v2a_path": persisted_path,
         "persisted_v2a_sha256": sha256_file(persisted_path),
         "placeholder_distance_km": placeholder_distance,
