@@ -47,7 +47,12 @@ canonical <- terra::rast(canonical_mask_path)
 if (terra::nlyr(canonical) != 1L) stop("Canonical mask must have one layer")
 mask_values <- terra::values(canonical, mat = FALSE)
 valid_mask <- !is.na(mask_values) & is.finite(mask_values)
-if (sum(valid_mask) != nrow(nodes)) stop("Canonical mask valid-cell count does not equal 10,037")
+node_cells <- as.integer(nodes$raster_cell)
+if (any(nodes$raster_cell != node_cells)) stop("Canonical node raster cells must be integer-valued")
+if (sum(valid_mask) < nrow(nodes)) stop("Canonical mask has fewer valid cells than the 10,037-node model contract")
+if (any(node_cells < 1L | node_cells > terra::ncell(canonical) | !valid_mask[node_cells])) {
+  stop("One or more canonical model raster cells are absent from the supplied mask")
+}
 
 ## Use the canonical raster-cell number as the polygon attribute. This keeps
 ## polygon ordering independent of terra's vectorization order.
