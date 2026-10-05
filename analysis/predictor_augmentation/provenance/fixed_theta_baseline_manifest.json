@@ -1,0 +1,42 @@
+{
+  "feature_count": 30,
+  "folds": "F1-F4 only",
+  "generated_utc": "2026-10-05T18:06:45+00:00",
+  "input_hashes": {
+    "soil_features": "58fcd1314c91f4d792ee221e9d9b7d9d01676087ea953b81a602dc2345bfd4b9"
+  },
+  "maxiter": 2000,
+  "objective": "exact_joint_hurdle_nll",
+  "optimizer": "L-BFGS-B",
+  "pass": true,
+  "penalty": 0.01,
+  "required_metrics": [
+    "joint_hurdle_nll",
+    "pr_auc",
+    "roc_auc",
+    "brier",
+    "brier_skill",
+    "calibration_intercept",
+    "calibration_slope",
+    "positive_count_mae",
+    "positive_count_rmse",
+    "conditional_mean_bias"
+  ],
+  "run_A": "/project/disease_ecology/STGNN-output/soil_feature_screening_phase_s2_corrected",
+  "run_B": "/project/disease_ecology/STGNN-output/soil_feature_screening_phase_s2_fixed_theta_repro",
+  "software": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "python": "3.12.14"
+  },
+  "status": "FIXED-THETA BASELINE REPRODUCIBILITY PASSED",
+  "terminal_response_loaded": false,
+  "theta": 0.7018903965556372,
+  "theta_fixed": true,
+  "tolerances_declared_before_run_B": {
+    "coefficient_absolute": 1e-09,
+    "metric_absolute": 1e-09,
+    "prediction_absolute": 1e-09,
+    "scaling_absolute": 1e-12
+  }
+}
