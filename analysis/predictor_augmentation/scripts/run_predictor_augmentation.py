@@ -79,6 +79,7 @@ FOLDS = [
     {"fold": 3, "train_start": "2025-W01", "train_end": "2025-W52", "validation_start": "2026-W01", "validation_end": "2026-W08", "train_indices": list(range(0, 52)), "validation_indices": list(range(52, 60))},
     {"fold": 4, "train_start": "2025-W01", "train_end": "2026-W08", "validation_start": "2026-W09", "validation_end": "2026-W16", "train_indices": list(range(0, 60)), "validation_indices": list(range(60, 68))},
 ]
+EXPECTED_F1_F4_VALIDATION_WEEKS = 42
 METRIC_COLUMNS = [
     "joint_hurdle_nll", "pr_auc", "roc_auc", "brier", "brier_skill",
     "calibration_intercept", "calibration_slope", "positive_count_mae",
@@ -179,8 +180,8 @@ def response_folds(weeks: pd.DataFrame) -> list[dict[str, Any]]:
         if train != fold["train_indices"] or validation != fold["validation_indices"]:
             raise AssertionError(f"persisted weeks do not reconstruct prescribed F{fold['fold']}")
         result.append(dict(fold))
-    if sum(len(item["validation_indices"]) for item in result) != 55:
-        raise AssertionError("F1--F4 validation weeks must cover 55 weeks")
+    if sum(len(item["validation_indices"]) for item in result) != EXPECTED_F1_F4_VALIDATION_WEEKS:
+        raise AssertionError(f"F1--F4 validation weeks must cover {EXPECTED_F1_F4_VALIDATION_WEEKS} weeks")
     return result
 
 
