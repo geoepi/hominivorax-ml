@@ -69,7 +69,10 @@ target_polygons <- target_polygons[target_order, ]
 raster_metadata <- function(path, label) {
   raster <- tryCatch(terra::rast(path), error = function(e) stop(label, " raster did not open: ", conditionMessage(e)))
   if (terra::nlyr(raster) != 1L) stop(label, " raster must have exactly one layer")
-  sample <- tryCatch(terra::readValues(raster, row = 1, nrows = min(10, terra::nrow(raster))), error = function(e) stop(label, " values could not be read: ", conditionMessage(e)))
+  sample <- tryCatch({
+    terra::readStart(raster)
+    tryCatch(terra::readValues(raster, row = 1, nrows = min(10, terra::nrow(raster))), finally = terra::readStop(raster))
+  }, error = function(e) stop(label, " values could not be read: ", conditionMessage(e)))
   if (!length(sample)) stop(label, " raster returned no readable values")
   range <- tryCatch(terra::global(raster, c("min", "max"), na.rm = TRUE), error = function(e) stop(label, " global values could not be read: ", conditionMessage(e)))
   minimum <- as.numeric(range[1, 1]); maximum <- as.numeric(range[1, 2])
