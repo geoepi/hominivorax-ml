@@ -1130,7 +1130,7 @@ def main() -> int:
     args = parser.parse_args()
     if args.mode == "prepare":
         manifest = build_tensors(args.output_root, force=args.force)
-        print(json.dumps(manifest, indent=2, sort_keys=True))
+        print(json.dumps(jsonable(manifest), indent=2, sort_keys=True))
     elif args.mode == "run":
         require(args.task_index is not None, "--task-index is required for run mode")
         run_task(args.output_root, args.task_index, cpu=args.cpu)
