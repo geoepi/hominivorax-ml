@@ -116,6 +116,8 @@ ARCHITECTURE = {
 
 
 def jsonable(value: Any) -> Any:
+    if isinstance(value, Path):
+        return str(value)
     if isinstance(value, (np.integer,)):
         return int(value)
     if isinstance(value, (np.floating,)):
