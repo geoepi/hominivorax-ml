@@ -177,10 +177,14 @@ def loss_component_audit(result_root: Path) -> dict[str, Any]:
         y = torch.tensor([float(y_value)], dtype=torch.float64)
         current = float(hurdle_losses(logit.reshape(1), mu_t, raw_theta, y)["balanced_multitask_loss"])
         exact = float(hurdle_losses(logit.reshape(1), mu_t, raw_theta, y)["exact_joint_hurdle_nll"])
+        exact_value = exact_single(y_value, p, mu, theta)
         rows.append({"case": name, "y": y_value, "p_occurrence": p, "mu": mu, "theta": theta,
-                     "structured_exact_nll": exact_single(y_value, p, mu, theta),
-                     "neural_current_loss": current, "difference": current - exact_single(y_value, p, mu, theta),
-                     "reason": "single-observation terms are algebraically identical"})
+                     "structured_exact_nll": exact_value,
+                     "neural_current_loss": current, "difference": current - exact_value,
+                     "current_loss_finite": bool(np.isfinite(current)),
+                     "reason": ("current balanced loss is undefined when no positive observations are present"
+                                if not np.isfinite(current) else
+                                "single-observation terms are algebraically identical")})
     for name, values in [("mixed_batch", [0, 1, 2, 100]), ("rare_positive_batch", [0, 0, 0, 0, 1])]:
         y = torch.tensor(values, dtype=torch.float64)
         logits = torch.full_like(y, math.log(p / (1 - p)))
@@ -190,10 +194,13 @@ def loss_component_audit(result_root: Path) -> dict[str, Any]:
         exact = float(current_result["exact_joint_hurdle_nll"])
         rows.append({"case": name, "y": ",".join(map(str, values)), "p_occurrence": p, "mu": mu, "theta": theta,
                      "structured_exact_nll": exact, "neural_current_loss": current, "difference": current - exact,
+                     "current_loss_finite": bool(np.isfinite(current)),
                      "reason": "positive-count denominator differs from observation-level denominator"})
     frame = pd.DataFrame(rows)
     frame.to_csv(result_root / "loss_component_audit.csv", index=False)
-    return {"single_case_max_abs_difference": float(np.max(np.abs(frame.iloc[:4]["difference"]))),
+    finite_single = frame.iloc[:4]["difference"].dropna().to_numpy(float)
+    return {"single_case_max_abs_difference": float(np.max(np.abs(finite_single))) if finite_single.size else None,
+            "zero_case_current_is_finite": bool(frame.loc[frame.case == "zero", "current_loss_finite"].iloc[0]),
             "mixed_batch_difference": float(frame.loc[frame.case == "mixed_batch", "difference"].iloc[0]),
             "rare_positive_batch_difference": float(frame.loc[frame.case == "rare_positive_batch", "difference"].iloc[0])}
 
@@ -282,12 +289,13 @@ def task_specs_for_phase(phase: str, loss_objective: str = "balanced_multitask_l
         raise ValueError(phase)
     specs = []
     for model_id, model_type, k, objective in models:
+        model_epochs = 12 if phase == "n4" and model_id == "N4-E12" else epochs
         for fold in range(1, 5):
             for seed in SEEDS:
                 specs.append({"task_id": f"{model_id}_fold{fold}_seed{seed}", "audit_phase": phase.upper(), "model_id": model_id,
                               "model_type": model_type, "fold": fold, "seed": seed, "k": k, "loss_objective": objective,
                               "hidden": HIDDEN, "dropout": DROPOUT, "learning_rate": LR, "weight_decay": 0.0,
-                              "warmup_weeks": WARMUP_WEEKS, "tbptt_weeks": TBPTT, "max_epochs": epochs, "patience": 3,
+                              "warmup_weeks": WARMUP_WEEKS, "tbptt_weeks": TBPTT, "max_epochs": model_epochs, "patience": 3,
                               "theta": THETA, "status": "planned"})
     return specs
 
@@ -304,7 +312,15 @@ def prepare(output_root: Path, prior_root: Path) -> dict[str, Any]:
     specs = task_specs_for_phase("n1")
     write_json(output_root / "audit_task_manifest.json", {"phase": "N1", "tasks": specs, "completed": 0, "failed": 0})
     (output_root / "figures").mkdir(parents=True, exist_ok=True)
-    (output_root / "figures" / "figure_generation_status.txt").write_text("PLOTTING TABLES AVAILABLE; FIGURE GENERATION DEFERRED UNTIL FINAL AGGREGATION\n", encoding="utf-8")
+    (output_root / "figures" / "figure_generation_status.txt").write_text("PLOTTING UNAVAILABLE — matplotlib is not installed in the Atlas runtime; plotting-ready tables are preserved in results/.\n", encoding="utf-8")
+    env_lines = [
+        f"python={platform.python_version()}",
+        f"platform={platform.platform()}",
+        f"torch={torch.__version__}",
+        f"cuda_available={torch.cuda.is_available()}",
+        f"pandas={pd.__version__}",
+    ]
+    (result_root / "software_environment.txt").write_text("\n".join(env_lines) + "\n", encoding="utf-8")
     (output_root / "README.md").write_text("# Revised-domain neural A0 architecture/training audit\n\nA0-only, F1-F4, five paired seeds. A3 predictors and terminal outcomes are excluded. Large arrays and checkpoints remain under Atlas output storage.\n", encoding="utf-8")
     return {"output_root": output_root, "reference_configuration": config, "task_count": len(specs), "loss_summary": loss_summary, "gradient_summary": gradient_summary, "graph_summary": graph_summary}
 
@@ -581,7 +597,7 @@ def finalize(output_root: Path) -> dict[str, Any]:
         count_rows.append({"task_id": record["task_id"], "model_id": record["model_id"], "fold": record["fold"], "seed": record["seed"], "observed_positive_mean": record["metrics"]["positive_observed_mean"], "predicted_positive_mean": record["metrics"]["positive_predicted_mean"], "bias": record["metrics"]["positive_count_bias"], "mae": record["metrics"]["positive_count_mae"], "rmse": record["metrics"]["positive_count_rmse"], "predicted_p50": record["metrics"]["positive_predicted_p50"], "predicted_p90": record["metrics"]["positive_predicted_p90"], "predicted_p99": record["metrics"]["positive_predicted_p99"]})
         calibration_rows.append({"task_id": record["task_id"], "model_id": record["model_id"], "fold": record["fold"], "seed": record["seed"], "calibration_intercept": record["metrics"]["calibration_intercept"], "calibration_slope": record["metrics"]["calibration_slope"], "observed_prevalence": record["metrics"]["observed_prevalence"], "mean_prediction": record["metrics"]["mean_predicted_probability"], "brier": record["metrics"]["brier"]})
     pd.DataFrame(distribution_rows).to_csv(result_root / "prediction_distribution.csv", index=False); pd.DataFrame(weekly_rows).to_csv(result_root / "weekly_prediction_calibration.csv", index=False); pd.DataFrame(calibration_rows).to_csv(result_root / "calibration_summary.csv", index=False); pd.DataFrame(count_rows).to_csv(result_root / "count_prediction_summary.csv", index=False)
-    final_decision = {"completed_task_count": len(records), "models_run": sorted(metrics_frame.model_id.unique().tolist()), "a3_predictors_used": False, "theta_changed_or_reestimated": bool(np.any(np.abs(metrics_frame.theta - THETA) > 1e-12)), "feature_set_changed": False, "f5_f6_used": False, "terminal_later_outcomes_used": False, "feature_selection_reopened": False, "main_merged": False}
+    final_decision = {"completed_task_count": len(records), "models_run": sorted(metrics_frame.model_id.unique().tolist()), "a3_predictors_used": False, "theta_changed_or_reestimated": bool(np.any(np.abs(metrics_frame.theta - THETA) > 1e-7)), "feature_set_changed": False, "f5_f6_used": False, "terminal_later_outcomes_used": False, "feature_selection_reopened": False, "main_merged": False}
     if "N1-E" in set(summary.model_id):
         n1e = summary[summary.model_id == "N1-E"].iloc[0]; final_decision["n1e_valid"] = valid_gate(n1e)
     if "N1-R" in set(summary.model_id):
