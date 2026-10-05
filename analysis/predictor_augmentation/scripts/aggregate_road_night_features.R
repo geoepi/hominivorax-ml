@@ -95,11 +95,13 @@ aggregate_raster <- function(info, label) {
   same <- tryCatch(terra::same.crs(polygons, raster), error = function(e) FALSE)
   if (!same) polygons <- terra::project(polygons, terra::crs(raster))
   extracted <- tryCatch(terra::extract(raster, polygons, exact = TRUE, ID = TRUE), error = function(e) stop(label, " exact extraction failed: ", conditionMessage(e)))
-  if (!all(c("ID", "weight") %in% names(extracted))) stop(label, " exact extraction did not return area weights")
-  value_columns <- setdiff(names(extracted), c("ID", "weight"))
+  weight_columns <- intersect(c("weight", "fraction"), names(extracted))
+  if (!all("ID" %in% names(extracted)) || length(weight_columns) != 1L) stop(label, " exact extraction did not return area weights")
+  weight_column <- weight_columns[[1L]]
+  value_columns <- setdiff(names(extracted), c("ID", weight_column))
   if (length(value_columns) != 1L) stop(label, " expected one extracted value column")
   values <- as.numeric(extracted[[value_columns]])
-  weights <- as.numeric(extracted$weight)
+  weights <- as.numeric(extracted[[weight_column]])
   if (!length(values) || any(!is.finite(weights) | weights < 0)) stop(label, " returned invalid area weights")
   result <- data.frame(sum_weight = numeric(nrow(nodes)), valid_weight = numeric(nrow(nodes)), weighted_sum = numeric(nrow(nodes)))
   groups <- split(seq_len(nrow(extracted)), extracted$ID)
@@ -126,11 +128,14 @@ spot_check <- function(info, label, aggregate_result) {
   raster <- info$raster
   if (!terra::same.crs(polygons, raster)) polygons <- terra::project(polygons, terra::crs(raster))
   extracted <- terra::extract(raster, polygons, exact = TRUE, ID = TRUE)
-  value_column <- setdiff(names(extracted), c("ID", "weight"))[[1L]]
+  weight_columns <- intersect(c("weight", "fraction"), names(extracted))
+  if (length(weight_columns) != 1L) stop(label, " exact spot-check extraction did not return area weights")
+  weight_column <- weight_columns[[1L]]
+  value_column <- setdiff(names(extracted), c("ID", weight_column))[[1L]]
   check_values <- vapply(indices, function(i) {
     rows <- which(extracted$ID == match(i, indices))
     valid <- is.finite(extracted[[value_column]][rows])
-    sum(extracted[[value_column]][rows][valid] * extracted$weight[rows][valid]) / sum(extracted$weight[rows][valid])
+    sum(extracted[[value_column]][rows][valid] * extracted[[weight_column]][rows][valid]) / sum(extracted[[weight_column]][rows][valid])
   }, numeric(1))
   differences <- abs(check_values - aggregate_result$area_weighted_mean[indices])
   data.frame(source = label, metric = c("spot_check_node_count", "spot_check_max_absolute_difference", "spot_check_pass"), value = c(as.character(length(indices)), format(max(differences), scientific = TRUE), as.character(max(differences) <= 1e-10)), stringsAsFactors = FALSE)
