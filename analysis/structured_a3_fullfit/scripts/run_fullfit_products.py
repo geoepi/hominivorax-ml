@@ -177,6 +177,15 @@ def validate_nodes(nodes: pd.DataFrame) -> pd.DataFrame:
     return nodes
 
 
+def validate_feature_nodes(nodes: pd.DataFrame, label: str) -> pd.DataFrame:
+    require_columns(nodes, ["model_node_id"], label)
+    nodes = nodes.sort_values("model_node_id").reset_index(drop=True)
+    ids = nodes["model_node_id"].to_numpy(np.int64)
+    if len(nodes) != NODE_COUNT or not np.array_equal(ids, np.arange(NODE_COUNT)):
+        raise RuntimeError(f"{label} does not cover canonical node IDs 0..10036")
+    return nodes
+
+
 def load_bundle(args: argparse.Namespace) -> dict[str, Any]:
     root = args.model_output
     raw = root / "raw"
@@ -215,8 +224,8 @@ def load_bundle(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("front-history predictors contain non-finite values")
     if not np.array_equal(presence, (counts > 0).astype(np.int8)):
         raise RuntimeError("response presence contract failed")
-    anthro = validate_nodes(pd.read_parquet(args.anthropogenic_features))
-    soil = validate_nodes(pd.read_parquet(args.soil_features))
+    anthro = validate_feature_nodes(pd.read_parquet(args.anthropogenic_features), "anthropogenic features")
+    soil = validate_feature_nodes(pd.read_parquet(args.soil_features), "soil features")
     require_columns(anthro, ["road_density", "night_illumination"], "anthropogenic features")
     soil_map = {name: (name if name in soil.columns else f"{name}__mean") for name in ["clay_0_15", "water_difference_wv0033_minus_wv0010_0_15"]}
     require_columns(soil, soil_map.values(), "soil features")
