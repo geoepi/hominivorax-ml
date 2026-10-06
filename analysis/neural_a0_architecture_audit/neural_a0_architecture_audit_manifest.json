@@ -1,0 +1,73 @@
+{
+  "audit_version": "neural-a0-architecture-audit-v1",
+  "completed": 160,
+  "final_decision": {
+    "a3_predictors_used": false,
+    "classification": "A0 VALIDITY IMPROVED BUT REMAINS AMBIGUOUS",
+    "completed_task_count": 160,
+    "f5_f6_used": false,
+    "feature_selection_reopened": false,
+    "feature_set_changed": false,
+    "final_recommended_predictor_specification": {
+      "a3_predictors": false,
+      "directed_edge_count": 77614,
+      "feature_selection": "F1-F4 only",
+      "node_count": 10037,
+      "predictor_set": "exactly 30 frozen V2-A predictors",
+      "status": "A0 predictor specification remains the only authorized boundary; no neural baseline is frozen",
+      "tbptt_weeks": 13,
+      "theta": 0.7018903965556372,
+      "warmup_weeks": 52
+    },
+    "main_merged": false,
+    "models_run": [
+      "N1-E",
+      "N1-R",
+      "N2-G0",
+      "N2-R",
+      "N3-K1",
+      "N3-K3",
+      "N4-E12",
+      "N4-E36"
+    ],
+    "phase_decisions": {
+      "N1": {
+        "current_balanced_loss_is_exact_joint_nll": false,
+        "decision": "LOSS OBJECTIVE MISMATCH \u2014 MATERIAL",
+        "exact_loss_validity_restored": false,
+        "zero_case_current_loss_is_finite": false
+      },
+      "N2": {
+        "decision": "GRAPH COMPONENT IMPLICATED; NON-GRAPH CONTROL STILL INVALID",
+        "gconvgru_k3_valid": false,
+        "non_graph_gru_valid": false
+      },
+      "N3": {
+        "decision": "K1 MODESTLY IMPROVES K3 BUT DOES NOT RESTORE VALIDITY",
+        "k1_valid": false,
+        "k3_valid": false
+      },
+      "N4": {
+        "decision": "36 EPOCHS IMPROVES METRICS BUT DOES NOT RESTORE VALIDITY",
+        "e12_valid": false,
+        "e36_valid": false
+      }
+    },
+    "response_changed": false,
+    "stop_condition": "Sequential N1-N4 audit completed; stop without A3 predictor use, feature reopening, or main merge.",
+    "terminal_later_outcomes_used": false,
+    "theta": 0.7018903965556372,
+    "theta_changed_or_reestimated": false,
+    "valid_gate_by_model": {
+      "N1-E": false,
+      "N1-R": false,
+      "N2-G0": false,
+      "N2-R": false,
+      "N3-K1": false,
+      "N3-K3": false,
+      "N4-E12": false,
+      "N4-E36": false
+    }
+  },
+  "result_root": "/project/disease_ecology/STGNN-output/neural_a0_architecture_audit/results"
+}

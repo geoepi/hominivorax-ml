@@ -1,0 +1,1 @@
+PLOTTING UNAVAILABLE — matplotlib is not installed in the Atlas runtime; plotting-ready tables are preserved in results/.
