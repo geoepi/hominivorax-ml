@@ -1,0 +1,2 @@
+status,evaluation_class,period,model,positive_node_weeks,unique_positive_nodes,first_positive_evaluation_week,median_positive_case_probability,median_positive_case_percentile,proportion_positive_cases_ge_75th,proportion_positive_cases_ge_90th,maximum_pre_detection_us_probability
+BLOCKED_REQUIRED_INPUTS_UNAVAILABLE,HISTORICAL EXPOSED HOLDOUT,2026-W17--2026-W29,STRUCTURED_A3,,,,,,,,

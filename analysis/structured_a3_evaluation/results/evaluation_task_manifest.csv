@@ -1,0 +1,6 @@
+task_id,evaluation_class,period,model,geography,status,output_path,runtime_seconds
+HIST-A3-FULL,HISTORICAL EXPOSED HOLDOUT,2026-W17--2026-W29,STRUCTURED_A3,full_revised_domain,BLOCKED_REQUIRED_INPUTS_UNAVAILABLE,results/overall_metrics.csv,
+HIST-A3-GEO,HISTORICAL EXPOSED HOLDOUT,2026-W17--2026-W29,STRUCTURED_A3,Mexico_and_United_States,BLOCKED_REQUIRED_INPUTS_UNAVAILABLE,results/geographic_metrics.csv,
+HIST-A0-A3,HISTORICAL EXPOSED HOLDOUT,2026-W17--2026-W29,A0_vs_A3,paired,BLOCKED_REQUIRED_INPUTS_UNAVAILABLE,results/a0_a3_holdout_comparison.csv,
+PROS-A3,PROSPECTIVE UNTOUCHED,2026-W30_onward,STRUCTURED_A3,all,BLOCKED_NO_ELIGIBLE_PROSPECTIVE_PERIOD,results/a0_a3_prospective_comparison.csv,
+AUDIT-LEAKAGE,ALL,pre-score,STRUCTURED_A3,all,BLOCKED_REQUIRED_INPUTS_UNAVAILABLE,results/history_feature_leakage_audit.csv,

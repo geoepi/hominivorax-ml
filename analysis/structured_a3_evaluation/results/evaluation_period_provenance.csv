@@ -1,0 +1,5 @@
+period,start_week,end_week,classification,previously_scored,previously_used_for_selection,previously_visible_in_reports,evidence,eligible_for_independent_claim
+F1-F4 development,2025-W01,2026-W16,DEVELOPMENT,true,true,true,"Persisted STRUCTURED A3 augmentation protocol and fold definitions; these weeks are the authorized development fit/selection period.",false
+F5 historical pseudo-prospective,2026-W17,2026-W22,HISTORICAL EXPOSED HOLDOUT,true,false,true,"Persisted Task 3B selection documentation identifies Fold 5 as historical pseudo-prospective and non-independent; terminal evaluation artifacts cover this horizon.",false
+F6 historical pseudo-prospective,2026-W23,2026-W29,HISTORICAL EXPOSED HOLDOUT,true,false,true,"Persisted Task 3B selection documentation identifies Fold 6 as historical pseudo-prospective and non-independent; Task 2G terminal evaluation reports this period.",false
+Later than exposed terminal horizon,2026-W30,,NOT ELIGIBLE,false,false,false,"No authoritative later observation source or complete A3 predictor bundle is present in the accessible workspace; no evaluation endpoint can be established.",false

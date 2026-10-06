@@ -1,0 +1,9 @@
+feature_group,features,transformation,scaling_rule,development_mean_used,development_sd_used,evaluation_data_used,status,evidence
+environmental,12 V2-A environmental predictors,identity,development-fit mean/SD only,NOT_AVAILABLE,NOT_AVAILABLE,false,NOT_RUN,"Frozen protocol recorded in frozen_a3_evaluation_manifest.json; model-output bundle unavailable."
+livestock_density,5 density predictors,log1p,development-fit mean/SD only,NOT_AVAILABLE,NOT_AVAILABLE,false,NOT_RUN,"Frozen protocol recorded in frozen_a3_evaluation_manifest.json; model-output bundle unavailable."
+livestock_indicators,5 *_imputed predictors,identity,unscaled (mean 0 SD 1),NOT_APPLICABLE,NOT_APPLICABLE,false,NOT_RUN,"Frozen protocol recorded in frozen_a3_evaluation_manifest.json; model-output bundle unavailable."
+calendar,week_sin/week_cos,identity,unscaled (mean 0 SD 1),NOT_APPLICABLE,NOT_APPLICABLE,false,NOT_RUN,"Frozen protocol recorded in frozen_a3_evaluation_manifest.json; model-output bundle unavailable."
+causal_history,6 history/front predictors,causal log1p or identity by feature,development-fit mean/SD only except availability indicators,NOT_AVAILABLE,NOT_AVAILABLE,false,NOT_RUN,"Causal front-feature parquet unavailable; leakage audit not executed."
+road_density,road_density,log1p,development-fit mean/SD only,NOT_AVAILABLE,NOT_AVAILABLE,false,NOT_RUN,"Frozen static augmentation artifact unavailable."
+night_illumination,night_illumination,log1p,development-fit mean/SD only,NOT_AVAILABLE,NOT_AVAILABLE,false,NOT_RUN,"Frozen static augmentation artifact unavailable."
+soil_augmentation,clay_0_15; water_difference_wv0033_minus_wv0010_0_15,identity,development-fit mean/SD only,NOT_AVAILABLE,NOT_AVAILABLE,false,NOT_RUN,"Frozen soil node feature artifact unavailable."

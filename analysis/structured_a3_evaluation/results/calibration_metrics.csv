@@ -1,0 +1,2 @@
+status,evaluation_class,period,model,geography,calibration_intercept,calibration_slope,mean_predicted_prevalence,observed_prevalence,reliability_bins
+BLOCKED_REQUIRED_INPUTS_UNAVAILABLE,HISTORICAL EXPOSED HOLDOUT,2026-W17--2026-W29,STRUCTURED_A3,all,,,,,
