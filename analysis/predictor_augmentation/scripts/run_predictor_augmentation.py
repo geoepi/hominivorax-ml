@@ -330,7 +330,7 @@ def prepare(args: argparse.Namespace) -> None:
     task_rows: list[dict[str, Any]] = []
     task_id = 1
     for fold in FOLDS:
-        for model in ("A0", "A1", "A2", "A3"):
+        for model in MODELS:
             task_rows.append({
                 "task_id": task_id, "fold": fold["fold"], "model": model,
                 "added_features": "+".join(MODELS[model]), "status": "PENDING", "attempt": 1,
