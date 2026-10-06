@@ -77,7 +77,7 @@ overprediction can be drawn.
 
 ## 12. Generalization classification
 
-Historical: `NOT ASSESSED` because the exposed periods could not be scored in
+Historical: `NOT TESTED` because the exposed periods could not be scored in
 this workspace.
 
 Prospective: `PROSPECTIVE GENERALIZATION NOT YET TESTED`.
@@ -107,7 +107,7 @@ main merged: NO
 
 ```text
 HISTORICAL GENERALIZATION:
-NOT TESTED IN THIS EXECUTION
+NOT TESTED
 
 PROSPECTIVE GENERALIZATION:
 NOT YET TESTED
