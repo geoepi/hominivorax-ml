@@ -28,7 +28,7 @@ import pandas as pd
 
 
 SCRIPT_ROOT = Path(__file__).resolve().parents[2]
-REPO_ROOT = SCRIPT_ROOT.parents[1]
+REPO_ROOT = SCRIPT_ROOT.parent
 sys.path.insert(0, str(REPO_ROOT / "analysis" / "predictor_augmentation" / "scripts"))
 sys.path.insert(0, str(REPO_ROOT / "python"))
 
