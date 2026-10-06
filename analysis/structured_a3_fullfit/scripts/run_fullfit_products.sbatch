@@ -11,7 +11,8 @@
 #SBATCH --error=/project/disease_ecology/STGNN-output/structured_a3_fullfit/logs/fullfit_%j.err
 
 set -euo pipefail
-cd /project/disease_ecology/STGNN
+repo_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)
+cd "${repo_root}"
 output_root=/project/disease_ecology/STGNN-output/structured_a3_fullfit
 mkdir -p "${output_root}/logs"
 
