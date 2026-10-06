@@ -1,0 +1,34 @@
+{
+  "generated_utc": "2026-10-06T18:46:19+00:00",
+  "git_head": "88bcf3ae238f3aae712b123acfa07e4b2c5e4ad1",
+  "manifest_sha256": "9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61",
+  "metrics_generated": false,
+  "missing_artifacts": [
+    "revised_model_data",
+    "causal_front_features",
+    "anthropogenic_static_features",
+    "soil_static_features"
+  ],
+  "project_root": "D:\\project\\disease_ecology",
+  "prospective_claim_allowed": false,
+  "required_artifacts": {
+    "anthropogenic_static_features": {
+      "exists": false,
+      "path": "D:\\project\\disease_ecology\\STGNN-output\\predictor_augmentation\\static\\road_night_node_features.parquet"
+    },
+    "causal_front_features": {
+      "exists": false,
+      "path": "D:\\project\\disease_ecology\\STGNN-output\\v2_model\\front_features\\causal_front_features.parquet"
+    },
+    "revised_model_data": {
+      "exists": false,
+      "path": "D:\\project\\disease_ecology\\STGNN-output\\revised_model_data"
+    },
+    "soil_static_features": {
+      "exists": false,
+      "path": "D:\\project\\disease_ecology\\STGNN-output\\soil_feature_screening_resumed_s1\\soil_node_features.parquet"
+    }
+  },
+  "response_values_loaded": false,
+  "status": "STOP_REQUIRED_FROZEN_INPUTS_UNAVAILABLE"
+}

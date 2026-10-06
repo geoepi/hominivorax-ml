@@ -1,0 +1,13 @@
+{
+  "status": "NOT_FIT_REQUIRED_INPUTS_UNAVAILABLE",
+  "model": "STRUCTURED_A3",
+  "predictor_count": 34,
+  "penalty": 0.01,
+  "theta": 0.7018903965556372,
+  "theta_fixed": true,
+  "objective": "exact_joint_hurdle_nll",
+  "training_period": "2025-W01--2026-W16",
+  "domain_nodes": 10037,
+  "coefficients_persisted": false,
+  "reason": "Authoritative frozen production and static A3 input artifacts are unavailable; fitting was not attempted."
+}
