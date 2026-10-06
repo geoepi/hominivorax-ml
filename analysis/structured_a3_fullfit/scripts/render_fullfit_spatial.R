@@ -94,7 +94,7 @@ target_crs <- st_crs(crs(mask)); ext_values <- as.vector(ext(mask)); read_bounda
     layer <- st_read(path, quiet = TRUE)
     layer <- layer[!is.na(st_geometry(layer)) & !st_is_empty(layer), ]
     layer <- st_transform(layer, target_crs)
-    bbox <- st_bbox(c(xmin = ext_values[1], ymin = ext_values[3], xmax = ext_values[2], ymax = ext_values[4]), crs = target_crs)
+    bbox <- c(xmin = unname(ext_values[1]), ymin = unname(ext_values[3]), xmax = unname(ext_values[2]), ymax = unname(ext_values[4]))
     suppressWarnings(st_crop(layer, bbox))
   }, error = function(e) {
     message("boundary layer skipped: ", filename, " (", conditionMessage(e), ")")
