@@ -1,0 +1,7 @@
+case,y,p_occurrence,mu,theta,structured_exact_nll,neural_current_loss,difference,current_loss_finite,reason
+zero,0,0.2,2.5,0.7018903965556372,0.22314355131420976,,,False,current balanced loss is undefined when no positive observations are present
+one,1,0.2,2.5,0.7018903965556372,2.853578033050142,2.853578033050141,-8.881784197001252e-16,True,single-observation terms are algebraically identical
+two,2,0.2,2.5,0.7018903965556372,3.262436234817505,3.2624362367221593,1.9046542121259336e-09,True,single-observation terms are algebraically identical
+large_positive,100,0.2,2.5,0.7018903965556372,28.629671532815554,28.629675860064527,4.327248973368114e-06,True,single-observation terms are algebraically identical
+mixed_batch,"0,1,2,100",0.2,2.5,0.7018903965556372,8.74220842028776,11.235323119665637,2.4931146993778768,True,positive-count denominator differs from observation-level denominator
+rare_positive_batch,"0,0,0,0,1",0.2,2.5,0.7018903965556372,0.749230447661396,1.7445425441542288,0.9953120964928328,True,positive-count denominator differs from observation-level denominator

@@ -1,0 +1,2 @@
+node_count,directed_edge_count,undirected_edge_count,connected_components,isolates,reverse_edge_missing_count,duplicate_directed_edges,self_loops,node_index_min,node_index_max,symmetry_passed,expected_components,expected_isolates,passed
+10037,77614,38807,4,3,0,0,0,0,10036,True,4,3,True
