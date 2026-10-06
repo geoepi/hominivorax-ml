@@ -1,9 +1,35 @@
-feature_group,features,transformation,scaling_rule,development_mean_used,development_sd_used,evaluation_data_used,status,evidence
-environmental,12 V2-A environmental predictors,identity,development-fit mean/SD only,NOT_AVAILABLE,NOT_AVAILABLE,false,NOT_RUN,"Frozen protocol recorded in frozen_a3_evaluation_manifest.json; model-output bundle unavailable."
-livestock_density,5 density predictors,log1p,development-fit mean/SD only,NOT_AVAILABLE,NOT_AVAILABLE,false,NOT_RUN,"Frozen protocol recorded in frozen_a3_evaluation_manifest.json; model-output bundle unavailable."
-livestock_indicators,5 *_imputed predictors,identity,unscaled (mean 0 SD 1),NOT_APPLICABLE,NOT_APPLICABLE,false,NOT_RUN,"Frozen protocol recorded in frozen_a3_evaluation_manifest.json; model-output bundle unavailable."
-calendar,week_sin/week_cos,identity,unscaled (mean 0 SD 1),NOT_APPLICABLE,NOT_APPLICABLE,false,NOT_RUN,"Frozen protocol recorded in frozen_a3_evaluation_manifest.json; model-output bundle unavailable."
-causal_history,6 history/front predictors,causal log1p or identity by feature,development-fit mean/SD only except availability indicators,NOT_AVAILABLE,NOT_AVAILABLE,false,NOT_RUN,"Causal front-feature parquet unavailable; leakage audit not executed."
-road_density,road_density,log1p,development-fit mean/SD only,NOT_AVAILABLE,NOT_AVAILABLE,false,NOT_RUN,"Frozen static augmentation artifact unavailable."
-night_illumination,night_illumination,log1p,development-fit mean/SD only,NOT_AVAILABLE,NOT_AVAILABLE,false,NOT_RUN,"Frozen static augmentation artifact unavailable."
-soil_augmentation,clay_0_15; water_difference_wv0033_minus_wv0010_0_15,identity,development-fit mean/SD only,NOT_AVAILABLE,NOT_AVAILABLE,false,NOT_RUN,"Frozen soil node feature artifact unavailable."
+feature,transformation,scaling_rule,development_mean_used,development_sd_used,evaluation_data_used,status,evidence
+era5_mintemp,frozen_base_contract,development_fit_only,8.062521243338747,10.089183861019324,False,PASS,final_a3_scaling_parameters.csv
+era5_soilmoist,frozen_base_contract,development_fit_only,0.22763216245666595,0.13762633055900603,False,PASS,final_a3_scaling_parameters.csv
+era5_lai_low,frozen_base_contract,development_fit_only,1.5871156875733459,0.8963852811683488,False,PASS,final_a3_scaling_parameters.csv
+agera5_relhum_min,frozen_base_contract,development_fit_only,37.74050567061151,15.883300957416193,False,PASS,final_a3_scaling_parameters.csv
+era5land_tmean,frozen_base_contract,development_fit_only,16.90467835140875,8.682787080303992,False,PASS,final_a3_scaling_parameters.csv
+era5land_soiltemp_l1_mean,frozen_base_contract,development_fit_only,18.452470716179945,9.044998277786258,False,PASS,final_a3_scaling_parameters.csv
+era5land_soiltemp_l2_mean,frozen_base_contract,development_fit_only,18.37918013900709,8.561172257213814,False,PASS,final_a3_scaling_parameters.csv
+era5land_soilwater_l1_mean,frozen_base_contract,development_fit_only,0.23793868791551434,0.13461437686855687,False,PASS,final_a3_scaling_parameters.csv
+era5land_soilwater_l2_mean,frozen_base_contract,development_fit_only,0.26154469848433787,0.11097805015242584,False,PASS,final_a3_scaling_parameters.csv
+era5land_surface_pressure_mean,frozen_base_contract,development_fit_only,92.69982096036776,8.128492004388923,False,PASS,final_a3_scaling_parameters.csv
+era5land_lai_high_mean,frozen_base_contract,development_fit_only,2.2212088405441093,1.6077763759581196,False,PASS,final_a3_scaling_parameters.csv
+era5land_lai_low_mean,frozen_base_contract,development_fit_only,1.4915639054803682,0.8306330016373747,False,PASS,final_a3_scaling_parameters.csv
+cattle_density,frozen_base_contract,development_fit_only,2.1818324690441138,1.0615097275181353,False,PASS,final_a3_scaling_parameters.csv
+goat_density,frozen_base_contract,development_fit_only,0.5932326850181261,0.7326534014565041,False,PASS,final_a3_scaling_parameters.csv
+sheep_density,frozen_base_contract,development_fit_only,0.5636169486162521,0.6981735787886566,False,PASS,final_a3_scaling_parameters.csv
+horse_density,frozen_base_contract,development_fit_only,4.321961261888654,1.234603882266303,False,PASS,final_a3_scaling_parameters.csv
+pig_density,frozen_base_contract,development_fit_only,0.7783585648981478,1.112415480823409,False,PASS,final_a3_scaling_parameters.csv
+cattle_density_imputed,frozen_base_contract,unscaled_frozen_indicator_calendar,0.0,1.0,False,PASS,final_a3_scaling_parameters.csv
+goat_density_imputed,frozen_base_contract,unscaled_frozen_indicator_calendar,0.0,1.0,False,PASS,final_a3_scaling_parameters.csv
+sheep_density_imputed,frozen_base_contract,unscaled_frozen_indicator_calendar,0.0,1.0,False,PASS,final_a3_scaling_parameters.csv
+horse_density_imputed,frozen_base_contract,unscaled_frozen_indicator_calendar,0.0,1.0,False,PASS,final_a3_scaling_parameters.csv
+pig_density_imputed,frozen_base_contract,unscaled_frozen_indicator_calendar,0.0,1.0,False,PASS,final_a3_scaling_parameters.csv
+week_sin,frozen_base_contract,unscaled_frozen_indicator_calendar,0.0,1.0,False,PASS,final_a3_scaling_parameters.csv
+week_cos,frozen_base_contract,unscaled_frozen_indicator_calendar,0.0,1.0,False,PASS,final_a3_scaling_parameters.csv
+distance_to_any_prior_positive_log1p,frozen_base_contract,development_fit_only,6.795529499742973,1.5922296362682247,False,PASS,final_a3_scaling_parameters.csv
+distance_to_prev4_positive_log1p,frozen_base_contract,development_fit_only,6.914819961604406,1.4387087549191968,False,PASS,final_a3_scaling_parameters.csv
+weeks_since_detection_within_50km_log1p,frozen_base_contract,development_fit_only,4.672880529441883,0.944041960698513,False,PASS,final_a3_scaling_parameters.csv
+any_prior_positive_available,frozen_base_contract,unscaled_frozen_indicator_calendar,0.0,1.0,False,PASS,final_a3_scaling_parameters.csv
+prev4_positive_available,frozen_base_contract,unscaled_frozen_indicator_calendar,0.0,1.0,False,PASS,final_a3_scaling_parameters.csv
+detection_within_50km_ever_available,frozen_base_contract,unscaled_frozen_indicator_calendar,0.0,1.0,False,PASS,final_a3_scaling_parameters.csv
+road_density,log1p,development_fit_only,5.232224368014077,1.3839622101478872,False,PASS,final_a3_scaling_parameters.csv
+night_illumination,log1p,development_fit_only,1.1467299563803661,1.0070321245307328,False,PASS,final_a3_scaling_parameters.csv
+clay_0_15,identity,development_fit_only,241.5575358902515,75.95030514167726,False,PASS,final_a3_scaling_parameters.csv
+water_difference_wv0033_minus_wv0010_0_15,identity,development_fit_only,-61.836248923750176,18.246502683510467,False,PASS,final_a3_scaling_parameters.csv

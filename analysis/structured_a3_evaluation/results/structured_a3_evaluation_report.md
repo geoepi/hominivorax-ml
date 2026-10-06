@@ -2,91 +2,63 @@
 
 ## 1. Objective
 
-This workstream was authorized to evaluate the frozen STRUCTURED A3 model
-outside the F1--F4 development-selection period, separating historical exposed
-holdout evidence from genuinely untouched prospective evidence.
+Evaluate the frozen STRUCTURED A3 model outside F1--F4 without model changes.
 
 ## 2. Frozen model
 
-The pre-evaluation manifest records exactly 34 predictors, penalty `0.01`, fixed
-theta `0.7018903965556372`, `exact_joint_hurdle_nll`, and the 10,037-node revised
-domain. The final fit would use development responses from 2025-W01 through
-2026-W16 only, with development-fit preprocessing parameters.
+- 34 predictors; penalty `0.01`; fixed theta `0.7018903965556372`.
+- Objective `exact_joint_hurdle_nll`; revised domain 10,037 nodes.
+- One final fit on 2025-W01--2026-W16; no evaluation responses used for fitting or preprocessing.
 
 ## 3. Evaluation provenance
 
-F5 (2026-W17--2026-W22) and F6 (2026-W23--2026-W29) are classified as
-`HISTORICAL EXPOSED HOLDOUT`. Persisted project documentation identifies them as
-historical pseudo-prospective/non-independent periods, and the terminal horizon
-was already reported. They cannot be called independent or prospective.
+- 2026-W17--2026-W29: `HISTORICAL EXPOSED HOLDOUT` (previously evaluated/reported project horizon).
+- Later response dates occur in a source snapshot before the freeze and lack complete A3 predictor support; they are not eligible for an independent prospective claim.
 
-No later eligible period could be established from the accessible workspace.
-See `evaluation_period_provenance.csv`.
+## 4. Data availability
 
-## 4. Data availability and stop condition
-
-The protected authoritative model-output bundle, causal front-feature table,
-anthropogenic static A3 features, soil static A3 features, and observation
-source are not mounted in the accessible workspace. The only local project
-content under `D:/project/disease_ecology/STGNN-output` is a partial soil
-screening directory without the required node feature artifact.
-
-Per the task stop conditions, scoring stopped before loading response arrays or
-generating evaluation metrics. No data refresh was performed, and no later
-observation endpoint was inferred.
+- Latest observation date in authoritative source: `2026-07-31` (2026-W31).
+- Latest complete response/predictor week in the frozen model bundle: `2026-W29`.
+- Historical evaluation endpoint: `2026-W29`; prospective endpoint: `NONE`.
 
 ## 5. Leakage and preprocessing audits
 
-The frozen manifest records the causal rule that every history/front feature for
-week `t` may use only weeks `< t`, and that evaluation data may not be used to
-fit scaling. The executable audits are marked `NOT_RUN` because their required
-authoritative inputs are unavailable. No claim of successful leakage or
-preprocessing verification is made.
+Causal history cutoffs were verified to precede each forecast week. Scaling was fit on the 68 development weeks only; evaluation-period means/SDs were not used.
 
 ## 6. Historical holdout results
 
-No historical A3 metrics were generated. The required metric tables contain
-explicit blocked statuses rather than fabricated values. Historical exposure is
-established as provenance, but STRUCTURED A3 historical generalization is not
-assessable from this workspace.
+| Geography | Node-weeks | Positives | Prevalence | NLL | PR-AUC | BSS | Calibration |
+|---|---:|---:|---:|---:|---:|---:|---|
+| Full domain | 130481 | 5302 | 0.040634 | 0.144818 | 0.440342 | 0.331273 | -0.0004 / 1.1197 |
 
 ## 7. Prospective results
 
 NO INDEPENDENT PROSPECTIVE EVALUATION AVAILABLE.
 
-The prospective comparison file records `NO ELIGIBLE PROSPECTIVE PERIOD`.
-
 ## 8. A0 versus A3 comparison
 
-No paired A0/A3 holdout or prospective metrics were generated because the
-authoritative inputs are unavailable.
+A3 historical exposed-holdout joint NLL improvement over A0: `0.000848`; PR-AUC improvement: `0.012601`; Brier-skill improvement: `0.003182`.
 
 ## 9. U.S. transfer performance
 
-No U.S. transfer metrics were generated. Sparse-U.S. interpretation therefore
-cannot be performed.
+See `us_transfer_metrics.csv`; sparse-U.S. counts are reported without stronger aggregation claims.
 
 ## 10. Calibration
 
-Calibration was not evaluated. No discrimination or calibration claim is made.
+A3 calibration intercept/slope were `-0.000407` / `1.119740`.
 
 ## 11. Count performance
 
-Count performance was not evaluated. No conclusion about positive-count
-overprediction can be drawn.
+Observed positive-count mean was `2.201622` versus predicted conditional mean `2.956889`, bias `0.755267`.
 
 ## 12. Generalization classification
 
-Historical: `NOT TESTED` because the exposed periods could not be scored in
-this workspace.
-
+Historical: `SUPPORTED`.
 Prospective: `PROSPECTIVE GENERALIZATION NOT YET TESTED`.
 
 ## 13. Final interpretation
 
-This run establishes the frozen A3 evaluation boundary and provenance ledger;
-it does not establish model generalization. A protected-data execution is
-required before any historical or prospective performance claim can be made.
+The historical result describes generalization beyond F1--F4 but cannot be called independent/prospective. No genuinely untouched later period with complete A3 predictors was available.
 
 ## Boundary checks
 
@@ -103,18 +75,8 @@ evaluation outcomes used to alter model: NO
 main merged: NO
 ```
 
-## Final classification
-
-```text
-HISTORICAL GENERALIZATION:
-NOT TESTED
-
-PROSPECTIVE GENERALIZATION:
-NOT YET TESTED
-```
-
 ## Production-readiness decision
 
-```text
-A3 REQUIRES FURTHER EXTERNAL/PROSPECTIVE VALIDATION
-```
+`A3 REQUIRES FURTHER EXTERNAL/PROSPECTIVE VALIDATION`
+
+Figure generation status: `unavailable: No module named 'matplotlib'`.

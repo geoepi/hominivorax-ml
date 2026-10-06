@@ -1,34 +1,23 @@
 {
-  "generated_utc": "2026-10-06T18:46:19+00:00",
-  "git_head": "88bcf3ae238f3aae712b123acfa07e4b2c5e4ad1",
+  "complete_response_week_in_model_bundle": "2026-W29",
+  "duplicate_handling": "reused authoritative production dataset; no refresh or deduplication mutation performed",
+  "latest_complete_a3_predictor_week": "2026-W29",
+  "latest_complete_predictor_week": "2026-W29",
+  "latest_observation_date": "2026-07-31",
+  "latest_observation_iso_week": "2026-W31",
+  "manifest_old_row_count": 136670,
+  "manifest_row_count": 136714,
   "manifest_sha256": "9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61",
-  "metrics_generated": false,
-  "missing_artifacts": [
-    "revised_model_data",
-    "causal_front_features",
-    "anthropogenic_static_features",
-    "soil_static_features"
-  ],
-  "project_root": "D:\\project\\disease_ecology",
-  "prospective_claim_allowed": false,
-  "required_artifacts": {
-    "anthropogenic_static_features": {
-      "exists": false,
-      "path": "D:\\project\\disease_ecology\\STGNN-output\\predictor_augmentation\\static\\road_night_node_features.parquet"
-    },
-    "causal_front_features": {
-      "exists": false,
-      "path": "D:\\project\\disease_ecology\\STGNN-output\\v2_model\\front_features\\causal_front_features.parquet"
-    },
-    "revised_model_data": {
-      "exists": false,
-      "path": "D:\\project\\disease_ecology\\STGNN-output\\revised_model_data"
-    },
-    "soil_static_features": {
-      "exists": false,
-      "path": "D:\\project\\disease_ecology\\STGNN-output\\soil_feature_screening_resumed_s1\\soil_node_features.parquet"
-    }
-  },
-  "response_values_loaded": false,
-  "status": "STOP_REQUIRED_FROZEN_INPUTS_UNAVAILABLE"
+  "minimum_observation_date": "2022-02-10",
+  "prospective_endpoint": null,
+  "prospective_status": "NO ELIGIBLE PROSPECTIVE PERIOD",
+  "refresh_performed": false,
+  "response_values_loaded": true,
+  "software_sha": "f2be779b1f79aa2ec474de852485e9196a26c576",
+  "source_file_mtime_utc": "2026-10-03T20:24:17+00:00",
+  "source_path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2027-07-31.csv",
+  "source_row_count": 136714,
+  "source_sha256": "a3d55f3ddf867087b578df803920bf59c6c303fa695e3218a5f3463e596d497e",
+  "source_snapshot_note": "source file mtime precedes frozen A3 development comparison; later source dates cannot support an untouched claim",
+  "source_snapshot_pre_freeze": true
 }

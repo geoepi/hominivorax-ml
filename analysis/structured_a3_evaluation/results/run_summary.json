@@ -1,0 +1,21 @@
+{
+  "historical_period": "2026-W17--2026-W29",
+  "manifest_sha256": "9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61",
+  "prospective_status": "NO ELIGIBLE PROSPECTIVE PERIOD",
+  "runtime_seconds": 19.344907522201538,
+  "software_sha": "f2be779b1f79aa2ec474de852485e9196a26c576",
+  "static_audit": {
+    "actual_sha256": {
+      "anthropogenic_static_features": "cb9c6275141cdad33f3563b1c4125d6f97afd7381325a71dcf20d5e1e76e26c6",
+      "soil_static_features": "58fcd1314c91f4d792ee221e9d9b7d9d01676087ea953b81a602dc2345bfd4b9"
+    },
+    "expected_sha256": {
+      "anthropogenic_static_features": "cb9c6275141cdad33f3563b1c4125d6f97afd7381325a71dcf20d5e1e76e26c6",
+      "soil_static_features": "58fcd1314c91f4d792ee221e9d9b7d9d01676087ea953b81a602dc2345bfd4b9"
+    },
+    "feature_manifest": "/project/disease_ecology/STGNN-output/worktrees/structured-a3-evaluation/analysis/structured_a3_final_comparison/results/a3_feature_manifest.json",
+    "feature_manifest_sha256": "6c2082795bfeee4dc5bf1f6016f6a00c1e96e53a91a512f3b5e7251f4fb92a20",
+    "status": "PASS"
+  },
+  "status": "COMPLETED_HISTORICAL_EXPOSED_HOLDOUT"
+}
