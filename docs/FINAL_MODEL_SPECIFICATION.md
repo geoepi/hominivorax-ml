@@ -1,4 +1,8 @@
-# Final frozen model specification
+# Historical Task 2G terminal model specification
+
+> **HISTORICAL DOCUMENT — NOT THE CURRENT MODEL SPECIFICATION**
+>
+> This file records the earlier 24-predictor Hurdle-Current terminal protocol. The current frozen development specification is [docs/current_model_specification.md](current_model_specification.md), which records STRUCTURED A3 with 34 predictors. This historical specification remains unchanged apart from this status label.
 
 ## Task 2G terminal evaluation
 

@@ -1,0 +1,9 @@
+task_id,model,fold,status,attempt,runtime_seconds,converged,output_path
+1,A0,1,COMPLETED,1,1.0523321628570557,True,tasks/task_001_A0_fold1.json
+3,A0,2,COMPLETED,1,1.7567048072814941,True,tasks/task_003_A0_fold2.json
+5,A0,3,COMPLETED,1,2.0457165241241455,True,tasks/task_005_A0_fold3.json
+7,A0,4,COMPLETED,1,2.5040395259857178,True,tasks/task_007_A0_fold4.json
+2,A3,1,COMPLETED,1,1.2967753410339355,True,tasks/task_002_A3_fold1.json
+4,A3,2,COMPLETED,1,1.8096935749053955,True,tasks/task_004_A3_fold2.json
+6,A3,3,COMPLETED,1,2.0791068077087402,True,tasks/task_006_A3_fold3.json
+8,A3,4,COMPLETED,1,2.389662504196167,True,tasks/task_008_A3_fold4.json

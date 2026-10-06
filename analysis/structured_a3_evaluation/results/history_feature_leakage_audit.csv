@@ -1,0 +1,7 @@
+feature,causal_definition,allowed_observation_times,same_week_observations_used,future_observations_used,missing_history_cutoff_rows,availability_verified,status,checked_rows,history_cutoff_source
+distance_to_any_prior_positive_log1p,only observations from weeks < t,weeks < t,0,0,0,True,PASS,812997,causal_front_features.parquet:history_cutoff_week
+distance_to_prev4_positive_log1p,only observations from weeks < t,weeks < t,0,0,0,True,PASS,812997,causal_front_features.parquet:history_cutoff_week
+weeks_since_detection_within_50km_log1p,only observations from weeks < t,weeks < t,0,0,0,True,PASS,812997,causal_front_features.parquet:history_cutoff_week
+any_prior_positive_available,only observations from weeks < t,weeks < t,0,0,0,True,PASS,812997,causal_front_features.parquet:history_cutoff_week
+prev4_positive_available,only observations from weeks < t,weeks < t,0,0,0,True,PASS,812997,causal_front_features.parquet:history_cutoff_week
+detection_within_50km_ever_available,only observations from weeks < t,weeks < t,0,0,0,True,PASS,812997,causal_front_features.parquet:history_cutoff_week

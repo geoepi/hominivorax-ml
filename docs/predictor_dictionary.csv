@@ -1,0 +1,35 @@
+predictor,group,dynamic_or_static,source,transformation,units_or_interpretation,missingness_handling,included_in_A0,included_in_A3
+era5_mintemp,environmental,dynamic,revised_model_data dynamic_features,identity then development scaling,weekly minimum temperature,upstream production contract,YES,YES
+era5_soilmoist,environmental,dynamic,revised_model_data dynamic_features,identity then development scaling,ERA5 soil moisture,upstream production contract,YES,YES
+era5_lai_low,environmental,dynamic,revised_model_data dynamic_features,identity then development scaling,low-canopy LAI,upstream production contract,YES,YES
+agera5_relhum_min,environmental,dynamic,revised_model_data dynamic_features,identity then development scaling,minimum relative humidity,upstream production contract,YES,YES
+era5land_tmean,environmental,dynamic,revised_model_data dynamic_features,identity then development scaling,land mean temperature,upstream production contract,YES,YES
+era5land_soiltemp_l1_mean,environmental,dynamic,revised_model_data dynamic_features,identity then development scaling,soil temperature layer 1,upstream production contract,YES,YES
+era5land_soiltemp_l2_mean,environmental,dynamic,revised_model_data dynamic_features,identity then development scaling,soil temperature layer 2,upstream production contract,YES,YES
+era5land_soilwater_l1_mean,environmental,dynamic,revised_model_data dynamic_features,identity then development scaling,soil water layer 1,upstream production contract,YES,YES
+era5land_soilwater_l2_mean,environmental,dynamic,revised_model_data dynamic_features,identity then development scaling,soil water layer 2,upstream production contract,YES,YES
+era5land_surface_pressure_mean,environmental,dynamic,revised_model_data dynamic_features,identity then development scaling,surface pressure,upstream production contract,YES,YES
+era5land_lai_high_mean,environmental,dynamic,revised_model_data dynamic_features,identity then development scaling,high-canopy LAI,upstream production contract,YES,YES
+era5land_lai_low_mean,environmental,dynamic,revised_model_data dynamic_features,identity then development scaling,low-canopy LAI,upstream production contract,YES,YES
+cattle_density,livestock,static,revised_model_data static_features,log1p then development scaling,cattle density,production imputation contract,YES,YES
+goat_density,livestock,static,revised_model_data static_features,log1p then development scaling,goat density,production imputation contract,YES,YES
+sheep_density,livestock,static,revised_model_data static_features,log1p then development scaling,sheep density,production imputation contract,YES,YES
+horse_density,livestock,static,revised_model_data static_features,log1p then development scaling,horse density,production imputation contract,YES,YES
+pig_density,livestock,static,revised_model_data static_features,log1p then development scaling,pig density,production imputation contract,YES,YES
+cattle_density_imputed,livestock-imputation,static,revised_model_data static_features,identity binary indicator,1 indicates imputed cattle density,production imputation contract,YES,YES
+goat_density_imputed,livestock-imputation,static,revised_model_data static_features,identity binary indicator,1 indicates imputed goat density,production imputation contract,YES,YES
+sheep_density_imputed,livestock-imputation,static,revised_model_data static_features,identity binary indicator,1 indicates imputed sheep density,production imputation contract,YES,YES
+horse_density_imputed,livestock-imputation,static,revised_model_data static_features,identity binary indicator,1 indicates imputed horse density,production imputation contract,YES,YES
+pig_density_imputed,livestock-imputation,static,revised_model_data static_features,identity binary indicator,1 indicates imputed pig density,production imputation contract,YES,YES
+week_sin,calendar,dynamic,revised_model_data calendar_features,identity binary/periodic calendar encoding,sine of week phase,deterministic calendar,YES,YES
+week_cos,calendar,dynamic,revised_model_data calendar_features,identity binary/periodic calendar encoding,cosine of week phase,deterministic calendar,YES,YES
+distance_to_any_prior_positive_log1p,detection-history,dynamic,causal_front_features.parquet,source log1p then development scaling,distance to any prior positive,history cutoff strictly before forecast week,YES,YES
+distance_to_prev4_positive_log1p,detection-history,dynamic,causal_front_features.parquet,source log1p then development scaling,distance to previous four positives,history cutoff strictly before forecast week,YES,YES
+weeks_since_detection_within_50km_log1p,detection-history,dynamic,causal_front_features.parquet,source log1p then development scaling,weeks since nearby detection,history cutoff strictly before forecast week,YES,YES
+any_prior_positive_available,detection-history,dynamic,causal_front_features.parquet,identity binary indicator,availability of prior-positive history,history cutoff strictly before forecast week,YES,YES
+prev4_positive_available,detection-history,dynamic,causal_front_features.parquet,identity binary indicator,availability of previous-four history,history cutoff strictly before forecast week,YES,YES
+detection_within_50km_ever_available,detection-history,dynamic,causal_front_features.parquet,identity binary indicator,availability of nearby-history feature,history cutoff strictly before forecast week,YES,YES
+road_density,anthropogenic,static,road_night_node_features.parquet,log1p then development scaling,road density,finite coverage-validated static join,NO,YES
+night_illumination,anthropogenic,static,road_night_node_features.parquet,log1p then development scaling,nighttime illumination,finite coverage-validated static join,NO,YES
+clay_0_15,soil,static,soil_node_features.parquet,identity then development scaling,soil clay mean at 0–15 cm,finite checksummed soil join,NO,YES
+water_difference_wv0033_minus_wv0010_0_15,soil,static,soil_node_features.parquet,identity then development scaling,WV0033 minus WV0010 water-retention contrast at 0–15 cm,finite checksummed soil join,NO,YES

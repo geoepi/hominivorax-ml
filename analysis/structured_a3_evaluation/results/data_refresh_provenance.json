@@ -1,0 +1,23 @@
+{
+  "complete_response_week_in_model_bundle": "2026-W29",
+  "duplicate_handling": "reused authoritative production dataset; no refresh or deduplication mutation performed",
+  "latest_complete_a3_predictor_week": "2026-W29",
+  "latest_complete_predictor_week": "2026-W29",
+  "latest_observation_date": "2026-07-31",
+  "latest_observation_iso_week": "2026-W31",
+  "manifest_old_row_count": 136670,
+  "manifest_row_count": 136714,
+  "manifest_sha256": "9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61",
+  "minimum_observation_date": "2022-02-10",
+  "prospective_endpoint": null,
+  "prospective_status": "NO ELIGIBLE PROSPECTIVE PERIOD",
+  "refresh_performed": false,
+  "response_values_loaded": true,
+  "software_sha": "f2be779b1f79aa2ec474de852485e9196a26c576",
+  "source_file_mtime_utc": "2026-10-03T20:24:17+00:00",
+  "source_path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2027-07-31.csv",
+  "source_row_count": 136714,
+  "source_sha256": "a3d55f3ddf867087b578df803920bf59c6c303fa695e3218a5f3463e596d497e",
+  "source_snapshot_note": "source file mtime precedes frozen A3 development comparison; later source dates cannot support an untouched claim",
+  "source_snapshot_pre_freeze": true
+}

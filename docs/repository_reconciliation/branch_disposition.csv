@@ -1,0 +1,22 @@
+branch,tip_sha_or_tips,unique_commits,classification,integrated,final_action,notes
+main,88bcf3ae238f3aae712b123acfa07e4b2c5e4ad1,0,CANONICAL-INTEGRATE,BASE,RETAIN,starting canonical checkpoint
+integration/pre-main-v2a,88bcf3ae238f3aae712b123acfa07e4b2c5e4ad1,0,FULLY-MERGED,YES,NO-ACTION,exactly reachable from main
+feature/atlas-preflight-data-contract,45842f994676cd0a39eb3b98f5f6ed834f89f1ee,0,FULLY-MERGED,YES,NO-ACTION,local and remote tips are ancestors of main
+feature/revised-domain-audit,local=45842f9; remote=e18777f,0/0,FULLY-MERGED,YES,NO-ACTION,refs diverge but both tips are reachable from main
+feature/revised-domain-baselines,ab98f7c8482aae587825d29a95609cd45d3028a1,0,FULLY-MERGED,YES,NO-ACTION,tip is ancestor of main
+feature/hurdle-loss-audit,a7b22cb3d400b41388bc0ca150b49e0bcd264f7a,0,FULLY-MERGED,YES,NO-ACTION,tip is ancestor of main
+feature/structured-revised-domain,5e58f4be2d5c60a77c8bb4e6af47f10e35b19a1e,0,FULLY-MERGED,YES,NO-ACTION,tip is ancestor of main
+feature/terminal-evaluation,19886ca2fab5efb2eea25ba6b1fb086f7ecb1ab0,0,FULLY-MERGED,YES,NO-ACTION,historical terminal documents are preserved in main
+feature/v2-delayed-nowcast,ea4ba55eda5e3b41b8d61dc5905b9ce5d1c13f87,0,FULLY-MERGED,YES,NO-ACTION,tip is ancestor of main
+feature/v2-front-hurdle,66443123df639c1ae811aeb58ef87546814ecd6e,0,FULLY-MERGED,YES,NO-ACTION,tip is ancestor of main
+feature/v2-observation-front-audit,d8aba83be3d54848e78a205167fe04ff94ee3570,0,FULLY-MERGED,YES,NO-ACTION,tip is ancestor of main
+feature/v2-prospective-harness,0c6563141529bff8ee8725c5e2e17bd1ec913797,0,FULLY-MERGED,YES,NO-ACTION,tip is ancestor of main
+feature/v2-raster-outputs,2246cd1b690df1058922a05bf3a3504f9247ddbe,0,FULLY-MERGED,YES,NO-ACTION,tip is ancestor of main
+feature/soil-feature-screening,97defc7595cfbc19dc5095168f12f7104c672806,22,SUPERSEDED-BUT-PRESERVE,DOCUMENT-ONLY,RETAIN-AS-HISTORICAL,meaningful soil screening but not safe to merge wholesale
+feature/controlled-predictor-augmentation,bd8346fc42e31e4f1f52b2ce7f2d3694f6a4af00,7,CANONICAL-INTEGRATE,PLANNED-MERGE,RETAIN-ACTIVE,A3 augmentation implementation
+feature/structured-a3-final-comparison,93ecc92d05219840456dce67049a9c4a8a30f058,6,CANONICAL-INTEGRATE,PLANNED-SELECTIVE-CHERRY-PICK,RETAIN-AS-PROVENANCE,F1-F4 A3 freeze and comparison
+feature/structured-a3-evaluation,beee8ade7df446b3a21c973ea3b04f0be36d83a0,9,CANONICAL-INTEGRATE,PLANNED-SELECTIVE-CHERRY-PICK,RETAIN-AS-PROVENANCE,historical exposed holdout and immutable evaluation boundary
+feature/model-class-diagnostic,844589d8bf79b0ecf2f9249b50ade91fbb0089d9,2,HISTORICAL-EXPERIMENT,DOCUMENT-ONLY,RETAIN-AS-HISTORICAL,model-class diagnostic evidence
+feature/neural-a0-architecture-audit,45dd7fe342b536cbe2a9d410b5b26cb1e3f9e485,7,HISTORICAL-EXPERIMENT,DOCUMENT-ONLY,RETAIN-AS-HISTORICAL,neural A0 validity audit
+feature/stgnn-a3-ablation,local=fc7c17d; remote=4797edf,5/13,HISTORICAL-EXPERIMENT,DOCUMENT-ONLY,RETAIN-AS-HISTORICAL,graph/neural ablation and QA evidence
+feature/repository-reconciliation,created at 88bcf3a,0,ACTIVE-FUTURE-WORK,IN-PROGRESS,RETAIN-ACTIVE,controlled reconciliation branch; final SHA assigned after integration

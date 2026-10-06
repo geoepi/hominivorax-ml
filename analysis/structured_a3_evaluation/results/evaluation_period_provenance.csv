@@ -1,0 +1,5 @@
+period,start_week,end_week,classification,previously_scored,previously_used_for_selection,previously_visible_in_reports,evidence,eligible_for_independent_claim
+F1-F4 development,2025-W01,2026-W16,DEVELOPMENT,True,True,True,Frozen A3 development comparison F1-F4 only.,False
+F5 historical pseudo-prospective,2026-W17,2026-W22,HISTORICAL EXPOSED HOLDOUT,True,False,True,Persisted Task 3B reports identify F5 as historical pseudo-prospective/non-independent.,False
+F6 historical pseudo-prospective,2026-W23,2026-W29,HISTORICAL EXPOSED HOLDOUT,True,False,True,Persisted Task 3B and terminal evaluation reports identify F6/2026-W23--W29 as exposed.,False
+Later source dates,2026-W30,2026-W31,NOT ELIGIBLE,False,False,False,Observation source snapshot mtime 2026-10-03T20:24:17+00:00 predates the freeze; complete A3 predictor support ends at 2026-W29.,False

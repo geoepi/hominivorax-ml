@@ -1,0 +1,10 @@
+python=3.12.14
+numpy=2.5.3
+pandas=3.0.6
+objective=exact_joint_hurdle_nll
+theta=0.7018903965556372
+penalty=0.01
+folds=F1-F4 only
+terminal_response_loaded=False
+neural_models_fitted=False
+graph_models_fitted=False

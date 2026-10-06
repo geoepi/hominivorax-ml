@@ -79,3 +79,47 @@ STGNN-output/
 # Keep intentional example fixtures despite broad data protections
 !tests/fixtures/
 !tests/fixtures/**
+
+# Keep selected compact A3 reproducibility artifacts tracked while continuing
+# to ignore raw/large data products and arbitrary generated output.
+!analysis/structured_a3_final_comparison/
+!analysis/structured_a3_final_comparison/README.md
+!analysis/structured_a3_final_comparison/results/
+!analysis/structured_a3_final_comparison/results/*.csv
+!analysis/structured_a3_final_comparison/results/*.json
+!analysis/structured_a3_final_comparison/results/*.md
+!analysis/structured_a3_final_comparison/results/*.txt
+!analysis/structured_a3_final_comparison/scripts/
+!analysis/structured_a3_final_comparison/scripts/*.py
+!analysis/structured_a3_final_comparison/scripts/*.sbatch
+!analysis/structured_a3_evaluation/
+!analysis/structured_a3_evaluation/README.md
+!analysis/structured_a3_evaluation/figures/
+!analysis/structured_a3_evaluation/figures/README.md
+!analysis/structured_a3_evaluation/figures/*.txt
+!analysis/structured_a3_evaluation/results/
+!analysis/structured_a3_evaluation/results/*.csv
+!analysis/structured_a3_evaluation/results/*.json
+!analysis/structured_a3_evaluation/results/*.md
+!analysis/structured_a3_evaluation/results/*.txt
+!analysis/structured_a3_evaluation/scripts/
+!analysis/structured_a3_evaluation/scripts/*.py
+!analysis/predictor_augmentation/
+!analysis/predictor_augmentation/README.md
+!analysis/predictor_augmentation/figures/
+!analysis/predictor_augmentation/figures/*.md
+!analysis/predictor_augmentation/provenance/
+!analysis/predictor_augmentation/provenance/*.csv
+!analysis/predictor_augmentation/provenance/*.json
+!analysis/predictor_augmentation/provenance/*.md
+!analysis/predictor_augmentation/results/
+!analysis/predictor_augmentation/results/README.md
+!analysis/predictor_augmentation/scripts/
+!analysis/predictor_augmentation/scripts/*.py
+!analysis/predictor_augmentation/scripts/*.R
+!analysis/predictor_augmentation/hpc/
+!analysis/predictor_augmentation/hpc/*.sbatch
+
+# Keep caches excluded after source-directory unignore rules.
+**/__pycache__/
+**/*.py[cod]

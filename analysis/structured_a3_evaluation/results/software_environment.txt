@@ -1,0 +1,10 @@
+evaluation status: STOP_REQUIRED_FROZEN_INPUTS_UNAVAILABLE
+manifest: frozen_a3_evaluation_manifest.json
+manifest checksum: 9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61
+response values loaded: NO
+metrics generated: NO
+prospective outcomes loaded: NO
+model refit: NO
+python runtime: not executed for scoring
+repository base: 88bcf3ae238f3aae712b123acfa07e4b2c5e4ad1
+frozen augmentation source commit: bd8346fc42e31e4f1f52b2ce7f2d3694f6a4af00

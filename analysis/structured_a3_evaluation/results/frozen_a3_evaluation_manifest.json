@@ -1,0 +1,157 @@
+{
+  "manifest_version": "1.0.0",
+  "manifest_status": "FROZEN_BEFORE_EVALUATION_OUTCOMES",
+  "created_utc": "2026-10-06T18:43:57Z",
+  "evaluation_id": "structured_a3_historical_and_prospective_2026-10-06",
+  "model": {
+    "id": "STRUCTURED_A3",
+    "predictor_count": 34,
+    "predictor_order": [
+      "era5_mintemp",
+      "era5_soilmoist",
+      "era5_lai_low",
+      "agera5_relhum_min",
+      "era5land_tmean",
+      "era5land_soiltemp_l1_mean",
+      "era5land_soiltemp_l2_mean",
+      "era5land_soilwater_l1_mean",
+      "era5land_soilwater_l2_mean",
+      "era5land_surface_pressure_mean",
+      "era5land_lai_high_mean",
+      "era5land_lai_low_mean",
+      "cattle_density",
+      "goat_density",
+      "sheep_density",
+      "horse_density",
+      "pig_density",
+      "cattle_density_imputed",
+      "goat_density_imputed",
+      "sheep_density_imputed",
+      "horse_density_imputed",
+      "pig_density_imputed",
+      "week_sin",
+      "week_cos",
+      "distance_to_any_prior_positive_log1p",
+      "distance_to_prev4_positive_log1p",
+      "weeks_since_detection_within_50km_log1p",
+      "any_prior_positive_available",
+      "prev4_positive_available",
+      "detection_within_50km_ever_available",
+      "road_density",
+      "night_illumination",
+      "clay_0_15",
+      "water_difference_wv0033_minus_wv0010_0_15"
+    ],
+    "transformations": {
+      "environmental_predictors": "identity",
+      "livestock_density_predictors": "log1p",
+      "livestock_imputation_indicators": "identity",
+      "calendar_predictors": "identity",
+      "distance_to_any_prior_positive_log1p": "causal_log1p_projected_km",
+      "distance_to_prev4_positive_log1p": "causal_log1p_projected_km",
+      "weeks_since_detection_within_50km_log1p": "causal_log1p_weeks",
+      "history_availability_indicators": "identity",
+      "road_density": "log1p",
+      "night_illumination": "log1p",
+      "clay_0_15": "identity",
+      "water_difference_wv0033_minus_wv0010_0_15": "identity"
+    },
+    "penalty": 0.01,
+    "theta": 0.7018903965556372,
+    "theta_fixed": true,
+    "objective": "exact_joint_hurdle_nll",
+    "model_changes_after_freeze_allowed": false
+  },
+  "development_protocol": {
+    "training_period": {
+      "start_week": "2025-W01",
+      "end_week": "2026-W16",
+      "week_count": 68
+    },
+    "selection_folds": [
+      {"fold": 1, "train": "2025-W01--2025-W26", "validation": "2025-W27--2025-W39"},
+      {"fold": 2, "train": "2025-W01--2025-W39", "validation": "2025-W40--2025-W52"},
+      {"fold": 3, "train": "2025-W01--2025-W52", "validation": "2026-W01--2026-W08"},
+      {"fold": 4, "train": "2025-W01--2026-W08", "validation": "2026-W09--2026-W16"}
+    ],
+    "selection_fold_count": 4,
+    "fitting_protocol": "one fixed final fit on all authorized development responses; no evaluation responses"
+  },
+  "domain": {
+    "node_count": 10037,
+    "node_id_column": "model_node_id",
+    "node_id_rule": "exactly integer IDs 0 through 10036 in canonical revised-domain order",
+    "geography": "Mexico plus established United States footprint",
+    "static_feature_rule": "reuse validated frozen augmentation artifacts; do not recompute during evaluation"
+  },
+  "preprocessing": {
+    "continuous_features": "standardize with final development-fit means and SDs",
+    "unscaled_features": [
+      "*_imputed",
+      "*_available",
+      "week_sin",
+      "week_cos"
+    ],
+    "evaluation_fit_forbidden": true,
+    "missingness_rule": "stop if required predictor support is missing or non-finite; no evaluation-period imputation",
+    "response_definition": "recorded detection count per canonical node-week; presence is count > 0"
+  },
+  "history_features": {
+    "causal_rule": "for forecast week t, only observations from weeks < t may be used",
+    "features": [
+      "distance_to_any_prior_positive_log1p",
+      "distance_to_prev4_positive_log1p",
+      "weeks_since_detection_within_50km_log1p",
+      "any_prior_positive_available",
+      "prev4_positive_available",
+      "detection_within_50km_ever_available"
+    ],
+    "future_or_same_week_observations_forbidden": true
+  },
+  "brier_skill": {
+    "reference": "frozen development prevalence/reference definition from the A3 protocol",
+    "formula": "1 - Brier(model) / Brier(reference)",
+    "reference_reestimation_on_evaluation_forbidden": true
+  },
+  "software_provenance": {
+    "starting_main_sha": "88bcf3ae238f3aae712b123acfa07e4b2c5e4ad1",
+    "frozen_augmentation_source_commit": "bd8346fc42e31e4f1f52b2ce7f2d3694f6a4af00",
+    "soil_feature_source_commit": "97defc7595cfbc19dc5095168f12f7104c672806",
+    "evaluation_branch_base": "main",
+    "source_files": {
+      "analysis/predictor_augmentation/scripts/run_predictor_augmentation.py": "sha256:67ed5be0cc66b65c8489a1da1677ce2ed37e78e98b92d7995ded76c0a57891e0",
+      "analysis/predictor_augmentation/scripts/finalize_predictor_augmentation.py": "sha256:350deb4aec2ac44b3b353faa94fc905b092fe08705f1506137e120805f8c04ff",
+      "scripts/run_task2e_baselines.py": "sha256:914df54f8c0c014b66e477710e24669ce2e792bdf4f27161f53fdf169f38bf13",
+      "scripts/run_task2f_structured.py": "sha256:c826445f5ac09f84b408f9f7e68398fee5cf4f0e8e6a45a52d50fc5bc84af18e"
+    }
+  },
+  "required_authoritative_artifacts": {
+    "model_output": "/project/disease_ecology/STGNN-output/revised_model_data",
+    "causal_front_features": "/project/disease_ecology/STGNN-output/v2_model/front_features/causal_front_features.parquet",
+    "anthropogenic_static_features": "/project/disease_ecology/STGNN-output/predictor_augmentation/static/road_night_node_features.parquet",
+    "soil_static_features": "/project/disease_ecology/STGNN-output/soil_feature_screening_resumed_s1/soil_node_features.parquet",
+    "reference_a0_metrics": "analysis/predictor_augmentation/provenance/fixed_theta_baseline_reference.csv",
+    "observation_source": "authoritative project observation source recorded in the production manifest",
+    "later_observation_source": "authorized observation-refresh source, if present"
+  },
+  "evaluation_guardrails": {
+    "allowed_classes": [
+      "DEVELOPMENT",
+      "HISTORICAL EXPOSED HOLDOUT",
+      "HISTORICAL UNEXPOSED HOLDOUT",
+      "PROSPECTIVE UNTOUCHED",
+      "NOT ELIGIBLE"
+    ],
+    "no_refit": true,
+    "no_recalibration": true,
+    "no_threshold_tuning": true,
+    "no_feature_selection": true,
+    "no_neural_or_graph_model_fit": true
+  },
+  "evaluation_state_at_freeze": {
+    "response_values_loaded": false,
+    "metrics_generated": false,
+    "manifest_immutable": true,
+    "checksum_sidecar": "frozen_a3_evaluation_manifest.json.sha256"
+  }
+}

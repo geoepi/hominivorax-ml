@@ -1,0 +1,3 @@
+evidence_class,classification,basis,independent_claim_allowed
+HISTORICAL EXPOSED HOLDOUT,SUPPORTED,Fixed A3 scored on previously exposed 2026-W17--2026-W29 with frozen development preprocessing.,False
+PROSPECTIVE UNTOUCHED,PROSPECTIVE GENERALIZATION NOT YET TESTED,Later source dates predate the freeze and complete A3 predictor support ends at 2026-W29.,False
