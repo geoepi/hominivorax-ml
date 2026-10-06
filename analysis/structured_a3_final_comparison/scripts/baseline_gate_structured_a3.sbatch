@@ -17,4 +17,4 @@ source /project/disease_ecology/STGNN/hpc/env_python.sh
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
 python analysis/structured_a3_final_comparison/scripts/run_structured_a3_final.py baseline \
   --output-root /project/disease_ecology/STGNN-output/structured_a3_final_comparison \
-  --reference-metrics analysis/predictor_augmentation/provenance/fixed_theta_baseline_reference.csv
+  --reference-metrics /project/disease_ecology/STGNN/analysis/predictor_augmentation/provenance/fixed_theta_baseline_reference.csv

@@ -21,4 +21,4 @@ python analysis/structured_a3_final_comparison/scripts/run_structured_a3_final.p
   --front-features /project/disease_ecology/STGNN-output/v2_model/front_features/causal_front_features.parquet \
   --anthropogenic-features /project/disease_ecology/STGNN-output/predictor_augmentation/static/road_night_node_features.parquet \
   --soil-features /project/disease_ecology/STGNN-output/soil_feature_screening_resumed_s1/soil_node_features.parquet \
-  --reference-metrics analysis/predictor_augmentation/provenance/fixed_theta_baseline_reference.csv
+  --reference-metrics /project/disease_ecology/STGNN/analysis/predictor_augmentation/provenance/fixed_theta_baseline_reference.csv
