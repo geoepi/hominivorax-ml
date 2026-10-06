@@ -10,7 +10,7 @@ This is the final structured A0 versus A3 development comparison. It uses the va
 - controlled augmentation provenance SHA: `bd8346fc42e31e4f1f52b2ce7f2d3694f6a4af00`
 - model-class diagnostic SHA: `844589d8bf79b0ecf2f9249b50ade91fbb0089d9`
 - revised domain: 10,037 canonical nodes, Mexico plus the U.S. south of 40°N
-- validated augmentation manifest: `None`
+- validated augmentation manifest: `/project/disease_ecology/STGNN-output/structured_a3_final_comparison/manifests/augmentation_manifest.json` (SHA-256 `ed471a2e08706b78516723e53760d66b76a70790e445bc3484a3fd877ac23087`)
 - A0 manifest: `results/a0_reference_manifest.json`
 - A3 manifest: `results/a3_feature_manifest.json`
 
