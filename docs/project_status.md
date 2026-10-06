@@ -23,4 +23,5 @@ Extend complete predictor support beyond the freeze boundary and perform a genui
 
 ## Repository state
 
-This status is being finalized on `feature/repository-reconciliation`, created from `main` at `88bcf3ae238f3aae712b123acfa07e4b2c5e4ad1`. The final reconciliation SHA and remote SHA are recorded after integration. No automatic merge to `main` is performed.
+Main integration is complete at the verified no-fast-forward merge SHA `6e757b1b101d18c4cb54b580051c22397d048ff6`. The annotated milestone tag `structured-a3-development` points to that SHA and was verified locally, on GitHub, and on Atlas. The final branch cleanup verification is recorded in `docs/repository_reconciliation/final_branch_cleanup_verification.csv`. Only fully merged branches with reachable tips, no active worktree, and no unique unpreserved history were deleted; historical, active, and provenance refs remain retained.
+

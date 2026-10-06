@@ -1,27 +1,20 @@
 # Repository reconciliation completion report
 
-## Repository
+## Repository integration
 
 | Field | Result |
 |---|---|
-| Reconciliation branch | `feature/repository-reconciliation` |
 | Starting main SHA | `88bcf3ae238f3aae712b123acfa07e4b2c5e4ad1` |
-| Integration content commit before this report | `87b658ca9a9e5faac1fc9eb8e0a0919b3173b77c` |
-| Final reconciliation SHA | Final branch tip containing this report; reported with the completed GitHub verification |
-| Remote SHA | Verified equal to the final local branch tip after publication |
-| Working tree | Clean after final verification |
-| Main merge | Not performed |
+| Reconciliation SHA before merge | `a0b9775fb88e6218d57cf7f3ee2122531c923291` |
+| Main merge SHA | `6e757b1b101d18c4cb54b580051c22397d048ff6` |
+| Merge method | `--no-ff`; parents were starting main and reconciliation; no conflicts |
+| GitHub main SHA | Equal to local main at merge and after cleanup documentation pushes |
+| Milestone tag | `structured-a3-development`, annotated and pushed; peeled target `6e757b1b101d18c4cb54b580051c22397d048ff6` |
+| Atlas pre-execution SHA | Equal to local and GitHub main at `6e757b1b101d18c4cb54b580051c22397d048ff6` |
+| Local user checkout | Preserved dirty on `feature/soil-feature-screening`; never checked out or merged |
+| Final branch tip | Reported by the final GitHub verification and recorded with the cleanup artifacts in this commit sequence |
 
-## Inventory
-
-- Local refs audited: 8, including the reconciliation worktree.
-- Remote refs audited: 19, excluding `origin/HEAD`.
-- Branches with unique commits beyond `main`: controlled augmentation, soil screening, A3 ablation, model-class diagnostic, neural A0 audit, structured A3 final comparison, and structured A3 evaluation.
-- Fully merged refs: preflight/domain audit, revised-domain baselines, hurdle-loss audit, structured revised-domain, terminal evaluation, V2 delayed-nowcast/front/observation/prospective/raster branches, and `integration/pre-main-v2a`.
-- Historical experimental refs: soil screening, model-class diagnostic, neural A0 audit, and A3 ablation.
-- Active canonical refs: `main`, `feature/controlled-predictor-augmentation`, `feature/structured-a3-final-comparison`, `feature/structured-a3-evaluation`, and this reconciliation branch.
-
-## Canonical state
+## Canonical scientific state
 
 - Current model: **STRUCTURED A3** structured hurdle model.
 - Predictor count: 34.
@@ -33,85 +26,36 @@
 
 ## Integration summary
 
-### Branches merged
+The main merge includes the controlled predictor augmentation, selected structured A0/A3 comparison and freeze work, frozen-manifest evaluator and compact historical exposed-holdout artifacts, and documentation-only scientific decisions for soil and historical neural/graph work. No scientific refit or model-selection reopening occurred.
 
-- `feature/controlled-predictor-augmentation` — full history merged with a merge commit.
+## Branch cleanup
 
-### Branches selectively cherry-picked
+- Deleted local branches: `feature/atlas-preflight-data-contract`, `feature/revised-domain-audit`.
+- Deleted remote branches: those two names plus `feature/revised-domain-baselines`, `feature/hurdle-loss-audit`, `feature/structured-revised-domain`, `feature/terminal-evaluation`, `feature/v2-delayed-nowcast`, `feature/v2-front-hurdle`, `feature/v2-observation-front-audit`, `feature/v2-prospective-harness`, `feature/v2-raster-outputs`, and `integration/pre-main-v2a`.
+- Every deleted tip was verified reachable from main, unused by an active worktree, and free of unique unpreserved history.
+- Retained: main, controlled augmentation, reconciliation, structured final-comparison, structured evaluation, soil screening, model-class diagnostic, neural A0 audit, and STGNN ablation refs.
+- The clean temporary Atlas post-merge verification worktree was removed. User and historical/provenance worktrees were preserved.
+- The complete decision record is `docs/repository_reconciliation/final_branch_cleanup_verification.csv`.
 
-- `feature/structured-a3-final-comparison` — framework, configured helper correction, F1–F4 results, and final freeze report; duplicate helper-add commit omitted because the controlled branch supplied the file.
-- `feature/structured-a3-evaluation` — frozen evaluation manifest, schemas, evaluator, fixes, and compact historical results; replayed augmentation/final-comparison imports omitted.
-
-### Branches represented by documentation only
-
-- `feature/soil-feature-screening` — soil conclusion and provenance retained; protected/large node tables not integrated.
-- `feature/model-class-diagnostic`, `feature/neural-a0-architecture-audit`, and `feature/stgnn-a3-ablation` — negative/diagnostic neural and graph evidence retained as historical decision records.
-
-## Complete branch disposition
-
-| Branch | Tip or tips | Unique commits | Classification | Integrated? | Final action |
-|---|---|---:|---|---|---|
-| `main` | `88bcf3a` | 0 | CANONICAL-INTEGRATE | Base | RETAIN |
-| `integration/pre-main-v2a` | `88bcf3a` | 0 | FULLY-MERGED | Yes | NO-ACTION |
-| `feature/atlas-preflight-data-contract` | `45842f9` | 0 | FULLY-MERGED | Yes | NO-ACTION |
-| `feature/revised-domain-audit` | local `45842f9`; remote `e18777f` | 0 / 0 | FULLY-MERGED | Yes | NO-ACTION; refs need later cleanup review |
-| `feature/revised-domain-baselines` | `ab98f7c` | 0 | FULLY-MERGED | Yes | NO-ACTION |
-| `feature/hurdle-loss-audit` | `a7b22cb` | 0 | FULLY-MERGED | Yes | NO-ACTION |
-| `feature/structured-revised-domain` | `5e58f4b` | 0 | FULLY-MERGED | Yes | NO-ACTION |
-| `feature/terminal-evaluation` | `19886ca` | 0 | FULLY-MERGED | Yes | NO-ACTION |
-| `feature/v2-delayed-nowcast` | `ea4ba55` | 0 | FULLY-MERGED | Yes | NO-ACTION |
-| `feature/v2-front-hurdle` | `6644312` | 0 | FULLY-MERGED | Yes | NO-ACTION |
-| `feature/v2-observation-front-audit` | `d8aba83` | 0 | FULLY-MERGED | Yes | NO-ACTION |
-| `feature/v2-prospective-harness` | `0c65631` | 0 | FULLY-MERGED | Yes | NO-ACTION |
-| `feature/v2-raster-outputs` | `2246cd1` | 0 | FULLY-MERGED | Yes | NO-ACTION |
-| `feature/soil-feature-screening` | `97defc7` | 22 | SUPERSEDED-BUT-PRESERVE | Documentation only | RETAIN historical |
-| `feature/controlled-predictor-augmentation` | `bd8346f` | 7 | CANONICAL-INTEGRATE | Yes | RETAIN active until main merge decision |
-| `feature/structured-a3-final-comparison` | `93ecc92` | 6 | CANONICAL-INTEGRATE | Selective | RETAIN provenance |
-| `feature/structured-a3-evaluation` | `beee8ad` | 9 | CANONICAL-INTEGRATE | Selective | RETAIN provenance |
-| `feature/model-class-diagnostic` | `844589d` | 2 | HISTORICAL-EXPERIMENT | Documentation only | RETAIN historical |
-| `feature/neural-a0-architecture-audit` | `45dd7fe` | 7 | HISTORICAL-EXPERIMENT | Documentation only | RETAIN historical |
-| `feature/stgnn-a3-ablation` | local `fc7c17d`; remote `4797edf` | 5 / 13 | HISTORICAL-EXPERIMENT | Documentation only | RETAIN historical; review divergent refs later |
-| `feature/repository-reconciliation` | final branch tip | reconciliation commits | ACTIVE-FUTURE-WORK | In progress/completed | RETAIN active pending review |
-
-The machine-readable full tables are `branch_inventory.csv`, `branch_relationships.csv`, and `branch_disposition.csv` in this directory.
-
-## Documentation delivered
-
-- Root `README.md` updated for current STRUCTURED A3 status.
-- `docs/current_model_specification.md`.
-- `docs/predictor_dictionary.csv`.
-- `docs/data_and_artifact_map.md`.
-- `docs/project_status.md`.
-- Seven concise decision records under `docs/modeling_decisions/`.
-- `docs/milestones/structured_a3_development_milestone.md`.
-- Branch inventory, relationship, canonical-component, integration-plan, cleanup-audit, disposition, and completion-report artifacts.
-- `.gitignore` updated to exclude caches, outputs, protected data, and credentials while allowing selected compact A3 artifacts.
-
-## Tests and checks
+## Tests and integrity checks
 
 | Check | Result |
 |---|---|
-| Python syntax/compileall | PASS |
-| Atlas Python imports | PASS; fixed theta `0.7018903965556372`, 34 predictors |
+| Local bundled Python compileall | PASS |
+| Local bundled Python imports | Environment-limited: bundled runtime lacks SciPy |
+| Atlas Python compileall/imports | PASS; fixed theta `0.7018903965556372`, 30 base plus 4 A3 predictors |
 | Atlas dependency-available Python tests | PASS; 53 passed, 4 warnings |
 | Torch-dependent Python modules | NOT RUN; Atlas project venv has no `torch` |
-| R testthat suite | PASS; 60 passed, 1 environment-dependent skip |
-| Outcome-blind frozen A3 preflight | PASS; required Atlas artifacts present, no responses/metrics loaded |
-| Git whitespace check | PASS |
-| Frozen evaluation manifest | PASS; SHA-256 `9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61` |
-| Protected/large data audit | PASS; no raw rasters, Parquet/NPY data, checkpoints, credentials, or files over 1 MiB committed |
-
-## Proposed branch cleanup
-
-- Safe to delete now: none during this first pass; no remote branches were deleted.
-- Retain historical: soil screening, model-class diagnostic, neural A0 audit, A3 ablation, structured final-comparison, and structured evaluation branches.
-- Retain active: `main`, controlled augmentation, this reconciliation branch, and the provenance branches until review.
-- Needs review before any cleanup: divergent local/remote `feature/revised-domain-audit` and `feature/stgnn-a3-ablation` refs.
+| Local R testthat suite | PASS; 60 passed, 1 environment-dependent skip |
+| Outcome-blind frozen A3 preflight | PASS; `READY_FOR_OUTCOME_BLIND_DATA_AUDIT`; required artifacts present; no responses or metrics loaded |
+| Frozen evaluation manifest | PASS; SHA-256 `9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61` locally and on Atlas |
+| GitHub transfer boundary | PASS; only intended compact repository source/artifacts transferred through GitHub |
+| Protected/large data audit | PASS; no raw rasters, Parquet/NPY data, checkpoints, credentials, or generated outputs committed |
 
 ## Boundary checks
 
 ```text
-model refitted during reconciliation: NO
+model refitted during integration: NO
 feature selection reopened: NO
 scientific results changed: NO
 protected data committed: NO
@@ -121,11 +65,9 @@ large checkpoints committed: NO
 historical failed experiments erased: NO
 published branch history rewritten: NO
 main force-pushed: NO
-main merged: NO
 ```
 
-## Main merge status
+## Final status
 
-`REPOSITORY RECONCILIATION READY FOR MAIN MERGE`
+`MAIN INTEGRATION AND BRANCH CLEANUP COMPLETE`
 
-This is a readiness statement only. A separate explicit authorization is still required to merge the reconciliation branch into `main`.
