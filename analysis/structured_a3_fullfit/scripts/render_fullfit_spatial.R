@@ -68,7 +68,7 @@ for (wk in weeks) {
   raster_paths[[wk]] <- paths
 }
 
-summary_specs <- list(mean_p_occurrence = list(source = "p_occurrence", fun = mean), max_p_occurrence = list(source = "p_occurrence", fun = max), mean_expected_count = list(source = "expected_count", fun = mean), max_expected_count = list(source = "expected_count", fun = max), weeks_p_ge_025 = list(source = "p_occurrence", fun = function(x) sum(x >= 0.25, na.rm = TRUE)), weeks_p_ge_050 = list(source = "p_occurrence", fun = function(x) sum(x >= 0.50, na.rm = TRUE)))
+summary_specs <- list(mean_p_occurrence = list(source = "p_occurrence", fun = mean), max_p_occurrence = list(source = "p_occurrence", fun = max), mean_expected_count = list(source = "expected_count", fun = mean), max_expected_count = list(source = "expected_count", fun = max), weeks_p_ge_025 = list(source = "p_occurrence", fun = function(x, na.rm = TRUE) sum(x >= 0.25, na.rm = na.rm)), weeks_p_ge_050 = list(source = "p_occurrence", fun = function(x, na.rm = TRUE) sum(x >= 0.50, na.rm = na.rm)))
 summary_paths <- list()
 for (name in names(summary_specs)) {
   spec <- summary_specs[[name]]; stack <- rast(vapply(weeks, function(w) raster_paths[[w]][[spec$source]], character(1L))); destination <- file.path(out, "raster_summaries", paste0("a3_", name, ".tif"))
@@ -85,9 +85,22 @@ area_values <- values(cellSize(mask, unit = "km"), mat = FALSE)[as.integer(nodes
 weekly_table_path <- file.path(out, "tables/weekly_prediction_summary.csv")
 if (file.exists(weekly_table_path)) { w <- fread(weekly_table_path); w[, valid_cell_area_km2 := sum(node_area$cell_area_km2), by = week]; w[, area_p_ge_025_km2 := cells_p_ge_025 * valid_cell_area_km2 / valid_cells]; w[, area_p_ge_050_km2 := cells_p_ge_050 * valid_cell_area_km2 / valid_cells]; fwrite(w, weekly_table_path) }
 geo_table_path <- file.path(out, "tables/weekly_geographic_summary.csv")
-if (file.exists(geo_table_path)) { g <- fread(geo_table_path); ga <- node_area[, .(valid_cell_area_km2 = sum(cell_area_km2)), by = geography]; g <- merge(g, ga, by = "geography", all.x = TRUE); g[, area_p_ge_025_km2 := cells_p_ge_025 * valid_cell_area_km2 / valid_cells]; g[, area_p_ge_050_km2 := cells_p_ge_050 * valid_cell_area_km2 / valid_cells]; fwrite(g, geo_table_path) }
+if (file.exists(geo_table_path)) { g <- fread(geo_table_path); if ("valid_cell_area_km2" %in% names(g)) g[, valid_cell_area_km2 := NULL]; if ("area_p_ge_025_km2" %in% names(g)) g[, area_p_ge_025_km2 := NULL]; if ("area_p_ge_050_km2" %in% names(g)) g[, area_p_ge_050_km2 := NULL]; ga <- node_area[, .(valid_cell_area_km2 = sum(cell_area_km2)), by = geography]; g <- merge(g, ga, by = "geography", all.x = TRUE); g[, area_p_ge_025_km2 := cells_p_ge_025 * valid_cell_area_km2 / valid_cells]; g[, area_p_ge_050_km2 := cells_p_ge_050 * valid_cell_area_km2 / valid_cells]; fwrite(g, geo_table_path) }
 
-target_crs <- st_crs(crs(mask)); ext_values <- as.vector(ext(mask)); read_boundary <- function(filename) { path <- file.path(boundary_root, filename); if (!file.exists(path)) return(NULL); layer <- st_transform(st_read(path, quiet = TRUE), target_crs); bbox <- st_bbox(c(xmin = ext_values[1], xmax = ext_values[2], ymin = ext_values[3], ymax = ext_values[4]), crs = target_crs); suppressWarnings(st_crop(layer, bbox)) }
+target_crs <- st_crs(crs(mask)); ext_values <- as.vector(ext(mask)); read_boundary <- function(filename) {
+  path <- file.path(boundary_root, filename)
+  if (!file.exists(path)) return(NULL)
+  tryCatch({
+    layer <- st_read(path, quiet = TRUE)
+    layer <- layer[!is.na(st_geometry(layer)) & !st_is_empty(layer), ]
+    layer <- st_transform(layer, target_crs)
+    bbox <- st_bbox(c(xmin = ext_values[1], xmax = ext_values[2], ymin = ext_values[3], ymax = ext_values[4]), crs = target_crs)
+    suppressWarnings(st_crop(layer, bbox))
+  }, error = function(e) {
+    message("boundary layer skipped: ", filename, " (", conditionMessage(e), ")")
+    NULL
+  })
+}
 land <- read_boundary("ne_10m_land.shp"); countries <- read_boundary("ne_50m_admin_0_countries.shp"); states <- read_boundary("ne_50m_admin_1_states_provinces_lakes.shp")
 obs_sf <- NULL; if (nrow(obs)) obs_sf <- st_transform(st_as_sf(obs, coords = c("lon", "lat"), crs = 4326, remove = FALSE), target_crs)
 boundary_layers <- function() { x <- list(); if (!is.null(land) && nrow(land)) x <- c(x, list(geom_sf(data = land, fill = NA, colour = "grey75", linewidth = .15, inherit.aes = FALSE))); if (!is.null(countries) && nrow(countries)) x <- c(x, list(geom_sf(data = countries, fill = NA, colour = "grey35", linewidth = .22, inherit.aes = FALSE))); if (!is.null(states) && nrow(states)) x <- c(x, list(geom_sf(data = states, fill = NA, colour = "grey62", linewidth = .12, inherit.aes = FALSE))); x }
