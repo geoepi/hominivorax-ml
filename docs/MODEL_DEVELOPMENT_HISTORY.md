@@ -29,3 +29,19 @@ Task 3A initiates a distinct V2 design cycle. Its observation-process and
 moving-front diagnostics are descriptive and audit-only. No V2 production
 likelihood, response estimand, front-state definition, or future validation
 design is authorized by this history entry.
+
+## Current structured A3 milestone
+
+The subsequent structured comparison used the frozen V2-A/A0 30-predictor
+reference and four prespecified additions: road density, nighttime illumination,
+clay at 0–15 cm, and the WV0033-minus-WV0010 water-retention contrast. With
+penalty `0.01`, fixed `theta = 0.7018903965556372`, exact joint hurdle NLL, and
+10,037 nodes, A3 improved the F1–F4 development comparison and was frozen as
+the current development specification. Neural and graph models were not fitted
+in this comparison, feature selection was not reopened, and the main branch was
+not merged.
+
+The subsequent evaluation scored the frozen model on the historical exposed
+2026-W17–2026-W29 holdout. The result was classified `SUPPORTED` under the
+historical rubric, but it is not an independent prospective claim. No eligible
+untouched prospective period is currently available.

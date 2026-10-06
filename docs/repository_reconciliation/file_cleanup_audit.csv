@@ -1,0 +1,11 @@
+path,status,reason,replacement,action
+docs/FINAL_MODEL_SPECIFICATION.md,STALE CURRENT CLAIMS,describes the superseded 24-predictor Task 2G terminal specification,docs/current_model_specification.md,UPDATE-AS-HISTORICAL
+docs/MODEL_DEVELOPMENT_HISTORY.md,STALE CURRENT SUMMARY,ends at V2-A and does not state the frozen structured A3 milestone,docs/project_status.md and docs/modeling_decisions/,UPDATE
+docs/GCONVGRU_ARCHITECTURE.md,HISTORICAL,records a diagnostic architecture rather than the current model,docs/modeling_decisions/005_neural_model_evaluation.md,KEEP
+docs/V2A_*.md,HISTORICAL PREDECESSOR,documents the V2-A design and remains needed for provenance,docs/current_model_specification.md,KEEP-LABEL-HISTORICAL
+analysis/soil_feature_screening/results/stgnn_cell_soil_features.parquet,PROTECTED/LARGE,tracked on a historical branch and not needed in canonical Git state,Atlas soil artifact paths in docs/data_and_artifact_map.md,KEEP-OUTSIDE-GIT
+analysis/soil_feature_screening/results/stgnn_cell_soil_features.csv,PROTECTED/LARGE,tracked on a historical branch and not needed in canonical Git state,Atlas soil artifact paths in docs/data_and_artifact_map.md,KEEP-OUTSIDE-GIT
+analysis/**/results/*.csv,COMPACT ARTIFACTS,summary tables can be reproducibility evidence when explicitly selected,docs/repository_reconciliation/branch_disposition.csv,KEEP-SELECTIVELY
+output/,LOCAL WORKTREE ARTIFACTS,local worktrees and generated outputs are environment-specific,.gitignore,KEEP-IGNORED
+__pycache__/,RUNTIME CACHE,generated Python cache must not enter Git,.gitignore,KEEP-IGNORED
+slurm-*.out; *.log,RUNTIME LOGS,Atlas logs are environment-specific and can contain paths or data,.gitignore,KEEP-IGNORED
