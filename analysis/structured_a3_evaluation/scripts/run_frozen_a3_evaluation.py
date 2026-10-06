@@ -435,7 +435,7 @@ def region_masks(nodes: pd.DataFrame) -> dict[str, np.ndarray]:
     column = "country_or_domain_region"
     values = nodes[column].astype(str).str.lower()
     mexico = values.str.contains("mexico").to_numpy(bool)
-    united_states = values.str.contains("united states|usa|us$", regex=True).to_numpy(bool)
+    united_states = values.str.contains("united states|usa|u\\.s\\.", regex=True).to_numpy(bool)
     if not mexico.any() or not united_states.any():
         raise RuntimeError(f"STOP: established country assignment lacks Mexico/United States: {sorted(values.unique())}")
     return {"full_revised_domain": np.ones(NODE_COUNT, dtype=bool), "Mexico": mexico, "United States": united_states}
