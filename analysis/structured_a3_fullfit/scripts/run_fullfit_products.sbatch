@@ -7,11 +7,12 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=48G
 #SBATCH --time=08:00:00
+#SBATCH --chdir=/project/disease_ecology/STGNN-output/worktrees/structured-a3-fullfit-products
 #SBATCH --output=/project/disease_ecology/STGNN-output/structured_a3_fullfit/logs/fullfit_%j.out
 #SBATCH --error=/project/disease_ecology/STGNN-output/structured_a3_fullfit/logs/fullfit_%j.err
 
 set -euo pipefail
-repo_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)
+repo_root="${SLURM_SUBMIT_DIR:-/project/disease_ecology/STGNN-output/worktrees/structured-a3-fullfit-products}"
 cd "${repo_root}"
 output_root=/project/disease_ecology/STGNN-output/structured_a3_fullfit
 mkdir -p "${output_root}/logs"
