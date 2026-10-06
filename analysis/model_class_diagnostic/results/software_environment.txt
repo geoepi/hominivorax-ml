@@ -1,0 +1,5 @@
+python=3.12.14
+platform=Linux-5.14.0-570.52.1.el9_6.x86_64-x86_64-with-glibc2.34
+torch=2.10.0
+cuda_available=False
+pandas=3.0.6

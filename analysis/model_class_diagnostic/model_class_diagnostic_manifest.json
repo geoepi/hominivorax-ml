@@ -1,0 +1,28 @@
+{
+  "completed_neural_fits": 40,
+  "final_decision": {
+    "a3_predictors_used": false,
+    "completed_neural_fits": 40,
+    "f5_f6_used": false,
+    "failed": 0,
+    "feature_selection_reopened": false,
+    "final_model_class_recommendation": "NEURAL MODEL CLASS NOT SUPPORTED FOR CURRENT TASK",
+    "graph_neural_model_fitted": false,
+    "graph_recommendation": "DO NOT REOPEN GRAPH MODELS",
+    "m0_valid": true,
+    "m1_valid": false,
+    "m2_materially_better_than_m1": false,
+    "m2_valid": false,
+    "main_merged": false,
+    "predictor_set_changed": false,
+    "response_changed": false,
+    "terminal_later_outcomes_used": false,
+    "theta_reestimated": false
+  },
+  "models": [
+    "M0",
+    "M1",
+    "M2"
+  ],
+  "status": "complete"
+}

@@ -1,0 +1,14 @@
+{
+  "dropout": 0.1,
+  "graph": false,
+  "hidden": 64,
+  "input_size": 30,
+  "loss": "exact_joint_hurdle_nll",
+  "max_epochs": 36,
+  "model": "M2",
+  "patience": 3,
+  "recurrent_layers": 1,
+  "tbptt_weeks": 13,
+  "theta": 0.7018903965556372,
+  "warmup_weeks": 52
+}

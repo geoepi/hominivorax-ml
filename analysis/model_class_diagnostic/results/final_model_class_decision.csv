@@ -1,0 +1,2 @@
+final_model_class_recommendation,graph_recommendation,m0_valid,m1_valid,m2_valid,m2_materially_better_than_m1,a3_predictors_used,graph_neural_model_fitted,feature_selection_reopened,predictor_set_changed,response_changed,theta_reestimated,f5_f6_used,terminal_later_outcomes_used,main_merged,completed_neural_fits,failed
+NEURAL MODEL CLASS NOT SUPPORTED FOR CURRENT TASK,DO NOT REOPEN GRAPH MODELS,True,False,False,False,False,False,False,False,False,False,False,False,False,40,0

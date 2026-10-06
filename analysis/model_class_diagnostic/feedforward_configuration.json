@@ -1,0 +1,16 @@
+{
+  "activation": "ReLU",
+  "batch_size": 65536,
+  "dropout": 0.1,
+  "heads": [
+    "occurrence_logit",
+    "positive_count_raw_mean"
+  ],
+  "hidden": 64,
+  "input_size": 30,
+  "loss": "exact_joint_hurdle_nll",
+  "max_epochs": 36,
+  "model": "M1",
+  "patience": 3,
+  "theta": 0.7018903965556372
+}
