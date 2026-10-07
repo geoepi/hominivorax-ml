@@ -1,0 +1,809 @@
+predictor,group,transformation,reference_profile,natural_scale_value,response
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,0,0.0199148868577508
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,33.0222082931491,0.00409878915782696
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,66.0444165862982,0.00309718926755324
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,99.0666248794474,0.00263302759227593
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,132.088833172596,0.00234858523889225
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,165.111041465746,0.00215043967319495
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,198.133249758895,0.00200172631446827
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,231.155458052044,0.00188451452029894
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,264.177666345193,0.00178887429602551
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,297.199874638342,0.00170879307361036
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,330.222082931491,0.00164038415142577
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,363.24429122464,0.00158100590247429
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,396.266499517789,0.00152879023597646
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,429.288707810939,0.00148237281456526
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,462.310916104088,0.00144073023952059
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,495.333124397237,0.00140307738280798
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,528.355332690386,0.00136880022225708
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,561.377540983535,0.00133741050738778
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,594.399749276684,0.00130851432521891
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,627.421957569833,0.00128178978726717
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,660.444165862982,0.00125697086149442
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,693.466374156132,0.00123383544122035
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,726.488582449281,0.00121219639621139
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,759.51079074243,0.00119189476176402
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,792.532999035579,0.00117279448616246
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,825.555207328728,0.00115477833117075
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,858.577415621877,0.00113774463734471
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,891.599623915026,0.00112160474610549
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,924.621832208175,0.00110628092628699
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,957.644040501325,0.00109170469226565
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,990.666248794474,0.00107781542900058
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1023.68845708762,0.00106455925978653
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1056.71066538077,0.00105188810755569
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1089.73287367392,0.0010397589117239
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1122.75508196707,0.00102813297094779
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1155.77729026022,0.00101697538849717
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1188.79949855337,0.00100625460179035
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1221.82170684652,0.000995941981371112
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1254.84391513967,0.000986011487503856
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1287.86612343282,0.000976439374830703
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1320.88833172596,0.000967203937320253
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1353.91054001911,0.000958285287154465
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1386.93274831226,0.000949665162330498
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1419.95495660541,0.000941326758661952
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1452.97716489856,0.000933254582596591
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1485.99937319171,0.000925434321862274
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1519.02158148486,0.000917852731437926
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1552.04378977801,0.000910497532743981
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1585.06599807116,0.000903357324274184
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1618.08820636431,0.000896421502161472
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1651.11041465746,0.000889680189395605
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1684.13262295061,0.000883124172597783
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1717.15483124375,0.000876744845414631
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1750.1770395369,0.00087053415772576
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1783.19924783005,0.000864484569970518
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1816.2214561232,0.000858589011993618
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1849.24366441635,0.000852840845889284
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1882.2658727095,0.000847233832391603
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1915.28808100265,0.000841762100416909
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1948.3102892958,0.000836420119413833
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1981.33249758895,0.000831202674219368
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2014.3547058821,0.000826104842156234
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2047.37691417525,0.000821121972138574
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2080.39912246839,0.000816249665580573
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2113.42133076154,0.000811483758926519
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2146.44353905469,0.000806820307641617
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2179.46574734784,0.000802255571520974
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2212.48795564099,0.000797786001190067
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2245.51016393414,0.000793408225683828
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2278.53237222729,0.000789119041003699
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2311.55458052044,0.000784915399562699
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2344.57678881359,0.000780794400437972
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2377.59899710674,0.000776753280358626
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2410.62120539989,0.000772789405364007
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2443.64341369303,0.000768900263074124
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2476.66562198618,0.000765083455519657
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2509.68783027933,0.000761336692484188
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2542.71003857248,0.000757657785315845
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2575.73224686563,0.000754044641169611
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2608.75445515878,0.000750495257645263
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2641.77666345193,0.000747007717789082
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2674.79887174508,0.000743580185430479
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2707.82108003823,0.00074021090082723
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2740.84328833138,0.00073689817659543
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2773.86549662453,0.000733640393902351
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2806.88770491768,0.000730435998902318
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2839.90991321082,0.000727283499397422
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2872.93212150397,0.00072418146170646
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2905.95432979712,0.000721128507726876
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2938.97653809027,0.000718123312175781
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2971.99874638342,0.000715164599997224
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3005.02095467657,0.000712251143924001
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3038.04316296972,0.000709381762183193
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3071.06537126287,0.000706555316335478
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3104.08757955602,0.000703770709239111
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3137.10978784917,0.000701026883130088
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3170.13199614232,0.000698322817810761
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3203.15420443546,0.000695657528939679
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3236.17641272861,0.000693030066416048
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3269.19862102176,0.000690439512852648
+distance_to_prev4_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3302.22082931491,0.000687884982131534
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1,0.00486151333384693
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2.33,0.00398376666914574
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3.66,0.00349353040666482
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,4.99,0.0031669561166355
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,6.32,0.00292816228149938
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,7.65,0.00274311447470152
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,8.98,0.00259389768416246
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,10.31,0.00247003546808314
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,11.64,0.00236492467030276
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,12.97,0.0022741625828897
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,14.3,0.00219468202583886
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,15.63,0.0021242696604434
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,16.96,0.00206128146704928
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,18.29,0.00200446644249074
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,19.62,0.00195285292562604
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,20.95,0.00190567280230919
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,22.28,0.00186230949454758
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,23.61,0.00182226137139994
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,24.94,0.00178511544258093
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,26.27,0.00175052807828521
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,27.6,0.00171821063525043
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,28.93,0.00168791857554033
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,30.26,0.00165944311522324
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,31.59,0.00163260473440372
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,32.92,0.00160724807627905
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,34.25,0.00158323789621867
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,35.58,0.00156045581403365
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,36.91,0.00153879768732987
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,38.24,0.0015181714699547
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,39.57,0.00149849545284312
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,40.9,0.00147969680890671
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,42.23,0.00146171038160067
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,43.56,0.00144447767024765
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,44.89,0.0014279459753404
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,46.22,0.00141206767476982
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,47.55,0.00139679960785872
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,48.88,0.00138210254867619
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,50.21,0.00136794075369261
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,51.54,0.00135428157165282
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,52.87,0.00134109510577432
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,54.2,0.00132835392015245
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,55.53,0.00131603278367647
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,56.86,0.00130410844590655
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,58.19,0.00129255944028951
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,59.52,0.0012813659108475
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,60.85,0.00127050945909198
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,62.18,0.00125997300842421
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,63.51,0.0012497406837033
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,64.84,0.0012397977040116
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,66.17,0.00123013028693677
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,67.5,0.00122072556293318
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,68.83,0.00121157149852825
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,70.16,0.00120265682731116
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,71.49,0.00119397098778625
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,72.82,0.00118550406729615
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,74.15,0.00117724675132452
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,75.48,0.00116919027757704
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,76.81,0.00116132639431618
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,78.14,0.00115364732249031
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,79.47,0.0011461457212544
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,80.8,0.00113881465652806
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,82.13,0.00113164757227887
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,83.46,0.00112463826425535
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,84.79,0.00111778085592572
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,86.12,0.00111106977640624
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,87.45,0.00110449974018701
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,88.78,0.0010980657284843
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,90.11,0.00109176297206698
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,91.44,0.0010855869354209
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,92.77,0.00107953330212939
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,94.1,0.00107359796136076
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,95.43,0.00106777699536478
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,96.76,0.00106206666788999
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,98.09,0.00105646341344267
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,99.42,0.00105096382731575
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,100.75,0.00104556465632326
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,102.08,0.00104026279018174
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,103.41,0.00103505525348593
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,104.74,0.00102993919823058
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,106.07,0.00102491189683499
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,107.4,0.00101997073563069
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,108.73,0.00101511320877622
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,110.06,0.00101033691256621
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,111.39,0.00100563954010487
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,112.72,0.00100101887631645
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,114.05,0.000996472793267875
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,115.38,0.000991999245780413
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,116.71,0.000987596267309709
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,118.04,0.000983261966074743
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,119.37,0.000978994521418183
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,120.7,0.000974792180381881
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,122.03,0.000970653254482623
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,123.36,0.000966576116674364
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,124.69,0.000962559198484335
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,126.02,0.000958600987311314
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,127.35,0.000954700023875326
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,128.68,0.000950854899808767
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,130.01,0.000947064255379793
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,131.34,0.000943326777339438
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,132.67,0.000939641196884541
+weeks_since_detection_within_50km_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,134,0.000936006287729219
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,0,0.00428370149912111
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,32.7950635936562,0.00203973006981883
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,65.5901271873124,0.00176791581170267
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,98.3851907809686,0.00162475990929144
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,131.180254374625,0.00152993953016236
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,163.975317968281,0.00146008388394505
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,196.770381561937,0.00140531527580306
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,229.565445155593,0.00136057745929208
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,262.36050874925,0.00132295361075009
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,295.155572342906,0.00129061648050274
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,327.950635936562,0.00126234991881499
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,360.745699530218,0.00123730599524862
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,393.540763123874,0.00121487132445363
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,426.33582671753,0.001194588699995
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,459.130890311187,0.00117610875846262
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,491.925953904843,0.00115915889343676
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,524.721017498499,0.00114352255037647
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,557.516081092155,0.00112902501847894
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,590.311144685811,0.00111552342715456
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,623.106208279468,0.00110289954349813
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,655.901271873124,0.00109105448348553
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,688.69633546678,0.00107990476015098
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,721.491399060436,0.0010693792844883
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,754.286462654092,0.00105941705738374
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,787.081526247749,0.00104996537081676
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,819.876589841405,0.00104097838982362
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,852.671653435061,0.0010324160228988
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,885.466717028717,0.00102424301352624
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,918.261780622373,0.00101642820310862
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,951.05684421603,0.00100894392809573
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,983.851907809686,0.00100176552317038
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1016.64697140334,0.000994870908978379
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1049.442034997,0.00098824024779581
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1082.23709859065,0.000981855654198135
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1115.03216218431,0.000975700950570338
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1147.82722577797,0.000969761459413667
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1180.62228937162,0.000964023826033201
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1213.41735296528,0.00095847586645374
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1246.21241655894,0.000953106436399189
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1279.00748015259,0.000947905317948181
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1311.80254374625,0.000942863121095203
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1344.5976073399,0.000937971197938309
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1377.39267093356,0.000933221567609327
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1410.18773452722,0.000928606850381224
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1442.98279812087,0.00092412020964605
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1475.77786171453,0.000919755300668022
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1508.57292530818,0.000915506225189446
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1541.36798890184,0.000911367491109813
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1574.1630524955,0.00090733397657647
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1606.95811608915,0.000903400897923382
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1639.75317968281,0.000899563780976361
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1672.54824327647,0.000895818435311775
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1705.34330687012,0.000892160931113398
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1738.13837046378,0.000888587578320782
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1770.93343405743,0.000885094907803741
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1803.72849765109,0.000881679654332602
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1836.52356124475,0.000878338741143686
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1869.3186248384,0.000875069265925093
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1902.11368843206,0.000871868488069685
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1934.90875202572,0.000868733817061021
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,1967.70381561937,0.00086566280187426
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2000.49887921303,0.000862653121288022
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2033.29394280668,0.000859702575015418
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2066.08900640034,0.000856809075573015
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2098.884069994,0.00085397064081568
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2131.67913358765,0.000851185387073341
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2164.47419718131,0.000848451522832672
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2197.26926077496,0.000845767342912935
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2230.06432436862,0.000843131223090562
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2262.85938796228,0.000840541615131902
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2295.65445155593,0.00083799704219769
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2328.44951514959,0.000835496094586582
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2361.24457874325,0.000833037425788323
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2394.0396423369,0.000830619748820103
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2426.83470593056,0.00082824183282218
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2459.62976952421,0.000825902499891227
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2492.42483311787,0.000823600622131839
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2525.21989671153,0.000821335118908565
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2558.01496030518,0.000819104954282377
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2590.81002389884,0.000816909134617048
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2623.6050874925,0.00081474670634214
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2656.40015108615,0.000812616753860597
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2689.19521467981,0.000810518397589875
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2721.99027827346,0.000808450792126627
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2754.78534186712,0.000806413124525741
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2787.58040546078,0.000804404612685334
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2820.37546905443,0.000802424503830027
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2853.17053264809,0.000800472073085466
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2885.96559624174,0.000798546622137585
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2918.7606598354,0.00079664747797072
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2951.55572342906,0.00079477399167907
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,2984.35078702271,0.000792925537346501
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3017.14585061637,0.00079110151099005
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3049.94091421003,0.000789301329562872
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3082.73597780368,0.000787524430012663
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3115.53104139734,0.00078577026839194
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3148.32610499099,0.000784038319016802
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3181.12116858465,0.000782328073671052
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3213.91623217831,0.000780639040852804
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3246.71129577196,0.000778970745060883
+distance_to_any_prior_positive_log1p,detection history/front,log1p,median continuous; zero indicators; representative season/history,3279.50635936562,0.000777322726118562
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,0,0.000579435863085563
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,55.4113966723827,0.000828179062334862
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,110.822793344765,0.00088283544919098
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,166.234190017148,0.00091717379265636
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,221.645586689531,0.000942655552079031
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,277.056983361914,0.000963087432349251
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,332.468380034296,0.00098022889955721
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,387.879776706679,0.000995044890934592
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,443.291173379062,0.00100812441502341
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,498.702570051444,0.0010198546127686
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,554.113966723827,0.00103050416179466
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,609.52536339621,0.00104026747398846
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,664.936760068593,0.00104928995707152
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,720.348156740975,0.00105768333243182
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,775.759553413358,0.00106553537595971
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,831.170950085741,0.00107291635981215
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,886.582346758124,0.00107988345465264
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,941.993743430506,0.00108648382335015
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,997.405140102889,0.00109275684808029
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1052.81653677527,0.00109873576755686
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1108.22793344765,0.00110444890302122
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1163.63933012004,0.00110992059140608
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1219.05072679242,0.00111517190604481
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1274.4621234648,0.00112022122063059
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1329.87352013719,0.00112508465576561
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1385.28491680957,0.00112977643635766
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1440.69631348195,0.00113430918047526
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1496.10771015433,0.00113869413490638
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1551.51910682672,0.00114294136884184
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1606.9305034991,0.00114705993434105
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1662.34190017148,0.00115105800021378
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1717.75329684386,0.00115494296445206
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1773.16469351625,0.00115872154922305
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1828.57609018863,0.00116239988158274
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1883.98748686101,0.00116598356242035
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1939.3988835334,0.00116947772564218
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,1994.81028020578,0.00117288708921327
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2050.22167687816,0.00117621599937036
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2105.63307355054,0.00117946846907777
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2161.04447022293,0.00118264821160641
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2216.45586689531,0.00118575866996256
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2271.86726356769,0.00118880304276937
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2327.27866024007,0.00119178430710417
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2382.69005691246,0.00119470523871293
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2438.10145358484,0.00119756842995668
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2493.51285025722,0.0012003763057898
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2548.92424692961,0.00120313113802445
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2604.33564360199,0.00120583505809824
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2659.74704027437,0.0012084900685302
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2715.15843694675,0.00121109805322433
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2770.56983361914,0.00121366078675756
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2825.98123029152,0.00121617994277045
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2881.3926269639,0.00121865710156305
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2936.80402363628,0.00122109375698497
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,2992.21542030867,0.00122349132269723
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3047.62681698105,0.00122585113787372
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3103.03821365343,0.00122817447240155
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3158.44961032582,0.00123046253163249
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3213.8610069982,0.00123271646073143
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3269.27240367058,0.00123493734866232
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3324.68380034296,0.00123712623184736
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3380.09519701535,0.00123928409753137
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3435.50659368773,0.00124141188687927
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3490.91799036011,0.00124351049783196
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3546.32938703249,0.00124558078774293
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3601.74078370488,0.00124762357581552
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3657.15218037726,0.00124963964535876
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3712.56357704964,0.00125162974587785
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3767.97497372202,0.00125359459501362
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3823.38637039441,0.00125553488034399
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3878.79776706679,0.00125745126105906
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3934.20916373917,0.00125934436952032
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,3989.62056041156,0.00126121481271367
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4045.03195708394,0.00126306317360464
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4100.44335375632,0.00126489001240378
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4155.8547504287,0.00126669586774928
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4211.26614710109,0.00126848125781317
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4266.67754377347,0.00127024668133715
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4322.08894044585,0.00127199261860316
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4377.50033711824,0.0012737195323438
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4432.91173379062,0.00127542786859686
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4488.323130463,0.00127711805750814
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4543.73452713538,0.00127879051408629
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4599.14592380777,0.00128044563891304
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4654.55732048015,0.00128208381881195
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4709.96871715253,0.00128370542747868
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4765.38011382491,0.00128531082607524
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4820.7915104973,0.00128690036379084
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4876.20290716968,0.00128847437837144
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4931.61430384206,0.00129003319662023
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,4987.02570051444,0.0012915771348708
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,5042.43709718683,0.00129310649943483
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,5097.84849385921,0.00129462158702597
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,5153.25989053159,0.00129612268516141
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,5208.67128720398,0.0012976100725425
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,5264.08268387636,0.00129908401941569
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,5319.49408054874,0.00130054478791519
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,5374.90547722112,0.00130199263238824
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,5430.31687389351,0.0013034277997041
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,5485.72827056589,0.00130485052954785
+road_density,anthropogenic,log1p,median continuous; zero indicators; representative season/history,5541.13966723827,0.00130626105469974
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-5.41480298995972,0.000777794995888875
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-5.04454501361847,0.000779694779356951
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-4.67428703727722,0.000781605236171406
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-4.30402906093597,0.000783526492183481
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-3.93377108459473,0.000785458675030521
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-3.56351310825348,0.000787401914161734
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-3.19325513191223,0.000789356340864298
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-2.82299715557098,0.000791322088289856
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-2.45273917922974,0.00079329929148137
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-2.08248120288849,0.000795288087400363
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-1.71222322654724,0.000797288614954561
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-1.34196525020599,0.000799301015025896
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-0.971707273864745,0.000801325430498935
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-0.601449297523498,0.000803362006289692
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,-0.231191321182251,0.000805410889374862
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,0.139066655158997,0.000807472228821456
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,0.509324631500244,0.000809546175816862
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,0.879582607841492,0.000811632883699338
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,1.24984058418274,0.000813732507988912
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,1.62009856052399,0.000815845206418746
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,1.99035653686523,0.000817971138966931
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,2.36061451320648,0.000820110467888722
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,2.73087248954773,0.000822263357749245
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,3.10113046588898,0.000824429975456655
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,3.47138844223023,0.000826610490295759
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,3.84164641857147,0.000828805073962119
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,4.21190439491272,0.000831013900596639
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,4.58216237125397,0.000833237146820627
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,4.95242034759522,0.000835474991771358
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,5.32267832393646,0.000837727617138138
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,5.69293630027771,0.000839995207198877
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,6.06319427661896,0.000842277948857166
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,6.43345225296021,0.000844576031679888
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,6.80371022930145,0.00084688964793535
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,7.1739682056427,0.000849218992631952
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,7.54422618198395,0.000851564263557401
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,7.9144841583252,0.000853925661318471
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,8.28474213466645,0.000856303389381326
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,8.65500011100769,0.000858697654112408
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,9.02525808734894,0.000861108664819891
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,9.39551606369018,0.000863536633795728
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,9.76577404003143,0.000865981776358274
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,10.1360320163727,0.000868444310895523
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,10.5062899927139,0.000870924458908927
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,10.8765479690552,0.000873422445057858
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,11.2468059453964,0.000875938497204659
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,11.6170639217377,0.000878472846460353
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,11.9873218980789,0.000881025727230983
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,12.3575798744202,0.000883597377264582
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,12.7278378507614,0.000886188037698838
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,13.0980958271027,0.000888797953109378
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,13.4683538034439,0.000891427371558768
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,13.8386117797852,0.000894076544646172
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,14.2088697561264,0.000896745727557712
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,14.5791277324677,0.000899435179117535
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,14.9493857088089,0.000902145161839581
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,15.3196436851501,0.000904875941980093
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,15.6899016614914,0.000907627789590831
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,16.0601596378326,0.000910400978573056
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,16.4304176141739,0.000913195786732251
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,16.8006755905151,0.000916012495833605
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,17.1709335668564,0.000918851391658278
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,17.5411915431976,0.000921712764060442
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,17.9114495195389,0.000924596907025118
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,18.2817074958801,0.000927504118726823
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,18.6519654722214,0.00093043470158903
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,19.0222234485626,0.000933388962344451
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,19.3924814249039,0.000936367212096171
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,19.7627394012451,0.000939369766379617
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,20.1329973775864,0.000942396945225407
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,20.5032553539276,0.000945449073223057
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,20.8735133302689,0.000948526479585581
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,21.2437713066101,0.000951629498214995
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,21.6140292829514,0.000954758467768718
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,21.9842872592926,0.000957913731726913
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,22.3545452356339,0.000961095638460749
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,22.7248032119751,0.000964304541301621
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,23.0950611883163,0.000967540798611327
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,23.4653191646576,0.000970804773853226
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,23.8355771409988,0.000974096835664383
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,24.2058351173401,0.000977417357928713
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,24.5760930936813,0.000980766719851141
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,24.9463510700226,0.000984145306032802
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,25.3166090463638,0.000987553506547278
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,25.6868670227051,0.000990991717017893
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,26.0571249990463,0.000994460338696086
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,26.4273829753876,0.000997959778540875
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,26.7976409517288,0.00100149044929942
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,27.1678989280701,0.00100505276958871
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,27.5381569044113,0.00100864716397839
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,27.9084148807526,0.00101227406307471
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,28.2786728570938,0.0010159339036057
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,28.6489308334351,0.00101962712850746
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,29.0191888097763,0.0010233541870117
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,29.3894467861176,0.00102711553473449
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,29.7597047624588,0.00103091163376621
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,30.1299627388001,0.0010347429527628
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,30.5002207151413,0.00103860996703822
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,30.8704786914826,0.00104251315865828
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,31.2407366678238,0.0010464530165357
+era5land_tmean,environmental,identity,median continuous; zero indicators; representative season/history,31.610994644165,0.00105043003652653
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,7.14961225509644,0.000754171258832421
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,7.77971025485993,0.000757276500261526
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,8.40980825462341,0.000760400204856681
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,9.0399062543869,0.000763542550079281
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,9.67000425415039,0.000766703715645566
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,10.3001022539139,0.000769883883557823
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,10.9302002536774,0.000773083238136018
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,11.5602982534409,0.000776301966049874
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,12.1903962532043,0.000779540256351399
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,12.8204942529678,0.000782798300507872
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,13.4505922527313,0.000786076292435282
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,14.0806902524948,0.000789374428532237
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,14.7107882522583,0.000792692907714354
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,15.3408862520218,0.000796031931449121
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,15.9709842517853,0.000799391703791244
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,16.6010822515488,0.000802772431418504
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,17.2311802513123,0.000806174323668097
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,17.8612782510757,0.000809597592573482
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,18.4913762508392,0.000813042452901764
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,19.1214742506027,0.000816509122191573
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,19.7515722503662,0.000819997820791488
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,20.3816702501297,0.00082350877189899
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,21.0117682498932,0.000827042201599963
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,21.6418662496567,0.000830598338908744
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,22.2719642494202,0.000834177415808731
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,22.9020622491837,0.000837779667293555
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,23.5321602489471,0.000841405331408837
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,24.1622582487106,0.000845054649294511
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,24.7923562484741,0.000848727865227752
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,25.4224542482376,0.000852425226666489
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,26.0525522480011,0.000856146984293538
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,26.6826502477646,0.00085989339206134
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,27.3127482475281,0.000863664707237323
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,27.9428462472916,0.000867461190449902
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,28.5729442470551,0.000871283105735116
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,29.2030422468185,0.00087513072058391
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,29.833140246582,0.000879004305990084
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,30.4632382463455,0.000882904136498905
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,31.093336246109,0.000886830490256392
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,31.7234342458725,0.000890783649059299
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,32.353532245636,0.000894763898405773
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,32.9836302453995,0.000898771527546741
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,33.613728245163,0.000902806829537995
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,34.2438262449265,0.000906870101293006
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,34.87392424469,0.000910961643636476
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,35.5040222444534,0.000915081761358628
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,36.1341202442169,0.00091923076327026
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,36.7642182439804,0.000923408962258554
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,37.3943162437439,0.000927616675343671
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,38.0244142435074,0.000931854223736123
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,38.6545122432709,0.00093612193289495
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,39.2846102430344,0.000940420132586703
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,39.9147082427979,0.000944749156945244
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,40.5448062425613,0.000949109344532381
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,41.1749042423248,0.000953501038399341
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,41.8050022420883,0.000957924586149102
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,42.4351002418518,0.000962380339999584
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,43.0651982416153,0.000966868656847728
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,43.6952962413788,0.000971389898334448
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,44.3253942411423,0.000975944430910508
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,44.9554922409058,0.000980532625903288
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,45.5855902406693,0.000985154859584502
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,46.2156882404327,0.000989811513238832
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,46.8457862401962,0.000994502973233536
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,47.4758842399597,0.000999229631089008
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,48.1059822397232,0.00100399188355032
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,48.7360802394867,0.00100879013265976
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,49.3661782392502,0.00101362478583039
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,49.9962762390137,0.00101849625592057
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,50.6263742387772,0.00102340496130962
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,51.2564722385407,0.00102835132597439
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,51.8865702383041,0.00103333577956703
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,52.5166682380676,0.00103835875749377
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,53.1467662378311,0.00104342070099476
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,53.7768642375946,0.00104852205722514
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,54.4069622373581,0.00105366327933705
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,55.0370602371216,0.00105884482656298
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,55.6671582368851,0.00106406716430011
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,56.2972562366486,0.00106933076419592
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,56.9273542364121,0.00107463610423495
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,57.5574522361756,0.00107998366882676
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,58.187550235939,0.00108537394889515
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,58.8176482357025,0.00109080744196853
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,59.447746235466,0.00109628465227166
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,60.0778442352295,0.00110180609081854
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,60.707942234993,0.00110737227550673
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,61.3380402347565,0.00111298373121283
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,61.96813823452,0.00111864098988938
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,62.5982362342835,0.00112434459066308
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,63.228334234047,0.00113009507993439
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,63.8584322338104,0.00113589301147844
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,64.4885302335739,0.00114173894654746
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,65.1186282333374,0.0011476334539745
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,65.7487262331009,0.00115357711027871
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,66.3788242328644,0.00115957049977197
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,67.0089222326279,0.00116561421466712
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,67.6390202323914,0.00117170885518757
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,68.2691182321549,0.00117785502967849
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,68.8992162319183,0.00118405335471961
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,69.5293142316818,0.00119030445523943
+agera5_relhum_min,environmental,identity,median continuous; zero indicators; representative season/history,70.1594122314453,0.00119660896463116
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0,0.000851561331207648
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.0305364062309265,0.000853038765754277
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.061072812461853,0.000854523685707437
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.0916092186927795,0.000856016160606741
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.122145624923706,0.000857516260701307
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.152682031154633,0.000859024056956971
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.183218437385559,0.000860539621063562
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.213754843616486,0.000862063025442259
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.244291249847412,0.000863594343253014
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.274827656078339,0.00086513364840205
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.305364062309265,0.000866681015549435
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.335900468540192,0.000868236520116732
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.366436874771118,0.00086980023829472
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.396973281002045,0.000871372247051199
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.427509687232971,0.000872952624138863
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.458046093463898,0.00087454144810326
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.488582499694824,0.000876138798290829
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.519118905925751,0.000877744754857011
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.549655312156677,0.000879359398774443
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.580191718387604,0.000880982811841243
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.61072812461853,0.000882615076689353
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.641264530849457,0.000884256276792996
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.671800937080383,0.000885906496477193
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.70233734331131,0.000887565820926371
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.732873749542236,0.000889234336193057
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.763410155773163,0.000890912129206665
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.793946562004089,0.000892599287782353
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.824482968235016,0.000894295900629981
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.855019374465942,0.00089600205736316
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.885555780696869,0.000897717848508373
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.916092186927795,0.00089944336551421
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.946628593158722,0.000901178700760673
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,0.977164999389648,0.000902923947568581
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.00770140562057,0.000904679200209077
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.0382378118515,0.000906444553913211
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.06877421808243,0.000908220104881634
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.09931062431335,0.000910005950294372
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.12984703054428,0.000911802188320716
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.16038343677521,0.000913608918129191
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.19091984300613,0.00091542623989763
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.22145624923706,0.000917254254823355
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.25199265546799,0.000919093065133444
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.28252906169891,0.000920942774095111
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.31306546792984,0.000922803486026186
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.34360187416077,0.000924675306305691
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.37413828039169,0.000926558341384527
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.40467468662262,0.000928452698796267
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.43521109285355,0.000930358487168054
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.46574749908447,0.000932275816231605
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.4962839053154,0.000934204796834316
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.52682031154633,0.000936145540950499
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.55735671777725,0.000938098161692701
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.58789312400818,0.000940062773323157
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.61842953023911,0.000942039491265343
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.64896593647003,0.000944028432115649
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.67950234270096,0.000946029713655164
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.71003874893188,0.000948043454861576
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.74057515516281,0.000950069775921195
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.77111156139374,0.000952108798241084
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.80164796762466,0.00095416064446132
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.83218437385559,0.000956225438467372
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.86272078008652,0.000958303305402596
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.89325718631744,0.000960394371680861
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.92379359254837,0.000962498764999287
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.9543299987793,0.00096461661435113
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,1.98486640501022,0.000966748050038766
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.01540281124115,0.000968893203686826
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.04593921747208,0.000971052208255448
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.076475623703,0.000973225198053663
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.10701202993393,0.00097541230875291
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.13754843616486,0.000977613677400688
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.16808484239578,0.000979829442434342
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.19862124862671,0.00098205974369498
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.22915765485764,0.000984304722441529
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.25969406108856,0.000986564521364935
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.29023046731949,0.000988839284602492
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.32076687355042,0.000991129157752324
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.35130327978134,0.000993434287887998
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.38183968601227,0.000995754823573287
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.41237609224319,0.000998090914877083
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.44291249847412,0.00100044271338844
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.47344890470505,0.0010028103722318
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.50398531093597,0.0010051940460823
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.5345217171669,0.00100759389118133
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.56505812339783,0.00101001006535215
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.59559452962875,0.00101244272801571
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.62613093585968,0.00101489204020663
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.65666734209061,0.00101735816458929
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.68720374832153,0.00101984126547415
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.71774015455246,0.00102234150883417
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.74827656078339,0.00102485906232143
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.77881296701431,0.00102739409528385
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.80934937324524,0.0010299467787822
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.83988577947617,0.00103251728560715
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.87042218570709,0.00103510579029653
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.90095859193802,0.0010377124691528
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.93149499816895,0.00104033750026066
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.96203140439987,0.00104298106350479
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,2.9925678106308,0.0010456433405879
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,3.02310421686172,0.00104832451504874
+era5_lai_low,environmental,identity,median continuous; zero indicators; representative season/history,3.05364062309265,0.00105102477228055
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,0.00126196374185383,0.000900387778253559
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,0.290409118884709,0.000930306488820952
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,0.579556274027564,0.000954884146188654
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,0.868703429170419,0.000975828722524467
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,1.15785058431327,0.000994130691222398
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,1.44699773945613,0.00101041814227578
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,1.73614489459898,0.00102511556051395
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,2.02529204974184,0.00103852388200206
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,2.31443920488469,0.00105086456112164
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,2.60358636002755,0.00106230551399929
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,2.8927335151704,0.00107297722804257
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,3.18188067031326,0.00108298320834097
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,3.47102782545611,0.00109240700006211
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,3.76017498059897,0.00110131705482119
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,4.04932213574182,0.00110977019187295
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,4.33846929088468,0.00111781411598417
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,4.62761644602753,0.00112548928554747
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,4.91676360117039,0.00113283032293227
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,5.20591075631324,0.00113986709583679
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,5.4950579114561,0.00114662555794333
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,5.78420506659895,0.00115312841064812
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,6.07335222174181,0.00115939562985701
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,6.36249937688466,0.00116544488968623
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,6.65164653202752,0.00117129190645283
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,6.94079368717037,0.00117695072036143
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,7.22994084231323,0.00118243392800397
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,7.51908799745608,0.00118775287566871
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,7.80823515259894,0.0011929178211561
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,8.09738230774179,0.00119793807008691
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,8.38652946288465,0.00120282209139806
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,8.6756766180275,0.00120757761574063
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,8.96482377317036,0.00121221171974158
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,9.25397092831321,0.00121673089850719
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,9.54311808345607,0.00122114112829134
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,9.83226523859892,0.00122544792089345
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,10.1214123937418,0.00122965637106696
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,10.4105595488846,0.00123377119799338
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,10.6997067040275,0.00123779678169489
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,10.9888538591703,0.00124173719511195
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,11.2780010143132,0.0012455962324533
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,11.5671481694561,0.0012493774343283
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,11.8562953245989,0.00125308411009188
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,12.1454424797418,0.00125671935776654
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,12.4345896348846,0.00126028608185112
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,12.7237367900275,0.00126378700928087
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,13.0128839451703,0.00126722470376541
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,13.3020311003132,0.00127060157869914
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,13.591178255456,0.00127391990881211
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,13.8803254105989,0.00127718184070649
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,14.1694725657417,0.00128038940240479
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,14.4586197208846,0.00128354451201935
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,14.7477668760275,0.00128664898563878
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,15.0369140311703,0.00128970454451516
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,15.3260611863132,0.00129271282162534
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,15.615208341456,0.00129567536767082
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,15.9043554965989,0.00129859365657331
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,16.1935026517417,0.001301469090516
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,16.4826498068846,0.00130430300457521
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,16.7717969620274,0.00130709667098178
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,17.0609441171703,0.00130985130304741
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,17.3500912723132,0.00131256805878705
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,17.639238427456,0.00131524804426549
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,17.9283855825989,0.00131789231669279
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,18.2175327377417,0.00132050188729121
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,18.5066798928846,0.00132307772395347
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,18.7958270480274,0.00132562075371042
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,19.0849742031703,0.00132813186502451
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,19.3741213583131,0.00133061190992338
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,19.663268513456,0.00133306170598712
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,19.9524156685988,0.00133548203820094
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,20.2415628237417,0.0013378736606841
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,20.5307099788846,0.00134023729830505
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,20.8198571340274,0.00134257364819157
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,21.1090042891703,0.00134488338114405
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,21.3981514443131,0.00134716714295936
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,21.687298599456,0.00134942555567195
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,21.9764457545988,0.00135165921871844
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,22.2655929097417,0.00135386871003127
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,22.5547400648845,0.0013560545870665
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,22.8438872200274,0.00135821738777056
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,23.1330343751702,0.00136035763149026
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,23.4221815303131,0.00136247581982999
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,23.711328685456,0.00136457243745978
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,24.0004758405988,0.00136664795287757
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,24.2896229957417,0.00136870281912881
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,24.5787701508845,0.00137073747448618
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,24.8679173060274,0.00137275234309213
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,25.1570644611702,0.00137474783556663
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,25.4462116163131,0.00137672434958235
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,25.7353587714559,0.00137868227040945
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,26.0245059265988,0.0013806219714317
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,26.3136530817417,0.001382543814636
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,26.6028002368845,0.00138444815107671
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,26.8919473920274,0.0013863353213164
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,27.1810945471702,0.00138820565584453
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,27.4702417023131,0.00139005947547525
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,27.7593888574559,0.00139189709172569
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,28.0485360125988,0.00139371880717574
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,28.3376831677416,0.00139552491581057
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,28.6268303228845,0.00139731570334671
+sheep_density,livestock,log1p,median continuous; zero indicators; representative season/history,28.9159774780274,0.00139909144754274
