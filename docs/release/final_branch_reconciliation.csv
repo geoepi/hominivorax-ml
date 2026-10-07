@@ -1,0 +1,11 @@
+branch,head_sha,unique_commit_count,classification,historical_role,preservation_method,delete_remote
+main,82f03d3154586169e2ffcfecac9b465863faa8d7,0,CANONICAL,Final release candidate,Canonical main branch,no
+feature/a3-interpretation-visuals,eb3509a4dd968baac33fc5884dfcb0445251e419,0,FULLY REPRESENTED IN MAIN,Structured A3 interpretation visualization implementation,Main commit graph,yes
+feature/controlled-predictor-augmentation,b57f7dd2800229336a18790ac0cb03f6169a67de,0,FULLY REPRESENTED IN MAIN,Controlled predictor augmentation and fixed-theta provenance,Main commit graph,yes
+feature/hominivorax-ml-release-prep,c9f579ae4e5f7cf5d6d29332281800cf725173f3,0,FULLY REPRESENTED IN MAIN,Release metadata and orchestration preparation,Main commit graph,yes
+feature/model-class-diagnostic,409c38d99259bfad94512c65cc081d28fabeb8b9,2,UNIQUE SCIENTIFIC/IMPLEMENTATION COMMITS NOT REPRESENTED IN MAIN,Model-class diagnostic and unsupported-neural decision record,Annotated tag historical-model-class-diagnostic plus branch report,yes
+feature/neural-a0-architecture-audit,36fd7c1d3caac195d2818cadfa62d69205fc470f,7,UNIQUE SCIENTIFIC/IMPLEMENTATION COMMITS NOT REPRESENTED IN MAIN,Neural A0 architecture and loss validity audit,Annotated tag historical-neural-a0-architecture-audit plus branch report,yes
+feature/repository-reconciliation,debf73f89378d17e513ccf0f1c8ea6d4e0a8df89,0,FULLY REPRESENTED IN MAIN,Repository reconciliation and release-history record,Main commit graph,yes
+feature/stgnn-a3-ablation,2a97a15bfd47da203081f4961b0de5b7b7790ea9,5,UNIQUE SCIENTIFIC/IMPLEMENTATION COMMITS NOT REPRESENTED IN MAIN,Revised-domain neural A0 versus Structured A3 ablation design,Annotated tag historical-stgnn-a3-ablation plus branch report,yes
+feature/structured-a3-evaluation,1407be0bdb588b8a29d3db073b5b5d73c8d446e3,9,FULLY REPRESENTED IN MAIN,Historical Structured A3 evaluation artifacts represented in release tree,Main commit graph,yes
+feature/structured-a3-final-comparison,0f9b63713ecc56ab06e7197e77fb7162cc2af0d8,6,FULLY REPRESENTED IN MAIN,Historical Structured A3 final comparison represented in release tree,Main commit graph,yes
