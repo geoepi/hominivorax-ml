@@ -1,0 +1,27 @@
+# Scientific configuration is anchored to the immutable frozen manifest.
+# Do not copy model parameters into Atlas deployment configuration.
+schema_version: 1
+scientific_specification:
+  manifest: analysis/structured_a3_evaluation/results/frozen_a3_evaluation_manifest.json
+  manifest_sha256: 9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61
+  source_of_truth: frozen_manifest
+  model_name: STRUCTURED_A3
+  model_class: penalized_spatiotemporal_hurdle_regression
+  framework: statistical_machine_learning
+  predictor_order_source: frozen_manifest
+  transformations_source: frozen_manifest
+  theta_source: frozen_manifest
+  penalty_source: frozen_manifest
+  objective_source: frozen_manifest
+  domain_source: frozen_manifest
+  response_source: frozen_manifest
+  causal_history_source: frozen_manifest
+
+runtime_contract:
+  modes:
+    - production_fullfit
+    - prospective_evaluation
+  generate_interpretation: true
+  generate_animation: true
+  prospective_refit: false
+  dependency_type: afterok

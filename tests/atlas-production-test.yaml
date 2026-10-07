@@ -1,0 +1,26 @@
+schema_version: 1
+repository_root: ..
+scientific_config: config/structured_a3.yaml
+output_root: tests/test-output
+prospective_output_root: tests/test-output/prospective_evaluation
+scratch_root: tests/test-scratch
+logs_root: tests/test-logs
+inputs:
+  observation_path: tests/observations.csv
+  environmental_root: tests/environmental
+  static_predictor_root: tests/static
+  history_feature_path: tests/history.parquet
+  deployed_model_manifest: tests/deployed_model.json
+slurm:
+  account: CHANGE_ME
+  partition: CHANGE_ME
+commands:
+  P0: "true"
+  P1: "true"
+  P2: "true"
+  P4: "true"
+  P5: "true"
+  production_fullfit:
+    P3: "true"
+  prospective_evaluation:
+    P3: "true --no-refit"

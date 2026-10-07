@@ -1,0 +1,8 @@
+{
+  "model_sha": "fixture-release-sha",
+  "fit_end_week": "2026-W29",
+  "evaluation_end_week": "2026-W29",
+  "predictor_manifest_sha256": "fixture-predictor-manifest",
+  "theta": 0.7018903965556372,
+  "penalty": 0.01
+}

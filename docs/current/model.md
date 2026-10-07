@@ -1,8 +1,10 @@
-# Current frozen development model specification
+# Current frozen Structured A3 model specification
 
-> **CURRENT FROZEN DEVELOPMENT SPECIFICATION**
+> **CURRENT FROZEN SUPPORTED SPECIFICATION**
 
-This document is authoritative for the structured A3 development workflow. It supersedes earlier documents that describe the 24-predictor Hurdle-Current or V2-A-only specifications. Those documents remain historical records.
+This document is authoritative for the supported Structured A3 workflow. It
+supersedes earlier documents that describe the 24-predictor Hurdle-Current or
+V2-A-only specifications. Those documents remain historical records.
 
 ## Model family and response
 
@@ -84,11 +86,13 @@ Detection-history/front variables may use observations from weeks strictly earli
 
 The final development decision is recorded in `analysis/structured_a3_final_comparison/results/structured_a3_final_manifest.json`. The evaluation boundary is frozen in `analysis/structured_a3_evaluation/results/frozen_a3_evaluation_manifest.json` with SHA-256 `9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61`.
 
-The canonical implementation and artifact paths are mapped in `docs/repository_reconciliation/canonical_component_map.csv` and `docs/data_and_artifact_map.md`.
+The canonical implementation and artifact paths are mapped in
+`docs/history/repository_reconciliation/canonical_component_map.csv` and
+`docs/current/data_artifact_map.md`.
 
 ## Known limitations
 
 - Historical exposed holdout support does not establish independent prospective validity.
 - Complete A3 predictor support is not available after 2026-W29.
 - Neural and graph/GConvGRU pathways were evaluated diagnostically and are not supported as the current production-development path.
-- The current branch is a reconciliation branch; no merge to `main` is performed automatically.
+- The release-facing production launcher is documented in `docs/current/atlas.md`.
