@@ -10,6 +10,7 @@ prospective_output_root: /project/disease_ecology/STGNN-output/prospective_evalu
 scratch_root: /project/disease_ecology/STGNN-scratch
 logs_root: /project/disease_ecology/STGNN-output/logs
 python_executable: /project/disease_ecology/STGNN-python-venv/bin/python
+r_loader: /project/disease_ecology/STGNN-production/hpc/env_r.sh
 
 inputs:
   observation_path: /project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs.csv
@@ -44,5 +45,5 @@ commands:
     P3: "{python_executable} {repository_root}/scripts/a3_score.py --config {config} --mode {mode} --run-id {run_id}"
   prospective_evaluation:
     P3: "{python_executable} {repository_root}/scripts/a3_score.py --config {config} --mode {mode} --run-id {run_id} --no-refit"
-  P4: "bash -lc 'module purge; module load udunits/2.2.28 proj/9.7.0 geos/3.12.1 gdal/3.8.5 intel-oneapi-mkl/2023.2.0 r/4.4.3; {python_executable} {repository_root}/scripts/a3_products.py --config {config} --mode {mode} --run-id {run_id}'"
+  P4: "bash -lc 'source {r_loader}; {python_executable} {repository_root}/scripts/a3_products.py --config {config} --mode {mode} --run-id {run_id}'"
   P5: "{python_executable} {repository_root}/scripts/a3_finalize.py --config {config} --mode {mode} --run-id {run_id}"
