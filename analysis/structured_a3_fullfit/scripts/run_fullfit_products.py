@@ -554,6 +554,22 @@ def finalize(args: argparse.Namespace) -> None:
     report += ["", "## 8. Key fitted relationships", "", "Selected effect-response curves are model-implied response-scale relationships over observed natural-scale predictor ranges with other predictors held at the documented reference profile. Curvature reflects link inversion, zero truncation, and log1p transformations; it is not evidence of an arbitrary nonlinear learner.", "", "## 9. Seasonality", "", "Week-sine and week-cosine coefficients are combined into one implied seasonal function for occurrence and positive-count linear-predictor contributions.", "", "## 10. Limitations", "", "- Fitted-period outputs are descriptive and are not independent validation.", "- Coefficients describe conditional associations, not causal effects.", "- Correlated predictors can share information and complicate permutation-importance rankings.", "- The model remains untested on a genuinely untouched prospective period beyond current complete A3 predictor support.", "- Zero recorded detections are not confirmed biological absences.", "", "## Provenance", "", f"Repository SHA: `{git_value('rev-parse', 'HEAD')}`. Full-fit end week: `{horizon['full_fit_end_week']}`. Generation UTC: `{utc_now()}`.", ""]
     atomic_write(out / "report/structured_a3_fullfit_summary.md", lambda p: p.write_text("\n".join(report), encoding="utf-8"))
 
+    # The report is created above, so refresh the artifact index once more on
+    # a clean run. This keeps the final manifest self-contained rather than
+    # relying on a later rerun to discover the report and JSON manifest.
+    records = []
+    for path in sorted(out.rglob("*")):
+        if not path.is_file() or path.name.startswith(".") or path.suffix.lower() in {".tmp", ".part"} or path == manifest_path or path.name.endswith(".sha256"):
+            continue
+        relative = path.relative_to(out).as_posix()
+        artifact_type = "geotiff" if path.suffix.lower() in {".tif", ".tiff"} else "pdf" if path.suffix.lower() == ".pdf" else "figure" if path.suffix.lower() in {".png", ".svg"} else "table" if path.suffix.lower() in {".csv", ".parquet"} else "report" if path.suffix.lower() in {".md", ".html"} else "model_artifact" if "/model/" in f"/{relative}" else "manifest"
+        records.append({"artifact_type": artifact_type, "week": "", "variable": "", "path": str(path), "relative_path": relative, "sha256": sha256_file(path), "size_bytes": path.stat().st_size, "model_sha": model_sha, "fit_end_week": horizon["full_fit_end_week"]})
+    master = pd.DataFrame(records)
+    write_csv(manifest_path, master)
+    manifest_sha = sha256_file(manifest_path)
+    write_json(out / "structured_a3_fullfit_output_manifest.json", {"status": "complete", "artifact_count": int(len(master)), "manifest_sha256": manifest_sha, "generated_utc": utc_now()})
+    (out / "structured_a3_fullfit_output_manifest.csv.sha256").write_text(f"{manifest_sha}  structured_a3_fullfit_output_manifest.csv\n", encoding="utf-8")
+
 
 def main() -> int:
     parser = argparse.ArgumentParser()

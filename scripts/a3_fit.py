@@ -6,14 +6,29 @@ from __future__ import annotations
 import json
 import sys
 
-from a3_entrypoint_common import common_parser, load_context, run_checked, write_stage_json
+from a3_entrypoint_common import common_parser, deployed_model_path, load_context, read_json_or_yaml, run_checked, write_stage_json
 
 
 def main() -> int:
     args = common_parser(__doc__).parse_args()
-    if args.mode != "production_fullfit":
-        raise RuntimeError("P2 fitting is only permitted for production_fullfit")
     ctx = load_context(args.config, args.mode, args.run_id)
+    if args.mode == "prospective_evaluation":
+        from a3_pipeline import validate_deployed_manifest
+
+        validate_deployed_manifest(ctx.config, ctx.scientific)
+        deployment_path = ctx.input_path("deployed_model_manifest")
+        assert deployment_path is not None
+        deployment = read_json_or_yaml(deployment_path)
+        model_path = deployed_model_path(ctx, deployment)
+        if not model_path.exists():
+            raise RuntimeError(f"STOP: frozen deployed model artifact is missing: {model_path}")
+        model = json.loads(model_path.read_text(encoding="utf-8"))
+        if not model.get("theta_fixed") or float(model.get("theta")) != ctx.scientific["theta"] or float(model.get("penalty")) != ctx.scientific["penalty"] or model.get("objective") != ctx.scientific["objective"]:
+            raise RuntimeError("STOP: frozen deployed model specification mismatch")
+        payload = {"status": "frozen_model_loaded", "stage": "P2", "mode": args.mode, "run_id": args.run_id, "frozen_model_path": str(model_path), "fit_end_week": model.get("fit_end_week"), "refit_performed": False}
+        write_stage_json(ctx, "fit_summary.json", payload)
+        print(json.dumps(payload, indent=2))
+        return 0
     output = ctx.output_root
     script = ctx.repo_root / "analysis" / "structured_a3_fullfit" / "scripts" / "run_fullfit_products.py"
     canonical = ctx.canonical_args(output)
