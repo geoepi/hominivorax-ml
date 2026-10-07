@@ -1,0 +1,8 @@
+group,predictor_count,mean_joint_nll_degradation,sum_joint_nll_degradation,interpretation
+detection history/front,6,0.0104229894875573,0.0625379369253435,Descriptive aggregation; not an independent variance decomposition.
+anthropogenic,2,0.000452399949192707,0.000904799898385414,Descriptive aggregation; not an independent variance decomposition.
+environmental,12,0.000290944697447736,0.00349133636937283,Descriptive aggregation; not an independent variance decomposition.
+livestock,5,0.000208897883402666,0.00104448941701333,Descriptive aggregation; not an independent variance decomposition.
+seasonal,2,0.000162049482337384,0.000324098964674768,Descriptive aggregation; not an independent variance decomposition.
+soil,2,0.000135320844867672,0.000270641689735345,Descriptive aggregation; not an independent variance decomposition.
+livestock missingness,5,1.43336786884163e-12,7.16683934420814e-12,Descriptive aggregation; not an independent variance decomposition.

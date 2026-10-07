@@ -1,0 +1,35 @@
+component,predictor,group,transformation,coefficient,absolute_coefficient,sign,standardized,rank_by_absolute_magnitude,plot_rank
+occurrence,distance_to_prev4_positive_log1p,detection history/front,log1p,-0.553144775308869,0.553144775308869,negative,TRUE,1,1
+occurrence,weeks_since_detection_within_50km_log1p,detection history/front,log1p,-0.419999347128045,0.419999347128045,negative,TRUE,2,2
+occurrence,distance_to_any_prior_positive_log1p,detection history/front,log1p,-0.38200242483055,0.38200242483055,negative,TRUE,3,3
+occurrence,road_density,anthropogenic,log1p,0.107187119864147,0.107187119864147,positive,TRUE,4,4
+occurrence,detection_within_50km_ever_available,detection history/front,identity,0.098249262175035,0.098249262175035,positive,TRUE,5,5
+occurrence,agera5_relhum_min,environmental,identity,0.0876872685164839,0.0876872685164839,positive,TRUE,6,6
+occurrence,sheep_density,livestock,log1p,0.0843907304150103,0.0843907304150103,positive,TRUE,7,7
+occurrence,pig_density,livestock,log1p,0.0828375815389774,0.0828375815389774,positive,TRUE,8,8
+occurrence,cattle_density,livestock,log1p,0.0778972109773969,0.0778972109773969,positive,TRUE,9,9
+occurrence,era5land_lai_high_mean,environmental,identity,0.0698732046269964,0.0698732046269964,positive,TRUE,10,10
+occurrence,era5_mintemp,environmental,identity,0.0640194105852494,0.0640194105852494,positive,TRUE,11,11
+occurrence,water_difference_wv0033_minus_wv0010_0_15,soil,identity,-0.0606270952431865,0.0606270952431865,negative,TRUE,12,12
+occurrence,horse_density,livestock,log1p,0.058508564699387,0.058508564699387,positive,TRUE,13,13
+occurrence,goat_density,livestock,log1p,0.0471660097185124,0.0471660097185124,positive,TRUE,14,14
+occurrence,night_illumination,anthropogenic,log1p,0.0435084195135942,0.0435084195135942,positive,TRUE,15,15
+occurrence,era5land_tmean,environmental,identity,0.0418625415861878,0.0418625415861878,positive,TRUE,16,16
+occurrence,era5land_soiltemp_l2_mean,environmental,identity,0.0390451777995632,0.0390451777995632,positive,TRUE,17,17
+occurrence,era5land_soiltemp_l1_mean,environmental,identity,0.0379473925587862,0.0379473925587862,positive,TRUE,18,18
+occurrence,era5_soilmoist,environmental,identity,0.0336515376870993,0.0336515376870993,positive,TRUE,19,19
+occurrence,era5land_lai_low_mean,environmental,identity,0.0320320563340351,0.0320320563340351,positive,TRUE,20,20
+occurrence,era5_lai_low,environmental,identity,0.0316930743453327,0.0316930743453327,positive,TRUE,21,21
+occurrence,era5land_soilwater_l1_mean,environmental,identity,0.0275751032527044,0.0275751032527044,positive,TRUE,22,22
+occurrence,week_sin,seasonal,identity,0.0126954338404434,0.0126954338404434,positive,TRUE,23,23
+occurrence,clay_0_15,soil,identity,0.00637420830844185,0.00637420830844185,positive,TRUE,24,24
+occurrence,era5land_soilwater_l2_mean,environmental,identity,0.00601839307907375,0.00601839307907375,positive,TRUE,25,25
+occurrence,era5land_surface_pressure_mean,environmental,identity,-0.00237576241596346,0.00237576241596346,negative,TRUE,26,26
+occurrence,week_cos,seasonal,identity,-0.000818976381298059,0.000818976381298059,negative,TRUE,27,27
+occurrence,any_prior_positive_available,detection history/front,identity,8.16710206763033e-05,8.16710206763033e-05,positive,TRUE,28,28
+occurrence,prev4_positive_available,detection history/front,identity,8.16710206763033e-05,8.16710206763033e-05,positive,TRUE,28,29
+occurrence,pig_density_imputed,livestock missingness,identity,-3.23514802944499e-05,3.23514802944499e-05,negative,TRUE,30,30
+occurrence,cattle_density_imputed,livestock missingness,identity,0,0,zero,TRUE,31,31
+occurrence,goat_density_imputed,livestock missingness,identity,0,0,zero,TRUE,31,32
+occurrence,horse_density_imputed,livestock missingness,identity,0,0,zero,TRUE,31,33
+occurrence,sheep_density_imputed,livestock missingness,identity,0,0,zero,TRUE,31,34
