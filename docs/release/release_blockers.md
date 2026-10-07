@@ -1,19 +1,19 @@
 # Release blockers
 
-Known unresolved items for public release:
+The software-release blockers addressed by this preparation pass are closed:
 
-- **License decision required.** No license file is currently present; a
-  license must be selected by the project owner.
-- **Citation-author confirmation required.** Authorship and citation metadata
-  must be confirmed by the project owner rather than inferred from commit
-  history.
-- **History remediation required.** The local `feature/soil-feature-screening`
-  ref contains a 10,038-row soil feature table and Parquet object reachable by
-  `git rev-list --objects --all`. The project owner must classify it and decide
-  whether to remove the ref/object from release scope or authorize a reviewed
-  remediation. Do not rewrite history automatically.
-- **Full-history security review is not a public-release clearance.** The
-  targeted all-reachable-blob secret scan found no high-confidence hits, but
-  the dataset blocker remains unresolved.
-- **Organization policy remains pending.** Transfer, branch protection, and
-  public visibility are intentionally deferred.
+- `LICENSE` is MIT with copyright `(c) 2026 John Humphreys`.
+- `CITATION.cff` identifies John Humphreys without inventing an ORCID,
+  affiliation, email address, or DOI.
+- The two soil feature tables were removed from all surviving branch and tag
+  history in the isolated, externally backed-up rewrite.
+- Tracked files are guarded by a 5 MiB limit and prohibited production-data
+  extension checks in `scripts/check_repository_hygiene.py`.
+
+The following are intentionally outside this technical release-preparation
+scope and require an explicit organizational decision later:
+
+- repository ownership or organization transfer;
+- public visibility, branch protection, and publication of a GitHub Release;
+- deployment to a production Atlas path, if the Atlas environment is not
+  reachable from the release host.

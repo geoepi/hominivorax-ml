@@ -123,6 +123,7 @@ preserved in [`docs/history/README.md`](docs/history/README.md) and
 
 ## Citation / license
 
-Authorship and citation metadata require confirmation before public release;
-see [`docs/release/release_blockers.md`](docs/release/release_blockers.md).
-No license file is currently present, so a license decision remains required.
+Citation metadata is in [`CITATION.cff`](CITATION.cff). The software is
+released under the MIT License; see [`LICENSE`](LICENSE). Upstream datasets
+and third-party model inputs retain their own licensing and access
+requirements and are not redistributed by this repository.
