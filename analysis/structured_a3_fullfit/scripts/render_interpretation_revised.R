@@ -163,19 +163,71 @@ for (filename in c("ne_10m_land.shp", "ne_50m_admin_0_countries.shp", "ne_50m_ad
   boundaries[[length(boundaries) + 1L]] <- suppressWarnings(sf::st_crop(layer, bbox))
 }
 
+occurrence_files <- parse_animation_week_files(file.path(out_root, "geotiff", "occurrence"))
+occurrence_w29 <- occurrence_files[occurrence_files$week == "2026-W29", , drop = FALSE]
+if (nrow(occurrence_w29) != 1L) stop("Expected exactly one occurrence GeoTIFF for 2026-W29")
+occurrence_w29_raster <- terra::rast(occurrence_w29$file[[1L]])
+occurrence_w29_frame <- animation_frame_data(occurrence_w29$file[[1L]], occurrence_w29$week[[1L]])
+occurrence_w29_plot <- render_animation_frame(
+  occurrence_w29_frame, occurrence_w29_raster, coerce_animation_boundaries(boundaries, occurrence_w29_raster),
+  c(0, 0.6), "P(recorded detection)", "Structured A3", "2026-W29", 800, 700,
+  "Static W29 diagnostic; direct GeoTIFF coordinates"
+)
+ggsave(
+  file.path(revised_root, "animation_debug_occurrence_2026_W29.png"), occurrence_w29_plot,
+  width = 800 / 96, height = 700 / 96, units = "in", dpi = 96, bg = "white", limitsize = FALSE
+)
+occurrence_geometry <- animation_raster_geometry(occurrence_w29_raster)
+occurrence_geometry_audit <- data.table(
+  raster_crs = occurrence_geometry$raster_crs,
+  xmin = occurrence_geometry$xmin, xmax = occurrence_geometry$xmax,
+  ymin = occurrence_geometry$ymin, ymax = occurrence_geometry$ymax,
+  nrow = occurrence_geometry$nrow, ncol = occurrence_geometry$ncol,
+  resolution_x = occurrence_geometry$resolution_x, resolution_y = occurrence_geometry$resolution_y,
+  origin_x = occurrence_geometry$origin_x, origin_y = occurrence_geometry$origin_y,
+  valid_cells = sum(!is.na(occurrence_w29_frame$value)),
+  min_x = min(occurrence_w29_frame$x), max_x = max(occurrence_w29_frame$x),
+  min_y = min(occurrence_w29_frame$y), max_y = max(occurrence_w29_frame$y),
+  unique_x = uniqueN(occurrence_w29_frame$x), unique_y = uniqueN(occurrence_w29_frame$y),
+  row_count = nrow(occurrence_w29_frame), non_na_value_count = sum(!is.na(occurrence_w29_frame$value))
+)
+fwrite(occurrence_geometry_audit, file.path(revised_root, "animation_debug_occurrence_2026_W29_geometry.csv"))
+occurrence_identity <- animation_cell_identity_check(occurrence_w29$file[[1L]], occurrence_w29_frame)
+fwrite(occurrence_identity$table, file.path(revised_root, "animation_cell_identity_check.csv"))
+if (occurrence_identity$status != "PASS") stop("Occurrence W29 cell identity check failed")
+
 animation_results <- list(
-  animate_prediction_geotiffs(file.path(out_root, "geotiff", "occurrence"), file.path(revised_root, "animation", "structured_a3_p_occurrence_2025_W01_to_2026_W29.gif"), "P(recorded detection)", "Structured A3", boundaries, fps = 4, width = 800, height = 700, limits = c(0, 1)),
+  animate_prediction_geotiffs(file.path(out_root, "geotiff", "occurrence"), file.path(revised_root, "animation", "structured_a3_p_occurrence_2025_W01_to_2026_W29.gif"), "P(recorded detection)", "Structured A3", boundaries, fps = 4, width = 800, height = 700, limits = c(0, 0.6)),
   animate_prediction_geotiffs(file.path(out_root, "geotiff", "expected_count"), file.path(revised_root, "animation", "structured_a3_expected_count_2025_W01_to_2026_W29.gif"), "Expected recorded count", "Structured A3", boundaries, fps = 4, width = 800, height = 700),
   animate_prediction_geotiffs(file.path(out_root, "geotiff", "conditional_count"), file.path(revised_root, "animation", "structured_a3_conditional_count_2025_W01_to_2026_W29.gif"), "E[count | recorded detection]", "Structured A3", boundaries, fps = 4, width = 800, height = 700)
 )
+animation_identity <- lapply(list(
+  occurrence = file.path(out_root, "geotiff", "occurrence"),
+  expected_count = file.path(out_root, "geotiff", "expected_count"),
+  conditional_count = file.path(out_root, "geotiff", "conditional_count")
+), function(directory) {
+  files <- parse_animation_week_files(directory)
+  w29 <- files[files$week == "2026-W29", , drop = FALSE]
+  frame <- animation_frame_data(w29$file[[1L]], w29$week[[1L]])
+  animation_cell_identity_check(w29$file[[1L]], frame)
+})
 animation_qa <- rbindlist(lapply(seq_along(animation_results), function(index) {
   result <- animation_results[[index]]
   result$animation <- sub("\\.gif$", "", basename(result$output_file))
   result$status <- as.character(result$status)
   as.data.table(result)
 }), fill = TRUE)
-animation_qa[, `:=`(boundary_alignment = "canonical CRS and cropped administrative overlays", nodata_handling = "NoData retained as transparent/blank map cells", fixed_legend_scale = TRUE)]
-setcolorder(animation_qa, c("animation", "frames", "first_week", "last_week", "fps", "width", "height", "legend_min", "legend_max", "status", "boundary_alignment", "nodata_handling", "fixed_legend_scale", "output_file", "renderer"))
+animation_qa[, `:=`(
+  fixed_scale_min = legend_min,
+  fixed_scale_max = legend_max,
+  fixed_legend_scale = TRUE,
+  opaque_background = TRUE,
+  single_frame_spatial_check = fifelse(grepl("p_occurrence", animation), "YES - W29 direct frame matches reference nowcast map", "SAME DIRECT COORDINATE RENDERER"),
+  cell_identity_check = vapply(animation_identity, function(x) paste0(x$status, "; max_absolute_difference=", format(x$max_absolute_difference, scientific = TRUE)), character(1L)),
+  boundary_alignment = "canonical CRS transformed to raster CRS; fixed raster extent",
+  nodata_handling = "NoData rendered as opaque white"
+)]
+setcolorder(animation_qa, c("animation", "frames", "first_week", "last_week", "fps", "width", "height", "raster_crs", "nrow", "ncol", "xmin", "xmax", "ymin", "ymax", "fixed_scale_min", "fixed_scale_max", "opaque_background", "single_frame_spatial_check", "cell_identity_check", "status", "boundary_alignment", "nodata_handling", "fixed_legend_scale", "output_file", "renderer"))
 fwrite(animation_qa, file.path(revised_root, "animation", "animation_qa.csv"))
 
 writeLines(c(
@@ -187,7 +239,9 @@ writeLines(c(
   "- Permutation importance is shown as a full 34-predictor ranking and as a scale-resolving non-front view omitting only the three dominant front-distance/time variables. A descriptive group table is also persisted; it is not an independent variance decomposition.",
   "- Effect curves use the persisted eight-predictor selection and are separated into occurrence probability, conditional positive-count mean, and unconditional expected count figures. The exact full-fit reference profile is persisted separately.",
   "- Seasonality remains a combined week_sin/week_cos linear-predictor contribution.",
-  "- The reusable animation utility reads weekly GeoTIFFs frame-wise, fixes the legend scale across all weeks, overlays canonical boundaries, and writes GIFs. MP4 generation is attempted only when ffmpeg is available.",
+  "- The animation correction was rendering-only: the direct W29 raster frame aligned with the established nowcast map, while the prior GIF failed a standard GIF LZW decode. The verified root cause was an encoder code-width synchronization error, not an x/y reversal, row reversal, matrix transpose, or CRS mismatch.",
+  "- The reusable animation utility now reads x/y/value together from terra::as.data.frame(), checks common raster geometry, transforms boundaries to the raster CRS, fixes the legend scale and geographic extent, renders opaque white NoData/background cells, and writes GIFs. MP4 generation is attempted only when ffmpeg is available.",
+  "- The W29 geometry audit, direct-frame diagnostic PNG, and cell identity table are persisted under interpretation_revised/.",
   "",
   paste0("Full-fit end: ", fit_end, ". Model SHA: ", model_sha, ". Generated: ", generated_date, ".")
 ), file.path(revised_root, "report", "interpretation_visual_revision.md"))

@@ -104,44 +104,65 @@ def quantize(rgb: bytes, lookup: list[int]) -> bytes:
 
 
 def lzw_codes(indices: bytes) -> bytes:
+    """Encode one GIF image with decoder-synchronized variable-width codes.
+
+    The previous implementation increased the code width immediately after
+    adding a dictionary entry. GIF decoders add that entry one code later, so
+    the old stream became invalid at width boundaries. The width below is
+    selected from the decoder-visible dictionary state (``next_code - 1``),
+    keeping every emitted code synchronized with the GIF specification.
+    """
     minimum = 8
     clear = 1 << minimum
     end = clear + 1
     next_code = end + 1
-    code_size = minimum + 1
     dictionary = {bytes((value,)): value for value in range(clear)}
-    codes: list[tuple[int, int]] = [(clear, code_size)]
-    prefix = b""
-    for value in indices:
-        candidate = prefix + bytes((value,))
-        if candidate in dictionary:
-            prefix = candidate
-            continue
-        codes.append((dictionary[prefix], code_size))
-        if next_code < 4096:
-            dictionary[candidate] = next_code
-            next_code += 1
-            if next_code == (1 << code_size) and code_size < 12:
-                code_size += 1
-        else:
-            codes.append((clear, code_size))
-            dictionary = {bytes((value,)): value for value in range(clear)}
-            next_code = end + 1
-            code_size = minimum + 1
-        prefix = bytes((value,))
-    if prefix:
-        codes.append((dictionary[prefix], code_size))
-    codes.append((end, code_size))
+
+    def code_size() -> int:
+        size = minimum + 1
+        while size < 12 and next_code - 1 >= (1 << size):
+            size += 1
+        return size
+
     output = bytearray()
     accumulator = 0
     bits = 0
-    for code, size in codes:
+
+    def write(code: int, size: int) -> None:
+        nonlocal accumulator, bits
         accumulator |= code << bits
         bits += size
         while bits >= 8:
             output.append(accumulator & 255)
             accumulator >>= 8
             bits -= 8
+
+    write(clear, minimum + 1)
+    if not indices:
+        write(end, minimum + 1)
+        if bits:
+            output.append(accumulator & 255)
+        return bytes(output)
+
+    prefix = bytes((indices[0],))
+    for value in indices[1:]:
+        candidate = prefix + bytes((value,))
+        if candidate in dictionary:
+            prefix = candidate
+            continue
+
+        write(dictionary[prefix], code_size())
+        if next_code < 4096:
+            dictionary[candidate] = next_code
+            next_code += 1
+        else:
+            write(clear, code_size())
+            dictionary = {bytes((value,)): value for value in range(clear)}
+            next_code = end + 1
+        prefix = bytes((value,))
+
+    write(dictionary[prefix], code_size())
+    write(end, code_size())
     if bits:
         output.append(accumulator & 255)
     return bytes(output)
