@@ -82,7 +82,8 @@ def palette() -> list[tuple[int, int, int]]:
         fraction = position - left
         a, b = stops[left], stops[left + 1]
         colors.append(tuple(round(a[channel] + fraction * (b[channel] - a[channel])) for channel in range(3)))
-    colors.extend((value, value, value) for value in range(0, 256, 16))
+    colors.extend((value, value, value) for value in range(0, 240, 16))
+    colors.append((255, 255, 255))  # Preserve the required opaque white background exactly.
     return colors[:256]
 
 
