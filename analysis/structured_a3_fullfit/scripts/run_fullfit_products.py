@@ -448,12 +448,16 @@ def save_fit_outputs(bundle: dict[str, Any], horizon: dict[str, Any], support: p
         (out / folder).mkdir(parents=True, exist_ok=True)
     write_json(out / "manifests/fullfit_data_horizon.json", horizon)
     write_csv(out / "manifests/fullfit_support_audit.csv", support)
-    write_json(REPO_ROOT / "analysis/structured_a3_fullfit/results/fullfit_data_horizon.json", horizon)
+    repository_audit_root = getattr(args, "repository_audit_root", None)
+    if repository_audit_root:
+        repository_audit_root = Path(repository_audit_root)
+        write_json(repository_audit_root / "fullfit_data_horizon.json", horizon)
     leakage = support.rename(columns={"same_week_or_future_history_uses": "same_week_or_future_response_leakage_rows"})[["week", "same_week_or_future_response_leakage_rows", "missing_history_cutoff_rows", "causally_constructible_history_complete"]]
     leakage["status"] = np.where((leakage["same_week_or_future_response_leakage_rows"] == 0) & (leakage["missing_history_cutoff_rows"] == 0) & leakage["causally_constructible_history_complete"], "PASS", "FAIL")
     leakage["checked_node_rows"] = NODE_COUNT
     write_csv(out / "manifests/history_feature_leakage_audit.csv", leakage)
-    write_csv(REPO_ROOT / "analysis/structured_a3_fullfit/results/history_feature_leakage_audit.csv", leakage)
+    if repository_audit_root:
+        write_csv(repository_audit_root / "history_feature_leakage_audit.csv", leakage)
     if not (leakage["status"] == "PASS").all():
         raise RuntimeError("history feature leakage audit failed")
 
@@ -562,6 +566,7 @@ def main() -> int:
     parser.add_argument("--permutation-replicates", type=int, default=10)
     parser.add_argument("--correlation-sample", type=int, default=100_000)
     parser.add_argument("--seed", type=int, default=20261006)
+    parser.add_argument("--repository-audit-root", type=Path, default=None)
     args = parser.parse_args()
     if args.stage == "fit":
         if args.permutation_replicates != 10:

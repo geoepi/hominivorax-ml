@@ -340,6 +340,7 @@ def stage_context(config: dict[str, Any], config_path: Path, repo_root: Path, mo
         "prospective_output_root": str(config.get("prospective_output_root", "")),
         "scratch_root": str(config.get("scratch_root", "")),
         "logs_root": str(config.get("logs_root", "")),
+        "python_executable": str(config.get("python_executable", sys.executable)),
         "run_id": run_id,
         "mode": mode,
     }
@@ -390,7 +391,7 @@ def print_plan(config: dict[str, Any], config_path: Path, repo_root: Path, mode:
     previous = None
     for stage in STAGES:
         dependency = f"afterok:{previous}" if previous else "none"
-        command = "internal frozen-model preflight" if stage == "P0" else render_command(command_for(config, mode, stage), context)
+        command = render_command(command_for(config, mode, stage), context)
         log = Path(str(config["logs_root"])) / run_id / "stages" / f"{stage}.out"
         print(f"stage={stage} job_id=NOT_SUBMITTED dependency={dependency} log={log}")
         print(f"  command={command}")
@@ -533,8 +534,8 @@ def run_stage(config: dict[str, Any], config_path: Path, repo_root: Path, mode: 
     if stage not in STAGES:
         raise PipelineError(f"invalid stage: {stage}")
     manifest_path = run_manifest_path(config, run_id)
-    # P0 is intentionally implemented here so the first gate cannot be
-    # replaced by an Atlas-side command that silently changes the model.
+    # P0 retains the frozen-model guard here, then invokes the repository
+    # preflight adapter so horizon and leakage evidence are persisted.
     if mode == "prospective_evaluation" and stage == "P3":
         validate_deployed_manifest(config, scientific)
         command = command_for(config, mode, stage)
@@ -544,13 +545,10 @@ def run_stage(config: dict[str, Any], config_path: Path, repo_root: Path, mode: 
     start = utc_now()
     update_stage_manifest(manifest_path, stage, {"status": "RUNNING", "start_time": start, "job_id": os.environ.get("SLURM_JOB_ID", "LOCAL")})
     try:
-        if stage == "P0":
-            pass
-        else:
-            command = render_command(command_for(config, mode, stage), context)
-            completed = subprocess.run(command, cwd=repo_root, shell=True, text=True)
-            if completed.returncode != 0:
-                raise PipelineError(f"configured command exited with status {completed.returncode}")
+        command = render_command(command_for(config, mode, stage), context)
+        completed = subprocess.run(command, cwd=repo_root, shell=True, text=True)
+        if completed.returncode != 0:
+            raise PipelineError(f"configured command exited with status {completed.returncode}")
         if stage in {"P1", "P2", "P3"}:
             leakage = Path(str(config["logs_root"])) / run_id / "leakage_audit.json"
             if leakage.exists():

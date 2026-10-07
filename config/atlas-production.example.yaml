@@ -5,36 +5,39 @@
 schema_version: 1
 repository_root: /project/disease_ecology/STGNN-production
 scientific_config: /project/disease_ecology/STGNN-production/config/structured_a3.yaml
-output_root: /project/disease_ecology/STGNN-output
+output_root: /project/disease_ecology/STGNN-output/structured_a3_fullfit_validation
 prospective_output_root: /project/disease_ecology/STGNN-output/prospective_evaluation
 scratch_root: /project/disease_ecology/STGNN-scratch
 logs_root: /project/disease_ecology/STGNN-output/logs
+python_executable: /project/disease_ecology/STGNN-python-venv/bin/python
 
 inputs:
   observation_path: /project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs.csv
   environmental_root: /project/disease_ecology/cds-datagrab-output/data/production
   static_predictor_root: /project/disease_ecology/STGNN-output/revised_model_data/raw
+  model_output_root: /project/disease_ecology/STGNN-output/revised_model_data
   history_feature_path: /project/disease_ecology/STGNN-output/v2_model/front_features/causal_front_features.parquet
   anthropogenic_feature_path: /project/disease_ecology/STGNN-output/predictor_augmentation/static/road_night_node_features.parquet
   soil_feature_path: /project/disease_ecology/STGNN-output/soil_feature_screening_resumed_s1/soil_node_features.parquet
+  mask_path: /project/disease_ecology/STGNN-output/preflight/canonical_environment_mask.tif
+  boundary_root: /project/disease_ecology/NWS/Chad/NWS_ABM/data/ancillary/border_shapefiles
   deployed_model_manifest: /project/disease_ecology/STGNN-production/deployment_manifest.yaml
+  deployed_model_output_root: /project/disease_ecology/STGNN-output/structured_a3_fullfit
 
 slurm:
   account: CHANGE_ME
   partition: CHANGE_ME
   qos: null
 
-# These are Atlas-side wrappers around the validated production components.
-# P0 is also guarded by the repository launcher. Each command must accept the
-# rendered run context supplied by a3_pipeline_stage.py. The prospective P3
-# command must score only and must not refit.
+# These are repository entrypoints around the validated production components.
+# The prospective P3 command must score only and must not refit.
 commands:
-  P0: "python {repository_root}/scripts/a3_pipeline_stage.py --internal-preflight --config {config} --mode {mode} --run-id {run_id}"
-  P1: "python /project/disease_ecology/STGNN-production-config/a3_data_horizon_preflight.py --config {config} --run-id {run_id}"
-  P2: "python /project/disease_ecology/STGNN-production-config/a3_feature_assembly.py --config {config} --run-id {run_id}"
+  P0: "{python_executable} {repository_root}/scripts/a3_preflight.py --config {config} --mode {mode} --run-id {run_id}"
+  P1: "{python_executable} {repository_root}/scripts/a3_preprocess.py --config {config} --mode {mode} --run-id {run_id}"
+  P2: "{python_executable} {repository_root}/scripts/a3_fit.py --config {config} --mode {mode} --run-id {run_id}"
   production_fullfit:
-    P3: "python /project/disease_ecology/STGNN-production-config/a3_production_fullfit.py --config {config} --run-id {run_id}"
+    P3: "{python_executable} {repository_root}/scripts/a3_score.py --config {config} --mode {mode} --run-id {run_id}"
   prospective_evaluation:
-    P3: "python /project/disease_ecology/STGNN-production-config/a3_prospective_score.py --config {config} --run-id {run_id} --no-refit"
-  P4: "python /project/disease_ecology/STGNN-production-config/a3_generate_products.py --config {config} --run-id {run_id} --mode {mode}"
-  P5: "python /project/disease_ecology/STGNN-production-config/a3_finalize_report.py --config {config} --run-id {run_id} --mode {mode}"
+    P3: "{python_executable} {repository_root}/scripts/a3_score.py --config {config} --mode {mode} --run-id {run_id} --no-refit"
+  P4: "bash -lc 'module purge; module load udunits/2.2.28 proj/9.7.0 geos/3.12.1 gdal/3.8.5 intel-oneapi-mkl/2023.2.0 r/4.4.3; {python_executable} {repository_root}/scripts/a3_products.py --config {config} --mode {mode} --run-id {run_id}'"
+  P5: "{python_executable} {repository_root}/scripts/a3_finalize.py --config {config} --mode {mode} --run-id {run_id}"
