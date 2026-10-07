@@ -65,7 +65,7 @@ Atlas users should use the limited-interaction launcher:
 ```bash
 bash slurm/submit_a3_pipeline.sh \
   --mode production_fullfit \
-  --config /project/disease_ecology/STGNN-config/atlas-production.yaml
+  --config /project/disease_ecology/STGNN-production-config/atlas-production.yaml
 ```
 
 For untouched weeks after a deployed frozen model’s evaluation horizon:
@@ -73,7 +73,7 @@ For untouched weeks after a deployed frozen model’s evaluation horizon:
 ```bash
 bash slurm/submit_a3_pipeline.sh \
   --mode prospective_evaluation \
-  --config /project/disease_ecology/STGNN-config/atlas-production.yaml
+  --config /project/disease_ecology/STGNN-production-config/atlas-production.yaml
 ```
 
 Both modes are dependency-chained SLURM workflows. `prospective_evaluation`
