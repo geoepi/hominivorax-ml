@@ -16,7 +16,7 @@ sys.path.insert(0, str(REPO_ROOT / "scripts"))
 import a3_pipeline  # noqa: E402
 
 
-def test_config(output_root: Path, log_root: Path, prospective_manifest: Path | None = None) -> dict:
+def make_config(output_root: Path, log_root: Path, prospective_manifest: Path | None = None) -> dict:
     config = {
         "schema_version": 1,
         "repository_root": str(REPO_ROOT),
@@ -59,7 +59,7 @@ class A3OrchestrationTests(unittest.TestCase):
     def test_dependency_plan_and_dry_run_do_not_submit(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            config = test_config(root / "outputs", root / "logs")
+            config = make_config(root / "outputs", root / "logs")
             config_path = root / "atlas.yaml"
             try:
                 import yaml  # type: ignore
@@ -89,7 +89,7 @@ class A3OrchestrationTests(unittest.TestCase):
                 "theta": a3_pipeline.THETA,
                 "penalty": a3_pipeline.PENALTY,
             }), encoding="utf-8")
-            config = test_config(root / "outputs", root / "logs", deployed)
+            config = make_config(root / "outputs", root / "logs", deployed)
             config["commands"]["prospective_evaluation"]["P3"] = "python score.py --refit"
             scientific = a3_pipeline.validate_frozen_manifest(REPO_ROOT / "config" / "structured_a3.yaml")
             with self.assertRaises(a3_pipeline.PipelineError):
@@ -98,7 +98,7 @@ class A3OrchestrationTests(unittest.TestCase):
     def test_prospective_output_is_distinct(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            config = test_config(root / "outputs", root / "logs")
+            config = make_config(root / "outputs", root / "logs")
             config["prospective_output_root"] = config["output_root"]
             with self.assertRaises(a3_pipeline.PipelineError):
                 a3_pipeline.output_root(config, "prospective_evaluation")
