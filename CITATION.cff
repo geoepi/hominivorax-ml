@@ -9,6 +9,9 @@ abstract: >-
 authors:
   - family-names: Humphreys
     given-names: John
+contact:
+  - family-names: Humphreys
+    given-names: John
 version: "v1.0.0-research"
 date-released: "2026-10-07"
 license: MIT
