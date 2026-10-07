@@ -1,5 +1,5 @@
 branch,head_sha,unique_commit_count,classification,historical_role,preservation_method,delete_remote
-main,82f03d3154586169e2ffcfecac9b465863faa8d7,0,CANONICAL,Final release candidate,Canonical main branch,no
+main,baab27330dadd770db1c83ac9cf420bb0f697712,0,CANONICAL,Final release candidate,Canonical main branch,no
 feature/a3-interpretation-visuals,eb3509a4dd968baac33fc5884dfcb0445251e419,0,FULLY REPRESENTED IN MAIN,Structured A3 interpretation visualization implementation,Main commit graph,yes
 feature/controlled-predictor-augmentation,b57f7dd2800229336a18790ac0cb03f6169a67de,0,FULLY REPRESENTED IN MAIN,Controlled predictor augmentation and fixed-theta provenance,Main commit graph,yes
 feature/hominivorax-ml-release-prep,c9f579ae4e5f7cf5d6d29332281800cf725173f3,0,FULLY REPRESENTED IN MAIN,Release metadata and orchestration preparation,Main commit graph,yes
