@@ -1,0 +1,19 @@
+# Private production/deployment manifest for the hominivorax-ml research release.
+# Resolve the annotated release tag to its commit before deployment; do not
+# deploy from a moving branch or from an uncommitted checkout.
+repository: https://github.com/JMHumphreys/hominivorax-ml.git
+release_tag: v1.0.0-research
+model: STRUCTURED_A3
+config: config/structured_a3.yaml
+frozen_manifest: analysis/structured_a3_evaluation/results/frozen_a3_evaluation_manifest.json
+frozen_manifest_sha256: 9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61
+predictor_count: 34
+theta: 0.7018903965556372
+penalty: 0.01
+objective: exact_joint_hurdle_nll
+node_count: 10037
+atlas:
+  production_root: /project/disease_ecology/STGNN-production
+  output_root: /project/disease_ecology/STGNN-production/output
+  scratch_root: /project/disease_ecology/STGNN-production/scratch
+  environment_file: /project/disease_ecology/STGNN-config/atlas-production.yaml
