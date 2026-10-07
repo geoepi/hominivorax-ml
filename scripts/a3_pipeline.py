@@ -342,6 +342,7 @@ def stage_context(config: dict[str, Any], config_path: Path, repo_root: Path, mo
         "logs_root": str(config.get("logs_root", "")),
         "python_executable": str(config.get("python_executable", sys.executable)),
         "r_loader": str(config.get("r_loader", _nested(config, "environment", "r_loader") or "")),
+        "r_library": str(config.get("r_library", _nested(config, "environment", "r_library") or "")),
         "run_id": run_id,
         "mode": mode,
     }
