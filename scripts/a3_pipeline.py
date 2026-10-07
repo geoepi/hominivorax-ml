@@ -340,6 +340,9 @@ def stage_context(config: dict[str, Any], config_path: Path, repo_root: Path, mo
         "prospective_output_root": str(config.get("prospective_output_root", "")),
         "scratch_root": str(config.get("scratch_root", "")),
         "logs_root": str(config.get("logs_root", "")),
+        "python_executable": str(config.get("python_executable", sys.executable)),
+        "r_loader": str(config.get("r_loader", _nested(config, "environment", "r_loader") or "")),
+        "r_library": str(config.get("r_library", _nested(config, "environment", "r_library") or "")),
         "run_id": run_id,
         "mode": mode,
     }
@@ -390,7 +393,7 @@ def print_plan(config: dict[str, Any], config_path: Path, repo_root: Path, mode:
     previous = None
     for stage in STAGES:
         dependency = f"afterok:{previous}" if previous else "none"
-        command = "internal frozen-model preflight" if stage == "P0" else render_command(command_for(config, mode, stage), context)
+        command = render_command(command_for(config, mode, stage), context)
         log = Path(str(config["logs_root"])) / run_id / "stages" / f"{stage}.out"
         print(f"stage={stage} job_id=NOT_SUBMITTED dependency={dependency} log={log}")
         print(f"  command={command}")
@@ -423,8 +426,12 @@ def submit_pipeline(config: dict[str, Any], config_path: Path, repo_root: Path, 
     start = STAGES.index(restart_from) if restart_from else 0
     previous_job: str | None = None
     if start > 0:
-        previous = manifest["stages"][STAGES[start - 1]].get("job_id")
-        previous_job = previous if previous not in (None, "", "LOCAL") else None
+        previous_stage = manifest["stages"][STAGES[start - 1]]
+        previous = previous_stage.get("job_id")
+        # SLURM may reject a dependency on an already-reaped completed job
+        # during a restart. The manifest has already verified that upstream
+        # work completed, so a restart begins directly at the requested stage.
+        previous_job = previous if previous_stage.get("status") != "COMPLETED" and previous not in (None, "", "LOCAL") else None
     atomic_write_json(manifest_path, manifest)
     for index in range(start, len(STAGES)):
         stage = STAGES[index]
@@ -454,6 +461,9 @@ def submit_pipeline(config: dict[str, Any], config_path: Path, repo_root: Path, 
             sbatch.append(f"--partition={slurm['partition']}")
         if slurm.get("qos"):
             sbatch.append(f"--qos={slurm['qos']}")
+        for key, flag in (("nodes", "--nodes"), ("ntasks", "--ntasks"), ("cpus_per_task", "--cpus-per-task"), ("mem", "--mem"), ("time", "--time")):
+            if slurm.get(key) not in (None, ""):
+                sbatch.append(f"{flag}={slurm[key]}")
         if dependency:
             sbatch.append(f"--dependency={dependency}")
         sbatch.extend(["--wrap", " ".join(shlex.quote(part) for part in command)])
@@ -533,8 +543,8 @@ def run_stage(config: dict[str, Any], config_path: Path, repo_root: Path, mode: 
     if stage not in STAGES:
         raise PipelineError(f"invalid stage: {stage}")
     manifest_path = run_manifest_path(config, run_id)
-    # P0 is intentionally implemented here so the first gate cannot be
-    # replaced by an Atlas-side command that silently changes the model.
+    # P0 retains the frozen-model guard here, then invokes the repository
+    # preflight adapter so horizon and leakage evidence are persisted.
     if mode == "prospective_evaluation" and stage == "P3":
         validate_deployed_manifest(config, scientific)
         command = command_for(config, mode, stage)
@@ -544,13 +554,10 @@ def run_stage(config: dict[str, Any], config_path: Path, repo_root: Path, mode: 
     start = utc_now()
     update_stage_manifest(manifest_path, stage, {"status": "RUNNING", "start_time": start, "job_id": os.environ.get("SLURM_JOB_ID", "LOCAL")})
     try:
-        if stage == "P0":
-            pass
-        else:
-            command = render_command(command_for(config, mode, stage), context)
-            completed = subprocess.run(command, cwd=repo_root, shell=True, text=True)
-            if completed.returncode != 0:
-                raise PipelineError(f"configured command exited with status {completed.returncode}")
+        command = render_command(command_for(config, mode, stage), context)
+        completed = subprocess.run(command, cwd=repo_root, shell=True, text=True)
+        if completed.returncode != 0:
+            raise PipelineError(f"configured command exited with status {completed.returncode}")
         if stage in {"P1", "P2", "P3"}:
             leakage = Path(str(config["logs_root"])) / run_id / "leakage_audit.json"
             if leakage.exists():

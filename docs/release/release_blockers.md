@@ -20,18 +20,20 @@ preparation blockers:
 - Atlas production configuration and currently supported input paths resolve
   under `/project/disease_ecology/STGNN-production-config/`; the development
   checkout remains separate and dirty by design.
-- The bounded Atlas six-stage orchestration smoke test completed through P0 to
-  P5 with `afterok` dependencies and a completed run manifest. It used no-op
-  stage commands and did not fit a model.
-
-One technical Atlas integration blocker remains: the external production
-entrypoints referenced by the protected configuration (`a3_data_horizon_preflight.py`,
-`a3_feature_assembly.py`, `a3_production_fullfit.py`,
-`a3_prospective_score.py`, `a3_generate_products.py`, and
-`a3_finalize_report.py`) are not currently present in the Atlas production
-configuration directory. The real full-fit and prospective workflows must not
-be represented as complete until those validated components are supplied. The
-no-op smoke result validates scheduler/orchestration mechanics only.
+- Stable repository entrypoints now replace the previously absent external
+  configuration-directory scripts. Their responsibilities and validated
+  implementations are recorded in
+  `docs/release/production_entrypoint_inventory.md`.
+- A real isolated Atlas `production_fullfit` run completed P0 through P5 with
+  `afterok` dependencies. The fixed-theta optimizer converged, spatial
+  products and GeoTIFF QA completed, and the run was compared with the
+  established full-fit output. Model specification, coefficients, all
+  812,997 node-week predictions, summary metrics, and 15 representative
+  GeoTIFFs matched exactly.
+- A real isolated Atlas `prospective_evaluation` run completed P0 through P5
+  with the frozen deployed model, `refit_performed: false`, and the expected
+  successful `status: no_eligible_weeks` at the current complete-support end
+  of `2026-W29`.
 
 The following are intentionally outside this technical release-preparation
 scope and require an explicit organizational or scientific decision later:
