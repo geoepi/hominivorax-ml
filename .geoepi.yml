@@ -1,0 +1,26 @@
+schema_version: 1
+
+project_id: nws-risk
+subproject_id: nws-stat-ml
+
+title: Statistical Machine-learning
+summary: >
+  Statistical machine-learning workflow for weekly spatial prediction of recorded Cochliomyia hominivorax detections.
+
+lead:
+  name: John Humphreys
+  github: JMHumphreys
+
+status: active
+current_focus: Prospective validation
+
+repository:
+  canonical: geoepi/hominivorax-ml
+  upstream: null
+
+compute:
+  - Atlas
+
+next_milestone:
+  description: Full validation
+  target: 2026-12-01
