@@ -1,5 +1,7 @@
 # hominivorax-ml
 
+Repository: [geoepi/hominivorax-ml](https://github.com/geoepi/hominivorax-ml)
+
 `hominivorax-ml` provides a statistical machine-learning workflow for weekly
 spatial prediction of recorded *Cochliomyia hominivorax* detections. The
 current supported model, Structured A3, is a penalized spatiotemporal hurdle
