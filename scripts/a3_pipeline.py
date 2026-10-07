@@ -426,8 +426,12 @@ def submit_pipeline(config: dict[str, Any], config_path: Path, repo_root: Path, 
     start = STAGES.index(restart_from) if restart_from else 0
     previous_job: str | None = None
     if start > 0:
-        previous = manifest["stages"][STAGES[start - 1]].get("job_id")
-        previous_job = previous if previous not in (None, "", "LOCAL") else None
+        previous_stage = manifest["stages"][STAGES[start - 1]]
+        previous = previous_stage.get("job_id")
+        # SLURM may reject a dependency on an already-reaped completed job
+        # during a restart. The manifest has already verified that upstream
+        # work completed, so a restart begins directly at the requested stage.
+        previous_job = previous if previous_stage.get("status") != "COMPLETED" and previous not in (None, "", "LOCAL") else None
     atomic_write_json(manifest_path, manifest)
     for index in range(start, len(STAGES)):
         stage = STAGES[index]
