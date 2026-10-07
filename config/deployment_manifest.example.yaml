@@ -1,8 +1,8 @@
 # Private production/deployment manifest for the hominivorax-ml research release.
 # Resolve the annotated release tag to its commit before deployment; do not
 # deploy from a moving branch or from an uncommitted checkout.
-repository: https://github.com/JMHumphreys/hominivorax-ml.git
-release_tag: v1.0.0-research
+repository: https://github.com/geoepi/hominivorax-ml
+release_tag: v1.0.1-research
 model: STRUCTURED_A3
 config: config/structured_a3.yaml
 frozen_manifest: analysis/structured_a3_evaluation/results/frozen_a3_evaluation_manifest.json

@@ -12,10 +12,10 @@ authors:
 contact:
   - family-names: Humphreys
     given-names: John
-version: "v1.0.0-research"
+version: "v1.0.1-research"
 date-released: "2026-10-07"
 license: MIT
-repository-code: "https://github.com/JMHumphreys/hominivorax-ml"
+repository-code: "https://github.com/geoepi/hominivorax-ml"
 keywords:
   - epidemiology
   - quantitative ecology
