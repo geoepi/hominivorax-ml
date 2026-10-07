@@ -455,6 +455,9 @@ def submit_pipeline(config: dict[str, Any], config_path: Path, repo_root: Path, 
             sbatch.append(f"--partition={slurm['partition']}")
         if slurm.get("qos"):
             sbatch.append(f"--qos={slurm['qos']}")
+        for key, flag in (("nodes", "--nodes"), ("ntasks", "--ntasks"), ("cpus_per_task", "--cpus-per-task"), ("mem", "--mem"), ("time", "--time")):
+            if slurm.get(key) not in (None, ""):
+                sbatch.append(f"{flag}={slurm[key]}")
         if dependency:
             sbatch.append(f"--dependency={dependency}")
         sbatch.extend(["--wrap", " ".join(shlex.quote(part) for part in command)])

@@ -25,9 +25,14 @@ inputs:
   deployed_model_output_root: /project/disease_ecology/STGNN-output/structured_a3_fullfit
 
 slurm:
-  account: CHANGE_ME
-  partition: CHANGE_ME
+  account: disease_ecology
+  partition: atlas
   qos: null
+  nodes: 1
+  ntasks: 1
+  cpus_per_task: 8
+  mem: 48G
+  time: 08:00:00
 
 # These are repository entrypoints around the validated production components.
 # The prospective P3 command must score only and must not refit.
