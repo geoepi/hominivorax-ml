@@ -115,7 +115,7 @@ def relationships(repo: Path, output: Path) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo", type=Path, default=Path.cwd())
-    parser.add_argument("--output-dir", type=Path, default=Path("docs/repository_reconciliation"))
+    parser.add_argument("--output-dir", type=Path, default=Path("docs/history/repository_reconciliation"))
     args = parser.parse_args()
     repo = args.repo.resolve()
     inventory(repo, args.output_dir / "branch_inventory.csv")

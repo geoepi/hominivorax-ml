@@ -24,7 +24,7 @@ python analysis/structured_a3_fullfit/scripts/build_effect_reference_profile.py 
 
 module purge
 module load udunits proj geos/3.12.1 gdal/3.8.5 intel-oneapi-mkl/2023.2.0 r/4.4.3
-export R_LIBS_USER=/project/disease_ecology/STGNN-r-lib:/home/john.humphreys/R/x86_64-pc-linux-gnu-library/4.4
+export R_LIBS_USER="${STGNN_R_LIBS_USER:-/project/disease_ecology/STGNN-r-lib}"
 Rscript --vanilla analysis/structured_a3_fullfit/scripts/render_interpretation_revised.R \
   --output-root "${output_root}" \
   --mask /project/disease_ecology/STGNN-output/preflight/canonical_environment_mask.tif

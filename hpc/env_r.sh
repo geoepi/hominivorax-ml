@@ -9,7 +9,7 @@ module load udunits proj geos/3.12.1 gdal/3.8.5 \
 
 # Atlas R packages installed outside Git for the validated project runtime.
 export STGNN_R_LIBS_USER="${STGNN_R_LIBS_USER:-/project/disease_ecology/STGNN-r-lib}"
-export R_LIBS_USER="${STGNN_R_LIBS_USER}:/home/john.humphreys/R/x86_64-pc-linux-gnu-library/4.4"
+export R_LIBS_USER="${STGNN_R_LIBS_USER}"
 
 export STGNN_OUTPUT_ROOT="${STGNN_OUTPUT_ROOT:-/project/disease_ecology/STGNN-output}"
 export STGNN_REPOSITORY_ROOT="${STGNN_REPOSITORY_ROOT:-/project/disease_ecology/STGNN}"

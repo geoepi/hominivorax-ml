@@ -41,10 +41,24 @@ __pycache__/
 *.hdf5
 *.npy
 *.npz
+*.rds
+*.rdata
+*.RData
 *.pt
 *.pth
 *.ckpt
 *.safetensors
+*.gpkg
+*.sqlite
+*.sqlite3
+*.db
+*.fst
+*.grib
+*.grib2
+*.zarr
+*.zip
+*.7z
+*.tar
 
 # Runtime outputs, checkpoints, and logs
 output/

@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use hominivorax-ml, please cite this software release."
+type: software
+title: "hominivorax-ml"
+abstract: >-
+  Reproducible statistical machine-learning workflows for spatial and
+  temporal analysis of screwworm detection records, including the Structured
+  A3 model and its prospective evaluation orchestration.
+authors:
+  - family-names: Humphreys
+    given-names: John
+version: "v1.0.0-research"
+date-released: "2026-10-07"
+license: MIT
+repository-code: "https://github.com/JMHumphreys/hominivorax-ml"
+keywords:
+  - epidemiology
+  - quantitative ecology
+  - spatial machine learning
+  - temporal machine learning
+  - screwworm
+  - reproducible research

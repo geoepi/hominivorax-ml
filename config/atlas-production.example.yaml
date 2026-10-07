@@ -1,0 +1,40 @@
+# Copy this template outside Git to the established Atlas configuration path,
+# for example /project/disease_ecology/STGNN-config/atlas-production.yaml.
+# Replace every deployment path and command with the validated Atlas entry
+# point. This file intentionally contains no credentials.
+schema_version: 1
+repository_root: /project/disease_ecology/STGNN
+scientific_config: /project/disease_ecology/STGNN/config/structured_a3.yaml
+output_root: /project/disease_ecology/STGNN-output
+prospective_output_root: /project/disease_ecology/STGNN-output/prospective_evaluation
+scratch_root: /project/disease_ecology/STGNN-scratch
+logs_root: /project/disease_ecology/STGNN-output/logs
+
+inputs:
+  observation_path: /project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs.csv
+  environmental_root: /project/disease_ecology/cds-datagrab-output/data/production
+  static_predictor_root: /project/disease_ecology/STGNN-output/revised_model_data/raw
+  history_feature_path: /project/disease_ecology/STGNN-output/v2_model/front_features/causal_front_features.parquet
+  anthropogenic_feature_path: /project/disease_ecology/STGNN-output/predictor_augmentation/static/road_night_node_features.parquet
+  soil_feature_path: /project/disease_ecology/STGNN-output/soil_feature_screening_resumed_s1/soil_node_features.parquet
+  deployed_model_manifest: /project/disease_ecology/STGNN-production/deployment_manifest.yaml
+
+slurm:
+  account: CHANGE_ME
+  partition: CHANGE_ME
+  qos: null
+
+# These are Atlas-side wrappers around the validated production components.
+# P0 is also guarded by the repository launcher. Each command must accept the
+# rendered run context supplied by a3_pipeline_stage.py. The prospective P3
+# command must score only and must not refit.
+commands:
+  P0: "python {repository_root}/scripts/a3_pipeline_stage.py --internal-preflight --config {config} --mode {mode} --run-id {run_id}"
+  P1: "python /project/disease_ecology/STGNN-config/a3_data_horizon_preflight.py --config {config} --run-id {run_id}"
+  P2: "python /project/disease_ecology/STGNN-config/a3_feature_assembly.py --config {config} --run-id {run_id}"
+  production_fullfit:
+    P3: "python /project/disease_ecology/STGNN-config/a3_production_fullfit.py --config {config} --run-id {run_id}"
+  prospective_evaluation:
+    P3: "python /project/disease_ecology/STGNN-config/a3_prospective_score.py --config {config} --run-id {run_id} --no-refit"
+  P4: "python /project/disease_ecology/STGNN-config/a3_generate_products.py --config {config} --run-id {run_id} --mode {mode}"
+  P5: "python /project/disease_ecology/STGNN-config/a3_finalize_report.py --config {config} --run-id {run_id} --mode {mode}"
