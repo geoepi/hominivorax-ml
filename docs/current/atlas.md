@@ -9,9 +9,9 @@ tag. Updating `main` must not automatically change production.
 
 ```bash
 bash slurm/submit_a3_pipeline.sh --mode production_fullfit \
-  --config /project/disease_ecology/STGNN-config/atlas-production.yaml
+  --config /project/disease_ecology/STGNN-production-config/atlas-production.yaml
 bash slurm/submit_a3_pipeline.sh --mode prospective_evaluation \
-  --config /project/disease_ecology/STGNN-config/atlas-production.yaml
+  --config /project/disease_ecology/STGNN-production-config/atlas-production.yaml
 ```
 
 Use `--dry-run` first. The launcher creates a P0→P1→P2→P3→P4→P5 chain with

@@ -16,4 +16,4 @@ atlas:
   production_root: /project/disease_ecology/STGNN-production
   output_root: /project/disease_ecology/STGNN-production/output
   scratch_root: /project/disease_ecology/STGNN-production/scratch
-  environment_file: /project/disease_ecology/STGNN-config/atlas-production.yaml
+  environment_file: /project/disease_ecology/STGNN-production-config/atlas-production.yaml
