@@ -17,6 +17,7 @@ import shlex
 import subprocess
 import sys
 import tempfile
+import unicodedata
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -31,6 +32,8 @@ THETA = 0.7018903965556372
 PENALTY = 0.01
 OBJECTIVE = "exact_joint_hurdle_nll"
 NODE_COUNT = 10037
+CHIME_EXECUTION_ID_ENV = "CHIME_EXECUTION_ID"
+CHIME_EXECUTION_ID_MAX_BYTES = 256
 HISTORY_FEATURES = (
     "distance_to_any_prior_positive_log1p",
     "distance_to_prev4_positive_log1p",
@@ -43,6 +46,34 @@ HISTORY_FEATURES = (
 
 class PipelineError(RuntimeError):
     """A fail-safe validation or execution error."""
+
+
+def normalize_chime_execution_id(value: Any) -> str | None:
+    """Normalize and validate the optional opaque CHIME correlation value.
+
+    The value is provenance only. It is deliberately not required to follow a
+    UUID or any other CHIME-specific syntax so that the native workflow does
+    not become coupled to a caller's identifier scheme.
+    """
+    if value is None:
+        return None
+    if not isinstance(value, str):
+        raise PipelineError(f"{CHIME_EXECUTION_ID_ENV} must be a string when supplied")
+    normalized = value.strip()
+    if not normalized:
+        return None
+    if len(normalized.encode("utf-8")) > CHIME_EXECUTION_ID_MAX_BYTES:
+        raise PipelineError(
+            f"{CHIME_EXECUTION_ID_ENV} exceeds {CHIME_EXECUTION_ID_MAX_BYTES} UTF-8 bytes"
+        )
+    if any(unicodedata.category(char) == "Cc" for char in normalized):
+        raise PipelineError(f"{CHIME_EXECUTION_ID_ENV} contains a control character")
+    return normalized
+
+
+def current_chime_execution_id() -> str | None:
+    """Read the optional correlation value from the current process environment."""
+    return normalize_chime_execution_id(os.environ.get(CHIME_EXECUTION_ID_ENV))
 
 
 def utc_now() -> str:
@@ -366,11 +397,18 @@ def atomic_write_json(path: Path, value: dict[str, Any]) -> None:
     temporary.replace(path)
 
 
-def base_manifest(run_id: str, mode: str, scientific: dict[str, Any], repo_root: Path) -> dict[str, Any]:
+def base_manifest(
+    run_id: str,
+    mode: str,
+    scientific: dict[str, Any],
+    repo_root: Path,
+    chime_execution_id: str | None = None,
+) -> dict[str, Any]:
     return {
         "schema_version": 1,
         "run_id": run_id,
         "mode": mode,
+        "chime_execution_id": chime_execution_id,
         "repository_sha": git_sha(repo_root),
         "scientific_specification_sha256": scientific["manifest_sha256"],
         "predictor_manifest_sha256": scientific["predictor_manifest_sha256"],
@@ -383,11 +421,20 @@ def base_manifest(run_id: str, mode: str, scientific: dict[str, Any], repo_root:
     }
 
 
-def print_plan(config: dict[str, Any], config_path: Path, repo_root: Path, mode: str, run_id: str, scientific: dict[str, Any]) -> None:
+def print_plan(
+    config: dict[str, Any],
+    config_path: Path,
+    repo_root: Path,
+    mode: str,
+    run_id: str,
+    scientific: dict[str, Any],
+    chime_execution_id: str | None,
+) -> None:
     context = stage_context(config, config_path, repo_root, mode, run_id)
     print("A3 PIPELINE DRY RUN")
     print(f"run_id: {run_id}")
     print(f"mode: {mode}")
+    print(f"chime_execution_id: {json.dumps(chime_execution_id)}")
     print(f"repository_sha: {git_sha(repo_root)}")
     print(f"scientific_manifest_sha256: {scientific['manifest_sha256']}")
     previous = None
@@ -413,6 +460,7 @@ def submit_pipeline(config: dict[str, Any], config_path: Path, repo_root: Path, 
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         if manifest.get("mode") != mode or manifest.get("scientific_specification_sha256") != scientific["manifest_sha256"]:
             raise PipelineError("STOP: restart manifest does not match mode or frozen scientific manifest")
+        chime_execution_id = normalize_chime_execution_id(manifest.get("chime_execution_id"))
         start = STAGES.index(restart_from)
         for stage in STAGES[:start]:
             if manifest.get("stages", {}).get(stage, {}).get("status") != "COMPLETED":
@@ -420,7 +468,13 @@ def submit_pipeline(config: dict[str, Any], config_path: Path, repo_root: Path, 
     else:
         if manifest_path.exists():
             raise PipelineError(f"run manifest already exists; choose another --run-id or use --restart-from: {manifest_path}")
-        manifest = base_manifest(run_id, mode, scientific, repo_root)
+        chime_execution_id = current_chime_execution_id()
+        manifest = base_manifest(run_id, mode, scientific, repo_root, chime_execution_id)
+    submission_environment = os.environ.copy()
+    if chime_execution_id is None:
+        submission_environment.pop(CHIME_EXECUTION_ID_ENV, None)
+    else:
+        submission_environment[CHIME_EXECUTION_ID_ENV] = chime_execution_id
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     context = stage_context(config, config_path, repo_root, mode, run_id)
     start = STAGES.index(restart_from) if restart_from else 0
@@ -454,7 +508,14 @@ def submit_pipeline(config: dict[str, Any], config_path: Path, repo_root: Path, 
             run_id,
         ]
         slurm = config.get("slurm", {})
-        sbatch = ["sbatch", "--parsable", f"--job-name=a3-{mode[:12]}-{stage}", f"--output={stdout_path}", f"--error={stderr_path}"]
+        sbatch = [
+            "sbatch",
+            "--parsable",
+            "--export=ALL",
+            f"--job-name=a3-{mode[:12]}-{stage}",
+            f"--output={stdout_path}",
+            f"--error={stderr_path}",
+        ]
         if slurm.get("account") not in (None, "", "CHANGE_ME"):
             sbatch.append(f"--account={slurm['account']}")
         if slurm.get("partition") not in (None, "", "CHANGE_ME"):
@@ -468,7 +529,14 @@ def submit_pipeline(config: dict[str, Any], config_path: Path, repo_root: Path, 
             sbatch.append(f"--dependency={dependency}")
         sbatch.extend(["--wrap", " ".join(shlex.quote(part) for part in command)])
         try:
-            result = subprocess.run(sbatch, cwd=repo_root, text=True, capture_output=True, check=True)
+            result = subprocess.run(
+                sbatch,
+                cwd=repo_root,
+                env=submission_environment,
+                text=True,
+                capture_output=True,
+                check=True,
+            )
         except (OSError, subprocess.CalledProcessError) as exc:
             detail = getattr(exc, "stderr", "") or str(exc)
             manifest.setdefault("stages", {})[stage] = {"stage": stage, "status": "SUBMISSION_FAILED", "dependency": dependency, "log": str(stdout_path), "error": detail.strip(), "start_time": utc_now()}
@@ -543,6 +611,14 @@ def run_stage(config: dict[str, Any], config_path: Path, repo_root: Path, mode: 
     if stage not in STAGES:
         raise PipelineError(f"invalid stage: {stage}")
     manifest_path = run_manifest_path(config, run_id)
+    if not manifest_path.exists():
+        raise PipelineError(f"run manifest does not exist: {manifest_path}")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest_chime_execution_id = normalize_chime_execution_id(manifest.get("chime_execution_id"))
+    if current_chime_execution_id() != manifest_chime_execution_id:
+        raise PipelineError(
+            f"STOP: {CHIME_EXECUTION_ID_ENV} does not match the submission manifest"
+        )
     # P0 retains the frozen-model guard here, then invokes the repository
     # preflight adapter so horizon and leakage evidence are persisted.
     if mode == "prospective_evaluation" and stage == "P3":
@@ -603,7 +679,15 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps({"status": "P0_PASS", "model": MODEL_NAME, "predictors": PREDICTOR_COUNT, "theta": THETA, "penalty": PENALTY, "objective": OBJECTIVE, "node_count": NODE_COUNT}, indent=2))
         return 0
     if args.dry_run:
-        print_plan(config, args.config.resolve(), repo_root, args.mode, run_id, scientific)
+        print_plan(
+            config,
+            args.config.resolve(),
+            repo_root,
+            args.mode,
+            run_id,
+            scientific,
+            current_chime_execution_id(),
+        )
         return 0
     return submit_pipeline(config, args.config.resolve(), repo_root, args.mode, run_id, scientific, args.restart_from)
 
