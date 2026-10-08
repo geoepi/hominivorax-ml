@@ -78,6 +78,23 @@ bash slurm/submit_a3_pipeline.sh \
   --config /project/disease_ecology/STGNN-production-config/atlas-production.yaml
 ```
 
+An optional opaque correlation value may be supplied by an external caller for
+read-only provenance. It is trimmed, captured once in
+`submission_manifest.json`, and propagated unchanged through P0–P5; it does
+not change the run ID, model inputs, scientific outputs, or execution policy:
+
+```bash
+CHIME_EXECUTION_ID='manual-correlation-validation-20261007' \
+bash slurm/submit_a3_pipeline.sh \
+  --mode prospective_evaluation \
+  --config /project/disease_ecology/STGNN-production-config/atlas-production.yaml
+```
+
+The variable is optional. Unset or blank values are recorded as JSON `null`.
+Embedded control characters and values longer than 256 UTF-8 bytes are
+rejected. Native operators may use any opaque identifier format; no CHIME
+launch or execution action is implied by recording the value.
+
 Both modes are dependency-chained SLURM workflows. `prospective_evaluation`
 never refits and writes to a distinct output root. Use `--dry-run` to validate
 configuration and print the planned chain without submitting jobs. Details,

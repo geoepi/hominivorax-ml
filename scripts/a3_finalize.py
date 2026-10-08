@@ -28,6 +28,7 @@ def main() -> int:
             raise RuntimeError("STOP: prospective status is missing before finalization")
         status = json.loads(status_path.read_text(encoding="utf-8"))
         payload = {"status": "finalized", "mode": ctx.mode, "run_id": ctx.run_id, "evaluation_status": status.get("status"), "eligible_weeks": status.get("eligible_weeks", []), "refit_performed": status.get("refit_performed", False), "scientific_model_unchanged": True}
+    payload["chime_execution_id"] = ctx.chime_execution_id
     write_stage_json(ctx, "final_summary.json", payload)
     write_json(ctx.log_root / "output_manifest.json", payload)
     print(json.dumps(payload, indent=2))

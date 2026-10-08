@@ -14,6 +14,22 @@ bash slurm/submit_a3_pipeline.sh --mode prospective_evaluation \
   --config /project/disease_ecology/STGNN-production-config/atlas-production.yaml
 ```
 
+For optional read-only correlation with an external workflow, set
+`CHIME_EXECUTION_ID` in the environment before invoking the native launcher:
+
+```bash
+CHIME_EXECUTION_ID='manual-correlation-validation-20261007' \
+bash slurm/submit_a3_pipeline.sh --mode prospective_evaluation \
+  --config /project/disease_ecology/STGNN-production-config/atlas-production.yaml
+```
+
+The launcher trims the value, rejects control characters and values longer
+than 256 UTF-8 bytes, captures it once in the top-level submission manifest,
+and explicitly exports the same value to every P0–P5 job. Unset or blank
+values are recorded as `null`. This field is opaque provenance only: it does
+not affect run IDs, model fitting, scoring, products, or whether anything is
+executed. Historical runs without the field remain valid.
+
 Use `--dry-run` first. The launcher creates a P0→P1→P2→P3→P4→P5 chain with
 `afterok:` dependencies, prints stage/job/dependency/log information, and
 writes a machine-readable submission manifest for real submissions.

@@ -8,6 +8,7 @@ import json
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 
@@ -48,6 +49,75 @@ def make_config(output_root: Path, log_root: Path, prospective_manifest: Path | 
 
 
 class A3OrchestrationTests(unittest.TestCase):
+    def test_chime_execution_id_validation_and_normalization(self) -> None:
+        self.assertIsNone(a3_pipeline.normalize_chime_execution_id(None))
+        self.assertIsNone(a3_pipeline.normalize_chime_execution_id("  \t"))
+        self.assertEqual(
+            a3_pipeline.normalize_chime_execution_id("  manual-correlation-validation-20261007  "),
+            "manual-correlation-validation-20261007",
+        )
+        with self.assertRaises(a3_pipeline.PipelineError):
+            a3_pipeline.normalize_chime_execution_id("valid\ninvalid")
+        with self.assertRaises(a3_pipeline.PipelineError):
+            a3_pipeline.normalize_chime_execution_id("valid\x00invalid")
+        with self.assertRaises(a3_pipeline.PipelineError):
+            a3_pipeline.normalize_chime_execution_id("x" * (a3_pipeline.CHIME_EXECUTION_ID_MAX_BYTES + 1))
+
+    def test_chime_execution_id_is_manifest_provenance_only(self) -> None:
+        scientific = a3_pipeline.validate_frozen_manifest(REPO_ROOT / "config" / "structured_a3.yaml")
+        without_id = a3_pipeline.base_manifest("same-run", "production_fullfit", scientific, REPO_ROOT)
+        with_id = a3_pipeline.base_manifest(
+            "same-run",
+            "production_fullfit",
+            scientific,
+            REPO_ROOT,
+            "manual-correlation-validation-20261007",
+        )
+        self.assertIsNone(without_id["chime_execution_id"])
+        self.assertEqual(with_id["chime_execution_id"], "manual-correlation-validation-20261007")
+        for field in (
+            "run_id",
+            "repository_sha",
+            "scientific_specification_sha256",
+            "predictor_manifest_sha256",
+            "model_name",
+            "theta",
+            "penalty",
+            "domain_node_count",
+        ):
+            self.assertEqual(with_id[field], without_id[field], field)
+
+    def test_chime_execution_id_is_exported_unchanged_to_all_stages(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config = make_config(root / "outputs", root / "logs")
+            scientific = a3_pipeline.validate_frozen_manifest(REPO_ROOT / "config" / "structured_a3.yaml")
+            submitted: list[tuple[list[str], dict]] = []
+
+            def fake_run(command, **kwargs):
+                if command and command[0] == "sbatch":
+                    submitted.append((command, kwargs))
+                return mock.Mock(stdout=f"{len(submitted)}\n")
+
+            with mock.patch.dict(a3_pipeline.os.environ, {a3_pipeline.CHIME_EXECUTION_ID_ENV: "  correlation-A  "}, clear=False):
+                with mock.patch.object(a3_pipeline.subprocess, "run", side_effect=fake_run):
+                    result = a3_pipeline.submit_pipeline(
+                        config,
+                        root / "atlas.yaml",
+                        REPO_ROOT,
+                        "production_fullfit",
+                        "same-run",
+                        scientific,
+                        None,
+                    )
+            self.assertEqual(result, 0)
+            self.assertEqual(len(submitted), len(a3_pipeline.STAGES))
+            manifest = json.loads((root / "logs" / "same-run" / "submission_manifest.json").read_text(encoding="utf-8"))
+            self.assertEqual(manifest["chime_execution_id"], "correlation-A")
+            for command, kwargs in submitted:
+                self.assertIn("--export=ALL", command)
+                self.assertEqual(kwargs["env"][a3_pipeline.CHIME_EXECUTION_ID_ENV], "correlation-A")
+
     def test_exact_frozen_model_guard(self) -> None:
         scientific = a3_pipeline.validate_frozen_manifest(REPO_ROOT / "config" / "structured_a3.yaml")
         self.assertEqual(scientific["model_name"], "STRUCTURED_A3")
@@ -74,6 +144,7 @@ class A3OrchestrationTests(unittest.TestCase):
             output = stream.getvalue()
             self.assertIn("stage=P0 job_id=NOT_SUBMITTED dependency=none", output)
             self.assertIn("stage=P1 job_id=NOT_SUBMITTED dependency=afterok:<job:P0>", output)
+            self.assertIn("chime_execution_id: null", output)
             self.assertIn("submissions: 0", output)
             self.assertFalse((root / "logs").exists())
 

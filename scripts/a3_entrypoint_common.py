@@ -49,6 +49,10 @@ class A3Context:
     def log_root(self) -> Path:
         return Path(str(self.config["logs_root"])).expanduser() / self.run_id
 
+    @property
+    def chime_execution_id(self) -> str | None:
+        return pipeline.current_chime_execution_id()
+
     def input_path(self, key: str, *, required: bool = True) -> Path | None:
         value = self.inputs.get(key)
         if value in (None, ""):
@@ -105,6 +109,8 @@ def write_text(path: Path, text: str) -> None:
 
 
 def write_stage_json(ctx: A3Context, name: str, payload: dict[str, Any], *, output_copy: bool = True) -> None:
+    payload = dict(payload)
+    payload["chime_execution_id"] = ctx.chime_execution_id
     write_json(ctx.log_root / name, payload)
     if output_copy:
         write_json(ctx.output_root / "manifests" / name, payload)
