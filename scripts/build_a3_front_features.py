@@ -187,7 +187,8 @@ def build_front_frame(model_output: Path, response_start: str = RESPONSE_START, 
     classification_path = model_output / "diagnostics" / "updated_observation_classification.parquet"
     nodes_path = raw / "nodes.parquet"
     weeks_path = raw / "weeks.parquet"
-    for path in (manifest_path, classification_path, nodes_path, weeks_path):
+    history_weeks_path = raw / "history_weeks.parquet"
+    for path in (manifest_path, classification_path, nodes_path, weeks_path, history_weeks_path):
         if not path.exists():
             raise RuntimeError(f"required production artifact is missing: {path}")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -197,16 +198,19 @@ def build_front_frame(model_output: Path, response_start: str = RESPONSE_START, 
         raise RuntimeError(f"production nodes are missing columns: {sorted(required_nodes.difference(nodes.columns))}")
     if len(nodes) != NODE_COUNT or not np.array_equal(nodes["model_node_id"].to_numpy(np.int64), np.arange(NODE_COUNT)):
         raise RuntimeError("production nodes do not preserve the canonical 10,037-node order")
-    weeks = pd.read_parquet(weeks_path).sort_values("week_index").reset_index(drop=True)
-    labels = weeks["iso_week"].astype(str).tolist()
+    response_table = pd.read_parquet(weeks_path).sort_values("week_index").reset_index(drop=True)
+    response_labels = response_table["iso_week"].astype(str).tolist()
+    history_table = pd.read_parquet(history_weeks_path).sort_values("history_index").reset_index(drop=True)
+    labels = history_table["iso_week"].astype(str).tolist()
     require_contiguous_weeks(labels)
-    if response_start not in labels:
+    if not set(response_labels).issubset(labels):
+        raise RuntimeError("response week table is not contained in the causal history week table")
+    if response_start not in response_labels:
         raise RuntimeError(f"response start {response_start} is not present in the production week table")
-    response_end = response_end or labels[-1]
-    if response_end not in labels or week_tuple(response_end) < week_tuple(response_start):
+    response_end = response_end or response_labels[-1]
+    if response_end not in response_labels or week_tuple(response_end) < week_tuple(response_start):
         raise RuntimeError("response end is invalid or precedes the response start")
-    response_indices = [index for index, label in enumerate(labels) if week_tuple(response_start) <= week_tuple(label) <= week_tuple(response_end)]
-    response_weeks = [labels[index] for index in response_indices]
+    response_weeks = [label for label in response_labels if week_tuple(response_start) <= week_tuple(label) <= week_tuple(response_end)]
     classification = pd.read_parquet(classification_path)
     week_index = {label: index for index, label in enumerate(labels)}
     counts = _source_counts(classification, week_index, NODE_COUNT)
