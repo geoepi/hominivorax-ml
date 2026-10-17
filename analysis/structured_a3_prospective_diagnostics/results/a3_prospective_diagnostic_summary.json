@@ -1,0 +1,259 @@
+{
+  "analysis": "structured_a3_prospective_failure_mode_analysis",
+  "authoritative_metric_reproduction": {
+    "max_absolute_difference": 9.020562075079397e-17,
+    "pass": true
+  },
+  "evaluation_weeks": [
+    "2026-W30",
+    "2026-W31",
+    "2026-W32",
+    "2026-W33",
+    "2026-W34",
+    "2026-W35",
+    "2026-W36",
+    "2026-W37",
+    "2026-W38",
+    "2026-W39"
+  ],
+  "failure_mode_assessment": {
+    "calibration": "MINOR CONCERN",
+    "count_process": "MAJOR CONCERN",
+    "covariate_shift": "MAJOR CONCERN",
+    "discrimination": "PASS",
+    "front_propagation": "NOT ASSESSABLE",
+    "spatial_residual_dependence": "MAJOR CONCERN",
+    "temporal_stability": "PASS",
+    "us_transfer": "PASS"
+  },
+  "final_decision": "DEVELOP A4",
+  "full_domain_metrics": {
+    "all_cell_mae": 0.1657928004955232,
+    "all_cell_rmse": 0.6431681172806071,
+    "bernoulli_nll": 0.09956773074744382,
+    "brier": 0.03090934771085186,
+    "brier_null": 0.043808401991455935,
+    "brier_skill": 0.2944424743710079,
+    "calibration_intercept": -0.06207528718802026,
+    "calibration_slope": 1.13482172406798,
+    "conditional_mean_from_underlying": 3.1095037787549535,
+    "count_score_family": "zt_nb",
+    "joint_hurdle_nll": 0.1688890834131503,
+    "mean_observed_count": 0.10083690345720833,
+    "mean_predicted_count": 0.15562010482514965,
+    "mean_predicted_probability": 0.05188523125740363,
+    "n_node_weeks": 100370,
+    "observed_detections": 10121,
+    "observed_prevalence": 0.04512304473448241,
+    "positive_count_mae": 1.8528466959239749,
+    "positive_count_rmse": 2.5584584106430417,
+    "positive_count_variance": 5.704460950140946,
+    "positive_count_variance_over_mean": 2.5526631403209508,
+    "positive_mean_observed": 2.2347096489291234,
+    "positive_mean_predicted": 3.1095037787549535,
+    "positive_node_weeks": 4529,
+    "pr_auc": 0.4257889432355094,
+    "pr_auc_over_prevalence": 9.436174924386858,
+    "predicted_detections": 15619.58992130027,
+    "probability_distribution": {
+      "mean_positive_minus_zero": 0.30624646904369063,
+      "mean_positive_to_zero_ratio": 9.045047636369727,
+      "positives": {
+        "mean": 0.3443129271786585,
+        "median": 0.3745160442413586,
+        "n": 4529,
+        "quantiles": {
+          "p25": 0.24937093845098923,
+          "p5": 0.06357071351474662,
+          "p75": 0.4593547789928761,
+          "p95": 0.5287201325061998,
+          "p99": 0.5734189446503676
+        }
+      },
+      "zeros": {
+        "mean": 0.038066458134967895,
+        "median": 0.0014234660976232471,
+        "n": 95841,
+        "quantiles": {
+          "p25": 0.0009830056845148984,
+          "p5": 0.0004939049028529333,
+          "p75": 0.0034822876560912167,
+          "p95": 0.29107980302267844,
+          "p99": 0.47019610940137163
+        }
+      }
+    },
+    "reliability": [
+      {
+        "lower": 0.00023731999824155343,
+        "mean_predicted": 0.0004975632474487528,
+        "n": 10037,
+        "observed_fraction": 0.0,
+        "upper": 0.0006824072051202877
+      },
+      {
+        "lower": 0.0006824072051202877,
+        "mean_predicted": 0.0008000521853469111,
+        "n": 10037,
+        "observed_fraction": 0.0,
+        "upper": 0.0009050451715322641
+      },
+      {
+        "lower": 0.0009050451715322641,
+        "mean_predicted": 0.0010029417566093425,
+        "n": 10037,
+        "observed_fraction": 0.0,
+        "upper": 0.0010955697585360847
+      },
+      {
+        "lower": 0.0010955697585360847,
+        "mean_predicted": 0.001185687922974993,
+        "n": 10037,
+        "observed_fraction": 0.0,
+        "upper": 0.001273717564552863
+      },
+      {
+        "lower": 0.001273717564552863,
+        "mean_predicted": 0.0013699599007450873,
+        "n": 10037,
+        "observed_fraction": 9.963136395337252e-05,
+        "upper": 0.0014758609016526847
+      },
+      {
+        "lower": 0.0014758609016526847,
+        "mean_predicted": 0.0016312984916089384,
+        "n": 10037,
+        "observed_fraction": 9.963136395337252e-05,
+        "upper": 0.0018382711180689594
+      },
+      {
+        "lower": 0.0018382711180689594,
+        "mean_predicted": 0.0022986130973292164,
+        "n": 10037,
+        "observed_fraction": 0.0003985254558134901,
+        "upper": 0.003008135695939836
+      },
+      {
+        "lower": 0.003008135695939836,
+        "mean_predicted": 0.015003280581237113,
+        "n": 10037,
+        "observed_fraction": 0.010859818670917605,
+        "upper": 0.043122298291406506
+      },
+      {
+        "lower": 0.043122298291406506,
+        "mean_predicted": 0.11587822601413315,
+        "n": 10037,
+        "observed_fraction": 0.08319218890106606,
+        "upper": 0.21571436190968984
+      },
+      {
+        "lower": 0.21571436190968984,
+        "mean_predicted": 0.3791846893766029,
+        "n": 10037,
+        "observed_fraction": 0.3565806515891203,
+        "upper": 0.6362491591287263
+      }
+    ],
+    "roc_auc": 0.9548815497066148,
+    "theta": 0.7018903965556372,
+    "training_prevalence": 0.018263290024440434,
+    "zt_nb_nll": 1.5362738280099266
+  },
+  "no_recalibration": true,
+  "no_refit": true,
+  "node_count": 10037,
+  "node_week_count": 100370,
+  "positive_node_weeks": 4529,
+  "prevalence": 0.04512304473448241,
+  "repository_sha": "e29e70d84e18ea3648ed74cf3ade199e53ced28a",
+  "status": "completed",
+  "temporal_trends": [
+    {
+      "ci_high": 0.0004691424427515766,
+      "ci_low": -0.0004969184593688806,
+      "metric": "prevalence",
+      "n_weeks": 10,
+      "p_value": 0.9487645184392786,
+      "slope_per_week": -1.3888008308651989e-05,
+      "trend_flag": "no_clear_monotonic_trend"
+    },
+    {
+      "ci_high": 0.0017927252290001684,
+      "ci_low": -0.009121502528053127,
+      "metric": "brier_skill",
+      "n_weeks": 10,
+      "p_value": 0.1601039282732393,
+      "slope_per_week": -0.0036643886495264792,
+      "trend_flag": "no_clear_monotonic_trend"
+    },
+    {
+      "ci_high": 0.0037703518898829654,
+      "ci_low": -0.009131805228108383,
+      "metric": "pr_auc",
+      "n_weeks": 10,
+      "p_value": 0.36599506376892793,
+      "slope_per_week": -0.002680726669112709,
+      "trend_flag": "no_clear_monotonic_trend"
+    },
+    {
+      "ci_high": 0.00024234744241681842,
+      "ci_low": -0.0012829416405403969,
+      "metric": "roc_auc",
+      "n_weeks": 10,
+      "p_value": 0.15431352269568716,
+      "slope_per_week": -0.0005202970990617892,
+      "trend_flag": "no_clear_monotonic_trend"
+    },
+    {
+      "ci_high": 0.0024732666312142944,
+      "ci_low": -0.0005111094935231408,
+      "metric": "joint_hurdle_nll",
+      "n_weeks": 10,
+      "p_value": 0.16795352190621646,
+      "slope_per_week": 0.0009810785688455768,
+      "trend_flag": "no_clear_monotonic_trend"
+    },
+    {
+      "ci_high": 24.57599019431159,
+      "ci_low": -11.497202315523712,
+      "metric": "observed_detections",
+      "n_weeks": 10,
+      "p_value": 0.4273795550813997,
+      "slope_per_week": 6.53939393939394,
+      "trend_flag": "no_clear_monotonic_trend"
+    },
+    {
+      "ci_high": 70.43024966998402,
+      "ci_low": 52.02481881147601,
+      "metric": "predicted_detections",
+      "n_weeks": 10,
+      "p_value": 3.234616519651322e-07,
+      "slope_per_week": 61.227534240730016,
+      "trend_flag": "increasing"
+    }
+  ],
+  "us_transfer": {
+    "assessment": {
+      "calibration": "MINOR CONCERN",
+      "count_process": "MAJOR CONCERN",
+      "covariate_shift": "MAJOR CONCERN",
+      "discrimination": "PASS",
+      "front_propagation": "NOT ASSESSABLE",
+      "spatial_residual_dependence": "MAJOR CONCERN",
+      "temporal_stability": "PASS",
+      "us_transfer": "PASS"
+    },
+    "count_conditional_median_ratio": 3.067440363979357,
+    "recommendation": "DEVELOP A4",
+    "spatial_occurrence_moran_i": 0.3087012300435901,
+    "spatial_occurrence_permutation_p": 0.005,
+    "spatial_positive_count_moran_i": 0.22321436580250717,
+    "strong_covariate_extrapolation_features": 2,
+    "temporal_major": false,
+    "us_median_positive_percentile": 99.22609576160856,
+    "us_positive_percentile_ge_75": 0.9166666666666666,
+    "us_top10_recall": 0.9166666666666666,
+    "us_useful_rule": "median positive percentile >=75, at least 50% of positive node-weeks >=75th percentile, and top-10% recall >=50%."
+  }
+}
