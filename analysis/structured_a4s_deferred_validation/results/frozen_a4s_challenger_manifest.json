@@ -211,6 +211,13 @@
       "weeks_since_detection_within_50km_log1p": "causal_log1p_weeks_then_development_only_standardization"
     }
   },
+  "frozen_a3_reference": {
+    "manifest_path": "analysis/structured_a3_evaluation/results/frozen_a3_evaluation_manifest.json",
+    "manifest_sha256": "9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61",
+    "model_path": "analysis/structured_a3_evaluation/results/final_a3_model.json",
+    "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+    "production_status": "A3_REMAINS_PRODUCTION"
+  },
   "scientific_caveats": {
     "latent_incidence_claim": false,
     "observation_reporting_bias": "unresolved",
