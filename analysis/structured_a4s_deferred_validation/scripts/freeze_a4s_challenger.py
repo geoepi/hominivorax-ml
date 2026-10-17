@@ -153,7 +153,7 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("A4-S fit horizon is not exactly 2025-W01 through 2026-W16")
     if set(labels[:FIT_WEEK_COUNT]).intersection(PROSPECTIVE_WEEKS):
         raise RuntimeError("W30-W39 entered the challenger fit")
-    if len(data.counts) < FIT_WEEK_COUNT * NODE_COUNT:
+    if np.asarray(data.counts).shape != (FIT_WEEK_COUNT, NODE_COUNT):
         raise RuntimeError("The authorized development response array is incomplete")
 
     raw_train = data.a3.reshape(-1, data.a3.shape[2]).astype(np.float64, copy=False)
