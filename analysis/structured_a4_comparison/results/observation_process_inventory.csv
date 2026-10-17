@@ -1,0 +1,12 @@
+candidate_proxy,source,spatial_resolution,temporal_resolution,missingness,likely_relationship_to_reporting,usable_now,identifiability_concern
+date,/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-10-17.csv,point event,daily/event,0.000000,event timing but not effort,no,No denominator or sampling intensity is recorded.
+host,/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-10-17.csv,point event,event,0.000000,host composition may affect detection,no,Host type is not an observation-effort measure.
+lon/lat,/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-10-17.csv,point event,event,0.000000,event location,no,Location does not identify searched-but-negative areas.
+country_or_domain_region,revised_model_data/raw/nodes.parquet,"10,037 nodes",static,0.000000,geographic stratification only,no,Region is not surveillance effort and is confounded with intervention context.
+surveillance_jurisdiction,searched authorized observation/node inputs,not available,not available,not available,potential effort proxy,no,No field or authorized derived artifact was present in the inventoried inputs.
+reporting_source,searched authorized observation/node inputs,not available,not available,not available,potential effort proxy,no,No field or authorized derived artifact was present in the inventoried inputs.
+sampling_program,searched authorized observation/node inputs,not available,not available,not available,potential effort proxy,no,No field or authorized derived artifact was present in the inventoried inputs.
+inspection_effort,searched authorized observation/node inputs,not available,not available,not available,potential effort proxy,no,No field or authorized derived artifact was present in the inventoried inputs.
+reporting_frequency_metadata,searched authorized observation/node inputs,not available,not available,not available,potential effort proxy,no,No field or authorized derived artifact was present in the inventoried inputs.
+administrative_unit,searched authorized observation/node inputs,not available,not available,not available,potential effort proxy,no,No field or authorized derived artifact was present in the inventoried inputs.
+accessibility_proxy,searched authorized observation/node inputs,not available,not available,not available,potential effort proxy,no,No field or authorized derived artifact was present in the inventoried inputs.

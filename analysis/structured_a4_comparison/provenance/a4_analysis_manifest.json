@@ -1,0 +1,169 @@
+{
+  "a3_baseline_reproduction_max_difference": 1.3322676295501878e-15,
+  "a3_baseline_unchanged": true,
+  "a4_o": {
+    "latent_probability_cap": true,
+    "reporting_rate_scenarios": [
+      0.5,
+      0.75,
+      1.0
+    ]
+  },
+  "a4_s": {
+    "graph_lambda": 0.5,
+    "permutation_count": 199,
+    "permutation_seed": 20261017,
+    "residual_scale": 1.0
+  },
+  "analysis": "structured_a4_architecture_comparison",
+  "candidate_decision": "HOLD \u2014 NO A4 CANDIDATE JUSTIFIED",
+  "candidate_scope": {
+    "not_run": {
+      "A4-G": "Optional graph/STGNN challenger is outside this tightly constrained first A4 comparison and requires a separate authorized phase.",
+      "A4-SO": "Observation component is sensitivity-only and not identified from available inputs; spatial-plus-observation combination is therefore not promoted to fitting."
+    },
+    "run": [
+      "A3",
+      "A4-S",
+      "A4-C",
+      "A4-SC",
+      "A4-O"
+    ]
+  },
+  "canonical_baseline_sha": "fae2d0f08c72a018338b9359543cfd2b88d7d8e2",
+  "decision_evidence": {
+    "eligible_candidates": [],
+    "not_advanced": {
+      "A4-C": "us_ranking_not_assessable; structural_improvement",
+      "A4-S": "us_ranking_not_assessable",
+      "A4-SC": "us_ranking_not_assessable"
+    }
+  },
+  "development_period": {
+    "end": "2026-W16",
+    "excluded_prospective_weeks": [
+      "2026-W30",
+      "2026-W31",
+      "2026-W32",
+      "2026-W33",
+      "2026-W34",
+      "2026-W35",
+      "2026-W36",
+      "2026-W37",
+      "2026-W38",
+      "2026-W39"
+    ],
+    "start": "2025-W01",
+    "week_count": 68
+  },
+  "feature_order": [
+    "era5_mintemp",
+    "era5_soilmoist",
+    "era5_lai_low",
+    "agera5_relhum_min",
+    "era5land_tmean",
+    "era5land_soiltemp_l1_mean",
+    "era5land_soiltemp_l2_mean",
+    "era5land_soilwater_l1_mean",
+    "era5land_soilwater_l2_mean",
+    "era5land_surface_pressure_mean",
+    "era5land_lai_high_mean",
+    "era5land_lai_low_mean",
+    "cattle_density",
+    "goat_density",
+    "sheep_density",
+    "horse_density",
+    "pig_density",
+    "cattle_density_imputed",
+    "goat_density_imputed",
+    "sheep_density_imputed",
+    "horse_density_imputed",
+    "pig_density_imputed",
+    "week_sin",
+    "week_cos",
+    "distance_to_any_prior_positive_log1p",
+    "distance_to_prev4_positive_log1p",
+    "weeks_since_detection_within_50km_log1p",
+    "any_prior_positive_available",
+    "prev4_positive_available",
+    "detection_within_50km_ever_available",
+    "road_density",
+    "night_illumination",
+    "clay_0_15",
+    "water_difference_wv0033_minus_wv0010_0_15"
+  ],
+  "folds": [
+    {
+      "fold": 1,
+      "train_end": "2025-W26",
+      "train_start": "2025-W01",
+      "validation_end": "2025-W39",
+      "validation_start": "2025-W27"
+    },
+    {
+      "fold": 2,
+      "train_end": "2025-W39",
+      "train_start": "2025-W01",
+      "validation_end": "2025-W52",
+      "validation_start": "2025-W40"
+    },
+    {
+      "fold": 3,
+      "train_end": "2025-W52",
+      "train_start": "2025-W01",
+      "validation_end": "2026-W08",
+      "validation_start": "2026-W01"
+    },
+    {
+      "fold": 4,
+      "train_end": "2026-W08",
+      "train_start": "2025-W01",
+      "validation_end": "2026-W16",
+      "validation_start": "2026-W09"
+    }
+  ],
+  "generated_utc": "2026-10-17T23:17:55+00:00",
+  "input_sha256": {
+    "a3_fold_reference": "3d7e58333486505904903746a309a0ae260a6b230f663d29af234b1f14f7c89c",
+    "anthropogenic_features": "cb9c6275141cdad33f3563b1c4125d6f97afd7381325a71dcf20d5e1e76e26c6",
+    "causal_front_features": "7f0f366af90cb3e4da3c3259da9cea01eaccd05c2e22de238f7ae238cfe13dba",
+    "config": "4172ea83f1045c33a9a4d080e30bc7cdeae8d243d2122fd553738442ec538235",
+    "dynamic_features": "91e353804469e59851e8eaef7c7fc21b7b26614eaccd1299a9f7666b578705df",
+    "edges": "539876a1528c84f2bf7ab97f5b8f20b3da480cb1c705ac47611542e4a00ad9a7",
+    "model_manifest": "ce60e713ccaf1651f0a9724bd7209c52ee83ee6efa4613a9ffc3b2882b8c74b7",
+    "nodes": "942215b94236e7b01596c6681aaed4d9c54e07f9e7fcbd68313d6b7998d4050a",
+    "observation_source": "13ada45bf760f4690a64ebcd147b5743b23527c60650e635dcf1d071eb63653e",
+    "soil_features": "58fcd1314c91f4d792ee221e9d9b7d9d01676087ea953b81a602dc2345bfd4b9",
+    "static_features": "c629df4b9658c11c3330d8b6ddbba1a64ce597df5c722554ea0560a2973e4f75",
+    "targets_count": "651cddb515db515db298a68f94324199387239de9df6e68fc96c8ad75ae96a05",
+    "weeks": "0442ffb577797e82c4fa8c650e0b09c65c487fb774ff9d2f2662885accc42d34"
+  },
+  "model_constants": {
+    "a4_c_penalty": 0.01,
+    "a4_c_theta_bounds": [
+      0.05,
+      10.0
+    ],
+    "optimizer_maxiter": 2000,
+    "penalty_a3": 0.01,
+    "theta_a3": 0.7018903965556372
+  },
+  "node_count": 10037,
+  "observation_proxy_count_usable_now": 0,
+  "predictor_count": 34,
+  "prospective_data_loaded": false,
+  "prospective_selection_used": false,
+  "repository_sha": "fae2d0f08c72a018338b9359543cfd2b88d7d8e2",
+  "runtime": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "python": "3.12.14"
+  },
+  "script_sha256": {
+    "augmentation_fitter.py": "24fd9ac11dd5be7e3577238bbe057199607b31ae372d10f860dd936c178bf9ca",
+    "config": "4172ea83f1045c33a9a4d080e30bc7cdeae8d243d2122fd553738442ec538235",
+    "run_a4_comparison.py": "d28be8d1377920f354f07f5d27b206db56ea9cad230321ec6f2108a178c0e3d6"
+  },
+  "sit_included": false,
+  "status": "completed"
+}

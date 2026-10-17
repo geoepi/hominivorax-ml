@@ -1,0 +1,4 @@
+candidate,us_ranking_assessable,occurrence_preserved,worst_fold_preserved,us_ranking_preserved,calibration_not_collapsed,structural_improvement,passes_all_guardrails,failure_reasons
+A4-S,False,True,True,False,True,True,False,us_ranking_not_assessable
+A4-C,False,True,True,False,True,False,False,us_ranking_not_assessable; structural_improvement
+A4-SC,False,True,True,False,True,True,False,us_ranking_not_assessable

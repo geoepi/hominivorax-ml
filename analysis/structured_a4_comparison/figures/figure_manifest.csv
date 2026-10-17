@@ -1,0 +1,10 @@
+figure,status,note
+candidate_pr_auc,rendered,Static blocked-development diagnostic; no prospective W30-W39 values used.
+candidate_brier_skill,rendered,Static blocked-development diagnostic; no prospective W30-W39 values used.
+candidate_joint_nll,rendered,Static blocked-development diagnostic; no prospective W30-W39 values used.
+candidate_count_observed_vs_predicted,rendered,Static blocked-development diagnostic; no prospective W30-W39 values used.
+candidate_residual_moran_i,rendered,Static blocked-development diagnostic; no prospective W30-W39 values used.
+residual_spatial_map,rendered,Static blocked-development diagnostic; no prospective W30-W39 values used.
+us_top_k_capture,rendered,Static blocked-development diagnostic; no prospective W30-W39 values used.
+extrapolative_regime_performance,rendered,Static blocked-development diagnostic; no prospective W30-W39 values used.
+complexity_vs_performance,rendered,Static blocked-development diagnostic; no prospective W30-W39 values used.
