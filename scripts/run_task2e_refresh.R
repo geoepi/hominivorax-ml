@@ -11,6 +11,7 @@ repository_root <- normalizePath(file.path(dirname(script_path), ".."), winslash
 setwd(repository_root)
 
 source("R/date_utils.R")
+source("R/observation_audit.R")
 source("R/revised_domain_audit.R")
 
 task2d_require(c("arrow", "data.table", "digest", "jsonlite", "sf", "terra", "ggplot2", "scales"))
@@ -27,24 +28,28 @@ value_for <- function(args, flag, default = NULL, required = FALSE) {
 
 cli <- commandArgs(trailingOnly = TRUE)
 source_root <- value_for(cli, "--source-output-root", Sys.getenv("STGNN_OUTPUT_ROOT", "/project/disease_ecology/STGNN-output"))
+previous_root <- value_for(cli, "--previous-output-root", Sys.getenv("STGNN_PREVIOUS_OUTPUT_ROOT", "/project/disease_ecology/STGNN-output"))
 model_output <- value_for(cli, "--model-output", Sys.getenv("STGNN_MODEL_OUTPUT_ROOT", "/project/disease_ecology/STGNN-output/revised_model_data"))
-observation_path <- value_for(cli, "--observation-path", "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2027-07-31.csv")
+observation_path <- value_for(cli, "--observation-path", "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-10-17.csv")
 boundary_path <- value_for(cli, "--boundary-path", Sys.getenv("STGNN_BOUNDARY_PATH", ""), required = TRUE)
 boundary_layer <- value_for(cli, "--boundary-layer", Sys.getenv("STGNN_BOUNDARY_LAYER", "study_states"))
-analysis_start <- as.Date(value_for(cli, "--analysis-start", "2024-01-01"))
-analysis_end <- as.Date(value_for(cli, "--analysis-end", "2026-07-19"))
+analysis_start <- iso_week_start(as.Date(value_for(cli, "--analysis-start", "2024-01-01")))
+analysis_end_value <- value_for(cli, "--analysis-end", NA_character_)
+analysis_end <- if (is.na(analysis_end_value) || !nzchar(analysis_end_value)) NULL else iso_week_start(as.Date(analysis_end_value))
 response_start <- value_for(cli, "--response-start", "2025-W01")
-response_end <- value_for(cli, "--response-end", "2026-W29")
+response_end_value <- value_for(cli, "--response-end", NA_character_)
+response_end <- if (is.na(response_end_value) || !nzchar(response_end_value)) NULL else response_end_value
 task2d_commit <- value_for(cli, "--task2d-commit", "e18777f1d98c539c92acc9ba1e7e4deb84b54319")
 git_sha <- value_for(cli, "--git-sha", Sys.getenv("STGNN_GIT_SHA", "unknown"))
 
-if (analysis_end < analysis_start) stop("analysis end precedes analysis start")
+if (!is.null(analysis_end) && is.na(analysis_end)) stop("analysis end is invalid")
+if (!is.null(analysis_end) && analysis_end < analysis_start) stop("analysis end precedes analysis start")
 dir.create(model_output, recursive = TRUE, showWarnings = FALSE)
 invisible(lapply(file.path(model_output, c("raw", "splits", "scaling", "predictions", "diagnostics", "manifests")), dir.create, recursive = TRUE, showWarnings = FALSE))
 
 old_raw <- file.path(source_root, "model_data", "raw")
 old_split <- file.path(source_root, "model_data", "splits")
-old_revised <- file.path(source_root, "revised_domain")
+old_revised <- file.path(previous_root, "revised_domain")
 nodes_path <- file.path(old_raw, "nodes.parquet")
 edges_path <- file.path(old_raw, "edges_queen.parquet")
 weeks_path <- file.path(old_raw, "weeks.parquet")
@@ -77,7 +82,17 @@ weeks$week_end <- as.Date(weeks$week_end)
 if (!identical(as.integer(nodes$node_id), seq.int(0L, nrow(nodes) - 1L))) stop("canonical nodes are not zero-based contiguous")
 if (!all(c("source_node", "target_node") %in% names(edges))) stop("canonical edges lack source_node/target_node")
 if (any(edges$source_node < 0L | edges$target_node < 0L | edges$source_node >= nrow(nodes) | edges$target_node >= nrow(nodes))) stop("canonical edges are out of bounds")
-if (nrow(weeks) != 133L || !identical(weeks$iso_week, iso_week_id(weeks$week_start))) stop("canonical weeks are not the expected 133 ISO weeks")
+if (!nrow(weeks) || !identical(as.character(weeks$iso_week), iso_week_id(weeks$week_start))) stop("canonical weeks are not valid ISO weeks")
+if (anyDuplicated(weeks$iso_week) || !all(weeks$week_start == iso_week_start(weeks$week_start))) stop("canonical weeks are not contiguous Monday-aligned weeks")
+expected_weeks <- iso_week_id(seq(min(weeks$week_start), max(weeks$week_start), by = "7 days"))
+if (!identical(as.character(weeks$iso_week), expected_weeks)) stop("canonical weeks contain a gap")
+if (is.null(analysis_end)) analysis_end <- max(weeks$week_start)
+if (analysis_end > max(weeks$week_start)) stop("analysis end exceeds the environmental bundle horizon")
+weeks <- weeks[weeks$week_start <= analysis_end, , drop = FALSE]
+weeks$week_index <- seq_len(nrow(weeks)) - 1L
+response_end <- if (is.null(response_end)) tail(weeks$iso_week, 1L) else response_end
+if (!response_start %in% weeks$iso_week || !response_end %in% weeks$iso_week) stop("response horizon is not contained in the canonical weeks")
+if (response_end < response_start) stop("response end precedes response start")
 if (!all(c("week_sin", "week_cos") %in% names(calendar))) stop("calendar features lack week_sin/week_cos")
 
 feature_manifest <- jsonlite::fromJSON(feature_manifest_path, simplifyVector = FALSE)
@@ -141,7 +156,6 @@ if (!isTRUE(all.equal(old_revised_edges[, c("source_node", "target_node")], revi
 message("Reading and spatially classifying the updated observation source")
 raw_observations <- data.table::fread(observation_path, showProgress = FALSE)
 raw_observations$source_row_id <- seq_len(nrow(raw_observations))
-old_row_count <- 136670L
 new_row_count <- nrow(raw_observations)
 raw_observations$date <- suppressWarnings(parse_strict_date(as.character(raw_observations$date)))
 raw_observations$lon <- suppressWarnings(as.numeric(raw_observations$lon))
@@ -180,22 +194,24 @@ new_us <- raw_observations$source_group == "United States"
 new_mexico <- raw_observations$source_group == "Mexico"
 valid_lat <- raw_observations$lat[valid_coordinate]
 us_dates <- raw_observations$date[new_us & valid_date]
+observation_audit <- audit_observations(observation_path, analysis_start)
 source_change <- data.frame(
-  old_sha256 = "099f5fcc61dbd3686bd9bfd0dbfb0a4e37a36f2cba8b443580d2c456544f8a41",
-  new_sha256 = task2d_sha256(observation_path), old_row_count = old_row_count, new_row_count = new_row_count,
-  row_count_change = new_row_count - old_row_count, valid_coordinate_count = sum(valid_coordinate), valid_date_count = sum(valid_date),
+  source_sha256 = task2d_sha256(observation_path), row_count = new_row_count,
+  valid_coordinate_count = sum(valid_coordinate), valid_date_count = sum(valid_date),
   new_us_observation_count = sum(new_us), new_mexico_observation_count = sum(new_mexico),
-  assumed_new_observation_count = max(0L, new_row_count - old_row_count),
-  assumed_new_2024 = sum(new_us & format(raw_observations$date, "%Y") == "2024", na.rm = TRUE),
-  assumed_new_2025 = sum(new_us & format(raw_observations$date, "%Y") == "2025", na.rm = TRUE),
-  assumed_new_2026 = sum(new_us & format(raw_observations$date, "%Y") == "2026", na.rm = TRUE),
-  minimum_latitude = min(valid_lat, na.rm = TRUE), maximum_latitude = max(valid_lat, na.rm = TRUE),
-  earliest_us_observation_date = if (length(us_dates)) min(us_dates) else as.Date(NA),
-  latest_us_observation_date = if (length(us_dates)) max(us_dates) else as.Date(NA),
-  old_source_available_for_row_level_diff = FALSE,
+  observations_in_canonical_geographic_domain = sum(raw_observations$geographic_domain, na.rm = TRUE),
+  observations_inside_environmental_support = sum(raw_observations$geographic_domain & raw_observations$environmental_support, na.rm = TRUE),
+  observations_outside_environmental_support = sum(raw_observations$geographic_domain & !raw_observations$environmental_support, na.rm = TRUE),
+  observations_outside_geographic_domain = sum(!raw_observations$geographic_domain, na.rm = TRUE),
+  minimum_date = if (any(valid_date)) min(raw_observations$date[valid_date]) else as.Date(NA),
+  maximum_date = if (any(valid_date)) max(raw_observations$date[valid_date]) else as.Date(NA),
+  maximum_iso_week = if (any(valid_date)) iso_week_id(max(raw_observations$date[valid_date])) else NA_character_,
+  exact_duplicate_rows = observation_audit$exact_duplicate_rows,
+  duplicate_lon_lat_date = observation_audit$duplicate_lon_lat_date,
   stringsAsFactors = FALSE
 )
 task2d_write_table(source_change, file.path(model_output, "diagnostics", "observation_source_change"))
+task2d_write_json(observation_audit[c("path", "sha256", "row_count", "min_valid_date", "max_valid_date", "exact_duplicate_rows", "duplicate_lon_lat_date", "weekly_record_counts", "candidate_period")], file.path(model_output, "diagnostics", "observation_source_audit.json"))
 
 us_state_summary <- if (nrow(us_details)) as.data.frame(table(state = us_details$state, useNA = "ifany"), stringsAsFactors = FALSE) else data.frame(state = character(), Freq = integer())
 names(us_state_summary)[names(us_state_summary) == "Freq"] <- "observations"
@@ -207,10 +223,10 @@ task2d_write_table(us_state_summary, file.path(model_output, "diagnostics", "us_
 task2d_write_table(us_month_summary, file.path(model_output, "diagnostics", "us_observations_by_month"))
 task2d_write_table(us_week_summary, file.path(model_output, "diagnostics", "us_observations_by_iso_week"))
 
-analysis_selection <- valid_date & raw_observations$date >= analysis_start & raw_observations$date <= analysis_end & raw_observations$iso_week %in% weeks$iso_week
+analysis_selection <- valid_date & raw_observations$date >= analysis_start & raw_observations$date <= (max(weeks$week_start) + 6L) & raw_observations$iso_week %in% weeks$iso_week
 analysis_observations <- as.data.frame(raw_observations[analysis_selection, ])
 target_weeks <- which(weeks$iso_week >= response_start & weeks$iso_week <= response_end)
-if (length(target_weeks) != 81L) stop("approved response period is not 81 weeks")
+if (!length(target_weeks)) stop("response horizon contains no weeks")
 
 make_counts <- function(node_column, n_nodes) {
   selected <- analysis_observations[[node_column]]
@@ -224,7 +240,7 @@ make_counts <- function(node_column, n_nodes) {
 canonical_counts <- make_counts("canonical_node_id", nrow(nodes))
 revised_counts <- canonical_counts[, revised_indices, drop = FALSE]
 revised_presence <- revised_counts > 0
-if (nrow(revised_counts) != 133L || ncol(revised_counts) != 10037L) stop("refreshed canonical/revised targets have unexpected dimensions")
+if (nrow(revised_counts) != nrow(weeks) || ncol(revised_counts) != 10037L) stop("refreshed canonical/revised targets have unexpected dimensions")
 if (!isTRUE(all.equal(revised_presence, revised_counts > 0))) stop("presence does not equal count > 0")
 
 region_by_revised_node <- revised_nodes$country_or_domain_region
@@ -268,7 +284,7 @@ regional_summary <- do.call(rbind, lapply(c("Mexico", "U.S.-to-40N"), function(r
   node_selection <- region_by_revised_node == region
   source_selection <- analysis_observations$source_group == ifelse(region == "Mexico", "Mexico", "United States")
   y <- revised_counts[, node_selection, drop = FALSE]
-  data.frame(region = region, nodes = sum(node_selection), possible_node_weeks_2025_plus = 81L * sum(node_selection), positive_node_weeks_2025_plus = sum(y[target_weeks, , drop = FALSE] > 0), detections_2025_plus = sum(source_selection & analysis_observations$iso_week >= response_start), occupied_nodes_2025_plus = sum(colSums(y[target_weeks, , drop = FALSE] > 0) > 0), stringsAsFactors = FALSE)
+  data.frame(region = region, nodes = sum(node_selection), possible_node_weeks_response = length(target_weeks) * sum(node_selection), positive_node_weeks_response = sum(y[target_weeks, , drop = FALSE] > 0), detections_response = sum(source_selection & analysis_observations$iso_week >= response_start), occupied_nodes_response = sum(colSums(y[target_weeks, , drop = FALSE] > 0) > 0), stringsAsFactors = FALSE)
 }))
 regional_weekly <- rbind(data.frame(week_start = weekly$week_start, iso_week = weekly$iso_week, region = "Mexico", detections = weekly$records_Mexico, stringsAsFactors = FALSE), data.frame(week_start = weekly$week_start, iso_week = weekly$iso_week, region = "U.S.-to-40N", detections = weekly[["records_U.S.-to-40N"]], stringsAsFactors = FALSE))
 latitude_breaks <- c(-Inf, 20, 25, 30, 35, 40); latitude_labels <- c("<20N", "20-25N", "25-30N", "30-35N", "35-40N")
@@ -280,7 +296,7 @@ message("Writing refreshed response arrays and contract artifacts")
 raw_output <- file.path(model_output, "raw")
 dynamic_result <- task2d_npy_subset(dynamic_path, file.path(raw_output, "dynamic_features.npy"), revised_indices, target_weeks)
 history_result <- task2d_npy_subset(history_path, file.path(raw_output, "dynamic_history_features.npy"), revised_indices)
-if (!identical(as.integer(dynamic_result$output_shape), c(81L, 10037L, 12L))) stop("dynamic response array has unexpected shape")
+if (!identical(as.integer(dynamic_result$output_shape), c(length(target_weeks), 10037L, 12L))) stop("dynamic response array has unexpected shape")
 static_revised <- static_original[revised_indices, , drop = FALSE]
 write_npy_matrix(static_revised, file.path(raw_output, "static_features.npy"), static_header$descr)
 if (!identical(as.integer(dim(static_revised)), c(10037L, 10L))) stop("static response array has unexpected shape")
@@ -317,11 +333,19 @@ folds <- list(
   list(fold = 4L, train_indices = make_range("2025-W01", "2026-W08"), validation_indices = make_range("2026-W09", "2026-W16"), train_weeks = c("2025-W01", "2026-W08"), validation_weeks = c("2026-W09", "2026-W16"))
 )
 if (!all(vapply(folds, function(x) length(x$train_indices) > 0 && length(x$validation_indices) > 0, logical(1L)))) stop("invalid temporal fold")
-split_manifest <- list(response_start = response_start, response_end = response_end, response_week_count = length(response_labels), development_weeks = c("2025-W01", "2026-W16"), development_indices = 0:67, final_test = list(weeks = c("2026-W17", "2026-W29"), indices = 68:80, week_count = 13L), temporal_folds = folds, evaluation_mode = "development", terminal_holdout_predictive_metrics_calculated = FALSE)
+previous_manifest_path <- file.path(old_revised, "manifests", "revised_production_manifest.json")
+previous_split_path <- file.path(old_revised, "splits", "temporal_splits.json")
+previous_manifest <- if (file.exists(previous_manifest_path)) jsonlite::fromJSON(previous_manifest_path, simplifyVector = FALSE) else list()
+previous_splits <- if (file.exists(previous_split_path)) jsonlite::fromJSON(previous_split_path, simplifyVector = FALSE) else list()
+previous_response_end <- if (!is.null(previous_splits$response_end)) as.character(previous_splits$response_end) else if (!is.null(previous_manifest$response$end)) as.character(previous_manifest$response$end) else NA_character_
+historical_terminal_indices <- if (!is.null(previous_splits$final_test$indices)) as.integer(unlist(previous_splits$final_test$indices)) else integer()
+newly_added_indices <- if (!is.na(previous_response_end)) which(response_labels > previous_response_end) - 1L else integer()
+development_indices <- if (!is.null(previous_splits$development_indices)) as.integer(unlist(previous_splits$development_indices)) else integer()
+split_manifest <- list(response_start = response_start, response_end = response_end, response_week_count = length(response_labels), historical_response_end = previous_response_end, development_indices = development_indices, historical_terminal_indices = historical_terminal_indices, newly_added_indices = newly_added_indices, temporal_folds = folds, evaluation_mode = "production_refresh", terminal_holdout_predictive_metrics_calculated = FALSE)
 task2d_write_json(split_manifest, file.path(model_output, "splits", "temporal_splits.json"))
-task2d_write_json(list(response_start = response_start, response_end = response_end, response_week_count = length(response_labels), terminal_holdout = c("2026-W17", "2026-W29"), terminal_holdout_indices = 68:80, predictive_metrics_calculated = FALSE), file.path(model_output, "splits", "response_period.json"))
+task2d_write_json(list(response_start = response_start, response_end = response_end, response_week_count = length(response_labels), historical_response_end = previous_response_end, historical_terminal_indices = historical_terminal_indices, newly_added_indices = newly_added_indices, predictive_metrics_calculated = FALSE), file.path(model_output, "splits", "response_period.json"))
 
-feature_contract <- list(task = "2E", dynamic_feature_names = dynamic_feature_names, static_feature_names = static_feature_names, calendar_feature_names = calendar_feature_names, predictor_order = c(dynamic_feature_names, static_feature_names, calendar_feature_names), predictor_count = 24L, calendar_period_weeks = 52.1775, dynamic_features_shape = c(81L, 10037L, 12L), static_features_shape = c(10037L, 10L), targets_count_shape = c(81L, 10037L), targets_presence_shape = c(81L, 10037L), response_definition = "count is recorded detections assigned to a revised-domain node-week; presence is count > 0", zero_semantics = "no recorded detection, not confirmed biological absence", coordinate_features_excluded = TRUE, response_lags_excluded = TRUE, environmental_lags_excluded = TRUE, spatial_features_excluded = TRUE, livestock_transform = "log1p density columns only before fold standardization; indicators remain 0/1", calendar_transform = "natural sine/cosine scale", source = "updated observation source")
+feature_contract <- list(task = "2E", dynamic_feature_names = dynamic_feature_names, static_feature_names = static_feature_names, calendar_feature_names = calendar_feature_names, predictor_order = c(dynamic_feature_names, static_feature_names, calendar_feature_names), predictor_count = 24L, calendar_period_weeks = 52.1775, dynamic_features_shape = c(length(response_labels), 10037L, 12L), static_features_shape = c(10037L, 10L), targets_count_shape = c(length(response_labels), 10037L), targets_presence_shape = c(length(response_labels), 10037L), response_definition = "count is recorded detections assigned to a revised-domain node-week; presence is count > 0", zero_semantics = "no recorded detection, not confirmed biological absence", coordinate_features_excluded = TRUE, response_lags_excluded = TRUE, environmental_lags_excluded = TRUE, spatial_features_excluded = TRUE, livestock_transform = "log1p density columns only before fold standardization; indicators remain 0/1", calendar_transform = "natural sine/cosine scale", source = "updated observation source")
 task2d_write_json(feature_contract, file.path(raw_output, "feature_manifest.json"))
 
 task2d_write_table(weekly, file.path(model_output, "diagnostics", "weekly_observation_regime"))
@@ -336,7 +360,7 @@ task2d_write_json(list(total_target_records = sum(revised_counts[target_weeks, ]
 
 task2d_save_figures(file.path(model_output, "diagnostics", "figures"), weekly, candidates, analysis_observations, boundary_wgs84, nodes, revised_nodes, latitude_band_weekly, regional_weekly)
 
-source_info <- list(path = normalizePath(observation_path, winslash = "/", mustWork = TRUE), sha256 = task2d_sha256(observation_path), row_count = new_row_count, file_mtime = as.character(file.info(observation_path)$mtime), valid_coordinate_count = sum(valid_coordinate), valid_date_count = sum(valid_date), minimum_date = as.character(min(raw_observations$date, na.rm = TRUE)), maximum_date = as.character(max(raw_observations$date, na.rm = TRUE)), old_sha256 = source_change$old_sha256, old_row_count = old_row_count, source_revision_newer_than_task2d = TRUE)
-manifest <- list(task = "2E", status = "production_dataset_built_audit_complete", branch = Sys.getenv("STGNN_GIT_BRANCH", "feature/revised-domain-baselines"), git_sha = git_sha, task2d_domain_commit = task2d_commit, observation_source = source_info, source_change_audit = task2d_jsonable(source_change), boundary = list(path = normalizePath(boundary_path, winslash = "/", mustWork = TRUE), layer = boundary_layer, country_field = boundary_code_info$field, state_field = state_field, rule = "Mexico plus existing U.S. study footprint south of 40 degrees north"), revised_domain = list(node_count = nrow(revised_nodes), canonical_node_order_verified = TRUE, graph_checksum = task2d_sha256(file.path(model_output, "raw", "edges_queen.parquet")), graph_statistics = revised_graph_qa), response = list(start = response_start, end = response_end, week_count = length(response_labels), positive_node_weeks = sum(revised_counts[target_weeks, ] > 0), positive_fraction = mean(revised_counts[target_weeks, ] > 0), mexico_positive_node_weeks = sum(revised_counts[target_weeks, , drop = FALSE][, region_by_revised_node == "Mexico", drop = FALSE] > 0), us_positive_node_weeks = sum(revised_counts[target_weeks, , drop = FALSE][, region_by_revised_node == "U.S.-to-40N", drop = FALSE] > 0)), feature_order = c(dynamic_feature_names, static_feature_names, calendar_feature_names), array_shapes = list(dynamic_features = c(81L, 10037L, 12L), static_features = c(10037L, 10L), targets_count = c(81L, 10037L), targets_presence = c(81L, 10037L)), fold_definitions = folds, terminal_holdout = split_manifest$final_test, observation_semantics = "recorded detections / no recorded detection", predictive_models_fitted = FALSE, terminal_holdout_metrics_calculated = FALSE, baseline_results_pending = TRUE, task2d_quantities_refreshed = TRUE, task2d_historical_manifest_preserved = TRUE)
+source_info <- list(path = normalizePath(observation_path, winslash = "/", mustWork = TRUE), sha256 = task2d_sha256(observation_path), row_count = new_row_count, file_mtime = as.character(file.info(observation_path)$mtime), valid_coordinate_count = sum(valid_coordinate), valid_date_count = sum(valid_date), minimum_date = if (any(valid_date)) as.character(min(raw_observations$date[valid_date])) else NA_character_, maximum_date = if (any(valid_date)) as.character(max(raw_observations$date[valid_date])) else NA_character_, maximum_iso_week = if (any(valid_date)) iso_week_id(max(raw_observations$date[valid_date])) else NA_character_, duplicate_diagnostics = list(exact_duplicate_rows = observation_audit$exact_duplicate_rows, duplicate_lon_lat_date = observation_audit$duplicate_lon_lat_date))
+manifest <- list(task = "2E", status = "production_dataset_built_audit_complete", branch = Sys.getenv("STGNN_GIT_BRANCH", "feature/2026-10-production-refresh"), git_sha = git_sha, task2d_domain_commit = task2d_commit, observation_source = source_info, source_change_audit = task2d_jsonable(source_change), authoritative_observation_maximum_date = source_info$maximum_date, authoritative_observation_maximum_week = source_info$maximum_iso_week, environmental_maximum_complete_week = tail(weeks$iso_week, 1L), final_usable_response_predictor_week = response_end, boundary = list(path = normalizePath(boundary_path, winslash = "/", mustWork = TRUE), layer = boundary_layer, country_field = boundary_code_info$field, state_field = state_field, rule = "Mexico plus existing U.S. south-of-40 degrees N domain"), revised_domain = list(node_count = nrow(revised_nodes), canonical_node_order_verified = TRUE, graph_checksum = task2d_sha256(file.path(model_output, "raw", "edges_queen.parquet")), graph_statistics = revised_graph_qa), response = list(start = response_start, end = response_end, week_count = length(response_labels), positive_node_weeks = sum(revised_counts[target_weeks, ] > 0), positive_fraction = mean(revised_counts[target_weeks, ] > 0), mexico_positive_node_weeks = sum(revised_counts[target_weeks, , drop = FALSE][, region_by_revised_node == "Mexico", drop = FALSE] > 0), us_positive_node_weeks = sum(revised_counts[target_weeks, , drop = FALSE][, region_by_revised_node == "U.S.-to-40N", drop = FALSE] > 0)), feature_order = c(dynamic_feature_names, static_feature_names, calendar_feature_names), array_shapes = list(dynamic_features = c(length(response_labels), 10037L, 12L), static_features = c(10037L, 10L), targets_count = c(length(response_labels), 10037L), targets_presence = c(length(response_labels), 10037L)), fold_definitions = folds, historical_response_end = previous_response_end, historical_terminal_indices = historical_terminal_indices, newly_added_indices = newly_added_indices, observation_semantics = "recorded detections / no recorded detection", predictive_models_fitted = FALSE, terminal_holdout_predictive_metrics_calculated = FALSE, baseline_results_pending = TRUE, task2d_quantities_refreshed = TRUE, task2d_historical_manifest_preserved = TRUE)
 task2d_write_json(manifest, file.path(model_output, "manifests", "revised_production_manifest.json"))
 message("Task 2E dataset refresh complete: ", normalizePath(model_output, winslash = "/", mustWork = TRUE))

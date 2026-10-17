@@ -75,14 +75,16 @@ def week_range(start: str, end: str) -> list[str]:
 
 def fold_dates(weeks: pd.DataFrame) -> tuple[list[int], list[int], list[dict[str, Any]]]:
     labels = weeks["iso_week"].astype(str).tolist()
-    expected = week_range("2024-W01", "2026-W29")
+    if len(labels) < 26 or labels[0] != "2024-W01":
+        raise AssertionError("target weeks must start at 2024-W01 and contain a terminal holdout")
+    expected = week_range("2024-W01", labels[-1])
     if labels != expected:
         raise AssertionError("target weeks are not the expected consecutive ISO weeks")
     test_indices = list(range(len(labels) - 26, len(labels)))
     dev_indices = list(range(len(labels) - 26))
-    expected_test = week_range("2026-W04", "2026-W29")
+    expected_test = week_range(labels[test_indices[0]], labels[test_indices[-1]])
     if [labels[i] for i in test_indices] != expected_test:
-        raise AssertionError("final test interval is not 2026-W04 through 2026-W29")
+        raise AssertionError("final test interval is not the terminal 26-week horizon")
     folds_spec = [
         ("2024-W01", "2024-W52", "2025-W01", "2025-W13"),
         ("2024-W01", "2025-W13", "2025-W14", "2025-W26"),
@@ -106,8 +108,6 @@ def fold_dates(weeks: pd.DataFrame) -> tuple[list[int], list[int], list[dict[str
             "train_week_count": len(train),
             "validation_week_count": len(valid),
         })
-    if len(dev_indices) != 107:
-        raise AssertionError("development period must contain 107 weeks")
     return dev_indices, test_indices, folds
 
 
@@ -507,10 +507,19 @@ def main() -> int:
     nodes = pd.read_parquet(raw / "nodes.parquet")
     edges = pd.read_parquet(raw / "edges_queen.parquet")
 
-    expected = {"dynamic": (133, 16756, 12), "static": (16756, 10), "counts": (133, 16756), "presence": (133, 16756)}
+    # The production horizon is derived from the latest complete common
+    # environmental week.  Validate the frozen feature axes while allowing the
+    # number of target weeks to advance between refreshes.
+    target_week_count = len(weeks)
+    node_count = len(nodes)
+    expected = {"dynamic": (target_week_count, node_count, len(ENV_FEATURES)),
+                "static": (node_count, len(STATIC_FEATURES)),
+                "counts": (target_week_count, node_count),
+                "presence": (target_week_count, node_count)}
     actual = {"dynamic": tuple(dynamic.shape), "static": tuple(static.shape), "counts": tuple(counts.shape), "presence": tuple(presence.shape)}
     if actual != expected: raise AssertionError(f"array shape mismatch: {actual}")
-    if dynamic_history.shape != (185, 16756, 12): raise AssertionError(f"history shape mismatch: {dynamic_history.shape}")
+    expected_history = (target_week_count + 52, node_count, len(ENV_FEATURES))
+    if dynamic_history.shape != expected_history: raise AssertionError(f"history shape mismatch: {dynamic_history.shape}")
     if not np.array_equal(presence, counts > 0): raise AssertionError("presence is not count > 0")
     if np.any(counts < 0): raise AssertionError("negative counts")
     if not np.isfinite(dynamic).all() or not np.isfinite(static).all(): raise AssertionError("unexplained non-finite feature")
