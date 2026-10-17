@@ -94,8 +94,10 @@ def prospective_score(ctx, no_refit: bool) -> dict:
     x = (raw - mean[None, :]) / sd[None, :]
     state = {"occurrence_beta": np.asarray(model["occurrence_coefficients"], dtype=np.float64), "count_beta": np.asarray(model["count_coefficients"], dtype=np.float64)}
     probability, conditional, mu = module.predict(state, x)
-    probability = probability.reshape(len(eligible), module.NODE_COUNT)
-    conditional = conditional.reshape(len(eligible), module.NODE_COUNT)
+    shape = (len(eligible), module.NODE_COUNT)
+    probability = probability.reshape(shape)
+    conditional = conditional.reshape(shape)
+    mu = mu.reshape(shape)
     frames = []
     for local_index, source_index in enumerate(eligible):
         frame = bundle["nodes"][["model_node_id", "canonical_node_id", "raster_cell", "row", "column", "x", "y", "lon", "lat", "country_or_domain_region"]].copy()
@@ -135,7 +137,17 @@ def build_prospective_report(predictions: pd.DataFrame, model: dict, eligible: l
     from run_task2e_baselines import safe_metrics
 
     theta = float(model["theta"])
-    training_prevalence = float(model.get("training_prevalence", np.mean(bundle["counts"] > 0)))
+    if "training_prevalence" not in model:
+        raise RuntimeError(
+            "STOP: frozen deployed model lacks training_prevalence required "
+            "for prospective Brier-skill evaluation"
+        )
+    try:
+        training_prevalence = float(model["training_prevalence"])
+    except (TypeError, ValueError) as exc:
+        raise RuntimeError("STOP: frozen deployed model has an invalid training_prevalence") from exc
+    if not np.isfinite(training_prevalence) or not 0.0 < training_prevalence < 1.0:
+        raise RuntimeError("STOP: frozen deployed model training_prevalence must be strictly between 0 and 1")
     full_metrics = safe_metrics(
         predictions["observed_count"].to_numpy(np.int64),
         predictions["p_occurrence"].to_numpy(float),
