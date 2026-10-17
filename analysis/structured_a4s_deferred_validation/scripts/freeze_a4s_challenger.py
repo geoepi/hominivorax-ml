@@ -108,6 +108,7 @@ def load_a4_module() -> Any:
     if spec is None or spec.loader is None:
         raise RuntimeError(f"Cannot import reviewed A4 comparison source: {path}")
     module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
 
