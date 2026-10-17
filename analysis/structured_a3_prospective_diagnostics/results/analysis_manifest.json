@@ -1,0 +1,158 @@
+{
+  "analysis_timestamp_utc": "2026-10-17T22:34:03.496547+00:00",
+  "comparison_thresholds": {
+    "absolute_similar": {
+      "brier": 0.005,
+      "brier_skill": 0.05,
+      "calibration_intercept": 0.1,
+      "calibration_slope": 0.1,
+      "joint_hurdle_nll": 0.1,
+      "observed_detections": 100.0,
+      "pr_auc": 0.05,
+      "predicted_detections": 100.0,
+      "prevalence": 0.01,
+      "roc_auc": 0.05
+    },
+    "relative_similar": 0.1
+  },
+  "evaluation_weeks": [
+    "2026-W30",
+    "2026-W31",
+    "2026-W32",
+    "2026-W33",
+    "2026-W34",
+    "2026-W35",
+    "2026-W36",
+    "2026-W37",
+    "2026-W38",
+    "2026-W39"
+  ],
+  "frozen_penalty": 0.01,
+  "frozen_theta": 0.7018903965556372,
+  "input_paths": {
+    "causal_front_feature_artifact": {
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/v2_model/front_features/causal_front_features.parquet",
+      "sha256": "933b4beff394ea4cecbc82b8a07daccd6db520d8bae422f7ba825ac1867d5edd",
+      "size_bytes": 9864140
+    },
+    "corrected_prospective_report": {
+      "path": "/project/disease_ecology/STGNN-output/prospective_evaluation_refresh_2026-10-17/a3-prospective-corrected-20261017/reports/prospective_evaluation_report.json",
+      "sha256": "5923a0e47f277fa25e8ae4dc44a5753597f4f7a30b0166fc39c33eeb1bae40cf",
+      "size_bytes": 14390
+    },
+    "deployed_model_manifest": {
+      "path": "/project/disease_ecology/STGNN-production-config/deployment_manifest.yaml",
+      "sha256": "0eb09ffe304a929edb0f4d0018b8a0a9eac661fe1b93f95f54be12af10f8a46d",
+      "size_bytes": 2138
+    },
+    "development_dynamic_features": {
+      "path": "/project/disease_ecology/STGNN-output/revised_model_data/raw/dynamic_features.npy",
+      "sha256": "91e353804469e59851e8eaef7c7fc21b7b26614eaccd1299a9f7666b578705df",
+      "size_bytes": 39023936
+    },
+    "development_front_features": {
+      "path": "/project/disease_ecology/STGNN-output/v2_model/front_features/causal_front_features.parquet",
+      "sha256": "7f0f366af90cb3e4da3c3259da9cea01eaccd05c2e22de238f7ae238cfe13dba",
+      "size_bytes": 8877454
+    },
+    "development_static_features": {
+      "path": "/project/disease_ecology/STGNN-output/revised_model_data/raw/static_features.npy",
+      "sha256": "c629df4b9658c11c3330d8b6ddbba1a64ce597df5c722554ea0560a2973e4f75",
+      "size_bytes": 401560
+    },
+    "development_weeks": {
+      "path": "/project/disease_ecology/STGNN-output/revised_model_data/raw/weeks.parquet",
+      "sha256": "0442ffb577797e82c4fa8c650e0b09c65c487fb774ff9d2f2662885accc42d34",
+      "size_bytes": 4108
+    },
+    "frozen_deployed_model": {
+      "path": "/project/disease_ecology/STGNN-output/structured_a3_fullfit/model/fullfit_a3_model.json",
+      "sha256": "1cb694f4323ac2d05d973b5631539bd4e3a95ed3ffe3a7405a9e35c6b377092e",
+      "size_bytes": 8323
+    },
+    "frozen_model_scaling": {
+      "path": "/project/disease_ecology/STGNN-output/structured_a3_fullfit/model/fullfit_a3_scaling_parameters.csv",
+      "sha256": "7fbd8e080826d43a7a1e933dd62d6a2e6ddf0ab54de3da5938f53f9d483d00cb",
+      "size_bytes": 1936
+    },
+    "observation_source": {
+      "path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-10-17.csv",
+      "sha256": "13ada45bf760f4690a64ebcd147b5743b23527c60650e635dcf1d071eb63653e",
+      "size_bytes": 8360170
+    },
+    "prospective_predictions": {
+      "path": "/project/disease_ecology/STGNN-output/prospective_evaluation_refresh_2026-10-17/a3-prospective-corrected-20261017/predictions/prospective_predictions.parquet",
+      "sha256": "7dad65ae2efa46fcb69da7fa2d36eab76c1c75bf7ab4129aed34e27c4c23f9b8",
+      "size_bytes": 5242320
+    },
+    "refresh_calendar_features": {
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/calendar_features.parquet",
+      "sha256": "eb15803292bedaa9c165c749e30094ba7019c515c05cfb02d1b0098d5e8af8c7",
+      "size_bytes": 3950
+    },
+    "refresh_dynamic_features": {
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/dynamic_features.npy",
+      "sha256": "d61ebbaa113c435f44d2cbf6910d33f20abe47890456ed67e28990598d5c0f13",
+      "size_bytes": 43841696
+    },
+    "refresh_edges": {
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/edges_queen.parquet",
+      "sha256": "539876a1528c84f2bf7ab97f5b8f20b3da480cb1c705ac47611542e4a00ad9a7",
+      "size_bytes": 287466
+    },
+    "refresh_node_table": {
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/nodes.parquet",
+      "sha256": "942215b94236e7b01596c6681aaed4d9c54e07f9e7fcbd68313d6b7998d4050a",
+      "size_bytes": 388689
+    },
+    "refresh_static_features": {
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/static_features.npy",
+      "sha256": "c629df4b9658c11c3330d8b6ddbba1a64ce597df5c722554ea0560a2973e4f75",
+      "size_bytes": 401560
+    },
+    "refresh_weeks": {
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/weeks.parquet",
+      "sha256": "0e45a70250d596f5d4a81a8d7edd4cba1c22cf0f2ec0264cdb0a49bb86e64429",
+      "size_bytes": 4285
+    },
+    "refreshed_production_manifest": {
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/manifests/revised_production_manifest.json",
+      "sha256": "30422cc531d36f64632b013c0bbea016b8e15d4b7085979bce0f282a40379261",
+      "size_bytes": 5536
+    },
+    "road_night_features": {
+      "path": "/project/disease_ecology/STGNN-output/predictor_augmentation/static/road_night_node_features.parquet",
+      "sha256": "cb9c6275141cdad33f3563b1c4125d6f97afd7381325a71dcf20d5e1e76e26c6",
+      "size_bytes": 436873
+    },
+    "soil_features": {
+      "path": "/project/disease_ecology/STGNN-output/soil_feature_screening_resumed_s1/soil_node_features.parquet",
+      "sha256": "58fcd1314c91f4d792ee221e9d9b7d9d01676087ea953b81a602dc2345bfd4b9",
+      "size_bytes": 32171808
+    },
+    "terminal_metrics": {
+      "path": "/project/disease_ecology/STGNN-output/terminal_evaluation/metrics/terminal_metrics.json",
+      "sha256": "e3bfa553de53e56e574038f2779e43929682abb259aca933be02852b00be25a8",
+      "size_bytes": 6389
+    },
+    "terminal_regional_metrics": {
+      "path": "/project/disease_ecology/STGNN-output/terminal_evaluation/regional/terminal_regional_metrics.csv",
+      "sha256": "6f4eb9532860ade3ca1ce7cee212c9e1d222e4281a57af516f6740a10fa9df68",
+      "size_bytes": 8977
+    }
+  },
+  "model_id": "STRUCTURED_A3_FULLFIT",
+  "no_recalibration": true,
+  "no_refit": true,
+  "node_count": 10037,
+  "predictor_count": 34,
+  "repository_sha": "e29e70d84e18ea3648ed74cf3ade199e53ced28a",
+  "script_versions": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "python": "3.12.14 (main, Sep  2 2026, 23:27:36) [GCC 15.3.0]",
+    "render_figures_sha256": "d40ce6b840f9219b61a4aebef048b61ed85e64d475cefb31b847d98426ae3fc3",
+    "run_diagnostics_sha256": "d76d0eef3565336b9554d6efd43a51e5405e28e51e1084cd13485067f464c939",
+    "scikit_learn": "1.9.1"
+  }
+}
