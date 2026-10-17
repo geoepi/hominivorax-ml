@@ -110,7 +110,13 @@ def test_prospective_predictions_preserve_week_node_array_alignment(tmp_path: Pa
     context = _FakeContext(tmp_path)
     model_path = tmp_path / "frozen_model.json"
     _write_model(model_path)
-    with patch("a3_pipeline.validate_deployed_manifest"), patch.object(a3_score, "read_json_or_yaml", return_value={"evaluation_end_week": "2026-W29"}), patch.object(a3_score, "deployed_model_path", return_value=model_path), patch.object(a3_score, "load_fullfit_module", return_value=_FakeFullfitModule), patch.object(a3_score, "build_prospective_report", return_value={}),:
+    with (
+        patch("a3_pipeline.validate_deployed_manifest"),
+        patch.object(a3_score, "read_json_or_yaml", return_value={"evaluation_end_week": "2026-W29"}),
+        patch.object(a3_score, "deployed_model_path", return_value=model_path),
+        patch.object(a3_score, "load_fullfit_module", return_value=_FakeFullfitModule),
+        patch.object(a3_score, "build_prospective_report", return_value={}),
+    ):
         a3_score.prospective_score(context, no_refit=True)
 
     frame = pd.read_parquet(context.output_root / "predictions/prospective_predictions.parquet")
