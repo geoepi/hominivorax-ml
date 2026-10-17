@@ -47,6 +47,10 @@ class A3ProductionEntrypointTests(unittest.TestCase):
         for historical_constant in ("EXPECTED_SOURCE_SHA", "EXPECTED_SOURCE_ROWS", "2026-W29", "2026-07-19"):
             self.assertNotIn(historical_constant, front)
 
+    def test_prospective_score_creates_prediction_directory(self) -> None:
+        source = (REPO_ROOT / "scripts" / "a3_score.py").read_text(encoding="utf-8")
+        self.assertIn('(output / "predictions").mkdir(parents=True, exist_ok=True)', source)
+
 
 if __name__ == "__main__":
     unittest.main()

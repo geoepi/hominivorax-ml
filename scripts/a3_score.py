@@ -108,6 +108,7 @@ def prospective_score(ctx, no_refit: bool) -> dict:
         frames.append(frame)
     predictions = pd.concat(frames, ignore_index=True)
     output.mkdir(parents=True, exist_ok=True)
+    (output / "predictions").mkdir(parents=True, exist_ok=True)
     predictions.to_parquet(output / "predictions/prospective_predictions.parquet", index=False)
     report = build_prospective_report(predictions, model, eligible, bundle)
     (output / "reports").mkdir(parents=True, exist_ok=True)
