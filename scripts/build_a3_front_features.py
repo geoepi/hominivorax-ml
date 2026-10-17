@@ -250,7 +250,7 @@ def build_front_frame(model_output: Path, response_start: str = RESPONSE_START, 
         ("weeks_since_detection_within_50km", "weeks_since_detection_within_50km_log1p"),
     ):
         frame[transformed_name] = np.log1p(np.maximum(frame[raw_name].to_numpy(float), 0.0))
-    frame = frame[["week", "week_index", "model_node_id", "canonical_node_id", *RAW_FEATURES, *HISTORY_FEATURES]]
+    frame = frame[["week", "week_index", "model_node_id", "canonical_node_id", "history_cutoff_week", *RAW_FEATURES, *HISTORY_FEATURES]]
     audit = validate_front_features(frame, response_weeks)
     audit.update({
         "response_start": response_weeks[0],
