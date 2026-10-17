@@ -14,7 +14,6 @@ output_root <- value_for("--output-root", Sys.getenv("STGNN_OUTPUT_ROOT", "/proj
 environment_root <- value_for("--environment-root", Sys.getenv("STGNN_ENVIRONMENTAL_ROOT"))
 template_path <- value_for("--template", Sys.getenv("STGNN_TEMPLATE_PATH"))
 analysis_start <- as.Date(value_for("--analysis-start", "2024-01-01"))
-analysis_end <- as.Date(value_for("--analysis-end", "2026-07-19"))
 history_weeks <- as.integer(value_for("--history-weeks", "52"))
 
 if (!nzchar(environment_root) || !nzchar(template_path)) stop("environment root and template are required")
@@ -25,6 +24,15 @@ for (package in c("arrow", "data.table", "digest", "jsonlite", "terra")) {
 source(file.path("R", "date_utils.R"))
 source(file.path("R", "raster_inventory.R"))
 source(file.path("R", "npy_io.R"))
+source(file.path("R", "production_horizon.R"))
+
+environmental_features <- expected_environmental_products()
+analysis_end_value <- value_for("--analysis-end", NA_character_)
+analysis_end <- if (is.na(analysis_end_value) || !nzchar(analysis_end_value)) {
+  latest_common_environment_week(environment_root, environmental_features, analysis_start, history_weeks)
+} else {
+  as.Date(analysis_end_value)
+}
 
 raw_root <- file.path(output_root, "model_data", "raw")
 dir.create(raw_root, recursive = TRUE, showWarnings = FALSE)
@@ -39,36 +47,23 @@ edges <- arrow::read_parquet(edges_path, as_data_frame = TRUE)
 if (!identical(as.integer(nodes$node_id), seq.int(0L, nrow(nodes) - 1L))) stop("Task-1 node order is invalid")
 if (!file.exists(mask_path)) stop("missing Task-1 canonical mask: ", mask_path)
 
-target_dates <- seq(analysis_start, analysis_end, by = "7 days")
-if (length(target_dates) != 133L) stop("unexpected target week count: ", length(target_dates))
-target_week_ids <- iso_week_id(target_dates)
-history_dates <- seq(analysis_start - 7L * history_weeks, analysis_end, by = "7 days")
-history_week_ids <- iso_week_id(history_dates)
-if (length(history_week_ids) != length(target_dates) + history_weeks) stop("history index mismatch")
+horizon <- production_week_horizon(analysis_start, analysis_end, history_weeks)
+analysis_start <- horizon$analysis_start
+analysis_end <- horizon$analysis_end
+target_dates <- horizon$target_dates
+target_week_ids <- horizon$target_week_ids
+history_dates <- horizon$history_dates
+history_week_ids <- horizon$history_week_ids
 
-environmental_features <- c(
-  "era5_mintemp", "era5_soilmoist", "era5_lai_low", "agera5_relhum_min",
-  "era5land_tmean", "era5land_soiltemp_l1_mean", "era5land_soiltemp_l2_mean",
-  "era5land_soilwater_l1_mean", "era5land_soilwater_l2_mean",
-  "era5land_surface_pressure_mean", "era5land_lai_high_mean",
-  "era5land_lai_low_mean"
-)
 livestock_features <- c("cattle_density", "goat_density", "sheep_density", "horse_density", "pig_density")
 livestock_indicator_features <- paste0(livestock_features, "_imputed")
 static_features <- c(livestock_features, livestock_indicator_features)
 
 resolve_week_files <- function(product) {
-  paths <- list.files(file.path(environment_root, product, "weekly"), full.names = TRUE,
-                      pattern = "\\.(tif|tiff)$", ignore.case = TRUE)
-  if (!length(paths)) stop("no weekly rasters found for ", product)
-  parsed <- lapply(paths, parse_week_identifier)
-  ids <- vapply(parsed, `[[`, character(1L), "week_id")
-  if (anyDuplicated(ids[!is.na(ids)])) stop("duplicate environmental week for ", product)
-  paths[match(history_week_ids, ids)]
+  resolve_production_week_files(product, environment_root, history_week_ids)
 }
 
 week_paths <- setNames(lapply(environmental_features, resolve_week_files), environmental_features)
-if (any(vapply(week_paths, function(x) anyNA(x), logical(1L)))) stop("missing environmental history week")
 
 template <- terra::rast(template_path)
 mask <- terra::rast(mask_path)
@@ -79,6 +74,10 @@ read_week_matrix <- function(week_index) {
   result <- matrix(NA_real_, nrow = nrow(nodes), ncol = length(environmental_features))
   for (feature_index in seq_along(environmental_features)) {
     raster <- terra::rast(week_paths[[environmental_features[[feature_index]]]][[week_index]])
+    if (!isTRUE(terra::compareGeom(raster, template, stopOnError = FALSE, messages = FALSE))) {
+      stop("environmental raster geometry differs from the canonical template for ",
+           environmental_features[[feature_index]], " week ", history_week_ids[[week_index]])
+    }
     selected <- terra::values(raster, mat = FALSE)[nodes$raster_cell]
     if (any(!is.finite(selected))) stop("non-finite value in canonical support")
     result[, feature_index] <- selected

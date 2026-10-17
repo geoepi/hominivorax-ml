@@ -10,13 +10,18 @@ cd "${repository_root}"
 
 mkdir -p "${STGNN_OUTPUT_ROOT}/model_data" "${STGNN_OUTPUT_ROOT}/logs/slurm"
 source hpc/env_r.sh
+analysis_start="${STGNN_ANALYSIS_START:-2024-01-01}"
+analysis_end_args=()
+if [[ -n "${STGNN_ANALYSIS_END:-}" ]]; then
+  analysis_end_args+=(--analysis-end "${STGNN_ANALYSIS_END}")
+fi
 if [[ "${STGNN_SKIP_DATASET_BUILD:-0}" != "1" ]]; then
   Rscript scripts/build_production_dataset.R \
     --output-root "${STGNN_OUTPUT_ROOT}" \
     --environment-root "${STGNN_ENVIRONMENTAL_ROOT}" \
     --template "${STGNN_TEMPLATE_PATH}" \
-    --analysis-start 2024-01-01 \
-    --analysis-end 2026-07-19 \
+    --analysis-start "${analysis_start}" \
+    "${analysis_end_args[@]}" \
     --history-weeks 52
 fi
 

@@ -83,6 +83,8 @@ def prospective_score(ctx, no_refit: bool) -> dict:
             "frozen_model_path": str(model_path),
             "reason": "no complete predictor-supported weeks exist strictly after the deployed evaluation horizon",
         }
+        (output / "reports").mkdir(parents=True, exist_ok=True)
+        (output / "reports/prospective_evaluation_report.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
         write_stage_json(ctx, "prospective_status.json", payload)
         return payload
     raw = bundle["features"][eligible].reshape(-1, len(module.FEATURE_ORDER)).astype(np.float64, copy=False)
@@ -91,7 +93,7 @@ def prospective_score(ctx, no_refit: bool) -> dict:
     sd = np.asarray(scaling["training_sd"], dtype=np.float64)
     x = (raw - mean[None, :]) / sd[None, :]
     state = {"occurrence_beta": np.asarray(model["occurrence_coefficients"], dtype=np.float64), "count_beta": np.asarray(model["count_coefficients"], dtype=np.float64)}
-    probability, conditional, _ = module.predict(state, x)
+    probability, conditional, mu = module.predict(state, x)
     probability = probability.reshape(len(eligible), module.NODE_COUNT)
     conditional = conditional.reshape(len(eligible), module.NODE_COUNT)
     frames = []
@@ -101,11 +103,15 @@ def prospective_score(ctx, no_refit: bool) -> dict:
         frame["p_occurrence"] = probability[local_index]
         frame["conditional_count_mean"] = conditional[local_index]
         frame["expected_count"] = probability[local_index] * conditional[local_index]
+        frame["underlying_mu"] = mu[local_index]
         frame["observed_count"] = bundle["counts"][source_index]
         frames.append(frame)
     predictions = pd.concat(frames, ignore_index=True)
     output.mkdir(parents=True, exist_ok=True)
     predictions.to_parquet(output / "predictions/prospective_predictions.parquet", index=False)
+    report = build_prospective_report(predictions, model, eligible, bundle)
+    (output / "reports").mkdir(parents=True, exist_ok=True)
+    (output / "reports/prospective_evaluation_report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     payload = {
         "status": "scored",
         "mode": "prospective_evaluation",
@@ -115,9 +121,65 @@ def prospective_score(ctx, no_refit: bool) -> dict:
         "refit_performed": False,
         "frozen_model_path": str(model_path),
         "prediction_path": str(output / "predictions/prospective_predictions.parquet"),
+        "report_path": str(output / "reports/prospective_evaluation_report.json"),
+        "report": report,
     }
     write_stage_json(ctx, "prospective_status.json", payload)
     return payload
+
+
+def build_prospective_report(predictions: pd.DataFrame, model: dict, eligible: list[int], bundle: dict) -> dict:
+    """Calculate the frozen-model prospective report without fitting anything."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from run_task2e_baselines import safe_metrics
+
+    theta = float(model["theta"])
+    training_prevalence = float(model.get("training_prevalence", np.mean(bundle["counts"] > 0)))
+    full_metrics = safe_metrics(
+        predictions["observed_count"].to_numpy(np.int64),
+        predictions["p_occurrence"].to_numpy(float),
+        predictions["conditional_count_mean"].to_numpy(float),
+        predictions["underlying_mu"].to_numpy(float),
+        theta,
+        training_prevalence,
+        "full_revised_domain",
+        0,
+        str(model.get("model_id", "STRUCTURED_A3")),
+    )
+    regional = {}
+    for region, frame in predictions.groupby("country_or_domain_region", sort=True):
+        regional[str(region)] = safe_metrics(
+            frame["observed_count"].to_numpy(np.int64),
+            frame["p_occurrence"].to_numpy(float),
+            frame["conditional_count_mean"].to_numpy(float),
+            frame["underlying_mu"].to_numpy(float),
+            theta,
+            training_prevalence,
+            str(region),
+            0,
+            str(model.get("model_id", "STRUCTURED_A3")),
+        )
+    observed_total = int(predictions["observed_count"].sum())
+    expected_total = float(predictions["expected_count"].sum())
+    return {
+        "status": "first_independent_prospective_evaluation",
+        "frozen_model_id": model.get("model_id"),
+        "frozen_model_fit_horizon": [model.get("fit_start_week"), model.get("fit_end_week")],
+        "frozen_model_evaluation_horizon": [model.get("evaluation_start_week", model.get("fit_start_week")), model.get("evaluation_end_week", model.get("fit_end_week"))],
+        "eligible_weeks": [bundle["labels"][index] for index in eligible],
+        "node_weeks": int(len(predictions)),
+        "positive_node_weeks": int((predictions["observed_count"] > 0).sum()),
+        "prevalence": float((predictions["observed_count"] > 0).mean()),
+        "observation_source_sha256": bundle["production_manifest"].get("observation_source", {}).get("sha256"),
+        "environmental_endpoint": bundle["production_manifest"].get("environmental_maximum_complete_week"),
+        "metrics": full_metrics,
+        "regional_metrics": regional,
+        "observed_total_detections": observed_total,
+        "predicted_total_detections": expected_total,
+        "refit_performed": False,
+        "scaling_reestimated": False,
+        "comparison_with_prior_historical_terminal": None,
+    }
 
 
 def main() -> int:

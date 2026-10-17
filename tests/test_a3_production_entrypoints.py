@@ -23,6 +23,8 @@ class A3ProductionEntrypointTests(unittest.TestCase):
         for stage, path in ENTRYPOINTS.items():
             self.assertTrue(path.exists(), stage)
             ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+        front = REPO_ROOT / "scripts" / "build_a3_front_features.py"
+        ast.parse(front.read_text(encoding="utf-8"), filename=str(front))
 
     def test_wrappers_do_not_define_a_second_fit(self) -> None:
         for stage, path in ENTRYPOINTS.items():
@@ -36,6 +38,14 @@ class A3ProductionEntrypointTests(unittest.TestCase):
             self.assertIn(path.name, template)
         self.assertIn("--no-refit", template)
         self.assertNotIn("/STGNN-production-config/a3_", template)
+
+    def test_full_fit_and_front_builder_are_horizon_general(self) -> None:
+        fullfit = (REPO_ROOT / "analysis" / "structured_a3_fullfit" / "scripts" / "run_fullfit_products.py").read_text(encoding="utf-8")
+        front = (REPO_ROOT / "scripts" / "build_a3_front_features.py").read_text(encoding="utf-8")
+        self.assertIn("len(labels)", fullfit)
+        self.assertNotIn("EXPECTED_RESPONSE_WEEKS", fullfit)
+        for historical_constant in ("EXPECTED_SOURCE_SHA", "EXPECTED_SOURCE_ROWS", "2026-W29", "2026-07-19"):
+            self.assertNotIn(historical_constant, front)
 
 
 if __name__ == "__main__":
