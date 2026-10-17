@@ -1,0 +1,78 @@
+{
+  "baseline_repository_sha": "fae2d0f08c72a018338b9359543cfd2b88d7d8e2",
+  "development_period": {
+    "start": "2025-W01",
+    "end": "2026-W16",
+    "week_count": 68,
+    "excluded_prospective_weeks": [
+      "2026-W30",
+      "2026-W31",
+      "2026-W32",
+      "2026-W33",
+      "2026-W34",
+      "2026-W35",
+      "2026-W36",
+      "2026-W37",
+      "2026-W38",
+      "2026-W39"
+    ]
+  },
+  "folds": [
+    {"fold": 1, "train_start": "2025-W01", "train_end": "2025-W26", "validation_start": "2025-W27", "validation_end": "2025-W39"},
+    {"fold": 2, "train_start": "2025-W01", "train_end": "2025-W39", "validation_start": "2025-W40", "validation_end": "2025-W52"},
+    {"fold": 3, "train_start": "2025-W01", "train_end": "2025-W52", "validation_start": "2026-W01", "validation_end": "2026-W08"},
+    {"fold": 4, "train_start": "2025-W01", "train_end": "2026-W08", "validation_start": "2026-W09", "validation_end": "2026-W16"}
+  ],
+  "model": {
+    "theta_a3": 0.7018903965556372,
+    "penalty_a3": 0.01,
+    "a4_c_theta_bounds": [0.05, 10.0],
+    "a4_c_penalty": 0.01,
+    "optimizer_maxiter": 2000
+  },
+  "a4_s": {
+    "graph_lambda": 0.5,
+    "residual_scale": 1.0,
+    "permutation_count": 199,
+    "permutation_seed": 20261017
+  },
+  "a4_o": {
+    "reporting_rate_scenarios": [0.5, 0.75, 1.0],
+    "latent_probability_cap": true
+  },
+  "advancement_guardrails": {
+    "pr_auc_material_degradation": 0.02,
+    "brier_skill_material_degradation": 0.02,
+    "worst_fold_pr_auc_degradation": 0.03,
+    "us_median_percentile_degradation": 5.0,
+    "us_top10_recall_degradation": 0.10,
+    "calibration_intercept_change": 0.25,
+    "calibration_slope_change": 0.25,
+    "moran_material_reduction": 0.05,
+    "joint_nll_material_reduction": 0.02,
+    "count_bias_material_reduction": 0.25,
+    "extrapolative_nll_material_reduction": 0.05,
+    "complexity_tie_joint_nll": 0.01,
+    "complexity_tie_pr_auc": 0.01
+  },
+  "candidate_scope": {
+    "run": ["A3", "A4-S", "A4-C", "A4-SC", "A4-O"],
+    "not_run": {
+      "A4-SO": "Observation component is sensitivity-only and not identified from available inputs; spatial-plus-observation combination is therefore not promoted to fitting.",
+      "A4-G": "Optional graph/STGNN challenger is outside this tightly constrained first A4 comparison and requires a separate authorized phase."
+    }
+  },
+  "sit": {
+    "status": "RESERVED_FUTURE_INTERVENTION_LAYER",
+    "included": false,
+    "excluded_terms": [
+      "SIT release density",
+      "SIT treated area",
+      "operational treatment zones",
+      "intervention timing",
+      "distance to SIT fronts",
+      "SIT program intensity",
+      "derived intervention-effect proxy"
+    ]
+  }
+}

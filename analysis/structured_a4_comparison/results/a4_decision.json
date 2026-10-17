@@ -1,0 +1,18 @@
+{
+  "decision": "HOLD \u2014 NO A4 CANDIDATE JUSTIFIED",
+  "evidence": {
+    "eligible_candidates": [],
+    "not_advanced": {
+      "A4-C": "us_ranking_not_assessable; structural_improvement",
+      "A4-S": "us_ranking_not_assessable",
+      "A4-SC": "us_ranking_not_assessable"
+    }
+  },
+  "failure_modes_targeted": [
+    "spatial_residual_dependence",
+    "positive_count_process",
+    "history_extrapolation",
+    "observation_reporting_uncertainty"
+  ],
+  "sit_status": "RESERVED_FUTURE_INTERVENTION_LAYER"
+}
