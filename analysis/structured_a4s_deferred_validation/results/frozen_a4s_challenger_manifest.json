@@ -1,0 +1,230 @@
+{
+  "artifact": {
+    "json": "/project/disease_ecology/STGNN-output/a4s_challenger_freeze_2026-10-17/frozen_a4s_model.json",
+    "npz": "/project/disease_ecology/STGNN-output/a4s_challenger_freeze_2026-10-17/frozen_a4s_model.npz",
+    "root": "/project/disease_ecology/STGNN-output/a4s_challenger_freeze_2026-10-17",
+    "sha256": {
+      "model_json": "05dcb211d4bacb24dd4ef9399aa2e495ff85c1121439a40c32a3a05d09de4373",
+      "model_npz": "eef5fadc614c543dada56ace20104ee0f9aca49cc88321c43f9c8e4d9f40c6ca"
+    },
+    "graph_sha256": "539876a1528c84f2bf7ab97f5b8f20b3da480cb1c705ac47611542e4a00ad9a7",
+    "feature_source_sha256": {
+      "dynamic_features": "91e353804469e59851e8eaef7c7fc21b7b26614eaccd1299a9f7666b578705df",
+      "static_features": "c629df4b9658c11c3330d8b6ddbba1a64ce597df5c722554ea0560a2973e4f75",
+      "causal_front_features": "7f0f366af90cb3e4da3c3259da9cea01eaccd05c2e22de238f7ae238cfe13dba",
+      "soil_features": "58fcd1314c91f4d792ee221e9d9b7d9d01676087ea953b81a602dc2345bfd4b9",
+      "anthropogenic_features": "cb9c6275141cdad33f3563b1c4125d6f97afd7381325a71dcf20d5e1e76e26c6"
+    }
+  },
+  "development_provenance": {
+    "a4_comparison_decision": "HOLD \u2014 NO A4 CANDIDATE JUSTIFIED",
+    "architecture_comparison_merge_sha": "93f7ce1aef603f63eab5aecc5bbaaa6ce6bba1fc",
+    "baseline_repository_sha": "93f7ce1aef603f63eab5aecc5bbaaa6ce6bba1fc",
+    "challenger_context": "A4-S was the strongest provisional challenger and was not advanced",
+    "development_endpoint": {
+      "end": "2026-W16",
+      "start": "2025-W01",
+      "week_count": 68
+    },
+    "development_folds": [
+      {
+        "fold": 1,
+        "train_end": "2025-W26",
+        "train_start": "2025-W01",
+        "validation_end": "2025-W39",
+        "validation_start": "2025-W27"
+      },
+      {
+        "fold": 2,
+        "train_end": "2025-W39",
+        "train_start": "2025-W01",
+        "validation_end": "2025-W52",
+        "validation_start": "2025-W40"
+      },
+      {
+        "fold": 3,
+        "train_end": "2025-W52",
+        "train_start": "2025-W01",
+        "validation_end": "2026-W08",
+        "validation_start": "2026-W01"
+      },
+      {
+        "fold": 4,
+        "train_end": "2026-W08",
+        "train_start": "2025-W01",
+        "validation_end": "2026-W16",
+        "validation_start": "2026-W09"
+      }
+    ],
+    "selection_data_endpoint": "A4 F1-F4 pre-W30 development folds",
+    "w30_w39_excluded": true
+  },
+  "evaluation_boundary": {
+    "challenger_freeze_week": "2026-W42",
+    "evaluation_eligible_week": "2026-W43",
+    "fit_horizon_end": "2026-W16",
+    "post_freeze_outcomes_required": true,
+    "w30_w39_independent_evaluation_forbidden": true
+  },
+  "evaluation_restrictions": {
+    "no_feature_selection": true,
+    "no_post_freeze_outcomes_for_model_changes": true,
+    "no_recalibration": true,
+    "no_refit_after_freeze": true,
+    "no_spatial_parameter_retuning": true,
+    "no_threshold_tuning": true
+  },
+  "freeze_script_sha256": "a96a375e296bc63248f9ddf0ee87350975d2b23335ed97a3a4a02a18ade3b716",
+  "generated_utc": "2026-10-17T23:39:07+00:00",
+  "inputs": {
+    "a3_fold_reference": {
+      "path": "/project/disease_ecology/STGNN-refresh-2026-10-17/analysis/structured_a3_final_comparison/results/fold_metrics.csv",
+      "sha256": "3d7e58333486505904903746a309a0ae260a6b230f663d29af234b1f14f7c89c"
+    },
+    "a4_comparison_config": {
+      "path": "/project/disease_ecology/STGNN-output/worktrees/a4s-deferred-validation-freeze/analysis/structured_a4_comparison/config/a4_comparison_config.json",
+      "sha256": "4172ea83f1045c33a9a4d080e30bc7cdeae8d243d2122fd553738442ec538235"
+    },
+    "anthropogenic_features": {
+      "path": "/project/disease_ecology/STGNN-output/predictor_augmentation/static/road_night_node_features.parquet",
+      "sha256": "cb9c6275141cdad33f3563b1c4125d6f97afd7381325a71dcf20d5e1e76e26c6"
+    },
+    "causal_front_features": {
+      "path": "/project/disease_ecology/STGNN-output/v2_model/front_features/causal_front_features.parquet",
+      "sha256": "7f0f366af90cb3e4da3c3259da9cea01eaccd05c2e22de238f7ae238cfe13dba"
+    },
+    "config": {
+      "path": "/project/disease_ecology/STGNN-output/worktrees/a4s-deferred-validation-freeze/analysis/structured_a4_comparison/config/a4_comparison_config.json",
+      "sha256": "4172ea83f1045c33a9a4d080e30bc7cdeae8d243d2122fd553738442ec538235"
+    },
+    "dynamic_features": {
+      "path": "/project/disease_ecology/STGNN-output/revised_model_data/raw/dynamic_features.npy",
+      "sha256": "91e353804469e59851e8eaef7c7fc21b7b26614eaccd1299a9f7666b578705df"
+    },
+    "edges": {
+      "path": "/project/disease_ecology/STGNN-output/revised_model_data/raw/edges_queen.parquet",
+      "sha256": "539876a1528c84f2bf7ab97f5b8f20b3da480cb1c705ac47611542e4a00ad9a7"
+    },
+    "model_manifest": {
+      "path": "/project/disease_ecology/STGNN-output/revised_model_data/manifests/revised_production_manifest.json",
+      "sha256": "ce60e713ccaf1651f0a9724bd7209c52ee83ee6efa4613a9ffc3b2882b8c74b7"
+    },
+    "nodes": {
+      "path": "/project/disease_ecology/STGNN-output/revised_model_data/raw/nodes.parquet",
+      "sha256": "942215b94236e7b01596c6681aaed4d9c54e07f9e7fcbd68313d6b7998d4050a"
+    },
+    "observation_source": {
+      "path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-10-17.csv",
+      "sha256": "13ada45bf760f4690a64ebcd147b5743b23527c60650e635dcf1d071eb63653e"
+    },
+    "soil_features": {
+      "path": "/project/disease_ecology/STGNN-output/soil_feature_screening_resumed_s1/soil_node_features.parquet",
+      "sha256": "58fcd1314c91f4d792ee221e9d9b7d9d01676087ea953b81a602dc2345bfd4b9"
+    },
+    "static_features": {
+      "path": "/project/disease_ecology/STGNN-output/revised_model_data/raw/static_features.npy",
+      "sha256": "c629df4b9658c11c3330d8b6ddbba1a64ce597df5c722554ea0560a2973e4f75"
+    },
+    "targets_count": {
+      "path": "/project/disease_ecology/STGNN-output/revised_model_data/raw/targets_count.npy",
+      "sha256": "651cddb515db515db298a68f94324199387239de9df6e68fc96c8ad75ae96a05"
+    },
+    "weeks": {
+      "path": "/project/disease_ecology/STGNN-output/revised_model_data/raw/weeks.parquet",
+      "sha256": "0442ffb577797e82c4fa8c650e0b09c65c487fb774ff9d2f2662885accc42d34"
+    }
+  },
+  "manifest_version": "1.0.0",
+  "model": {
+    "graph_lambda": 0.5,
+    "id": "STRUCTURED_A4S_CHALLENGER",
+    "occurrence_component": "Bernoulli_logistic",
+    "positive_count_component": "zero_truncated_negative_binomial",
+    "objective": "exact_joint_hurdle_nll",
+    "penalty": 0.01,
+    "predictor_count": 34,
+    "predictor_order": [
+      "era5_mintemp",
+      "era5_soilmoist",
+      "era5_lai_low",
+      "agera5_relhum_min",
+      "era5land_tmean",
+      "era5land_soiltemp_l1_mean",
+      "era5land_soiltemp_l2_mean",
+      "era5land_soilwater_l1_mean",
+      "era5land_soilwater_l2_mean",
+      "era5land_surface_pressure_mean",
+      "era5land_lai_high_mean",
+      "era5land_lai_low_mean",
+      "cattle_density",
+      "goat_density",
+      "sheep_density",
+      "horse_density",
+      "pig_density",
+      "cattle_density_imputed",
+      "goat_density_imputed",
+      "sheep_density_imputed",
+      "horse_density_imputed",
+      "pig_density_imputed",
+      "week_sin",
+      "week_cos",
+      "distance_to_any_prior_positive_log1p",
+      "distance_to_prev4_positive_log1p",
+      "weeks_since_detection_within_50km_log1p",
+      "any_prior_positive_available",
+      "prev4_positive_available",
+      "detection_within_50km_ever_available",
+      "road_density",
+      "night_illumination",
+      "clay_0_15",
+      "water_difference_wv0033_minus_wv0010_0_15"
+    ],
+    "residual_scale": 1.0,
+    "spatial_formulation": "graph-Laplacian residual effect; (I + lambda L)^-1 centered node residual",
+    "status": "FROZEN_FOR_DEFERRED_INDEPENDENT_EVALUATION",
+    "theta": 0.7018903965556372,
+    "regularization": "L2 on non-intercept occurrence and positive-count coefficients; penalty=0.01",
+    "optimization": {
+      "method": "L-BFGS-B",
+      "maxiter": 2000,
+      "occurrence_ftol": 1e-10,
+      "occurrence_gtol": 1e-07,
+      "count_ftol": 1e-10,
+      "count_gtol": 1e-07,
+      "count_maxls": 40
+    },
+    "convergence_criteria": "both occurrence and count optimizer success flags must be true; spatial CG info must equal zero",
+    "preprocessing_behavior": "development-only scaling; no evaluation imputation; canonical node ordering",
+    "graph_definition": "edges_queen.parquet, 10,037 canonical nodes, isolated nodes retained",
+    "transformations": {
+      "calendar_predictors": "identity_unscaled",
+      "clay_0_15": "identity_then_development_only_standardization",
+      "distance_to_any_prior_positive_log1p": "causal_log1p_projected_km_then_development_only_standardization",
+      "distance_to_prev4_positive_log1p": "causal_log1p_projected_km_then_development_only_standardization",
+      "environmental_predictors": "identity_then_development_only_standardization",
+      "history_availability_indicators": "identity_unscaled",
+      "livestock_density_predictors": "log1p_then_development_only_standardization",
+      "livestock_imputation_indicators": "identity_unscaled",
+      "night_illumination": "log1p_then_development_only_standardization",
+      "road_density": "log1p_then_development_only_standardization",
+      "water_difference_wv0033_minus_wv0010_0_15": "identity_then_development_only_standardization",
+      "weeks_since_detection_within_50km_log1p": "causal_log1p_weeks_then_development_only_standardization"
+    }
+  },
+  "frozen_a3_reference": {
+    "manifest_path": "analysis/structured_a3_evaluation/results/frozen_a3_evaluation_manifest.json",
+    "manifest_sha256": "9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61",
+    "model_path": "analysis/structured_a3_evaluation/results/final_a3_model.json",
+    "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+    "production_status": "A3_REMAINS_PRODUCTION"
+  },
+  "scientific_caveats": {
+    "latent_incidence_claim": false,
+    "observation_reporting_bias": "unresolved",
+    "reporting_effort_covariates_available": false,
+    "sit_covariates_included": false,
+    "sit_status": "RESERVED_FUTURE_INTERVENTION_LAYER",
+    "us_counts_and_progression": "INTERVENTION_CONFOUNDED",
+    "us_transfer_ranking_pre_w30": "not assessable"
+  }
+}
