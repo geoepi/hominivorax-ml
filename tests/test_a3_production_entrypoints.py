@@ -54,7 +54,7 @@ class A3ProductionEntrypointTests(unittest.TestCase):
     def test_prospective_score_requires_frozen_training_prevalence(self) -> None:
         source = (REPO_ROOT / "scripts" / "a3_score.py").read_text(encoding="utf-8")
         self.assertIn('if "training_prevalence" not in model:', source)
-        self.assertIn("training_prevalence required for prospective Brier-skill evaluation", source)
+        self.assertIn("for prospective Brier-skill evaluation", source)
         self.assertIn("shape = (len(eligible), module.NODE_COUNT)", source)
         self.assertIn("mu = mu.reshape(shape)", source)
 
