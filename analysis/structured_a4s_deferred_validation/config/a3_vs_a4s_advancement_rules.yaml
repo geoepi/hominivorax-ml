@@ -1,0 +1,55 @@
+version: 1
+status: PRE_REGISTERED_BEFORE_INDEPENDENT_EVALUATION
+decision_options:
+  - ADVANCE A4-S
+  - RETAIN A3
+  - CONTINUE HOLD — INSUFFICIENT EVIDENCE
+
+# These thresholds are fixed before any post-freeze outcomes are read. They
+# are anchored to the A4 comparison fold scale and are not tuned on the future
+# evaluation period.
+thresholds:
+  occurrence:
+    pr_auc_allowed_degradation: 0.02
+    brier_skill_allowed_degradation: 0.02
+    calibration_intercept_absolute_change: 0.25
+    calibration_slope_absolute_change: 0.25
+    worst_week_pr_auc_allowed_degradation: 0.03
+    worst_week_brier_skill_allowed_degradation: 0.03
+  spatial:
+    occurrence_moran_reduction_required: 0.05
+    positive_count_moran_reduction_required: 0.05
+  count:
+    joint_nll_allowed_degradation: 0.02
+    positive_count_nll_allowed_degradation: 0.10
+    absolute_count_bias_reduction_required: 0.25
+  us_primary:
+    median_positive_percentile_allowed_degradation: 5.0
+    top_k_recall_allowed_degradation: 0.10
+
+support:
+  minimum_eligible_weeks: 8
+  minimum_positive_node_weeks_overall: 50
+  minimum_us_positive_node_weeks: 25
+  insufficient_us_support_action: NOT_ASSESSABLE_DO_NOT_FAIL_SOLELY_ON_US_GUARDRAIL
+
+uncertainty:
+  resampling_unit: week
+  resampling_method: paired_temporal_block_bootstrap
+  replicates: 199
+  seed: 20261017
+
+interpretation:
+  us_primary_endpoints:
+    - positive_risk_percentile
+    - top_k_capture
+    - pr_auc_if_estimable
+    - roc_auc_if_estimable
+  us_secondary_endpoints:
+    - raw_count_error
+    - progression_rate
+    - calibration
+  us_secondary_label: INTERVENTION_CONFOUNDED
+  count_agreement_alone_is_insufficient: true
+  no_latent_incidence_claim: true
+  sit_status: RESERVED_FUTURE_INTERVENTION_LAYER
