@@ -16,6 +16,8 @@ EVALUATE = ROOT / "analysis/structured_a4s_deferred_validation/scripts/evaluate_
 RULES = ROOT / "analysis/structured_a4s_deferred_validation/config/a3_vs_a4s_advancement_rules.yaml"
 A3_MANIFEST = ROOT / "analysis/structured_a3_evaluation/results/frozen_a3_evaluation_manifest.json"
 A3_SIDEcar = ROOT / "analysis/structured_a3_evaluation/results/frozen_a3_evaluation_manifest.json.sha256"
+A4_MANIFEST = ROOT / "analysis/structured_a4s_deferred_validation/results/frozen_a4s_challenger_manifest.json"
+A4_SIDEcar = ROOT / "analysis/structured_a4s_deferred_validation/results/frozen_a4s_challenger_manifest.json.sha256"
 
 
 class A4SDeferredValidationContracts(unittest.TestCase):
@@ -62,6 +64,17 @@ class A4SDeferredValidationContracts(unittest.TestCase):
             sidecar = manifest.with_name(manifest.name + ".sha256")
             sidecar.write_text(f"{digest}  {manifest.name}\n", encoding="utf-8")
             self.assertEqual(hashlib.sha256(manifest.read_bytes()).hexdigest(), sidecar.read_text(encoding="utf-8").split()[0])
+
+    def test_frozen_a4s_manifest_sidecar_integrity(self) -> None:
+        payload = A4_MANIFEST.read_bytes()
+        actual = hashlib.sha256(payload).hexdigest()
+        expected = A4_SIDEcar.read_text(encoding="utf-8").split()[0]
+        self.assertEqual(actual, expected)
+        manifest = json.loads(payload)
+        self.assertEqual(manifest["model"]["id"], "STRUCTURED_A4S_CHALLENGER")
+        self.assertEqual(manifest["model"]["predictor_count"], 34)
+        self.assertTrue(manifest["evaluation_restrictions"]["no_refit_after_freeze"])
+        self.assertEqual(manifest["artifact"]["graph_sha256"], manifest["inputs"]["edges"]["sha256"])
 
 
 if __name__ == "__main__":
