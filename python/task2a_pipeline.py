@@ -507,10 +507,19 @@ def main() -> int:
     nodes = pd.read_parquet(raw / "nodes.parquet")
     edges = pd.read_parquet(raw / "edges_queen.parquet")
 
-    expected = {"dynamic": (133, 16756, 12), "static": (16756, 10), "counts": (133, 16756), "presence": (133, 16756)}
+    # The production horizon is derived from the latest complete common
+    # environmental week.  Validate the frozen feature axes while allowing the
+    # number of target weeks to advance between refreshes.
+    target_week_count = len(weeks)
+    node_count = len(nodes)
+    expected = {"dynamic": (target_week_count, node_count, len(ENV_FEATURES)),
+                "static": (node_count, len(STATIC_FEATURES)),
+                "counts": (target_week_count, node_count),
+                "presence": (target_week_count, node_count)}
     actual = {"dynamic": tuple(dynamic.shape), "static": tuple(static.shape), "counts": tuple(counts.shape), "presence": tuple(presence.shape)}
     if actual != expected: raise AssertionError(f"array shape mismatch: {actual}")
-    if dynamic_history.shape != (185, 16756, 12): raise AssertionError(f"history shape mismatch: {dynamic_history.shape}")
+    expected_history = (target_week_count + 52, node_count, len(ENV_FEATURES))
+    if dynamic_history.shape != expected_history: raise AssertionError(f"history shape mismatch: {dynamic_history.shape}")
     if not np.array_equal(presence, counts > 0): raise AssertionError("presence is not count > 0")
     if np.any(counts < 0): raise AssertionError("negative counts")
     if not np.isfinite(dynamic).all() or not np.isfinite(static).all(): raise AssertionError("unexplained non-finite feature")
