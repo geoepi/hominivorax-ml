@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="hom_ml_hex.png" alt="ml logo" width="320">
+</p>
+
+
 # hominivorax-ml
 
 Repository: [geoepi/hominivorax-ml](https://github.com/geoepi/hominivorax-ml)
