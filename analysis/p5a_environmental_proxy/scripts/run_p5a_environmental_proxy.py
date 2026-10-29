@@ -543,7 +543,14 @@ def origin_run(args: argparse.Namespace, context: dict[str, Any], origin: str) -
 
 def update_ledger(root: Path, statuses: list[dict[str, Any]]) -> None:
     ordered = sorted(statuses, key=lambda row: parse_week(row["origin_week"]))
-    write_csv(root / "manifests" / "completion_ledger.csv", pd.DataFrame(ordered))
+    ledger = pd.DataFrame(ordered)
+    write_csv(root / "manifests" / "completion_ledger.csv", ledger)
+    manifest_path = root / "manifests" / "origin_manifest.csv"
+    if manifest_path.exists():
+        manifest = pd.read_csv(manifest_path)
+        status_map = ledger.set_index("origin_week")["status"].to_dict()
+        manifest["status"] = manifest["origin_week"].astype(str).map(status_map).fillna(manifest["status"])
+        write_csv(manifest_path, manifest)
 
 
 def load_context(args: argparse.Namespace) -> dict[str, Any]:

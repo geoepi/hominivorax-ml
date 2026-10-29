@@ -40,7 +40,7 @@ def render(repository_root: Path, output_root: Path) -> None:
         manifests / "p2_reference_manifest.json",
         manifests / "freeze_verification.json",
         manifests / "run_metadata.json",
-        output_root / "completion_ledger.csv",
+        manifests / "completion_ledger.csv",
         metrics_root / "occurrence_count_metrics.csv",
         metrics_root / "coverage.csv",
         metrics_root / "paired_proxy_minus_realized.csv",
