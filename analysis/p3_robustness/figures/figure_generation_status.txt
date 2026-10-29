@@ -1,0 +1,2 @@
+status=PASS
+figures=P3-1,P3-2,P3-3,P3-4

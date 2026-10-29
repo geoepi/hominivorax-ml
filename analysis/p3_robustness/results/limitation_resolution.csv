@@ -1,0 +1,7 @@
+limitation_id,p1_p2_status,p3_analysis,resolution_classification,evidence
+P1_sparse_frontier_support,PERSISTS,frontier-definition sensitivity,ROBUST_LIMITATION,F0 has 860 previously-unoccupied positives across h=1 origins (N=181408); alternatives are reported without pooling.
+P1_sparse_us_regional_support,PERSISTS,spatial partition sensitivity,ROBUST_LIMITATION,P2 U.S./domain rows remain sparse with 123 positive rows across the archive.
+P1_count_process_bias,PERSISTS,count-error influence,BETTER_CHARACTERIZED,Observed-count strata and deterministic top-5%/top-1% diagnostics are reported; extreme-tail rows=430.
+P1_P2_evaluation_partition_boundary,PERSISTS,spatial and temporal regrouping,NOT_ADDRESSABLE_IN_P3,Regrouping frozen predictions does not create a refitted spatial holdout.
+P1_P2_fit_stability,NO_NEW_FAILURE,fit/numerical stability,BETTER_CHARACTERIZED,Immutable fits converged 21/21 and 21/21; initialization status=PASS.
+P2_retrospective_environmental_availability,PERSISTS,not tested by bounded sensitivity,NOT_ADDRESSABLE_IN_P3,P3 does not fabricate release-time or revision-lag metadata.
