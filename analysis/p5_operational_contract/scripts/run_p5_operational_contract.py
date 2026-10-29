@@ -71,6 +71,7 @@ P4_REQUIRED = (
     "support_flag_specification.json",
     "p4_run_metadata.json",
 )
+P4_COMPACT_ROOT = REPOSITORY_ROOT / "analysis" / "p4_uncertainty_extrapolation" / "results"
 HISTORY_FEATURES = [
     "distance_to_any_prior_positive_log1p",
     "distance_to_prev4_positive_log1p",
@@ -178,6 +179,16 @@ def source_record(source_id: str, path: Path, availability_class: str, source_ve
     }
 
 
+def p4_artifact_path(p4_root: Path, name: str) -> Path:
+    external = p4_root / name
+    if external.exists():
+        return external
+    compact = P4_COMPACT_ROOT / name
+    if compact.exists():
+        return compact
+    return external
+
+
 def source_records(args: argparse.Namespace, bundle: dict[str, Any], p4_root: Path) -> list[dict[str, Any]]:
     manifest = bundle["production_manifest"]
     version = str(manifest.get("git_sha", "unknown"))
@@ -197,7 +208,7 @@ def source_records(args: argparse.Namespace, bundle: dict[str, Any], p4_root: Pa
     if observation_path and Path(observation_path).exists():
         records.append(source_record("observations", Path(observation_path), "AVAILABLE_WITH_KNOWN_LAG", version, "Validated observation source manifest"))
     for name in P4_REQUIRED:
-        records.append(source_record(f"p4_{name.removesuffix('.parquet').removesuffix('.csv').removesuffix('.json')}", p4_root / name, "STATIC", "P4_RUN", "P4 frozen support-reference artifact"))
+        records.append(source_record(f"p4_{name.removesuffix('.parquet').removesuffix('.csv').removesuffix('.json')}", p4_artifact_path(p4_root, name), "STATIC", "P4_RUN", "P4 frozen support-reference artifact"))
     return records
 
 
@@ -277,19 +288,20 @@ def validate_bundle_contract(bundle: dict[str, Any]) -> None:
 
 
 def load_p4_references(p4_root: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, dict[str, Any]]:
-    validate_required_files([p4_root / name for name in P4_REQUIRED], code="MISSING_SUPPORT_REFERENCE")
-    spec = json.loads((p4_root / "support_flag_specification.json").read_text(encoding="utf-8"))
+    artifact_paths = {name: p4_artifact_path(p4_root, name) for name in P4_REQUIRED}
+    validate_required_files(artifact_paths.values(), code="MISSING_SUPPORT_REFERENCE")
+    spec = json.loads(artifact_paths["support_flag_specification.json"].read_text(encoding="utf-8"))
     if spec.get("categories") != list(P4_SUPPORT_CLASSES) or not spec.get("outcome_free"):
         fail("SUPPORT_REFERENCE_INVALID", "P4 support specification does not match the frozen support contract")
-    metadata = json.loads((p4_root / "p4_run_metadata.json").read_text(encoding="utf-8"))
+    metadata = json.loads(artifact_paths["p4_run_metadata.json"].read_text(encoding="utf-8"))
     if metadata.get("p0_model_artifact_sha256") != MODEL_SHA256:
         fail("SUPPORT_REFERENCE_INVALID", "P4 support reference does not identify the frozen model hash")
     key = ["origin_week", "target_week", "horizon", "model_node_id"]
-    novelty = pd.read_parquet(p4_root / "novelty_metrics.parquet", columns=key + ["novelty_knn_distance", "support_class"])
-    intervals = pd.read_parquet(p4_root / "count_predictive_intervals.parquet", columns=key + ["full_q025", "full_q975", "full_q100", "full_q900", "full_q250", "full_q750", "conditional_q025", "conditional_q975"])
-    uncertainty_path = p4_root / "model_uncertainty_summary.parquet"
+    novelty = pd.read_parquet(artifact_paths["novelty_metrics.parquet"], columns=key + ["novelty_knn_distance", "support_class"])
+    intervals = pd.read_parquet(artifact_paths["count_predictive_intervals.parquet"], columns=key + ["full_q025", "full_q975", "full_q100", "full_q900", "full_q250", "full_q750", "conditional_q025", "conditional_q975"])
+    uncertainty_path = artifact_paths["model_uncertainty_summary.parquet"]
     uncertainty = pd.read_parquet(uncertainty_path) if uncertainty_path.exists() else pd.DataFrame()
-    return novelty, intervals, uncertainty, {"spec": spec, "metadata": metadata, "support_reference_hash": sha256_file(p4_root / "support_flag_specification.json")}
+    return novelty, intervals, uncertainty, {"spec": spec, "metadata": metadata, "support_reference_hash": sha256_file(artifact_paths["support_flag_specification.json"]), "artifact_paths": {name: str(path) for name, path in artifact_paths.items()}}
 
 
 def model_predictions(bundle: dict[str, Any], model: dict[str, Any], issue_week_value: str, horizons: list[int]) -> pd.DataFrame:
