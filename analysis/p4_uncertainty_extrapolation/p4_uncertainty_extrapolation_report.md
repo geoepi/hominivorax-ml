@@ -14,7 +14,7 @@ The P3 Frontier Sensitivity prose previously emitted one repeated class label fo
 
 ## IV. P4 Repository State
 
-Branch: ``. Implementation SHA at Atlas execution: `a3a4e94b8909690ca3eef0a377fbce2c9017343a`. The P4 prespecification was committed before result generation. P4 outputs were written under `analysis/p4_uncertainty_extrapolation/` and the isolated Atlas root `/project/disease_ecology/STGNN-output/p4_uncertainty_extrapolation_20261029`.
+Branch: ``. Implementation SHA at Atlas execution: `029239f03a26f9aa7527eb8a4a2f4e59a61c3d5c`. The P4 prespecification was committed before result generation. P4 outputs were written under `analysis/p4_uncertainty_extrapolation/` and the isolated Atlas root `/project/disease_ecology/STGNN-output/p4_uncertainty_extrapolation_20261029`.
 
 ## V. Environmental Novelty
 
@@ -35,68 +35,14 @@ Occurrence uncertainty is the canonical Bernoulli predictive variance p(1-p). Co
 | Horizon | Nominal | Empirical full-hurdle coverage | Mean interval width |
 |---:|---:|---:|---:|
 | h=1 | 0.50 | 0.9781 | 0.1391 |
-| h=1 | 0.50 | 0.8946 | 1.1033 |
-| h=1 | 0.50 | 0.9985 | 0.0000 |
-| h=1 | 0.50 | 0.8691 | 0.9278 |
-| h=1 | 0.50 | 0.9887 | 0.0000 |
-| h=1 | 0.50 | 0.8576 | 1.3425 |
-| h=1 | 0.50 | 0.9990 | 0.0000 |
 | h=1 | 0.80 | 0.9905 | 0.3978 |
-| h=1 | 0.80 | 0.9655 | 3.1230 |
-| h=1 | 0.80 | 0.9988 | 0.0026 |
-| h=1 | 0.80 | 0.9554 | 2.6369 |
-| h=1 | 0.80 | 0.9903 | 0.0166 |
-| h=1 | 0.80 | 0.9585 | 3.6018 |
-| h=1 | 0.80 | 0.9991 | 0.0004 |
 | h=1 | 0.95 | 0.9974 | 0.8851 |
-| h=1 | 0.95 | 0.9891 | 6.4892 |
-| h=1 | 0.95 | 0.9998 | 0.0301 |
-| h=1 | 0.95 | 0.9887 | 5.4950 |
-| h=1 | 0.95 | 0.9972 | 0.2019 |
-| h=1 | 0.95 | 0.9895 | 7.2212 |
-| h=1 | 0.95 | 0.9997 | 0.0132 |
 | h=2 | 0.50 | 0.9783 | 0.1454 |
-| h=2 | 0.50 | 0.9013 | 1.1281 |
-| h=2 | 0.50 | 0.9989 | 0.0001 |
-| h=2 | 0.50 | 0.8723 | 0.9343 |
-| h=2 | 0.50 | 0.9879 | 0.0148 |
-| h=2 | 0.50 | 0.8641 | 1.4363 |
-| h=2 | 0.50 | 0.9993 | 0.0000 |
 | h=2 | 0.80 | 0.9908 | 0.4164 |
-| h=2 | 0.80 | 0.9704 | 3.2210 |
-| h=2 | 0.80 | 0.9991 | 0.0023 |
-| h=2 | 0.80 | 0.9569 | 2.6718 |
-| h=2 | 0.80 | 0.9904 | 0.0540 |
-| h=2 | 0.80 | 0.9628 | 3.8238 |
-| h=2 | 0.80 | 0.9994 | 0.0004 |
 | h=2 | 0.95 | 0.9976 | 0.9281 |
-| h=2 | 0.95 | 0.9905 | 6.7135 |
-| h=2 | 0.95 | 0.9999 | 0.0267 |
-| h=2 | 0.95 | 0.9893 | 5.5924 |
-| h=2 | 0.95 | 0.9972 | 0.2765 |
-| h=2 | 0.95 | 0.9926 | 7.6791 |
-| h=2 | 0.95 | 0.9997 | 0.0100 |
 | h=3 | 0.50 | 0.9784 | 0.1515 |
-| h=3 | 0.50 | 0.9063 | 1.1468 |
-| h=3 | 0.50 | 0.9992 | 0.0002 |
-| h=3 | 0.50 | 0.8740 | 0.9398 |
-| h=3 | 0.50 | 0.9873 | 0.0276 |
-| h=3 | 0.50 | 0.8751 | 1.5562 |
-| h=3 | 0.50 | 0.9996 | 0.0000 |
 | h=3 | 0.80 | 0.9909 | 0.4354 |
-| h=3 | 0.80 | 0.9716 | 3.2928 |
-| h=3 | 0.80 | 0.9993 | 0.0018 |
-| h=3 | 0.80 | 0.9579 | 2.7077 |
-| h=3 | 0.80 | 0.9905 | 0.0877 |
-| h=3 | 0.80 | 0.9649 | 4.1049 |
-| h=3 | 0.80 | 0.9997 | 0.0002 |
 | h=3 | 0.95 | 0.9976 | 0.9711 |
-| h=3 | 0.95 | 0.9909 | 6.8926 |
-| h=3 | 0.95 | 0.9999 | 0.0235 |
-| h=3 | 0.95 | 0.9897 | 5.6853 |
-| h=3 | 0.95 | 0.9973 | 0.3431 |
-| h=3 | 0.95 | 0.9916 | 8.2272 |
-| h=3 | 0.95 | 0.9999 | 0.0070 |
 
 ## VII. Model/Parameter Uncertainty
 

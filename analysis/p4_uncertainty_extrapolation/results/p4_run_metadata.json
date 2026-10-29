@@ -379,8 +379,8 @@
       "size_bytes": 30353715
     }
   },
-  "repository_sha": "a3a4e94b8909690ca3eef0a377fbce2c9017343a",
-  "runtime_seconds": 11.864377737045288,
+  "repository_sha": "029239f03a26f9aa7527eb8a4a2f4e59a61c3d5c",
+  "runtime_seconds": 12.295085430145264,
   "starting_main_sha": "7aba3f3527324a13349d4355170d6ac81dcb8376",
   "status": "COMPLETED",
   "target_manifest_rows": 13637
