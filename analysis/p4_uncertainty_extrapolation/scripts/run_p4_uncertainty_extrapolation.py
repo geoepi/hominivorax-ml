@@ -125,6 +125,20 @@ def write_parquet(path: Path, frame: pd.DataFrame) -> None:
     atomic_write(path, lambda target: frame.to_parquet(target, index=False, compression="zstd"))
 
 
+def artifact_record(path: Path) -> dict[str, Any]:
+    record: dict[str, Any] = {
+        "path": str(path),
+        "format": path.suffix.lstrip(".") or "file",
+        "sha256": sha256_file(path),
+        "size_bytes": path.stat().st_size,
+    }
+    if path.suffix == ".parquet":
+        frame = pd.read_parquet(path)
+        record["rows"] = int(len(frame))
+        record["columns"] = list(frame.columns)
+    return record
+
+
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -500,6 +514,11 @@ def support_mode(args: argparse.Namespace) -> None:
         "target_manifest_rows": int(len(target)),
         "train_loo_distance_summary": {"q50": float(np.quantile(train_loo, 0.50)), "q95": float(np.quantile(train_loo, 0.95)), "q99": float(np.quantile(train_loo, 0.99))},
         "runtime_seconds": time.time() - started,
+        "remote_artifacts": {
+            name: artifact_record(output / name)
+            for name in ("novelty_metrics.parquet", "support_classifications.parquet", "count_predictive_intervals.parquet", "bootstrap_target_manifest.parquet")
+            if (output / name).exists()
+        },
         "production_model_modified": False,
         "evaluation_outcomes_used_for_support": False,
     }
@@ -776,6 +795,11 @@ def aggregate_mode(args: argparse.Namespace) -> None:
         "target_manifest_rows": int(len(target)),
         "production_model_modified": False,
         "canonical_predictions_replaced": False,
+        "remote_artifacts": {
+            name: artifact_record(output / name)
+            for name in ("novelty_metrics.parquet", "support_classifications.parquet", "count_predictive_intervals.parquet", "bootstrap_target_manifest.parquet", "model_uncertainty_summary.parquet")
+            if (output / name).exists()
+        },
         "decision": decision_marker,
         "runtime_seconds": time.time() - started,
     }
