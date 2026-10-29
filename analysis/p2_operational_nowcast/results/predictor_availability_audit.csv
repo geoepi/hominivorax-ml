@@ -1,0 +1,8 @@
+family,predictors,availability_class,evidence
+dynamic_environmental,"era5_mintemp,era5_soilmoist,era5_lai_low,agera5_relhum_min,era5land_tmean,era5land_soiltemp_l1_mean,era5land_soiltemp_l2_mean,era5land_soilwater_l1_mean,era5land_soilwater_l2_mean,era5land_surface_pressure_mean,era5land_lai_high_mean,era5land_lai_low_mean",RETROSPECTIVE_ONLY,Validated refresh values are assembled for completed target weeks; no release-time or revision-lag metadata is present in the repository.
+livestock_static,"cattle_density,goat_density,sheep_density,horse_density,pig_density",STATIC,Node-static livestock covariates.
+livestock_imputation_indicators,"cattle_density_imputed,goat_density_imputed,sheep_density_imputed,horse_density_imputed,pig_density_imputed",STATIC,Frozen node-static 0/1 indicators.
+calendar,"week_sin,week_cos",AVAILABLE_AS_OF_ISSUE,Calendar terms are deterministic from the target week.
+causal_detection_history,"distance_to_any_prior_positive_log1p,distance_to_prev4_positive_log1p,weeks_since_detection_within_50km_log1p,any_prior_positive_available,prev4_positive_available,detection_within_50km_ever_available",DERIVED_FROM_PRIOR_DATA,Causal front table records a history cutoff strictly before each forecast week.
+anthropogenic_static,"road_density,night_illumination",STATIC,Validated node-static landscape covariates.
+soil_static,"clay_0_15,water_difference_wv0033_minus_wv0010_0_15",STATIC,Validated node-static soil covariates.
