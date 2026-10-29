@@ -842,7 +842,12 @@ def build_report(args: argparse.Namespace, metadata: dict[str, Any], decision_ma
     def fmt(value: Any, digits: int = 4) -> str:
         return "NA" if value is None or (isinstance(value, float) and not np.isfinite(value)) else f"{float(value):.{digits}f}"
 
-    overall = interval_coverage.loc[(interval_coverage["scope"] == "all") & (interval_coverage["horizon"].isin([1, 2, 3]))]
+    overall = interval_coverage.loc[
+        (interval_coverage["scope"] == "all")
+        & (interval_coverage["horizon"].isin([1, 2, 3]))
+        & (interval_coverage["support_class"].isna())
+        & (interval_coverage["frontier_group"].isna())
+    ]
     lines = [
         "# P4 Uncertainty and Extrapolation Assessment",
         "",
