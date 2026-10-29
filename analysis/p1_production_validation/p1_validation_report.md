@@ -42,7 +42,7 @@ Machine-readable metrics, bootstrap intervals, frontier summaries, decision rule
 
 ## XI Atlas
 
-Execution used the repository-authorized Atlas Python environment and validated refresh through `2026-W39`. Protected inputs were not copied into Git.
+Execution used the repository-authorized Atlas Python environment and validated refresh through `2026-W39`. Protected inputs were not copied into Git. The exact-frozen scoring job was Slurm `21059059` (completed, exit 0); figure rendering was Slurm `21059083` (completed, exit 0).
 
 ## XII CI/PR/Merge
 
@@ -53,3 +53,5 @@ P1 changes require the normal branch push, pull request, hosted-check review, me
 Decision: `SUPPORTED_WITH_LIMITATIONS`. Temporal: `SUPPORTED`; spatial: `SUPPORTED_WITH_LIMITATIONS`; spatiotemporal: `SUPPORTED_WITH_LIMITATIONS`; frontier: `SUPPORTED_WITH_LIMITATIONS`.
 
 The limitation is substantive: later transfer is informative for discrimination and ranking, while sparse regional/frontier support and count-process bias prevent an unrestricted production-validity claim.
+
+P1_TRANSFER_VALIDATION_SUPPORTED_WITH_LIMITATIONS
