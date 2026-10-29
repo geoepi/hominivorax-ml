@@ -11,7 +11,7 @@
 #SBATCH --error=/project/disease_ecology/STGNN-output/p1_production_validation/logs/figures-%j.err
 
 set -euo pipefail
-REPO=/project/disease_ecology/STGNN-output/worktrees/p1-production-validation
+REPO="${P1_REPO:-/project/disease_ecology/STGNN-output/worktrees/p1-production-validation}"
 cd "${REPO}"
 source /project/disease_ecology/STGNN/hpc/env_r.sh
 Rscript --vanilla analysis/p1_production_validation/scripts/render_p1_figures.R analysis/p1_production_validation
