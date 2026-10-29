@@ -611,10 +611,10 @@ def initialization_metrics(inputs: dict[str, Any]) -> tuple[pd.DataFrame, dict[s
     return result, {"status": "PASS" if not (result["status"] == "FAILED").any() else "FAILED", "origins": INITIALIZATION_ORIGINS, "variants": ["canonical", "zero_all", "deterministic_perturbed"]}
 
 
-def limitation_rows(frame: pd.DataFrame, frontier: pd.DataFrame, count_influence: pd.DataFrame, partitions: pd.DataFrame, fit_summary: dict[str, Any], init_summary: dict[str, Any]) -> pd.DataFrame:
+def limitation_rows(frame: pd.DataFrame, frontier: pd.DataFrame, count_strata: pd.DataFrame, partitions: pd.DataFrame, fit_summary: dict[str, Any], init_summary: dict[str, Any]) -> pd.DataFrame:
     us = frame.loc[frame["country_or_domain_region"].astype(str).str.contains("U.S.", regex=False)]
     frontier_reference = frontier.loc[(frontier["definition"] == "F0_reference") & (frontier["horizon"] == 1)]
-    extreme = count_influence.loc[(count_influence["horizon"] == "all") & (count_influence["count_stratum"] == "extreme_11_plus")]
+    extreme = count_strata.loc[(count_strata["horizon"] == "all") & (count_strata["count_stratum"] == "extreme_11_plus")]
     rows = [
         {"limitation_id": "P1_sparse_frontier_support", "p1_p2_status": "PERSISTS", "p3_analysis": "frontier-definition sensitivity", "resolution_classification": "ROBUST_LIMITATION", "evidence": f"F0 has {int(frontier_reference['positives'].sum())} positives in h=1 frontier classes; alternatives are reported without pooling."},
         {"limitation_id": "P1_sparse_us_regional_support", "p1_p2_status": "PERSISTS", "p3_analysis": "spatial partition sensitivity", "resolution_classification": "ROBUST_LIMITATION", "evidence": f"P2 U.S./domain rows remain sparse with {int((us['observed_positive'] > 0).sum())} positive rows across the archive."},
@@ -707,7 +707,7 @@ def run(args: argparse.Namespace) -> None:
     partitions, partition_checks = run_partition_sensitivity(frame)
     fit_stability, fit_diagnostics, fit_groups, graph_summary, fit_summary = run_fit_stability(inputs["fit_paths"])
     initialization, initialization_checks = initialization_metrics(inputs)
-    limitations = limitation_rows(frame, frontier, count_influence, partitions, fit_summary, initialization_checks)
+    limitations = limitation_rows(frame, frontier, count_strata, partitions, fit_summary, initialization_checks)
 
     failed_init = int((initialization["status"] == "FAILED").sum()) if len(initialization) else 1
     decision_marker = "P3_ROBUSTNESS_SUPPORTED_WITH_LIMITATIONS" if failed_init == 0 else "P3_ROBUSTNESS_NOT_SUPPORTED"
