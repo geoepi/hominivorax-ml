@@ -408,8 +408,6 @@ def operational_manifest(
 
 
 def finalize_output(output: Path, manifest: dict[str, Any], predictions: pd.DataFrame | None, mode: str) -> None:
-    if output.exists() and any(output.iterdir()):
-        fail("OUTPUT_ROOT_NOT_IMMUTABLE", f"refusing to write into non-empty output root: {output}")
     output.mkdir(parents=True, exist_ok=True)
     write_json(output / "run_manifest.json", manifest)
     if predictions is not None:
