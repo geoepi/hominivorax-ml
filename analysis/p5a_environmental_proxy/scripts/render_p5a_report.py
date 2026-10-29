@@ -133,7 +133,7 @@ failed origins: {metadata.get('failed_origins') or 'none'}. E2 feasibility:
 The proxy error analysis used only environmental observations through `T-1`.
 Errors are proxy minus realized target-week feature values.
 
-{table(error_family_view, ['proxy_id', 'horizon', 'family', 'n', 'mean_error', 'mae', 'rmse', 'correlation'])}
+{table(error_family_view, ['proxy_id', 'horizon', 'family', 'n', 'mean_error', 'mae', 'rmse'])}
 
 ## VIII. Occurrence and Count Performance
 
