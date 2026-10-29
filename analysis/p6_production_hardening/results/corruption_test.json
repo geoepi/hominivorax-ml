@@ -1,0 +1,9 @@
+{
+  "validation_copy": "/project/disease_ecology/STGNN-output/p6_production_hardening_20261029_v1/corruption-W16",
+  "mutation": "one byte changed in predictions.parquet after copying a completed replay",
+  "expected_error_code": "OUTPUT_HASH_MISMATCH",
+  "observed_error_code": "OUTPUT_HASH_MISMATCH",
+  "downstream_completion": false,
+  "original_root_untouched": true,
+  "pass": true
+}

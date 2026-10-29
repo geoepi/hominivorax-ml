@@ -1,0 +1,9 @@
+{
+  "execution_route": "authorized Atlas WSL/Ubuntu route",
+  "baseline_state": "NO_MATERIAL_DRIFT",
+  "warning_fixture_state": "DRIFT_WARNING",
+  "review_fixture_state": "DRIFT_REVIEW_REQUIRED",
+  "thresholds_unchanged": true,
+  "automated_retraining": false,
+  "action": "REVIEW_REQUIRED"
+}

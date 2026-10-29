@@ -1,0 +1,9 @@
+{
+  "issue_week": "2026-W36",
+  "issue_timestamp": "2026-09-07T00:00:00Z",
+  "latest_environment_week": "2026-W35",
+  "e0_reference_rule": "L(T)=T-1",
+  "readiness_state": "BLOCKED_INPUT_INVALID",
+  "blocking_codes": ["FUTURE_DATED_ENVIRONMENT_SOURCE", "HISTORY_CUTOFF_AFTER_ISSUE"],
+  "interpretation": "The historical refresh bundle cannot prove prospective publication timing or h2/h3 causal history at the historical issue date; preflight fails closed and replay remains explicitly labelled."
+}

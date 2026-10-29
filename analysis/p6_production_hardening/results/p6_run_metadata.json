@@ -1,0 +1,15 @@
+{
+  "phase": "P6",
+  "model_id": "STRUCTURED_A3",
+  "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+  "proxy_id": "E0_LAST_AVAILABLE",
+  "proxy_contract_version": "P5A-E0-1.0",
+  "horizons": [1, 2, 3],
+  "production_config_sha256": "7fd9d25cb6166d550a2984c8658a490a23d7d232965ad4a43470680849f9fc21",
+  "implementation_commit": "9cf6d41fe38b2ffe9e6bb461c8518e0f56813e62",
+  "atlas_output_root": "/project/disease_ecology/STGNN-output/p6_production_hardening_20261029_v1",
+  "pytest_available_in_validated_environment": false,
+  "alternative_test_runner": "standard-library unittest",
+  "automated_retraining": false,
+  "status": "COMPLETED_WITH_EXPLICIT_LIMITATIONS"
+}
