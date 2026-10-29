@@ -1,0 +1,14 @@
+test,expected_code,observed_code,status,message
+missing predictor file,MISSING_REQUIRED_INPUT,MISSING_REQUIRED_INPUT,PASS,missing required input(s): /local/scratch/john.humphreys/21060933/p5-failure-tests-7mdu7p2l/missing.npy
+stale predictor,STALE_BLOCKING,STALE_BLOCKING,PASS,deliberate invalid freshness state
+future-dated predictor,FUTURE_DATED,FUTURE_DATED,PASS,deliberate invalid freshness state
+wrong CRS,SPATIAL_CONTRACT_FAILED,SPATIAL_CONTRACT_FAILED,PASS,spatial field 'crs' does not match the canonical contract
+wrong resolution,SPATIAL_CONTRACT_FAILED,SPATIAL_CONTRACT_FAILED,PASS,spatial field 'resolution' does not match the canonical contract
+wrong extent,SPATIAL_CONTRACT_FAILED,SPATIAL_CONTRACT_FAILED,PASS,spatial field 'extent' does not match the canonical contract
+predictor-schema mismatch,PREDICTOR_SCHEMA_MISMATCH,PREDICTOR_SCHEMA_MISMATCH,PASS,"expected frozen predictor order of length 2, observed 1"
+corrupted model artifact/hash mismatch,MODEL_HASH_MISMATCH,MODEL_HASH_MISMATCH,PASS,"SHA-256 mismatch for /local/scratch/john.humphreys/21060933/p5-failure-tests-7mdu7p2l/present.bin: expected 0000000000000000000000000000000000000000000000000000000000000000, observed 0deeb8fa1dbbee4c0dbe7f5e3c9183940139f26d22797ee8ab07c00557a4c2ff"
+missing support-reference artifact,MISSING_SUPPORT_REFERENCE,MISSING_SUPPORT_REFERENCE,PASS,missing required input(s): /local/scratch/john.humphreys/21060933/p5-failure-tests-7mdu7p2l/missing-support.parquet
+duplicate target week,DUPLICATE_TARGET_WEEK,DUPLICATE_TARGET_WEEK,PASS,"duplicate target week/horizon: ('2026-W41', 1)"
+invalid issue week,INVALID_ISSUE_WEEK,INVALID_ISSUE_WEEK,PASS,invalid ISO week: '2026-W99'
+partial predictor coverage,MISSING_REQUIRED_INPUT,MISSING_REQUIRED_INPUT,PASS,missing required input(s): /local/scratch/john.humphreys/21060933/p5-failure-tests-7mdu7p2l/partial-missing.parquet
+missing provenance metadata,MISSING_PROVENANCE_METADATA,MISSING_PROVENANCE_METADATA,PASS,"manifest is missing required field(s): model_sha256, input_manifest_sha256"

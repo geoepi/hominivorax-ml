@@ -1,0 +1,84 @@
+{
+  "fields": [
+    {
+      "name": "canonical_node_id",
+      "required": "true",
+      "type": "integer"
+    },
+    {
+      "name": "model_node_id",
+      "required": "true",
+      "type": "integer"
+    },
+    {
+      "name": "target_week",
+      "required": "true",
+      "type": "ISO-week"
+    },
+    {
+      "name": "horizon",
+      "required": "true",
+      "type": "integer"
+    },
+    {
+      "name": "p_occurrence",
+      "required": "true",
+      "type": "float"
+    },
+    {
+      "name": "conditional_count_mean",
+      "required": "true",
+      "type": "float"
+    },
+    {
+      "name": "expected_count",
+      "required": "true",
+      "type": "float"
+    },
+    {
+      "name": "full_q025",
+      "required": "true",
+      "type": "float-or-null"
+    },
+    {
+      "name": "full_q975",
+      "required": "true",
+      "type": "float-or-null"
+    },
+    {
+      "name": "p_boot_sd",
+      "required": "true",
+      "type": "float-or-null"
+    },
+    {
+      "name": "expected_boot_sd",
+      "required": "true",
+      "type": "float-or-null"
+    },
+    {
+      "name": "novelty_knn_distance",
+      "required": "true",
+      "type": "float"
+    },
+    {
+      "name": "support_class",
+      "required": "true",
+      "type": "enum:SUPPORTED|CAUTION|EXTRAPOLATIVE"
+    },
+    {
+      "name": "warning_status",
+      "required": "true",
+      "type": "enum"
+    },
+    {
+      "name": "warning_flags",
+      "required": "true",
+      "type": "semicolon-delimited-enum"
+    }
+  ],
+  "support_classes": [
+    "SUPPORTED",
+    "CAUTION",
+    "EXTRAPOLATIVE"
+  ]
+}

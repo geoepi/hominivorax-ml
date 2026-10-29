@@ -1,0 +1,261 @@
+{
+  "classification": "RETROSPECTIVE_ONLY",
+  "retrospective_predictors": [
+    "era5_mintemp",
+    "era5_soilmoist",
+    "era5_lai_low",
+    "agera5_relhum_min",
+    "era5land_tmean",
+    "era5land_soiltemp_l1_mean",
+    "era5land_soiltemp_l2_mean",
+    "era5land_soilwater_l1_mean",
+    "era5land_soilwater_l2_mean",
+    "era5land_surface_pressure_mean",
+    "era5land_lai_high_mean",
+    "era5land_lai_low_mean"
+  ],
+  "unknown_predictors": [],
+  "horizon_blockers": [
+    {
+      "predictor": "era5_mintemp",
+      "horizon": 1,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5_mintemp",
+      "horizon": 2,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5_mintemp",
+      "horizon": 3,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5_soilmoist",
+      "horizon": 1,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5_soilmoist",
+      "horizon": 2,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5_soilmoist",
+      "horizon": 3,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5_lai_low",
+      "horizon": 1,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5_lai_low",
+      "horizon": 2,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5_lai_low",
+      "horizon": 3,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "agera5_relhum_min",
+      "horizon": 1,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "agera5_relhum_min",
+      "horizon": 2,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "agera5_relhum_min",
+      "horizon": 3,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_tmean",
+      "horizon": 1,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_tmean",
+      "horizon": 2,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_tmean",
+      "horizon": 3,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_soiltemp_l1_mean",
+      "horizon": 1,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_soiltemp_l1_mean",
+      "horizon": 2,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_soiltemp_l1_mean",
+      "horizon": 3,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_soiltemp_l2_mean",
+      "horizon": 1,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_soiltemp_l2_mean",
+      "horizon": 2,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_soiltemp_l2_mean",
+      "horizon": 3,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_soilwater_l1_mean",
+      "horizon": 1,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_soilwater_l1_mean",
+      "horizon": 2,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_soilwater_l1_mean",
+      "horizon": 3,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_soilwater_l2_mean",
+      "horizon": 1,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_soilwater_l2_mean",
+      "horizon": 2,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_soilwater_l2_mean",
+      "horizon": 3,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_surface_pressure_mean",
+      "horizon": 1,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_surface_pressure_mean",
+      "horizon": 2,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_surface_pressure_mean",
+      "horizon": 3,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_lai_high_mean",
+      "horizon": 1,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_lai_high_mean",
+      "horizon": 2,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_lai_high_mean",
+      "horizon": 3,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_lai_low_mean",
+      "horizon": 1,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_lai_low_mean",
+      "horizon": 2,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "era5land_lai_low_mean",
+      "horizon": 3,
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "predictor": "distance_to_any_prior_positive_log1p",
+      "horizon": 2,
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "predictor": "distance_to_any_prior_positive_log1p",
+      "horizon": 3,
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "predictor": "distance_to_prev4_positive_log1p",
+      "horizon": 2,
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "predictor": "distance_to_prev4_positive_log1p",
+      "horizon": 3,
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "predictor": "weeks_since_detection_within_50km_log1p",
+      "horizon": 2,
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "predictor": "weeks_since_detection_within_50km_log1p",
+      "horizon": 3,
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "predictor": "any_prior_positive_available",
+      "horizon": 2,
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "predictor": "any_prior_positive_available",
+      "horizon": 3,
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "predictor": "prev4_positive_available",
+      "horizon": 2,
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "predictor": "prev4_positive_available",
+      "horizon": 3,
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "predictor": "detection_within_50km_ever_available",
+      "horizon": 2,
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "predictor": "detection_within_50km_ever_available",
+      "horizon": 3,
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    }
+  ],
+  "decision_basis": "historical replay is distinct from prospective availability"
+}
