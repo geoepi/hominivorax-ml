@@ -16,7 +16,7 @@ canonical P2 predictions.
 - P2 archive: 632,331 immutable rows from the 21 origins
   `2026-W16`–`2026-W36`, horizons 1–3.
 - Environmental training reference: all 10,037 canonical nodes for
-  `2025-W01`–`2026-W16` (160,592 node-weeks), using the existing A3 feature
+  `2025-W01`–`2026-W16` (682,516 node-weeks), using the existing A3 feature
   cache and exact 34-feature order.
 - Evaluation targets: the canonical P2 rolling-origin archive only. Future
   outcome columns are used for performance evaluation, never for scaling,
@@ -25,7 +25,7 @@ canonical P2 predictions.
 ## A. Environmental support and novelty
 
 The P2 feature cache is the only predictor source. The training reference is
-flattened over the 16 training weeks and all nodes. The existing A3
+flattened over the 68 training weeks and all nodes. The existing A3
 `standardize` implementation is used once with that reference: scaled
 predictors use the training mean and standard deviation; indicator and
 calendar predictors retain their frozen unscaled state. A non-finite or zero
