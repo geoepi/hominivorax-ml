@@ -48,6 +48,12 @@ from run_p2_operational_nowcast import (  # noqa: E402
     regularized_logistic_objective,
     standardize,
 )
+PREDICTOR_SCRIPT_ROOT = REPOSITORY_ROOT / "analysis" / "predictor_augmentation" / "scripts"
+sys.path.insert(0, str(PREDICTOR_SCRIPT_ROOT))
+from run_predictor_augmentation import (  # noqa: E402
+    fixed_theta_zt_nb_objective,
+    regularized_logistic_objective,
+)
 
 
 MODEL_ID = "STRUCTURED_A3"
