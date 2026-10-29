@@ -45,7 +45,7 @@ class P5AContractTests(unittest.TestCase):
         e0, e0_meta = build_proxy_environment(dynamic, labels, "2026-W04", "E0_LAST_AVAILABLE")
         e1, e1_meta = build_proxy_environment(dynamic, labels, "2026-W04", "E1_TRAILING3_MEAN")
         np.testing.assert_array_equal(e0[0], dynamic[2])
-        np.testing.assert_allclose(e1[0], dynamic[1:4].mean(axis=0))
+        np.testing.assert_allclose(e1[0], dynamic[0:3].mean(axis=0))
         self.assertEqual(e0_meta["latest_available_week"], "2026-W03")
         self.assertEqual(e1_meta["window"], "2026-W01;2026-W02;2026-W03")
 
