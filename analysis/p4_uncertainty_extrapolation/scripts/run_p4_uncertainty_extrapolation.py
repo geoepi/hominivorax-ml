@@ -81,6 +81,15 @@ REQUIRED_P2_COLUMNS = {
 }
 
 
+def region_group_from_labels(values: Iterable[Any]) -> np.ndarray:
+    """Map canonical node-region labels to the prespecified US/other strata."""
+    labels = pd.Series(values, dtype="string").fillna("").str.strip().str.casefold()
+    is_us = labels.isin({"united states", "usa", "us", "u.s."}) | labels.str.match(
+        r"^u\.?s\.?-", na=False
+    )
+    return np.where(is_us, "US", "other")
+
+
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise RuntimeError(message)
@@ -409,7 +418,7 @@ def make_target_manifest(frame: pd.DataFrame, support: pd.DataFrame) -> pd.DataF
     for column in support.columns:
         work[column] = support[column].to_numpy()
     work["frontier_group"] = np.where(work["prediction_frontier_class"].astype(str).eq("previously_unoccupied"), "frontier", "established")
-    work["region_group"] = np.where(work["country_or_domain_region"].astype(str).str.contains(r"^(United States|USA|US|U\\.S\\.)$", case=False, regex=True), "US", "other")
+    work["region_group"] = region_group_from_labels(work["country_or_domain_region"])
     work["target_key"] = work.apply(lambda r: f"{r.origin_week}|{r.target_week}|{int(r.horizon)}|{int(r.model_node_id)}", axis=1)
     work = work.sort_values(["origin_week", "target_week", "horizon", "model_node_id"], kind="mergesort")
     selected: list[pd.DataFrame] = []
@@ -454,7 +463,7 @@ def support_mode(args: argparse.Namespace) -> None:
         intervals[column] = support[column].to_numpy()
     intervals["frontier_group"] = np.where(intervals["prediction_frontier_class"].astype(str).eq("previously_unoccupied"), "frontier", "established")
     intervals["support_tier"] = np.where(intervals["support_class"].eq("SUPPORTED"), "supported", "low_support")
-    intervals["region_group"] = np.where(intervals["country_or_domain_region"].astype(str).str.contains(r"^(United States|USA|US|U\\.S\\.)$", case=False, regex=True), "US", "other")
+    intervals["region_group"] = region_group_from_labels(intervals["country_or_domain_region"])
 
     results = args.repository_results
     output = args.output_root
@@ -465,7 +474,10 @@ def support_mode(args: argparse.Namespace) -> None:
     write_parquet(output / "novelty_metrics.parquet", novelty)
     write_parquet(output / "support_classifications.parquet", support_only)
     write_parquet(output / "count_predictive_intervals.parquet", intervals)
-    interval_coverage = interval_metrics(intervals, ["horizon", "support_class", "frontier_group"])
+    interval_coverage = pd.concat([
+        interval_metrics(intervals, ["horizon"]),
+        interval_metrics(intervals, ["horizon", "support_class", "frontier_group"]),
+    ], ignore_index=True, sort=False)
     write_csv(results / "count_interval_coverage.csv", interval_coverage)
     performance_support = metric_summary(intervals, ["horizon", "support_class"])
     performance_novelty = metric_summary(intervals, ["horizon", "novelty_bin"])
@@ -636,6 +648,8 @@ def aggregate_mode(args: argparse.Namespace) -> None:
     results = args.repository_results
     output = args.output_root
     target = pd.read_parquet(output / "bootstrap_target_manifest.parquet").sort_values("target_key", kind="mergesort").reset_index(drop=True)
+    target["region_group"] = region_group_from_labels(target["country_or_domain_region"])
+    write_parquet(output / "bootstrap_target_manifest.parquet", target)
     statuses: list[dict[str, Any]] = []
     successful: dict[int, pd.DataFrame] = {}
     for replicate_id in range(BOOTSTRAP_MAX_ATTEMPTS):
@@ -717,6 +731,14 @@ def aggregate_mode(args: argparse.Namespace) -> None:
     write_csv(results / "model_uncertainty_summaries.csv", uncertainty_group)
 
     support_perf = pd.read_csv(results / "performance_by_support.csv")
+    prior_support_bootstrap_columns = {
+        "bootstrap_p_sd_mean", "bootstrap_expected_count_sd_mean", "bootstrap_target_n",
+    }
+    support_perf = support_perf.drop(columns=[
+        column for column in support_perf.columns
+        if column in prior_support_bootstrap_columns
+        or any(column == f"{base}{suffix}" for base in prior_support_bootstrap_columns for suffix in ("_x", "_y"))
+    ])
     uncertainty_by_support = target_summary.groupby(["horizon", "support_class"], dropna=False).agg(
         bootstrap_p_sd_mean=("p_boot_sd", "mean"),
         bootstrap_expected_count_sd_mean=("expected_boot_sd", "mean"),
@@ -725,6 +747,14 @@ def aggregate_mode(args: argparse.Namespace) -> None:
     support_perf = support_perf.merge(uncertainty_by_support, on=["horizon", "support_class"], how="left")
     write_csv(results / "performance_by_support.csv", support_perf)
     frontier = pd.read_csv(results / "frontier_support_metrics.csv")
+    prior_frontier_bootstrap_columns = {
+        "bootstrap_p_sd_mean", "bootstrap_expected_count_sd_mean",
+    }
+    frontier = frontier.drop(columns=[
+        column for column in frontier.columns
+        if column in prior_frontier_bootstrap_columns
+        or any(column == f"{base}{suffix}" for base in prior_frontier_bootstrap_columns for suffix in ("_x", "_y"))
+    ])
     frontier_uncertainty = target_summary.groupby(["horizon", "frontier_group", "support_tier"], dropna=False).agg(
         bootstrap_p_sd_mean=("p_boot_sd", "mean"),
         bootstrap_expected_count_sd_mean=("expected_boot_sd", "mean"),
@@ -739,7 +769,15 @@ def aggregate_mode(args: argparse.Namespace) -> None:
     failures = [row for row in statuses if row.get("status") != "SUCCESS"]
     success_total = len(successful)
     failure_rate = len(failures) / BOOTSTRAP_MAX_ATTEMPTS
-    interval_coverage = pd.read_csv(results / "count_interval_coverage.csv")
+    intervals = pd.read_parquet(output / "count_predictive_intervals.parquet")
+    intervals["region_group"] = region_group_from_labels(intervals["country_or_domain_region"])
+    write_parquet(output / "count_predictive_intervals.parquet", intervals)
+    interval_coverage = pd.concat([
+        interval_metrics(intervals, ["horizon"]),
+        interval_metrics(intervals, ["horizon", "support_class", "frontier_group"]),
+    ], ignore_index=True, sort=False)
+    write_csv(results / "count_interval_coverage.csv", interval_coverage)
+    write_csv(results / "regional_support_summary.csv", metric_summary(intervals, ["horizon", "region_group", "support_class"]))
     overall_coverage = interval_coverage.loc[(interval_coverage["scope"] == "all")]
     finite_coverage = overall_coverage["full_interval_coverage"].dropna()
     catastrophic_coverage = bool(len(finite_coverage) and ((finite_coverage < 0.05).all() or (finite_coverage > 0.99).all()))
