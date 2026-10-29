@@ -42,10 +42,8 @@ from run_p2_operational_nowcast import (  # noqa: E402
     calibration_values,
     count_metrics,
     fit_fixed_theta,
-    fixed_theta_zt_nb_objective,
     occurrence_metrics,
     predict,
-    regularized_logistic_objective,
     standardize,
 )
 PREDICTOR_SCRIPT_ROOT = REPOSITORY_ROOT / "analysis" / "predictor_augmentation" / "scripts"
