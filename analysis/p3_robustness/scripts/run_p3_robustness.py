@@ -216,9 +216,9 @@ def frontier_labels(counts: np.ndarray, origin_index: int, nodes: pd.DataFrame) 
     }
 
 
-def frontier_metric_row(frame: pd.DataFrame, definition: str, class_name: str, horizon: int) -> dict[str, Any]:
+def frontier_metric_row(frame: pd.DataFrame, definition: str, class_name: str, horizon: int, origin_week: str) -> dict[str, Any]:
     subset = frame.loc[(frame["horizon"].astype(int) == int(horizon)) & (frame["frontier_class"] == class_name)]
-    row: dict[str, Any] = {"definition": definition, "frontier_class": class_name, "horizon": int(horizon)}
+    row: dict[str, Any] = {"origin_week": origin_week, "definition": definition, "frontier_class": class_name, "horizon": int(horizon)}
     row.update(occurrence_metrics(subset))
     row.update(count_metrics(subset))
     return row
@@ -240,7 +240,7 @@ def run_frontier_sensitivity(frame: pd.DataFrame, counts: np.ndarray, labels: li
             subset["frontier_class"] = classes[node_ids]
             for horizon in (1, 2, 3):
                 for class_name in sorted(subset["frontier_class"].unique()):
-                    metric_rows.append(frontier_metric_row(subset, definition, class_name, horizon))
+                    metric_rows.append(frontier_metric_row(subset, definition, class_name, horizon, origin_week))
         toy_counts = np.zeros((6, 6), dtype=np.int64)
         toy_counts[origin_index if origin_index < 2 else 1, 0] = 1
         toy_nodes = nodes.iloc[:6].copy()
@@ -613,10 +613,10 @@ def initialization_metrics(inputs: dict[str, Any]) -> tuple[pd.DataFrame, dict[s
 
 def limitation_rows(frame: pd.DataFrame, frontier: pd.DataFrame, count_strata: pd.DataFrame, partitions: pd.DataFrame, fit_summary: dict[str, Any], init_summary: dict[str, Any]) -> pd.DataFrame:
     us = frame.loc[frame["country_or_domain_region"].astype(str).str.contains("U.S.", regex=False)]
-    frontier_reference = frontier.loc[(frontier["definition"] == "F0_reference") & (frontier["horizon"] == 1)]
+    frontier_reference = frontier.loc[(frontier["definition"] == "F0_reference") & (frontier["horizon"] == 1) & (frontier["frontier_class"] == "previously_unoccupied")]
     extreme = count_strata.loc[(count_strata["horizon"] == "all") & (count_strata["count_stratum"] == "extreme_11_plus")]
     rows = [
-        {"limitation_id": "P1_sparse_frontier_support", "p1_p2_status": "PERSISTS", "p3_analysis": "frontier-definition sensitivity", "resolution_classification": "ROBUST_LIMITATION", "evidence": f"F0 has {int(frontier_reference['positives'].sum())} positives in h=1 frontier classes; alternatives are reported without pooling."},
+        {"limitation_id": "P1_sparse_frontier_support", "p1_p2_status": "PERSISTS", "p3_analysis": "frontier-definition sensitivity", "resolution_classification": "ROBUST_LIMITATION", "evidence": f"F0 has {int(frontier_reference['positives'].sum())} previously-unoccupied positives across h=1 origins (N={int(frontier_reference['n'].sum())}); alternatives are reported without pooling."},
         {"limitation_id": "P1_sparse_us_regional_support", "p1_p2_status": "PERSISTS", "p3_analysis": "spatial partition sensitivity", "resolution_classification": "ROBUST_LIMITATION", "evidence": f"P2 U.S./domain rows remain sparse with {int((us['observed_positive'] > 0).sum())} positive rows across the archive."},
         {"limitation_id": "P1_count_process_bias", "p1_p2_status": "PERSISTS", "p3_analysis": "count-error influence", "resolution_classification": "BETTER_CHARACTERIZED", "evidence": f"Observed-count strata and deterministic top-5%/top-1% diagnostics are reported; extreme-tail rows={int(extreme['n'].iloc[0]) if len(extreme) else 0}."},
         {"limitation_id": "P1_P2_evaluation_partition_boundary", "p1_p2_status": "PERSISTS", "p3_analysis": "spatial and temporal regrouping", "resolution_classification": "NOT_ADDRESSABLE_IN_P3", "evidence": "Regrouping frozen predictions does not create a refitted spatial holdout."},
