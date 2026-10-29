@@ -1,0 +1,480 @@
+{
+  "count_checks": {
+    "positive_rows": 27059,
+    "status": "PASS",
+    "strata": [
+      "low_1_2",
+      "moderate_3_5",
+      "high_6_10",
+      "extreme_11_plus"
+    ]
+  },
+  "decision": "P3_ROBUSTNESS_SUPPORTED_WITH_LIMITATIONS",
+  "fit_summary": {
+    "count_converged": 21,
+    "fit_artifacts": 21,
+    "graph_effect": "not_applicable",
+    "occurrence_converged": 21,
+    "parameters_near_zero_at_all_origins": 9,
+    "parameters_with_sign_transitions": 15
+  },
+  "frontier_leakage_checks": {
+    "checks": 63,
+    "leakage_checks": [
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W16",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W16",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W16",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W17",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W17",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W17",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W18",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W18",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W18",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W19",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W19",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W19",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W20",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W20",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W20",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W21",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W21",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W21",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W22",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W22",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W22",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W23",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W23",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W23",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W24",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W24",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W24",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W25",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W25",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W25",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W26",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W26",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W26",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W27",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W27",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W27",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W28",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W28",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W28",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W29",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W29",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W29",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W30",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W30",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W30",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W31",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W31",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W31",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W32",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W32",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W32",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W33",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W33",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W33",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W34",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W34",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W34",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W35",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W35",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W35",
+        "reproducible": true
+      },
+      {
+        "definition": "F0_reference",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W36",
+        "reproducible": true
+      },
+      {
+        "definition": "F1_recent_8_week_occupancy",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W36",
+        "reproducible": true
+      },
+      {
+        "definition": "F2_distance_to_prior_detection",
+        "future_mutation_invariant": true,
+        "origin_week": "2026-W36",
+        "reproducible": true
+      }
+    ],
+    "status": "PASS"
+  },
+  "initialization_checks": {
+    "origins": [
+      "2026-W16",
+      "2026-W26",
+      "2026-W36"
+    ],
+    "status": "PASS",
+    "variants": [
+      "canonical",
+      "zero_all",
+      "deterministic_perturbed"
+    ]
+  },
+  "interpretation": "Major P1/P2 conclusions remain usable; bounded alternatives reinforce existing support and count limitations without changing the frozen model.",
+  "limitations": [
+    {
+      "evidence": "F0 has 860 previously-unoccupied positives across h=1 origins (N=181408); alternatives are reported without pooling.",
+      "limitation_id": "P1_sparse_frontier_support",
+      "p1_p2_status": "PERSISTS",
+      "p3_analysis": "frontier-definition sensitivity",
+      "resolution_classification": "ROBUST_LIMITATION"
+    },
+    {
+      "evidence": "P2 U.S./domain rows remain sparse with 123 positive rows across the archive.",
+      "limitation_id": "P1_sparse_us_regional_support",
+      "p1_p2_status": "PERSISTS",
+      "p3_analysis": "spatial partition sensitivity",
+      "resolution_classification": "ROBUST_LIMITATION"
+    },
+    {
+      "evidence": "Observed-count strata and deterministic top-5%/top-1% diagnostics are reported; extreme-tail rows=430.",
+      "limitation_id": "P1_count_process_bias",
+      "p1_p2_status": "PERSISTS",
+      "p3_analysis": "count-error influence",
+      "resolution_classification": "BETTER_CHARACTERIZED"
+    },
+    {
+      "evidence": "Regrouping frozen predictions does not create a refitted spatial holdout.",
+      "limitation_id": "P1_P2_evaluation_partition_boundary",
+      "p1_p2_status": "PERSISTS",
+      "p3_analysis": "spatial and temporal regrouping",
+      "resolution_classification": "NOT_ADDRESSABLE_IN_P3"
+    },
+    {
+      "evidence": "Immutable fits converged 21/21 and 21/21; initialization status=PASS.",
+      "limitation_id": "P1_P2_fit_stability",
+      "p1_p2_status": "NO_NEW_FAILURE",
+      "p3_analysis": "fit/numerical stability",
+      "resolution_classification": "BETTER_CHARACTERIZED"
+    },
+    {
+      "evidence": "P3 does not fabricate release-time or revision-lag metadata.",
+      "limitation_id": "P2_retrospective_environmental_availability",
+      "p1_p2_status": "PERSISTS",
+      "p3_analysis": "not tested by bounded sensitivity",
+      "resolution_classification": "NOT_ADDRESSABLE_IN_P3"
+    }
+  ],
+  "marker": "P3_ROBUSTNESS_SUPPORTED_WITH_LIMITATIONS",
+  "no_new_predictors": true,
+  "no_recalibration": true,
+  "no_retuning": true,
+  "p2_predictions_reused": true,
+  "partition_checks": {
+    "spatial_schemes": [
+      "S0_country_domain_region",
+      "S1_latitude_macroregion",
+      "S2_longitude_macroregion"
+    ],
+    "status": "PASS",
+    "temporal_schemes": [
+      "T0_target_week",
+      "T1_fixed_four_week_block"
+    ]
+  }
+}

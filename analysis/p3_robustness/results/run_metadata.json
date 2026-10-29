@@ -1,0 +1,56 @@
+{
+  "atlas_output_root": "/project/disease_ecology/STGNN-output/p3_robustness_20261029",
+  "branch": "feature/p3-bounded-robustness",
+  "count_strata": [
+    "low_1_2",
+    "moderate_3_5",
+    "high_6_10",
+    "extreme_11_plus"
+  ],
+  "frontier_definitions": [
+    "F0_reference",
+    "F1_recent_8_week_occupancy",
+    "F2_distance_to_prior_detection"
+  ],
+  "initialization_origins": [
+    "2026-W16",
+    "2026-W26",
+    "2026-W36"
+  ],
+  "initialization_status": "PASS",
+  "initialization_variants": [
+    "canonical",
+    "zero_all",
+    "deterministic_perturbed"
+  ],
+  "model_id": "STRUCTURED_A3",
+  "numpy": "2.5.3",
+  "p0_model_artifact_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+  "p2_archive_path": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/predictions/rolling_origin_predictions.parquet",
+  "p2_archive_rows": 632331,
+  "p2_archive_sha256": "918b33e80d352c080fcefb3d7b2a44dc29d0096b0b2e7dd6f5b017becc983170",
+  "p2_merge_sha": "ec6e951c63f7ec7fd252de5ddea6bb9772fea906",
+  "p2_output_root": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029",
+  "p3_script_sha256": "610b837b083779c930ca3651004858f6ca5a68e2208d3090530c22852912386c",
+  "pandas": "3.0.6",
+  "prespecification_sha256": "516a4d7d8985b808adf994f4f0ac62e4cd7bacc45d5adf26501974cd95b6bf4a",
+  "production_model_modified": false,
+  "protected_inputs_not_committed": true,
+  "python": "3.12.14",
+  "repository_sha": "4de0937c229edfa86da1fd5580cd816f0661681a",
+  "runtime_seconds": 101.20377159118652,
+  "scipy": "1.18.1",
+  "slurm_job_id": "21059814",
+  "slurm_status": "COMPLETED",
+  "spatial_partitions": [
+    "S0_country_domain_region",
+    "S1_latitude_macroregion",
+    "S2_longitude_macroregion"
+  ],
+  "starting_main_sha": "ec6e951c63f7ec7fd252de5ddea6bb9772fea906",
+  "temporal_partitions": [
+    "T0_target_week",
+    "T1_fixed_four_week_block"
+  ],
+  "worktree": "/project/disease_ecology/STGNN-output/worktrees/p3-bounded-robustness-v1"
+}

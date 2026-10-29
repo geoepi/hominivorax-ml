@@ -1,0 +1,8 @@
+{
+  "count_converged": 21,
+  "fit_artifacts": 21,
+  "graph_effect": "not_applicable",
+  "occurrence_converged": 21,
+  "parameters_near_zero_at_all_origins": 9,
+  "parameters_with_sign_transitions": 15
+}
