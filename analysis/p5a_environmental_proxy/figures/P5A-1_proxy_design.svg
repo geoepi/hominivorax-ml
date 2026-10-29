@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="360" viewBox="0 0 1000 360">
+<rect width="100%" height="100%" fill="white"/>
+<text x="40" y="34" font-family="Arial, sans-serif" font-size="20" font-weight="bold">P5A-1 Issue-time proxy design</text>
+<line x1="110" y1="235" x2="890" y2="235" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#555"/></marker></defs>
+<g font-family="Arial" font-size="16" text-anchor="middle"><text x="110" y="190">issue T</text><text x="245" y="190">T-3 · T-2 · T-1</text><text x="430" y="190">L(T)=T-1</text><text x="650" y="190">E0: persist · E1: trailing 3 · E2: seasonal</text><text x="880" y="190">h=1,2,3</text></g>
+<g font-family="Arial" font-size="13" text-anchor="middle"><rect x="55" y="260" width="115" height="45" fill="#e8f1fb" stroke="#4472c4"/><text x="112" y="287">availability cutoff</text><rect x="370" y="260" width="120" height="45" fill="#f3f3f3" stroke="#666"/><text x="430" y="287">proxy state</text><rect x="820" y="260" width="120" height="45" fill="#eaf4ea" stroke="#4b8b4b"/><text x="880" y="287">34 columns</text></g>
+</svg>

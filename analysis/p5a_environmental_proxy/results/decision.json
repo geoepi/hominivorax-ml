@@ -1,0 +1,31 @@
+{
+  "availability_reclassification": "PROSPECTIVE_READY_WITH_PROXY_LIMITATIONS",
+  "decision": "P5A_ENVIRONMENTAL_PROXY_SUPPORTED",
+  "marker": "P5A_ENVIRONMENTAL_PROXY_SUPPORTED",
+  "p2_reference_unchanged": true,
+  "production_model_modified": false,
+  "proxy_decisions": [
+    {
+      "bounded_failures": "",
+      "classification": "OPERATIONALLY_ACCEPTABLE",
+      "proxy_id": "E0_LAST_AVAILABLE",
+      "reason": "Meets all prespecified strict degradation bounds at h=1,2,3.",
+      "strict_failures": ""
+    },
+    {
+      "bounded_failures": "",
+      "classification": "OPERATIONALLY_ACCEPTABLE",
+      "proxy_id": "E1_TRAILING3_MEAN",
+      "reason": "Meets all prespecified strict degradation bounds at h=1,2,3.",
+      "strict_failures": ""
+    },
+    {
+      "bounded_failures": NaN,
+      "classification": "NOT_EVALUABLE",
+      "proxy_id": "E2_SEASONAL_EXPECTATION",
+      "reason": "E2 requires two prior seasonal cycles; the validated archive supplies only one.",
+      "strict_failures": NaN
+    }
+  ],
+  "selected_proxy_id": "E0_LAST_AVAILABLE"
+}

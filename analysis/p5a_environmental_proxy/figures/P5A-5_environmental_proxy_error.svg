@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="340" viewBox="0 0 1000 340">
+<rect width="100%" height="100%" fill="white"/>
+<text x="40" y="34" font-family="Arial, sans-serif" font-size="20" font-weight="bold">P5A-5 Environmental proxy error by family</text>
+<text x="70" y="75" font-family="Arial" font-size="12">E0 LAST AVAILABLE / humidity_pressure</text><rect x="300" y="61" width="620.0" height="17" fill="#4472c4"/><text x="930" y="75" font-family="Arial" font-size="12">3.6</text>
+<text x="70" y="103" font-family="Arial" font-size="12">E0 LAST AVAILABLE / moisture_water</text><rect x="300" y="89" width="6.5" height="17" fill="#4472c4"/><text x="930" y="103" font-family="Arial" font-size="12">0.0377</text>
+<text x="70" y="131" font-family="Arial" font-size="12">E0 LAST AVAILABLE / temperature</text><rect x="300" y="117" width="415.1" height="17" fill="#4472c4"/><text x="930" y="131" font-family="Arial" font-size="12">2.41</text>
+<text x="70" y="159" font-family="Arial" font-size="12">E0 LAST AVAILABLE / vegetation</text><rect x="300" y="145" width="8.4" height="17" fill="#4472c4"/><text x="930" y="159" font-family="Arial" font-size="12">0.049</text>
+<text x="70" y="187" font-family="Arial" font-size="12">E1 TRAILING3 MEAN / humidity_pressure</text><rect x="300" y="173" width="576.5" height="17" fill="#70ad47"/><text x="930" y="187" font-family="Arial" font-size="12">3.34</text>
+<text x="70" y="215" font-family="Arial" font-size="12">E1 TRAILING3 MEAN / moisture_water</text><rect x="300" y="201" width="6.6" height="17" fill="#70ad47"/><text x="930" y="215" font-family="Arial" font-size="12">0.0382</text>
+<text x="70" y="243" font-family="Arial" font-size="12">E1 TRAILING3 MEAN / temperature</text><rect x="300" y="229" width="450.6" height="17" fill="#70ad47"/><text x="930" y="243" font-family="Arial" font-size="12">2.61</text>
+<text x="70" y="271" font-family="Arial" font-size="12">E1 TRAILING3 MEAN / vegetation</text><rect x="300" y="257" width="11.2" height="17" fill="#70ad47"/><text x="930" y="271" font-family="Arial" font-size="12">0.0648</text>
+</svg>

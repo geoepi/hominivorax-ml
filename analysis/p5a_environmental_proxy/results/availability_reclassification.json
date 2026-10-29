@@ -1,0 +1,9 @@
+{
+  "classification": "PROSPECTIVE_READY_WITH_PROXY_LIMITATIONS",
+  "environmental_source_requirement": "source observation week <= T-1 and source timestamp <= issue timestamp",
+  "p5_non_environmental_limitations_preserved": true,
+  "previous_classification": "RETROSPECTIVE_ONLY",
+  "reason": "Selected by prespecified simplicity-first rule",
+  "selected_proxy_classification": "OPERATIONALLY_ACCEPTABLE",
+  "selected_proxy_id": "E0_LAST_AVAILABLE"
+}

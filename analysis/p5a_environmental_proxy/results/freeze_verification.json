@@ -1,0 +1,9 @@
+{
+  "artifacts": "PASS",
+  "deterministic_inference": "PASS",
+  "known_answer_inference": "PASS",
+  "manifest": "PASS",
+  "model_metadata": "PASS",
+  "predictor_schema": "PASS",
+  "trains_model": false
+}
