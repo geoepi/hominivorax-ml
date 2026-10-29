@@ -59,7 +59,7 @@ def render(root: Path) -> None:
     # P5A-3: paired degradation.
     fig, axes = plt.subplots(1, 2, figsize=(10, 4.2), sharex=True)
     for axis, metric, ylabel in [(axes[0], "brier", "Proxy − realized Brier"), (axes[1], "auprc", "Proxy − realized AUPRC")]:
-        work = paired.loc[(paired["metric"] == metric) & paired["proxy_id"].isin(["E0_LAST_AVAILABLE", "E1_TRAILING3_MEAN])]
+        work = paired.loc[(paired["metric"] == metric) & paired["proxy_id"].isin(["E0_LAST_AVAILABLE", "E1_TRAILING3_MEAN"])]
         for proxy_id, group in work.groupby("proxy_id", sort=False):
             axis.plot(group["horizon"], group["difference_proxy_minus_realized"], marker="o", label=proxy_id)
         axis.axhline(0, color="#555555", lw=0.8)
