@@ -20,11 +20,11 @@
       "strict_failures": ""
     },
     {
-      "bounded_failures": NaN,
+      "bounded_failures": "",
       "classification": "NOT_EVALUABLE",
       "proxy_id": "E2_SEASONAL_EXPECTATION",
       "reason": "E2 requires two prior seasonal cycles; the validated archive supplies only one.",
-      "strict_failures": NaN
+      "strict_failures": ""
     }
   ],
   "selected_proxy_id": "E0_LAST_AVAILABLE"
