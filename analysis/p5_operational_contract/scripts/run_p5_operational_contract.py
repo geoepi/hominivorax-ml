@@ -67,6 +67,7 @@ P4_REQUIRED = (
     "novelty_metrics.parquet",
     "count_predictive_intervals.parquet",
     "support_classifications.parquet",
+    "model_uncertainty_summary.parquet",
     "support_thresholds.csv",
     "support_flag_specification.json",
     "p4_run_metadata.json",
