@@ -125,7 +125,7 @@ P4 classes `SUPPORTED`, `CAUTION`, and `EXTRAPOLATIVE` and the P4 thresholds are
 
 ## VIII. Historical Replay
 
-Replay issue week: `{{replay.get('issue_week')}}`; target weeks: `{{', '.join(replay.get('target_weeks', []))}}`. Atlas job ID: `{job_id}`. Replay terminal status: `{replay.get('terminal_status')}`. Output rows: `{replay.get('output_row_count')}`. Output SHA-256: `{replay.get('output_sha256')}`. Output size: `{replay_size}` bytes. This is an explicit retrospective reconstruction, not prospective availability evidence.
+Replay issue week: `{replay.get('issue_week')}`; target weeks: `{', '.join(replay.get('target_weeks', []))}`. Atlas job ID: `{job_id}`. Replay terminal status: `{replay.get('terminal_status')}`. Output rows: `{replay.get('output_row_count')}`. Output SHA-256: `{replay.get('output_sha256')}`. Output size: `{replay_size}` bytes. This is an explicit retrospective reconstruction, not prospective availability evidence.
 
 ## IX. Reproducibility
 
@@ -184,7 +184,6 @@ Hosted CI, PR, merge, post-merge freeze verification, and cleanup will be record
 
 {decision}
 """
-    report = report.replace("{{replay.get('issue_week')}}", str(replay.get("issue_week")))
     (repo / "analysis" / "p5_operational_contract" / "p5_operational_contract_report.md").write_text(report, encoding="utf-8")
     return metadata
 
