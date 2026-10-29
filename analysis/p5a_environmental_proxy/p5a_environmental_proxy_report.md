@@ -18,7 +18,7 @@ P5 merge SHA: `650edd2397279a1a6a68dd89e42c724621d6da04`. P5 decision was
 
 ## III. P5A Repository State
 
-P5A repository SHA during result generation: `8b3faeb819634dcd0e021b5989ae4ab77786e59c`.
+P5A repository SHA during result generation: `e30f1b4d88be4bab26f66be6f47c0b70ed46937b`.
 The exact P2 rolling-origin fit artifacts were reused; `no_model_refit` is
 `True`. The P2 reference archive was preserved unchanged with hash
 `918b33e80d352c080fcefb3d7b2a44dc29d0096b0b2e7dd6f5b017becc983170`. The P5A result root contains atomic
