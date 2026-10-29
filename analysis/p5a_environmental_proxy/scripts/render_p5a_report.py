@@ -17,7 +17,13 @@ def table(frame: pd.DataFrame, columns: list[str], digits: int = 4) -> str:
     for column in work.columns:
         if pd.api.types.is_float_dtype(work[column]):
             work[column] = work[column].map(lambda value: "NA" if pd.isna(value) else f"{value:.{digits}f}")
-    return work.to_markdown(index=False)
+    header = "| " + " | ".join(str(column) for column in work.columns) + " |"
+    divider = "| " + " | ".join("---" for _ in work.columns) + " |"
+    rows = [
+        "| " + " | ".join("NA" if pd.isna(value) else str(value) for value in row) + " |"
+        for row in work.itertuples(index=False, name=None)
+    ]
+    return "\n".join([header, divider, *rows])
 
 
 def render(repository_root: Path, output_root: Path) -> None:
