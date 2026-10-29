@@ -14,7 +14,7 @@
 
 set -euo pipefail
 
-REPO=/project/disease_ecology/STGNN-output/worktrees/p1-production-validation
+REPO="${P1_REPO:-/project/disease_ecology/STGNN-output/worktrees/p1-production-validation}"
 cd "${REPO}"
 export STGNN_PYTHON_ENV=/project/disease_ecology/STGNN-python-venv
 source /project/disease_ecology/STGNN/hpc/env_python.sh
