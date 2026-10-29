@@ -61,6 +61,7 @@ These thresholds are fixed from training support and are not selected using
 P2 performance. Continuous novelty is retained through the distance and
 range counts, and summarized using fixed training distance bins (<=50th,
 50–75th, 75–90th, 90–95th, 95–99th, and >99th percentiles).
+No observed outcome is used to assign the production support flag.
 
 ## B. Predictive uncertainty and count intervals
 
