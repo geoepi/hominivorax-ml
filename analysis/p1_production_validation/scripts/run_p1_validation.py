@@ -186,7 +186,11 @@ def build_feature_matrix(
         require(not invalid, f"same-week/future history use detected for {week}")
 
     dynamic_selected = dynamic[selected_indices]
-    static_full = np.broadcast_to(static[None, :, :], (len(selected_weeks), n_nodes, 10))
+    transformed_static = static.copy()
+    # The frozen model's five livestock predictors are log1p-transformed;
+    # imputation indicators remain unscaled binary inputs.
+    transformed_static[:, :5] = np.log1p(transformed_static[:, :5])
+    static_full = np.broadcast_to(transformed_static[None, :, :], (len(selected_weeks), n_nodes, 10))
     calendar_values = np.asarray([[calendar_map.loc[week, "week_sin"], calendar_map.loc[week, "week_cos"]] for week in selected_weeks], dtype=float)
     calendar_full = np.broadcast_to(calendar_values[:, None, :], (len(selected_weeks), n_nodes, 2))
     front_values = front[HISTORY_FEATURES].to_numpy(float).reshape(len(selected_weeks), n_nodes, len(HISTORY_FEATURES))
@@ -353,19 +357,29 @@ def add_metric_rows(rows: list[dict[str, Any]], frame: pd.DataFrame, model: dict
         rows.append({"regime": regime, "subset": subset, "metric": metric, "value": value, "n_node_weeks": len(frame), "positive_node_weeks": int((frame["observed_count"] > 0).sum())})
 
 
-def make_frontier_frame(scored: pd.DataFrame, front: pd.DataFrame) -> pd.DataFrame:
+def load_prior_occupancy(counts_path: Path, weeks_path: Path, cutoff_week: str) -> pd.DataFrame:
+    counts = np.asarray(np.load(counts_path, mmap_mode="r"), dtype=np.int64)
+    weeks = pd.read_parquet(weeks_path)["iso_week"].astype(str).tolist()
+    require(counts.ndim == 2 and counts.shape[1] == 10037, "development response array does not match the canonical node count")
+    prior_indices = [index for index, week in enumerate(weeks) if parse_week(week) < parse_week(cutoff_week)]
+    require(prior_indices, "no prior response weeks are available for frontier classification")
+    occupied = np.any(counts[prior_indices, :] > 0, axis=0)
+    return pd.DataFrame({"model_node_id": np.arange(counts.shape[1], dtype=np.int64), "previously_occupied_flag": occupied})
+
+
+def make_frontier_frame(scored: pd.DataFrame, front: pd.DataFrame, prior_occupancy: pd.DataFrame) -> pd.DataFrame:
     history = front[["week", "model_node_id", "any_prior_positive_available", "prev4_positive_available", "detection_within_50km_ever_available"]].copy()
     history["week"] = history["week"].astype(str)
     merged = scored.merge(history, on=["week", "model_node_id"], how="left", validate="one_to_one")
-    require(not merged[["any_prior_positive_available", "prev4_positive_available", "detection_within_50km_ever_available"]].isna().any().any(), "frontier history join is incomplete")
-    prior = merged["any_prior_positive_available"].to_numpy(float) > 0
+    merged = merged.merge(prior_occupancy, on="model_node_id", how="left", validate="many_to_one")
+    require(not merged[["any_prior_positive_available", "prev4_positive_available", "detection_within_50km_ever_available", "previously_occupied_flag"]].isna().any().any(), "frontier history join is incomplete")
+    prior = merged["previously_occupied_flag"].to_numpy(bool)
     positive = merged["observed_count"].to_numpy(np.int64) > 0
     merged["frontier_category"] = np.select(
         [positive & prior, (~positive) & prior, positive & (~prior)],
         ["established_core", "previously_occupied", "newly_detected_frontier"],
         default="previously_unoccupied",
     )
-    merged["previously_occupied_flag"] = prior
     merged["previously_unoccupied_flag"] = ~prior
     return merged
 
@@ -468,7 +482,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     scored["underlying_mu"] = mu
     scored["expected_count"] = probability * conditional
     front = front.sort_values(["week", "model_node_id"]).reset_index(drop=True)
-    scored = make_frontier_frame(scored, front)
+    prior_occupancy = load_prior_occupancy(args.development_counts, args.development_weeks, EXPECTED_WEEKS[0])
+    scored = make_frontier_frame(scored, front, prior_occupancy)
 
     metric_rows: list[dict[str, Any]] = []
     add_metric_rows(metric_rows, scored, model, "temporal", "all_post_fit")
@@ -498,6 +513,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         repo / "analysis" / "structured_a3_evaluation" / "results" / "final_a3_model.json",
         predictions_path, args.refresh_dynamic, args.refresh_static, args.refresh_weeks,
         args.refresh_calendar, args.refresh_front, args.road_night, args.soil,
+        args.development_counts, args.development_weeks,
     ]
     input_manifest = {
         "repository_sha": subprocess.check_output(["git", "-c", "safe.directory=*", "rev-parse", "HEAD"], cwd=repo, text=True).strip(),
@@ -554,6 +570,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--refresh-weeks", type=Path, required=True)
     parser.add_argument("--refresh-calendar", type=Path, required=True)
     parser.add_argument("--refresh-front", type=Path, required=True)
+    parser.add_argument("--development-counts", type=Path, required=True)
+    parser.add_argument("--development-weeks", type=Path, required=True)
     parser.add_argument("--road-night", type=Path, required=True)
     parser.add_argument("--soil", type=Path, required=True)
     parser.add_argument("--bootstrap-replicates", type=int, default=BOOTSTRAP_REPLICATES)

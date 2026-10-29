@@ -73,7 +73,8 @@ class P1ValidationTests(unittest.TestCase):
                 "detection_within_50km_ever_available": [1, 1, 0, 0],
             }
         )
-        result = p1.make_frontier_frame(scored, front)
+        occupancy = pd.DataFrame({"model_node_id": [0, 1, 2, 3], "previously_occupied_flag": [True, True, False, False]})
+        result = p1.make_frontier_frame(scored, front, occupancy)
         self.assertEqual(result.loc[0, "frontier_category"], "established_core")
         self.assertEqual(result.loc[1, "frontier_category"], "previously_occupied")
         self.assertEqual(result.loc[2, "frontier_category"], "newly_detected_frontier")
