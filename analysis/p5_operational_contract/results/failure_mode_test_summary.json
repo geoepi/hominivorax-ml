@@ -1,0 +1,99 @@
+{
+  "status": "PASS",
+  "tests": 13,
+  "passed": 13,
+  "failed": 0,
+  "results": [
+    {
+      "test": "missing predictor file",
+      "expected_code": "MISSING_REQUIRED_INPUT",
+      "observed_code": "MISSING_REQUIRED_INPUT",
+      "status": "PASS",
+      "message": "missing required input(s): /local/scratch/john.humphreys/21060933/p5-failure-tests-7mdu7p2l/missing.npy"
+    },
+    {
+      "test": "stale predictor",
+      "expected_code": "STALE_BLOCKING",
+      "observed_code": "STALE_BLOCKING",
+      "status": "PASS",
+      "message": "deliberate invalid freshness state"
+    },
+    {
+      "test": "future-dated predictor",
+      "expected_code": "FUTURE_DATED",
+      "observed_code": "FUTURE_DATED",
+      "status": "PASS",
+      "message": "deliberate invalid freshness state"
+    },
+    {
+      "test": "wrong CRS",
+      "expected_code": "SPATIAL_CONTRACT_FAILED",
+      "observed_code": "SPATIAL_CONTRACT_FAILED",
+      "status": "PASS",
+      "message": "spatial field 'crs' does not match the canonical contract"
+    },
+    {
+      "test": "wrong resolution",
+      "expected_code": "SPATIAL_CONTRACT_FAILED",
+      "observed_code": "SPATIAL_CONTRACT_FAILED",
+      "status": "PASS",
+      "message": "spatial field 'resolution' does not match the canonical contract"
+    },
+    {
+      "test": "wrong extent",
+      "expected_code": "SPATIAL_CONTRACT_FAILED",
+      "observed_code": "SPATIAL_CONTRACT_FAILED",
+      "status": "PASS",
+      "message": "spatial field 'extent' does not match the canonical contract"
+    },
+    {
+      "test": "predictor-schema mismatch",
+      "expected_code": "PREDICTOR_SCHEMA_MISMATCH",
+      "observed_code": "PREDICTOR_SCHEMA_MISMATCH",
+      "status": "PASS",
+      "message": "expected frozen predictor order of length 2, observed 1"
+    },
+    {
+      "test": "corrupted model artifact/hash mismatch",
+      "expected_code": "MODEL_HASH_MISMATCH",
+      "observed_code": "MODEL_HASH_MISMATCH",
+      "status": "PASS",
+      "message": "SHA-256 mismatch for /local/scratch/john.humphreys/21060933/p5-failure-tests-7mdu7p2l/present.bin: expected 0000000000000000000000000000000000000000000000000000000000000000, observed 0deeb8fa1dbbee4c0dbe7f5e3c9183940139f26d22797ee8ab07c00557a4c2ff"
+    },
+    {
+      "test": "missing support-reference artifact",
+      "expected_code": "MISSING_SUPPORT_REFERENCE",
+      "observed_code": "MISSING_SUPPORT_REFERENCE",
+      "status": "PASS",
+      "message": "missing required input(s): /local/scratch/john.humphreys/21060933/p5-failure-tests-7mdu7p2l/missing-support.parquet"
+    },
+    {
+      "test": "duplicate target week",
+      "expected_code": "DUPLICATE_TARGET_WEEK",
+      "observed_code": "DUPLICATE_TARGET_WEEK",
+      "status": "PASS",
+      "message": "duplicate target week/horizon: ('2026-W41', 1)"
+    },
+    {
+      "test": "invalid issue week",
+      "expected_code": "INVALID_ISSUE_WEEK",
+      "observed_code": "INVALID_ISSUE_WEEK",
+      "status": "PASS",
+      "message": "invalid ISO week: '2026-W99'"
+    },
+    {
+      "test": "partial predictor coverage",
+      "expected_code": "MISSING_REQUIRED_INPUT",
+      "observed_code": "MISSING_REQUIRED_INPUT",
+      "status": "PASS",
+      "message": "missing required input(s): /local/scratch/john.humphreys/21060933/p5-failure-tests-7mdu7p2l/partial-missing.parquet"
+    },
+    {
+      "test": "missing provenance metadata",
+      "expected_code": "MISSING_PROVENANCE_METADATA",
+      "observed_code": "MISSING_PROVENANCE_METADATA",
+      "status": "PASS",
+      "message": "manifest is missing required field(s): model_sha256, input_manifest_sha256"
+    }
+  ]
+}

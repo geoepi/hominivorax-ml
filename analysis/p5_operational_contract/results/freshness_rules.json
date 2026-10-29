@@ -1,0 +1,17 @@
+{
+  "rules": [
+    "missing source -> MISSING and block",
+    "source timestamp after issue timestamp -> FUTURE_DATED and block",
+    "RETROSPECTIVE_ONLY -> STALE_BLOCKING and block",
+    "undocumented vintage -> UNKNOWN_VINTAGE and block",
+    "known bounded lag may be STALE_ALLOWED only when declared in the input manifest"
+  ],
+  "states": [
+    "CURRENT",
+    "STALE_ALLOWED",
+    "STALE_BLOCKING",
+    "MISSING",
+    "FUTURE_DATED",
+    "UNKNOWN_VINTAGE"
+  ]
+}

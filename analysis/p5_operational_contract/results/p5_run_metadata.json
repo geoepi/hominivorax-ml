@@ -1,0 +1,422 @@
+{
+  "atlas_output_root": "/project/disease_ecology/STGNN-output/p5_operational_contract_20261029_v5",
+  "availability_classification": "RETROSPECTIVE_ONLY",
+  "availability_counts": {
+    "AVAILABLE_AS_OF_ISSUE": 2,
+    "AVAILABLE_WITH_KNOWN_LAG": 6,
+    "RETROSPECTIVE_ONLY": 12,
+    "STATIC": 14
+  },
+  "contract_blockers": [
+    "agera5_relhum_min:BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY",
+    "any_prior_positive_available:BLOCKED_FUTURE_HISTORY_CUTOFF;BLOCKED_FUTURE_HISTORY_CUTOFF",
+    "detection_within_50km_ever_available:BLOCKED_FUTURE_HISTORY_CUTOFF;BLOCKED_FUTURE_HISTORY_CUTOFF",
+    "distance_to_any_prior_positive_log1p:BLOCKED_FUTURE_HISTORY_CUTOFF;BLOCKED_FUTURE_HISTORY_CUTOFF",
+    "distance_to_prev4_positive_log1p:BLOCKED_FUTURE_HISTORY_CUTOFF;BLOCKED_FUTURE_HISTORY_CUTOFF",
+    "era5_lai_low:BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY",
+    "era5_mintemp:BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY",
+    "era5_soilmoist:BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY",
+    "era5land_lai_high_mean:BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY",
+    "era5land_lai_low_mean:BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY",
+    "era5land_soiltemp_l1_mean:BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY",
+    "era5land_soiltemp_l2_mean:BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY",
+    "era5land_soilwater_l1_mean:BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY",
+    "era5land_soilwater_l2_mean:BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY",
+    "era5land_surface_pressure_mean:BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY",
+    "era5land_tmean:BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY;BLOCKED_RETROSPECTIVE_ONLY",
+    "input_freshness_contract",
+    "prev4_positive_available:BLOCKED_FUTURE_HISTORY_CUTOFF;BLOCKED_FUTURE_HISTORY_CUTOFF",
+    "weeks_since_detection_within_50km_log1p:BLOCKED_FUTURE_HISTORY_CUTOFF;BLOCKED_FUTURE_HISTORY_CUTOFF"
+  ],
+  "decision": "P5_OPERATIONAL_CONTRACT_NOT_SUPPORTED",
+  "failure_tests": {
+    "failed": 0,
+    "passed": 13,
+    "results": [
+      {
+        "expected_code": "MISSING_REQUIRED_INPUT",
+        "message": "missing required input(s): /local/scratch/john.humphreys/21060933/p5-failure-tests-7mdu7p2l/missing.npy",
+        "observed_code": "MISSING_REQUIRED_INPUT",
+        "status": "PASS",
+        "test": "missing predictor file"
+      },
+      {
+        "expected_code": "STALE_BLOCKING",
+        "message": "deliberate invalid freshness state",
+        "observed_code": "STALE_BLOCKING",
+        "status": "PASS",
+        "test": "stale predictor"
+      },
+      {
+        "expected_code": "FUTURE_DATED",
+        "message": "deliberate invalid freshness state",
+        "observed_code": "FUTURE_DATED",
+        "status": "PASS",
+        "test": "future-dated predictor"
+      },
+      {
+        "expected_code": "SPATIAL_CONTRACT_FAILED",
+        "message": "spatial field 'crs' does not match the canonical contract",
+        "observed_code": "SPATIAL_CONTRACT_FAILED",
+        "status": "PASS",
+        "test": "wrong CRS"
+      },
+      {
+        "expected_code": "SPATIAL_CONTRACT_FAILED",
+        "message": "spatial field 'resolution' does not match the canonical contract",
+        "observed_code": "SPATIAL_CONTRACT_FAILED",
+        "status": "PASS",
+        "test": "wrong resolution"
+      },
+      {
+        "expected_code": "SPATIAL_CONTRACT_FAILED",
+        "message": "spatial field 'extent' does not match the canonical contract",
+        "observed_code": "SPATIAL_CONTRACT_FAILED",
+        "status": "PASS",
+        "test": "wrong extent"
+      },
+      {
+        "expected_code": "PREDICTOR_SCHEMA_MISMATCH",
+        "message": "expected frozen predictor order of length 2, observed 1",
+        "observed_code": "PREDICTOR_SCHEMA_MISMATCH",
+        "status": "PASS",
+        "test": "predictor-schema mismatch"
+      },
+      {
+        "expected_code": "MODEL_HASH_MISMATCH",
+        "message": "SHA-256 mismatch for /local/scratch/john.humphreys/21060933/p5-failure-tests-7mdu7p2l/present.bin: expected 0000000000000000000000000000000000000000000000000000000000000000, observed 0deeb8fa1dbbee4c0dbe7f5e3c9183940139f26d22797ee8ab07c00557a4c2ff",
+        "observed_code": "MODEL_HASH_MISMATCH",
+        "status": "PASS",
+        "test": "corrupted model artifact/hash mismatch"
+      },
+      {
+        "expected_code": "MISSING_SUPPORT_REFERENCE",
+        "message": "missing required input(s): /local/scratch/john.humphreys/21060933/p5-failure-tests-7mdu7p2l/missing-support.parquet",
+        "observed_code": "MISSING_SUPPORT_REFERENCE",
+        "status": "PASS",
+        "test": "missing support-reference artifact"
+      },
+      {
+        "expected_code": "DUPLICATE_TARGET_WEEK",
+        "message": "duplicate target week/horizon: ('2026-W41', 1)",
+        "observed_code": "DUPLICATE_TARGET_WEEK",
+        "status": "PASS",
+        "test": "duplicate target week"
+      },
+      {
+        "expected_code": "INVALID_ISSUE_WEEK",
+        "message": "invalid ISO week: '2026-W99'",
+        "observed_code": "INVALID_ISSUE_WEEK",
+        "status": "PASS",
+        "test": "invalid issue week"
+      },
+      {
+        "expected_code": "MISSING_REQUIRED_INPUT",
+        "message": "missing required input(s): /local/scratch/john.humphreys/21060933/p5-failure-tests-7mdu7p2l/partial-missing.parquet",
+        "observed_code": "MISSING_REQUIRED_INPUT",
+        "status": "PASS",
+        "test": "partial predictor coverage"
+      },
+      {
+        "expected_code": "MISSING_PROVENANCE_METADATA",
+        "message": "manifest is missing required field(s): model_sha256, input_manifest_sha256",
+        "observed_code": "MISSING_PROVENANCE_METADATA",
+        "status": "PASS",
+        "test": "missing provenance metadata"
+      }
+    ],
+    "status": "PASS",
+    "tests": 13
+  },
+  "horizon_blockers": [
+    {
+      "horizon": 1,
+      "predictor": "era5_mintemp",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 2,
+      "predictor": "era5_mintemp",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 3,
+      "predictor": "era5_mintemp",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 1,
+      "predictor": "era5_soilmoist",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 2,
+      "predictor": "era5_soilmoist",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 3,
+      "predictor": "era5_soilmoist",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 1,
+      "predictor": "era5_lai_low",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 2,
+      "predictor": "era5_lai_low",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 3,
+      "predictor": "era5_lai_low",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 1,
+      "predictor": "agera5_relhum_min",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 2,
+      "predictor": "agera5_relhum_min",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 3,
+      "predictor": "agera5_relhum_min",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 1,
+      "predictor": "era5land_tmean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 2,
+      "predictor": "era5land_tmean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 3,
+      "predictor": "era5land_tmean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 1,
+      "predictor": "era5land_soiltemp_l1_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 2,
+      "predictor": "era5land_soiltemp_l1_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 3,
+      "predictor": "era5land_soiltemp_l1_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 1,
+      "predictor": "era5land_soiltemp_l2_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 2,
+      "predictor": "era5land_soiltemp_l2_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 3,
+      "predictor": "era5land_soiltemp_l2_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 1,
+      "predictor": "era5land_soilwater_l1_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 2,
+      "predictor": "era5land_soilwater_l1_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 3,
+      "predictor": "era5land_soilwater_l1_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 1,
+      "predictor": "era5land_soilwater_l2_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 2,
+      "predictor": "era5land_soilwater_l2_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 3,
+      "predictor": "era5land_soilwater_l2_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 1,
+      "predictor": "era5land_surface_pressure_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 2,
+      "predictor": "era5land_surface_pressure_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 3,
+      "predictor": "era5land_surface_pressure_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 1,
+      "predictor": "era5land_lai_high_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 2,
+      "predictor": "era5land_lai_high_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 3,
+      "predictor": "era5land_lai_high_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 1,
+      "predictor": "era5land_lai_low_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 2,
+      "predictor": "era5land_lai_low_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 3,
+      "predictor": "era5land_lai_low_mean",
+      "status": "BLOCKED_RETROSPECTIVE_ONLY"
+    },
+    {
+      "horizon": 2,
+      "predictor": "distance_to_any_prior_positive_log1p",
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "horizon": 3,
+      "predictor": "distance_to_any_prior_positive_log1p",
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "horizon": 2,
+      "predictor": "distance_to_prev4_positive_log1p",
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "horizon": 3,
+      "predictor": "distance_to_prev4_positive_log1p",
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "horizon": 2,
+      "predictor": "weeks_since_detection_within_50km_log1p",
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "horizon": 3,
+      "predictor": "weeks_since_detection_within_50km_log1p",
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "horizon": 2,
+      "predictor": "any_prior_positive_available",
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "horizon": 3,
+      "predictor": "any_prior_positive_available",
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "horizon": 2,
+      "predictor": "prev4_positive_available",
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "horizon": 3,
+      "predictor": "prev4_positive_available",
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "horizon": 2,
+      "predictor": "detection_within_50km_ever_available",
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    },
+    {
+      "horizon": 3,
+      "predictor": "detection_within_50km_ever_available",
+      "status": "BLOCKED_FUTURE_HISTORY_CUTOFF"
+    }
+  ],
+  "job_id": "21060933",
+  "model_id": "STRUCTURED_A3",
+  "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+  "preflight_terminal_status": "PRODUCTION_RUN_BLOCKED",
+  "pytest_environment_gap": true,
+  "replay_output_rows": 30111,
+  "replay_output_sha256": "62be368f743a0d17d62208be8e1073f5156f1650b62f2a596fca00d8d542af2a",
+  "replay_output_size_bytes": 2414337,
+  "replay_runtime_seconds": 4.862443685531616,
+  "replay_terminal_status": "PRODUCTION_RUN_COMPLETE_WITH_WARNINGS",
+  "repository_sha": "47d9facfa93ce7fe2f62ad09bedf4fa2f6b4c0d5",
+  "reproducibility": {
+    "allowed_manifest_differences": [
+      "output_path",
+      "output_root",
+      "output_sha256",
+      "run_id",
+      "runtime_seconds",
+      "terminal_status",
+      "validation_status"
+    ],
+    "exact_numeric_equality": true,
+    "first_output_sha256": "62be368f743a0d17d62208be8e1073f5156f1650b62f2a596fca00d8d542af2a",
+    "keys_equal": true,
+    "max_abs_numeric_difference": 0.0,
+    "provenance_differences_outside_allowed_run_fields": [],
+    "row_count_equal": true,
+    "schema_equal": true,
+    "second_output_sha256": "62be368f743a0d17d62208be8e1073f5156f1650b62f2a596fca00d8d542af2a",
+    "status": "PASS",
+    "support_flags_equal": true,
+    "warning_flags_equal": true
+  },
+  "retrospective_predictors": [
+    "era5_mintemp",
+    "era5_soilmoist",
+    "era5_lai_low",
+    "agera5_relhum_min",
+    "era5land_tmean",
+    "era5land_soiltemp_l1_mean",
+    "era5land_soiltemp_l2_mean",
+    "era5land_soilwater_l1_mean",
+    "era5land_soilwater_l2_mean",
+    "era5land_surface_pressure_mean",
+    "era5land_lai_high_mean",
+    "era5land_lai_low_mean"
+  ],
+  "status": "COMPLETED",
+  "unknown_predictors": []
+}

@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "first_output_sha256": "62be368f743a0d17d62208be8e1073f5156f1650b62f2a596fca00d8d542af2a",
+  "second_output_sha256": "62be368f743a0d17d62208be8e1073f5156f1650b62f2a596fca00d8d542af2a",
+  "row_count_equal": true,
+  "schema_equal": true,
+  "keys_equal": true,
+  "exact_numeric_equality": true,
+  "max_abs_numeric_difference": 0.0,
+  "support_flags_equal": true,
+  "warning_flags_equal": true,
+  "provenance_differences_outside_allowed_run_fields": [],
+  "allowed_manifest_differences": [
+    "output_path",
+    "output_root",
+    "output_sha256",
+    "run_id",
+    "runtime_seconds",
+    "terminal_status",
+    "validation_status"
+  ]
+}
