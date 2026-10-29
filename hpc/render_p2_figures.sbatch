@@ -13,6 +13,7 @@
 
 set -euo pipefail
 REPO="${P2_REPO:?P2_REPO must point to the isolated Atlas worktree}"
+source /project/disease_ecology/STGNN/hpc/env_r.sh
 Rscript "${REPO}/analysis/p2_operational_nowcast/scripts/render_p2_figures.R" \
   "${REPO}/analysis/p2_operational_nowcast/results" \
   "${REPO}/analysis/p2_operational_nowcast/figures"

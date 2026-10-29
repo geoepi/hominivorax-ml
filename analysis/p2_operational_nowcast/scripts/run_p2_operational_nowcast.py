@@ -70,6 +70,7 @@ MODEL_ID = "STRUCTURED_A3"
 P0_MODEL_SHA256 = "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e"
 P0_MERGE_SHA = "6a797c6b8fb7fb8cace20c21503ec86a0a5dd750"
 P1_MERGE_SHA = "1a8cba7ad910f6608fc664effdc1bb218b90b8ac"
+P2_BRANCH_NAME = "feature/p2-operational-nowcast"
 P0_MANIFEST = "config/production_model_freeze.json"
 ORIGIN_START = "2026-W16"
 MAX_HORIZON = 3
@@ -1113,7 +1114,7 @@ def aggregate(args: argparse.Namespace) -> None:
     })
     metadata = {
         **input_manifest,
-        "branch": git_value(args.repository_root, "branch", "--show-current"),
+        "branch": git_value(args.repository_root, "branch", "--show-current") or P2_BRANCH_NAME,
         "repository_sha": git_value(args.repository_root, "rev-parse", "HEAD"),
         "starting_main_sha": input_manifest.get("starting_main_sha"),
         "p0_merge_sha": input_manifest.get("p0_merge_sha"),
