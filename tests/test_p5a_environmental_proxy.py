@@ -6,8 +6,11 @@ from __future__ import annotations
 import tempfile
 import unittest
 from pathlib import Path
+import sys
 
 import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from analysis.p5a_environmental_proxy.scripts.run_p5a_environmental_proxy import (
     ENV_COUNT,
