@@ -12,3 +12,5 @@ specifications are preserved separately under [`../history/`](../history/).
 - [Atlas orchestration](atlas.md)
 - [Limitations](limitations.md)
 - [Data and artifact map](data_artifact_map.md)
+- [Formal production freeze](../production_model_freeze.md)
+- [Production qualification plan](../production_qualification_plan.md)

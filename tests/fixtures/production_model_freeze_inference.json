@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "matrix_type": "transformed_model_matrix",
+  "predictor_order": [
+    "era5_mintemp",
+    "era5_soilmoist",
+    "era5_lai_low",
+    "agera5_relhum_min",
+    "era5land_tmean",
+    "era5land_soiltemp_l1_mean",
+    "era5land_soiltemp_l2_mean",
+    "era5land_soilwater_l1_mean",
+    "era5land_soilwater_l2_mean",
+    "era5land_surface_pressure_mean",
+    "era5land_lai_high_mean",
+    "era5land_lai_low_mean",
+    "cattle_density",
+    "goat_density",
+    "sheep_density",
+    "horse_density",
+    "pig_density",
+    "cattle_density_imputed",
+    "goat_density_imputed",
+    "sheep_density_imputed",
+    "horse_density_imputed",
+    "pig_density_imputed",
+    "week_sin",
+    "week_cos",
+    "distance_to_any_prior_positive_log1p",
+    "distance_to_prev4_positive_log1p",
+    "weeks_since_detection_within_50km_log1p",
+    "any_prior_positive_available",
+    "prev4_positive_available",
+    "detection_within_50km_ever_available",
+    "road_density",
+    "night_illumination",
+    "clay_0_15",
+    "water_difference_wv0033_minus_wv0010_0_15"
+  ],
+  "rows": [
+    {
+      "id": "development_mean_reference",
+      "values": [8.062521243338747, 0.22763216245666595, 1.5871156875733459, 37.74050567061151, 16.90467835140875, 18.452470716179945, 18.37918013900709, 0.23793868791551434, 0.26154469848433787, 92.69982096036776, 2.2212088405441093, 1.4915639054803682, 2.1818324690441138, 0.5932326850181261, 0.5636169486162521, 4.321961261888654, 0.7783585648981478, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 6.795529499742973, 6.914819961604406, 4.672880529441883, 0.0, 0.0, 0.0, 5.232224368014077, 1.1467299563803661, 241.5575358902515, -61.836248923750176],
+      "expected": {
+        "p_occurrence": 0.000995643166056449,
+        "conditional_count_mean": 1.0979339614134793,
+        "expected_count": 0.0010931504454626158
+      }
+    },
+    {
+      "id": "one_sd_environment_and_history",
+      "values": [18.151705104358072, 0.22763216245666595, 1.5871156875733459, 37.74050567061151, 16.90467835140875, 18.452470716179945, 18.37918013900709, 0.23793868791551434, 0.26154469848433787, 92.69982096036776, 2.2212088405441093, 1.4915639054803682, 2.1818324690441138, 0.5932326850181261, 0.5636169486162521, 4.321961261888654, 0.7783585648981478, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 8.387759136011198, 6.914819961604406, 4.672880529441883, 1.0, 0.0, 0.0, 6.616186578161964, 1.1467299563803661, 241.5575358902515, -61.836248923750176],
+      "expected": {
+        "p_occurrence": 0.0008288176325314622,
+        "conditional_count_mean": 1.122813028521382,
+        "expected_count": 0.000930607236074573
+      }
+    }
+  ]
+}

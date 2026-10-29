@@ -131,6 +131,13 @@ Detection-history predictors describe the observed reporting/invasion state;
 coefficients are conditional associations rather than causal effects. See the
 full limitations statement in [`docs/current/limitations.md`](docs/current/limitations.md).
 
+The formal P0 freeze is documented in
+[`docs/production_model_freeze.md`](docs/production_model_freeze.md), with the
+machine-readable contract at
+[`config/production_model_freeze.json`](config/production_model_freeze.json)
+and the subsequent qualification sequence in
+[`docs/production_qualification_plan.md`](docs/production_qualification_plan.md).
+
 ## Related projects
 
 [`geoepi/hominivorax-geostat`](https://github.com/geoepi/hominivorax-geostat)
