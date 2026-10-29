@@ -1,0 +1,105 @@
+metric_family,scope,horizon,bin_index,lower,upper,n,positive_n,mean_predicted,observed_probability,observed_se,deterministic_rule,mean_observed
+occurrence,all,all,0,0.0,0.1,544512,2317,0.005364847309357478,0.004255186295251528,8.82123898659861e-05,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,all,1,0.1,0.2,26803,2631,0.14763554791024325,0.09816065365817259,0.001817362687643475,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,all,2,0.2,0.30000000000000004,14179,2570,0.245725448548744,0.18125396713449468,0.0032351585044438323,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,all,3,0.30000000000000004,0.4,19680,7161,0.35430096027265623,0.3638719512195122,0.0034295253346634477,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,all,4,0.4,0.5,20113,8530,0.44818362696381076,0.424103813453985,0.003484735048131929,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,all,5,0.5,0.6000000000000001,6943,3774,0.5303805210582013,0.5435690623649719,0.005977799159313391,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,all,6,0.6000000000000001,0.7000000000000001,101,76,0.6098996634490824,0.7524752475247525,0.04294323323950497,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,all,7,0.7000000000000001,0.8,0,0,,,,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,all,8,0.8,0.9,0,0,,,,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,all,9,0.9,1.0,0,0,,,,10 fixed equal-width probability bins; no post-hoc merging,
+conditional_count,all,all,0,0.0,0.5,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,all,1,0.5,1.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,all,2,1.0,2.0,565295,5189,1.2552635121200206,1.5881672769319715,,fixed count ranges; positive-count family uses observed positives only,1.5881672769319715
+conditional_count,all,all,3,2.0,4.0,60245,18515,2.803796302427246,2.3116392114501756,,fixed count ranges; positive-count family uses observed positives only,2.3116392114501756
+conditional_count,all,all,4,4.0,8.0,6791,3355,4.441971687751542,3.073025335320417,,fixed count ranges; positive-count family uses observed positives only,3.073025335320417
+conditional_count,all,all,5,8.0,16.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,all,6,16.0,32.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,all,7,32.0,inf,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+full_expected_count,all,all,0,0.0,0.5,577472,5915,0.025557436665014473,0.01500678820791311,,fixed count ranges; positive-count family uses observed positives only,0.01500678820791311
+full_expected_count,all,all,1,0.5,1.0,17417,5230,0.7286208831951148,0.6312223689498766,,fixed count ranges; positive-count family uses observed positives only,0.6312223689498766
+full_expected_count,all,all,2,1.0,2.0,32226,13009,1.4267173352775948,0.988673741699249,,fixed count ranges; positive-count family uses observed positives only,0.988673741699249
+full_expected_count,all,all,3,2.0,4.0,5212,2901,2.2801681838337835,1.8825786646201075,,fixed count ranges; positive-count family uses observed positives only,1.8825786646201075
+full_expected_count,all,all,4,4.0,8.0,4,4,4.110245448006791,4.5,,fixed count ranges; positive-count family uses observed positives only,4.5
+full_expected_count,all,all,5,8.0,16.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+full_expected_count,all,all,6,16.0,32.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+full_expected_count,all,all,7,32.0,inf,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+occurrence,all,1,0,0.0,0.1,182164,784,0.005231805140463131,0.004303814145495268,0.00015337652682320408,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,1,1,0.1,0.2,8736,873,0.14729324378059222,0.09993131868131869,0.003208723697077436,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,1,2,0.2,0.30000000000000004,4535,833,0.24572459959548124,0.1836824696802646,0.005750091701726428,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,1,3,0.30000000000000004,0.4,6529,2417,0.35451631706975173,0.3701945167713279,0.005975783782018086,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,1,4,0.4,0.5,6575,2806,0.44803470384582617,0.42676806083650193,0.0060997672845512045,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,1,5,0.5,0.6000000000000001,2205,1210,0.5299889756433093,0.5487528344671202,0.010597204978086604,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,1,6,0.6000000000000001,0.7000000000000001,33,25,0.6095588566304575,0.7575757575757576,0.07460090362383802,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,1,7,0.7000000000000001,0.8,0,0,,,,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,1,8,0.8,0.9,0,0,,,,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,1,9,0.9,1.0,0,0,,,,10 fixed equal-width probability bins; no post-hoc merging,
+conditional_count,all,1,0,0.0,0.5,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,1,1,0.5,1.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,1,2,1.0,2.0,189849,1862,1.2473182214009455,1.588077336197637,,fixed count ranges; positive-count family uses observed positives only,1.588077336197637
+conditional_count,all,1,3,2.0,4.0,19133,6175,2.807095561070629,2.3475303643724694,,fixed count ranges; positive-count family uses observed positives only,2.3475303643724694
+conditional_count,all,1,4,4.0,8.0,1795,911,4.408581613071149,3.137211855104281,,fixed count ranges; positive-count family uses observed positives only,3.137211855104281
+conditional_count,all,1,5,8.0,16.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,1,6,16.0,32.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,1,7,32.0,inf,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+full_expected_count,all,1,0,0.0,0.5,193041,2005,0.0249070527664452,0.015188483275573582,,fixed count ranges; positive-count family uses observed positives only,0.015188483275573582
+full_expected_count,all,1,1,0.5,1.0,5775,1806,0.7378675238818838,0.6656277056277057,,fixed count ranges; positive-count family uses observed positives only,0.6656277056277057
+full_expected_count,all,1,2,1.0,2.0,10546,4334,1.4151203855653316,1.0201024084961123,,fixed count ranges; positive-count family uses observed positives only,1.0201024084961123
+full_expected_count,all,1,3,2.0,4.0,1415,803,2.263900716786818,1.9625441696113075,,fixed count ranges; positive-count family uses observed positives only,1.9625441696113075
+full_expected_count,all,1,4,4.0,8.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+full_expected_count,all,1,5,8.0,16.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+full_expected_count,all,1,6,16.0,32.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+full_expected_count,all,1,7,32.0,inf,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+occurrence,all,2,0,0.0,0.1,181500,775,0.005363131430338796,0.004269972451790634,0.0001530541197257444,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,2,1,0.1,0.2,8934,874,0.1476536887001742,0.09782852025968211,0.0031430718934167532,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,2,2,0.2,0.30000000000000004,4721,853,0.24576821128199636,0.18068205888582928,0.005599725620464614,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,2,3,0.30000000000000004,0.4,6573,2387,0.3542755639511803,0.36315228966986157,0.005931716320649227,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,2,4,0.4,0.5,6702,2842,0.4482512336071459,0.42405252163533275,0.006036692496815733,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,2,5,0.5,0.6000000000000001,2313,1253,0.5304638600925428,0.5417207090358841,0.010360125561937912,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,2,6,0.6000000000000001,0.7000000000000001,34,25,0.6100929781393872,0.7352941176470589,0.07566114050404801,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,2,7,0.7000000000000001,0.8,0,0,,,,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,2,8,0.8,0.9,0,0,,,,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,2,9,0.9,1.0,0,0,,,,10 fixed equal-width probability bins; no post-hoc merging,
+conditional_count,all,2,0,0.0,0.5,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,2,1,0.5,1.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,2,2,1.0,2.0,188421,1713,1.2552972803144062,1.5960303561004086,,fixed count ranges; positive-count family uses observed positives only,1.5960303561004086
+conditional_count,all,2,3,2.0,4.0,20123,6192,2.804694369629532,2.30281007751938,,fixed count ranges; positive-count family uses observed positives only,2.30281007751938
+conditional_count,all,2,4,4.0,8.0,2233,1104,4.436391216633009,3.058876811594203,,fixed count ranges; positive-count family uses observed positives only,3.058876811594203
+conditional_count,all,2,5,8.0,16.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,2,6,16.0,32.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,2,7,32.0,inf,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+full_expected_count,all,2,0,0.0,0.5,192475,1967,0.02552597491731249,0.015061696324197947,,fixed count ranges; positive-count family uses observed positives only,0.015061696324197947
+full_expected_count,all,2,1,0.5,1.0,5805,1742,0.7279695002481626,0.6291128337639965,,fixed count ranges; positive-count family uses observed positives only,0.6291128337639965
+full_expected_count,all,2,2,1.0,2.0,10779,4336,1.4269875066639024,0.9820020410056591,,fixed count ranges; positive-count family uses observed positives only,0.9820020410056591
+full_expected_count,all,2,3,2.0,4.0,1717,963,2.278715488974717,1.8817705299941758,,fixed count ranges; positive-count family uses observed positives only,1.8817705299941758
+full_expected_count,all,2,4,4.0,8.0,1,1,4.043387140477307,3.0,,fixed count ranges; positive-count family uses observed positives only,3.0
+full_expected_count,all,2,5,8.0,16.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+full_expected_count,all,2,6,16.0,32.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+full_expected_count,all,2,7,32.0,inf,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+occurrence,all,3,0,0.0,0.1,180848,758,0.005500579668556145,0.004191365124303282,0.0001519178608436176,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,3,1,0.1,0.2,9133,884,0.1479452269926246,0.09679185371728895,0.0030939023179068466,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,3,2,0.2,0.30000000000000004,4923,884,0.24568522249539493,0.1795653057079017,0.005470390200019477,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,3,3,0.30000000000000004,0.4,6578,2357,0.35411258470148343,0.35831559744603225,0.005912166599977294,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,3,4,0.4,0.5,6836,2882,0.4482605827533246,0.42159157401989467,0.005972583630851841,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,3,5,0.5,0.6000000000000001,2425,1311,0.5306570548534203,0.5406185567010309,0.010119902465841985,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,3,6,0.6000000000000001,0.7000000000000001,34,26,0.6100371318474432,0.7647058823529411,0.07274669910598146,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,3,7,0.7000000000000001,0.8,0,0,,,,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,3,8,0.8,0.9,0,0,,,,10 fixed equal-width probability bins; no post-hoc merging,
+occurrence,all,3,9,0.9,1.0,0,0,,,,10 fixed equal-width probability bins; no post-hoc merging,
+conditional_count,all,3,0,0.0,0.5,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,3,1,0.5,1.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,3,2,1.0,2.0,187025,1614,1.2632947531881735,1.579925650557621,,fixed count ranges; positive-count family uses observed positives only,1.579925650557621
+conditional_count,all,3,3,2.0,4.0,20989,6148,2.7999277750111973,2.2844827586206895,,fixed count ranges; positive-count family uses observed positives only,2.2844827586206895
+conditional_count,all,3,4,4.0,8.0,2763,1340,4.468173778254252,3.041044776119403,,fixed count ranges; positive-count family uses observed positives only,3.041044776119403
+conditional_count,all,3,5,8.0,16.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,3,6,16.0,32.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+conditional_count,all,3,7,32.0,inf,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+full_expected_count,all,3,0,0.0,0.5,191956,1943,0.026243043564786562,0.01476900956469191,,fixed count ranges; positive-count family uses observed positives only,0.01476900956469191
+full_expected_count,all,3,1,0.5,1.0,5837,1682,0.7201202712439356,0.5992804522871338,,fixed count ranges; positive-count family uses observed positives only,0.5992804522871338
+full_expected_count,all,3,2,1.0,2.0,10901,4339,1.437669473089953,0.964865608659756,,fixed count ranges; positive-count family uses observed positives only,0.964865608659756
+full_expected_count,all,3,3,2.0,4.0,2080,1135,2.292433925634011,1.8288461538461538,,fixed count ranges; positive-count family uses observed positives only,1.8288461538461538
+full_expected_count,all,3,4,4.0,8.0,3,3,4.132531550516618,5.0,,fixed count ranges; positive-count family uses observed positives only,5.0
+full_expected_count,all,3,5,8.0,16.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+full_expected_count,all,3,6,16.0,32.0,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
+full_expected_count,all,3,7,32.0,inf,0,0,,,,fixed count ranges; positive-count family uses observed positives only,
