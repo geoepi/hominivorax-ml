@@ -724,6 +724,27 @@ def aggregate_mode(args: argparse.Namespace) -> None:
     write_csv(results / "bootstrap_manifest.csv", manifest)
     write_csv(results / "bootstrap_fit_diagnostics.csv", diagnostics)
 
+    coefficient_rows: list[dict[str, Any]] = []
+    for component, key in (("occurrence", "occurrence_beta"), ("count", "count_beta")):
+        coefficient_matrix = np.asarray([statuses[replicate_id][key] for replicate_id in used_ids], dtype=float)
+        coefficient_names = ["intercept", *FEATURE_ORDER]
+        for index, name in enumerate(coefficient_names):
+            values = coefficient_matrix[:, index]
+            mean = float(np.mean(values))
+            coefficient_rows.append({
+                "component": component,
+                "coefficient_index": index,
+                "feature_name": name,
+                "mean": mean,
+                "sd": float(np.std(values, ddof=1)) if len(values) > 1 else 0.0,
+                "q025": float(np.quantile(values, 0.025)),
+                "q975": float(np.quantile(values, 0.975)),
+                "positive_fraction": float(np.mean(values > 0)),
+                "negative_fraction": float(np.mean(values < 0)),
+                "coefficient_of_variation": float(np.std(values, ddof=1) / abs(mean)) if len(values) > 1 and abs(mean) > 1e-12 else math.nan,
+            })
+    write_csv(results / "bootstrap_coefficient_stability.csv", pd.DataFrame(coefficient_rows))
+
     uncertainty_group = target_summary.groupby(["horizon", "support_class", "frontier_group", "region_group"], dropna=False, sort=True).agg(
         n=("target_key", "size"),
         p_canonical_mean=("p_canonical", "mean"),
@@ -874,7 +895,7 @@ def build_report(args: argparse.Namespace, metadata: dict[str, Any], decision_ma
         "",
         f"Dependence-aware bootstrap refits resampled complete training weeks with base seed {BOOTSTRAP_BASE_SEED}, exact A3 fitting code, and no tuning. {metadata['bootstrap_successful_slots']} of {BOOTSTRAP_MAX_ATTEMPTS} slots succeeded; {metadata['bootstrap_failed_slots']} failed; {len(metadata['bootstrap_used_replicates'])} successful replicates were used in the summaries. Canonical predictions remain primary.",
         "",
-        "Bootstrap diagnostics include failure causes, convergence, objectives, iterations, coefficient norms, and per-target SD/quantiles. A low-support target is not silently reclassified as supported because its bootstrap interval is narrow.",
+        "Bootstrap diagnostics include failure causes, convergence, objectives, iterations, coefficient norms, coefficient-level stability summaries, and per-target SD/quantiles. A low-support target is not silently reclassified as supported because its bootstrap interval is narrow.",
         "",
         "## VIII. Performance Versus Support",
         "",
