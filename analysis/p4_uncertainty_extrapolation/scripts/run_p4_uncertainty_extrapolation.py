@@ -624,51 +624,10 @@ def summarize_bootstrap(summary: pd.DataFrame, target: pd.DataFrame, predictions
 
 
 def render_figures(results: Path, figures: Path, intervals: pd.DataFrame, performance_novelty: pd.DataFrame, coverage: pd.DataFrame, frontier: pd.DataFrame, uncertainty: pd.DataFrame) -> None:
-    import matplotlib.pyplot as plt
-
-    figures.mkdir(parents=True, exist_ok=True)
-    representative = pd.read_csv(results / "representative_support_map.csv")
-    colors = {"SUPPORTED": "#2c7fb8", "CAUTION": "#fdae61", "EXTRAPOLATIVE": "#d7191c"}
-    fig, ax = plt.subplots(figsize=(8, 6))
-    for label, group in representative.groupby("support_class"):
-        ax.scatter(group["lon"], group["lat"], s=3, alpha=0.65, label=label, c=colors.get(label, "grey"))
-    ax.set(title="P4-1 Environmental support classification", xlabel="Longitude", ylabel="Latitude")
-    ax.legend(markerscale=3, frameon=False)
-    fig.tight_layout(); fig.savefig(figures / "P4-1_environmental_novelty_map.png", dpi=160); plt.close(fig)
-
-    fig, ax = plt.subplots(figsize=(8, 5))
-    for horizon, group in performance_novelty.groupby("horizon"):
-        ax.plot(group["novelty_bin"], group["brier"], marker="o", label=f"h={int(horizon)}")
-    ax.set(title="P4-2 Novelty versus occurrence Brier score", xlabel="Fixed training-distance novelty bin", ylabel="Brier score")
-    ax.tick_params(axis="x", rotation=45); ax.legend(frameon=False); fig.tight_layout(); fig.savefig(figures / "P4-2_novelty_vs_occurrence_performance.png", dpi=160); plt.close(fig)
-
-    map_uncertainty = uncertainty.loc[(uncertainty["target_week"] == REPRESENTATIVE_TARGET_WEEK) & (uncertainty["horizon"] == REPRESENTATIVE_HORIZON)]
-    fig, ax = plt.subplots(figsize=(8, 6))
-    image = ax.scatter(map_uncertainty["lon"], map_uncertainty["lat"], c=map_uncertainty["p_boot_sd"], s=3, cmap="magma")
-    fig.colorbar(image, ax=ax, label="Bootstrap SD of occurrence probability")
-    ax.set(title="P4-3 Model uncertainty map", xlabel="Longitude", ylabel="Latitude")
-    fig.tight_layout(); fig.savefig(figures / "P4-3_model_uncertainty_map.png", dpi=160); plt.close(fig)
-
-    pooled = coverage.loc[coverage["scope"] == "all"]
-    fig, ax = plt.subplots(figsize=(7, 5))
-    for horizon, group in pooled.groupby("horizon"):
-        ax.plot(group["nominal_level"], group["full_interval_coverage"], marker="o", label=f"h={int(horizon)}")
-    ax.plot([0, 1], [0, 1], linestyle="--", color="black", linewidth=1)
-    ax.set(title="P4-4 Count predictive interval coverage", xlabel="Nominal coverage", ylabel="Empirical coverage")
-    ax.legend(frameon=False); fig.tight_layout(); fig.savefig(figures / "P4-4_count_interval_coverage.png", dpi=160); plt.close(fig)
-
-    fig, ax = plt.subplots(figsize=(8, 5))
-    plot = frontier.loc[frontier["horizon"] == 1].copy()
-    plot["group"] = plot["frontier_group"] + " / " + plot["support_tier"]
-    ax.bar(plot["group"], plot["brier"])
-    ax.set(title="P4-5 Frontier × support (h=1)", ylabel="Brier score", xlabel="Prediction frontier / support tier")
-    ax.tick_params(axis="x", rotation=30); fig.tight_layout(); fig.savefig(figures / "P4-5_frontier_support.png", dpi=160); plt.close(fig)
-
-    fig, ax = plt.subplots(figsize=(8, 6))
-    for label, group in representative.groupby("support_class"):
-        ax.scatter(group["lon"], group["lat"], s=3, alpha=0.65, label=label, c=colors.get(label, "grey"))
-    ax.set(title="P4-6 Production support classification", xlabel="Longitude", ylabel="Latitude")
-    ax.legend(markerscale=3, frameon=False); fig.tight_layout(); fig.savefig(figures / "P4-6_production_support_classification.png", dpi=160); plt.close(fig)
+    # Atlas's validated Python environment intentionally does not require a
+    # plotting library. The aggregate job invokes the repository's base-R
+    # renderer after this data stage has completed.
+    del results, figures, intervals, performance_novelty, coverage, frontier, uncertainty
 
 
 def aggregate_mode(args: argparse.Namespace) -> None:

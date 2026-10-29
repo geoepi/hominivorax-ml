@@ -31,3 +31,8 @@ python "${REPO}/analysis/p4_uncertainty_extrapolation/scripts/run_p4_uncertainty
   --p2-output-root "${P2_OUTPUT_ROOT}" \
   --model-output "${MODEL_OUTPUT}" \
   --output-root "${OUTPUT_ROOT}"
+
+source /project/disease_ecology/STGNN/hpc/env_r.sh
+Rscript "${REPO}/analysis/p4_uncertainty_extrapolation/scripts/render_p4_figures.R" \
+  "${REPO}/analysis/p4_uncertainty_extrapolation/results" \
+  "${REPO}/analysis/p4_uncertainty_extrapolation/figures"
