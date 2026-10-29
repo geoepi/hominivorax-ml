@@ -1,0 +1,4 @@
+proxy_id,classification,reason,strict_failures,bounded_failures
+E0_LAST_AVAILABLE,OPERATIONALLY_ACCEPTABLE,"Meets all prespecified strict degradation bounds at h=1,2,3.",,
+E1_TRAILING3_MEAN,OPERATIONALLY_ACCEPTABLE,"Meets all prespecified strict degradation bounds at h=1,2,3.",,
+E2_SEASONAL_EXPECTATION,NOT_EVALUABLE,E2 requires two prior seasonal cycles; the validated archive supplies only one.,,

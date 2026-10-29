@@ -1,0 +1,53 @@
+{
+  "aggregate_rows": 1896993,
+  "analysis_repository_sha": "e30f1b4d88be4bab26f66be6f47c0b70ed46937b",
+  "availability_reclassification": "PROSPECTIVE_READY_WITH_PROXY_LIMITATIONS",
+  "decision": "P5A_ENVIRONMENTAL_PROXY_SUPPORTED",
+  "e2_status": "NOT_EVALUABLE_INSUFFICIENT_SEASONAL_ARCHIVE",
+  "evaluated_proxy_ids": [
+    "E0_LAST_AVAILABLE",
+    "E1_TRAILING3_MEAN",
+    "REALIZED_ENV"
+  ],
+  "failed_origins": [],
+  "horizons": [
+    1,
+    2,
+    3
+  ],
+  "model_id": "STRUCTURED_A3",
+  "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+  "origin_count": 21,
+  "origins": [
+    "2026-W16",
+    "2026-W17",
+    "2026-W18",
+    "2026-W19",
+    "2026-W20",
+    "2026-W21",
+    "2026-W22",
+    "2026-W23",
+    "2026-W24",
+    "2026-W25",
+    "2026-W26",
+    "2026-W27",
+    "2026-W28",
+    "2026-W29",
+    "2026-W30",
+    "2026-W31",
+    "2026-W32",
+    "2026-W33",
+    "2026-W34",
+    "2026-W35",
+    "2026-W36"
+  ],
+  "p2_archive_rows": 632331,
+  "p2_archive_sha256": "918b33e80d352c080fcefb3d7b2a44dc29d0096b0b2e7dd6f5b017becc983170",
+  "p2_reference_unchanged": true,
+  "p5_merge_sha": "650edd2397279a1a6a68dd89e42c724621d6da04",
+  "production_model_modified": false,
+  "repository_sha": "e30f1b4d88be4bab26f66be6f47c0b70ed46937b",
+  "runtime_seconds": 410.3371629714966,
+  "selected_proxy_id": "E0_LAST_AVAILABLE",
+  "status": "COMPLETED"
+}

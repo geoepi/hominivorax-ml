@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="500" viewBox="0 0 1000 500">
+<rect width="100%" height="100%" fill="white"/>
+<text x="40" y="34" font-family="Arial, sans-serif" font-size="20" font-weight="bold">P5A-6 Support-class impact</text>
+<text x="205" y="455" text-anchor="middle" font-family="Arial" font-size="12">REALIZED_ENV</text>
+<rect x="150" y="299.6" width="110" height="100.4" fill="#70ad47"/>
+<rect x="150" y="229.7" width="110" height="69.9" fill="#ffc000"/>
+<rect x="150" y="100.0" width="110" height="129.7" fill="#c00000"/>
+<text x="455" y="455" text-anchor="middle" font-family="Arial" font-size="12">E0_LAST_AVAILABLE</text>
+<rect x="400" y="298.2" width="110" height="101.8" fill="#70ad47"/>
+<rect x="400" y="229.6" width="110" height="68.6" fill="#ffc000"/>
+<rect x="400" y="100.0" width="110" height="129.6" fill="#c00000"/>
+<text x="705" y="455" text-anchor="middle" font-family="Arial" font-size="12">E1_TRAILING3_MEAN</text>
+<rect x="650" y="286.8" width="110" height="113.2" fill="#70ad47"/>
+<rect x="650" y="220.4" width="110" height="66.4" fill="#ffc000"/>
+<rect x="650" y="100.0" width="110" height="120.4" fill="#c00000"/>
+<rect x="760" y="100" width="16" height="16" fill="#70ad47"/><text x="782" y="113" font-family="Arial" font-size="12">SUPPORTED</text>
+<rect x="760" y="125" width="16" height="16" fill="#ffc000"/><text x="782" y="138" font-family="Arial" font-size="12">CAUTION</text>
+<rect x="760" y="150" width="16" height="16" fill="#c00000"/><text x="782" y="163" font-family="Arial" font-size="12">EXTRAPOLATIVE</text>
+<line x1="100" y1="400" x2="900" y2="400" stroke="#555"/>
+</svg>

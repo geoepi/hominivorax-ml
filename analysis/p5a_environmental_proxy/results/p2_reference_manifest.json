@@ -1,0 +1,34 @@
+{
+  "p2_archive_rows": 632331,
+  "p2_archive_sha256": "918b33e80d352c080fcefb3d7b2a44dc29d0096b0b2e7dd6f5b017becc983170",
+  "p2_horizons": [
+    1,
+    2,
+    3
+  ],
+  "p2_metadata_sha256": "98d1c649a44589ff5f7142b7a372abf9d820c018ec7f70981a63ebd69ebdeaf2",
+  "p2_origins": [
+    "2026-W16",
+    "2026-W17",
+    "2026-W18",
+    "2026-W19",
+    "2026-W20",
+    "2026-W21",
+    "2026-W22",
+    "2026-W23",
+    "2026-W24",
+    "2026-W25",
+    "2026-W26",
+    "2026-W27",
+    "2026-W28",
+    "2026-W29",
+    "2026-W30",
+    "2026-W31",
+    "2026-W32",
+    "2026-W33",
+    "2026-W34",
+    "2026-W35",
+    "2026-W36"
+  ],
+  "p2_output_root": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029"
+}
