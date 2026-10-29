@@ -1,0 +1,9 @@
+{
+  "root": "/project/disease_ecology/STGNN-output/p6_production_hardening_20261029_v1/replay-W16",
+  "attempt": "rerun same issue week, run ID, config, and output root",
+  "expected_error_code": "DUPLICATE_COMPLETED_RUN",
+  "observed_error_code": "DUPLICATE_COMPLETED_RUN",
+  "completed_root_verify": "PASS",
+  "output_preserved": true,
+  "pass": true
+}

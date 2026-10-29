@@ -1,0 +1,17 @@
+{
+  "decision": "P6_PRODUCTION_HARDENING_SUPPORTED_WITH_LIMITATIONS",
+  "canonical_command": "analysis/p6_production_hardening/scripts/p6_production.py",
+  "prospective_preflight": "FAILS_CLOSED_WHEN_HISTORICAL_VINTAGE_OR_HISTORY_CUTOFF_CANNOT_BE_PROVED",
+  "replays": "PASS",
+  "restartability": "PASS",
+  "duplicate_protection": "PASS",
+  "corruption_detection": "PASS",
+  "monitoring_and_drift": "PASS",
+  "provenance": "PASS",
+  "limitations": [
+    "authoritative provider release timestamps are not present in the validated historical bundle",
+    "h2/h3 causal history remains an input readiness requirement",
+    "inherited sparse frontier, regional support, count-process, extrapolative-support, and spatial-holdout limitations remain",
+    "pytest is unavailable in the validated Atlas environment"
+  ]
+}

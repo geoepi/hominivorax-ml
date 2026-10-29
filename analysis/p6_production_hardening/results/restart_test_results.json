@@ -1,0 +1,17 @@
+{
+  "interruption_root": "/project/disease_ecology/STGNN-output/p6_production_hardening_20261029_v1/restart-W26",
+  "interrupted_after": "PREDICTOR_MATRIX_COMPLETE",
+  "interruption_terminal_status": "PRODUCTION_RUN_INTERRUPTED",
+  "resume_run_id": "p6-restart-W26",
+  "resume_attempt": 1,
+  "resume_terminal_status": "PRODUCTION_RUN_COMPLETE_WITH_WARNINGS",
+  "reference_run_id": "p6-replay-W26",
+  "reference_output_sha256": "524849ca80ed3f088ca068a16faafb10dfbf47de0588e69f4db0ee7aba5fa753",
+  "resumed_output_sha256": "f324aeca0de7622edd2403939a1ace33457169eabcd41a67e52037d5ea43e63f",
+  "row_count": 30111,
+  "same_schema": true,
+  "same_scientific_and_support_fields": true,
+  "max_absolute_numeric_difference": 0.0,
+  "pass": true,
+  "run_id_difference_allowed": true
+}

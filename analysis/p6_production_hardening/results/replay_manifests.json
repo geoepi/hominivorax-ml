@@ -1,0 +1,42 @@
+{
+  "atlas_output_root": "/project/disease_ecology/STGNN-output/p6_production_hardening_20261029_v1",
+  "execution_route": "authorized WSL/Ubuntu atlas-ssh; direct terminal commands; no Slurm job submitted",
+  "replays": [
+    {
+      "run_id": "p6-replay-W16",
+      "issue_week": "2026-W16",
+      "target_weeks": ["2026-W17", "2026-W18", "2026-W19"],
+      "row_count": 30111,
+      "output_sha256": "c39dfb33c02ccd74a5c7b81bd98bdf271a7059adf8d75853922e09c24516e572",
+      "runtime_seconds": 42.98236012458801,
+      "terminal_status": "PRODUCTION_RUN_COMPLETE_WITH_WARNINGS",
+      "warning_codes": ["HISTORICAL_REPLAY_SOURCE_TIMESTAMP_AFTER_ISSUE", "HISTORY_CUTOFF_LIMITATION"],
+      "latest_environment_week": "2026-W15"
+    },
+    {
+      "run_id": "p6-replay-W26",
+      "issue_week": "2026-W26",
+      "target_weeks": ["2026-W27", "2026-W28", "2026-W29"],
+      "row_count": 30111,
+      "output_sha256": "524849ca80ed3f088ca068a16faafb10dfbf47de0588e69f4db0ee7aba5fa753",
+      "runtime_seconds": 55.17750930786133,
+      "terminal_status": "PRODUCTION_RUN_COMPLETE_WITH_WARNINGS",
+      "warning_codes": ["HISTORICAL_REPLAY_SOURCE_TIMESTAMP_AFTER_ISSUE", "HISTORY_CUTOFF_LIMITATION"],
+      "latest_environment_week": "2026-W25"
+    },
+    {
+      "run_id": "p6-replay-W36",
+      "issue_week": "2026-W36",
+      "target_weeks": ["2026-W37", "2026-W38", "2026-W39"],
+      "row_count": 30111,
+      "output_sha256": "7b594b74e1725235745e59fecbc6d9400e669002d9036f00cc22531cb0c572d8",
+      "runtime_seconds": 56.38723182678223,
+      "terminal_status": "PRODUCTION_RUN_COMPLETE_WITH_WARNINGS",
+      "warning_codes": ["HISTORICAL_REPLAY_SOURCE_TIMESTAMP_AFTER_ISSUE", "HISTORY_CUTOFF_LIMITATION"],
+      "latest_environment_week": "2026-W35"
+    }
+  ],
+  "all_replays_terminal": true,
+  "all_replays_row_count_valid": true,
+  "all_replays_use_e0": true
+}
