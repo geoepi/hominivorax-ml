@@ -1,0 +1,82 @@
+{
+  "production_software_version": "P6.1",
+  "scientific_model": {
+    "model_id": "STRUCTURED_A3",
+    "artifact_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+    "freeze_manifest": "config/production_model_freeze.json",
+    "freeze_manifest_sha256": "420946F5752D24EEB643EC1BC0052D69420310D4C01D4795DA23F11486A3DE33"
+  },
+  "operational_contract": {
+    "contract_version": "P5A-E0-1.0",
+    "proxy_id": "E0_LAST_AVAILABLE",
+    "proxy_contract": "analysis/p5a_environmental_proxy/results/proxy_contract.json",
+    "proxy_contract_sha256": "8CFD84439A7D40BEDFC080F05EE261A101FCCC1DB1F3813A393DA785110DBC83",
+    "issue_time_rule": "environment observation_week <= T-1; latest legitimate week L(T)=T-1",
+    "horizons": [1, 2, 3],
+    "feature_count": 34,
+    "environmental_predictor_count": 12
+  },
+  "support_specification": {
+    "path": "analysis/p4_uncertainty_extrapolation/results/support_flag_specification.json",
+    "sha256": "D9F0CDA8AB1E9698AD0AF6C6422F836B5084A63429778CF88F6A4063A8D1218C",
+    "categories": ["SUPPORTED", "CAUTION", "EXTRAPOLATIVE"]
+  },
+  "input_contract": {
+    "path": "analysis/p5_operational_contract/results/input_contract.json",
+    "sha256": "964E969A74A6DBE6E9D389D2BBC54866326AA99FE204440ABE87F4462BDCF908",
+    "source_timestamp_after_issue": "BLOCK",
+    "unknown_environment_vintage": "BLOCK_PROSPECTIVE_WARN_REPLAY",
+    "history_cutoff_after_issue": "BLOCK_PROSPECTIVE_WARN_REPLAY",
+    "no_silent_fallback": true
+  },
+  "output_contract": {
+    "schema_version": "P6_OUTPUT_1.0",
+    "path": "analysis/p5_operational_contract/results/output_schema.json",
+    "sha256": "6711E9A074C1EED2B7CAEBBAB14073F3E823CEA5D278C3A10019A867E2F2372D",
+    "immutable_after": "RUN_COMPLETE",
+    "expected_rows_per_horizon": 10037
+  },
+  "readiness_states": [
+    "READY",
+    "READY_WITH_WARNINGS",
+    "BLOCKED_INPUT_MISSING",
+    "BLOCKED_INPUT_STALE",
+    "BLOCKED_INPUT_INVALID",
+    "BLOCKED_PROVENANCE",
+    "BLOCKED_MODEL_INTEGRITY"
+  ],
+  "run_states": [
+    "PREFLIGHT_COMPLETE",
+    "INPUTS_VALIDATED",
+    "PREDICTOR_MATRIX_COMPLETE",
+    "INFERENCE_COMPLETE",
+    "SUPPORT_COMPLETE",
+    "OUTPUT_VALIDATED",
+    "MANIFEST_COMPLETE",
+    "RUN_COMPLETE"
+  ],
+  "drift": {
+    "support_proportion_warning_absolute": 0.10,
+    "support_proportion_review_absolute": 0.20,
+    "distribution_relative_warning": 0.25,
+    "distribution_relative_review": 0.50,
+    "novelty_q99_warning_absolute": 0.10,
+    "novelty_q99_review_absolute": 0.20,
+    "states": ["NO_MATERIAL_DRIFT", "DRIFT_WARNING", "DRIFT_REVIEW_REQUIRED"],
+    "action": "REVIEW_REQUIRED; no automated retraining or model update"
+  },
+  "freshness": {
+    "states": ["CURRENT", "ACCEPTABLE_LAG", "STALE_WARNING", "STALE_BLOCKING", "UNKNOWN_VINTAGE"],
+    "e0_required_reference_week": "T-1",
+    "future_dated": "BLOCK",
+    "missing": "BLOCK",
+    "unknown_environment_vintage": "BLOCK_PROSPECTIVE"
+  },
+  "retention": {
+    "completed_runs_immutable": true,
+    "overwrite_completed_runs": false,
+    "replay_requires_separate_root": true,
+    "run_manifest_is_append_only": true
+  },
+  "automated_retraining": false
+}
