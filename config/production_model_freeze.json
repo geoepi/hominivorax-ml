@@ -1,0 +1,522 @@
+{
+  "manifest_version": "1.0.0",
+  "manifest_status": "FROZEN_PRODUCTION_CANDIDATE_UNDER_QUALIFICATION",
+  "identity": {
+    "model_id": "STRUCTURED_A3",
+    "model_role": "primary",
+    "model_version": "structured-a3-development-fit-v1",
+    "freeze_date": "2026-10-06",
+    "repository": "hominivorax-ml",
+    "repository_sha_at_freeze_branch_base": "a83b5be0b589f56bbd1b4a4af2ee0064449db25d",
+    "source_branch": "feature/structured-a3-final-comparison",
+    "source_reference": "final Structured A3 development comparison and frozen evaluation record",
+    "qualification_status": "production candidate; P1-P7 pending"
+  },
+  "scientific_specification": {
+    "response": "weekly recorded Cochliomyia hominivorax detection count per canonical node-week",
+    "occurrence_definition": "presence is 1 when recorded count > 0, otherwise 0",
+    "occurrence_component": "Bernoulli/logistic",
+    "positive_count_component": "zero-truncated negative binomial conditional on count > 0",
+    "hurdle_threshold": "count > 0",
+    "spatial_resolution": "25 x 25 km canonical cells",
+    "temporal_resolution": "weekly ISO weeks",
+    "geographic_domain": "Mexico plus the established United States footprint south of 40 degrees north",
+    "node_count": 10037,
+    "fitting_horizon": {
+      "start_week": "2025-W01",
+      "end_week": "2026-W16",
+      "week_count": 68
+    },
+    "development_response_bundle": {
+      "start_week": "2025-W01",
+      "end_week": "2026-W29",
+      "week_count": 81
+    },
+    "training_rows": 682516,
+    "training_positive_rows": 9546,
+    "training_negative_rows": 672970,
+    "training_prevalence": 0.013986485298513148,
+    "evaluation_period_used_for_fit": false
+  },
+  "predictor_specification": {
+    "count": 34,
+    "ordered_predictors": [
+      {
+        "name": "era5_mintemp",
+        "source_layer": "revised_model_data/raw/dynamic_features.npy",
+        "transformation": "identity",
+        "lag": "current week",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "upstream production contract; stop on missing or non-finite support"
+      },
+      {
+        "name": "era5_soilmoist",
+        "source_layer": "revised_model_data/raw/dynamic_features.npy",
+        "transformation": "identity",
+        "lag": "current week",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "upstream production contract; stop on missing or non-finite support"
+      },
+      {
+        "name": "era5_lai_low",
+        "source_layer": "revised_model_data/raw/dynamic_features.npy",
+        "transformation": "identity",
+        "lag": "current week",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "upstream production contract; stop on missing or non-finite support"
+      },
+      {
+        "name": "agera5_relhum_min",
+        "source_layer": "revised_model_data/raw/dynamic_features.npy",
+        "transformation": "identity",
+        "lag": "current week",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "upstream production contract; stop on missing or non-finite support"
+      },
+      {
+        "name": "era5land_tmean",
+        "source_layer": "revised_model_data/raw/dynamic_features.npy",
+        "transformation": "identity",
+        "lag": "current week",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "upstream production contract; stop on missing or non-finite support"
+      },
+      {
+        "name": "era5land_soiltemp_l1_mean",
+        "source_layer": "revised_model_data/raw/dynamic_features.npy",
+        "transformation": "identity",
+        "lag": "current week",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "upstream production contract; stop on missing or non-finite support"
+      },
+      {
+        "name": "era5land_soiltemp_l2_mean",
+        "source_layer": "revised_model_data/raw/dynamic_features.npy",
+        "transformation": "identity",
+        "lag": "current week",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "upstream production contract; stop on missing or non-finite support"
+      },
+      {
+        "name": "era5land_soilwater_l1_mean",
+        "source_layer": "revised_model_data/raw/dynamic_features.npy",
+        "transformation": "identity",
+        "lag": "current week",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "upstream production contract; stop on missing or non-finite support"
+      },
+      {
+        "name": "era5land_soilwater_l2_mean",
+        "source_layer": "revised_model_data/raw/dynamic_features.npy",
+        "transformation": "identity",
+        "lag": "current week",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "upstream production contract; stop on missing or non-finite support"
+      },
+      {
+        "name": "era5land_surface_pressure_mean",
+        "source_layer": "revised_model_data/raw/dynamic_features.npy",
+        "transformation": "identity",
+        "lag": "current week",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "upstream production contract; stop on missing or non-finite support"
+      },
+      {
+        "name": "era5land_lai_high_mean",
+        "source_layer": "revised_model_data/raw/dynamic_features.npy",
+        "transformation": "identity",
+        "lag": "current week",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "upstream production contract; stop on missing or non-finite support"
+      },
+      {
+        "name": "era5land_lai_low_mean",
+        "source_layer": "revised_model_data/raw/dynamic_features.npy",
+        "transformation": "identity",
+        "lag": "current week",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "upstream production contract; stop on missing or non-finite support"
+      },
+      {
+        "name": "cattle_density",
+        "source_layer": "revised_model_data/raw/static_features.npy",
+        "transformation": "log1p",
+        "lag": "static",
+        "scaling": "development-fit mean/SD after transformation",
+        "missing_data_treatment": "production imputation contract"
+      },
+      {
+        "name": "goat_density",
+        "source_layer": "revised_model_data/raw/static_features.npy",
+        "transformation": "log1p",
+        "lag": "static",
+        "scaling": "development-fit mean/SD after transformation",
+        "missing_data_treatment": "production imputation contract"
+      },
+      {
+        "name": "sheep_density",
+        "source_layer": "revised_model_data/raw/static_features.npy",
+        "transformation": "log1p",
+        "lag": "static",
+        "scaling": "development-fit mean/SD after transformation",
+        "missing_data_treatment": "production imputation contract"
+      },
+      {
+        "name": "horse_density",
+        "source_layer": "revised_model_data/raw/static_features.npy",
+        "transformation": "log1p",
+        "lag": "static",
+        "scaling": "development-fit mean/SD after transformation",
+        "missing_data_treatment": "production imputation contract"
+      },
+      {
+        "name": "pig_density",
+        "source_layer": "revised_model_data/raw/static_features.npy",
+        "transformation": "log1p",
+        "lag": "static",
+        "scaling": "development-fit mean/SD after transformation",
+        "missing_data_treatment": "production imputation contract"
+      },
+      {
+        "name": "cattle_density_imputed",
+        "source_layer": "revised_model_data/raw/static_features.npy",
+        "transformation": "identity binary indicator",
+        "lag": "static",
+        "scaling": "unscaled 0/1",
+        "missing_data_treatment": "nearest-valid-aligned density indicator from production contract"
+      },
+      {
+        "name": "goat_density_imputed",
+        "source_layer": "revised_model_data/raw/static_features.npy",
+        "transformation": "identity binary indicator",
+        "lag": "static",
+        "scaling": "unscaled 0/1",
+        "missing_data_treatment": "nearest-valid-aligned density indicator from production contract"
+      },
+      {
+        "name": "sheep_density_imputed",
+        "source_layer": "revised_model_data/raw/static_features.npy",
+        "transformation": "identity binary indicator",
+        "lag": "static",
+        "scaling": "unscaled 0/1",
+        "missing_data_treatment": "nearest-valid-aligned density indicator from production contract"
+      },
+      {
+        "name": "horse_density_imputed",
+        "source_layer": "revised_model_data/raw/static_features.npy",
+        "transformation": "identity binary indicator",
+        "lag": "static",
+        "scaling": "unscaled 0/1",
+        "missing_data_treatment": "nearest-valid-aligned density indicator from production contract"
+      },
+      {
+        "name": "pig_density_imputed",
+        "source_layer": "revised_model_data/raw/static_features.npy",
+        "transformation": "identity binary indicator",
+        "lag": "static",
+        "scaling": "unscaled 0/1",
+        "missing_data_treatment": "nearest-valid-aligned density indicator from production contract"
+      },
+      {
+        "name": "week_sin",
+        "source_layer": "revised_model_data/raw/calendar_features.parquet",
+        "transformation": "identity",
+        "lag": "current week calendar",
+        "scaling": "unscaled",
+        "missing_data_treatment": "required finite calendar value"
+      },
+      {
+        "name": "week_cos",
+        "source_layer": "revised_model_data/raw/calendar_features.parquet",
+        "transformation": "identity",
+        "lag": "current week calendar",
+        "scaling": "unscaled",
+        "missing_data_treatment": "required finite calendar value"
+      },
+      {
+        "name": "distance_to_any_prior_positive_log1p",
+        "source_layer": "v2_model/front_features/causal_front_features.parquet",
+        "transformation": "causal log1p projected kilometres",
+        "lag": "strictly prior weeks only",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "fixed unavailable-distance placeholder plus any_prior_positive_available; stop on missing artifact"
+      },
+      {
+        "name": "distance_to_prev4_positive_log1p",
+        "source_layer": "v2_model/front_features/causal_front_features.parquet",
+        "transformation": "causal log1p projected kilometres",
+        "lag": "strictly prior weeks only",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "fixed unavailable-distance placeholder plus prev4_positive_available; stop on missing artifact"
+      },
+      {
+        "name": "weeks_since_detection_within_50km_log1p",
+        "source_layer": "v2_model/front_features/causal_front_features.parquet",
+        "transformation": "causal log1p weeks",
+        "lag": "strictly prior weeks only",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "fixed unavailable-recency placeholder plus detection_within_50km_ever_available; stop on missing artifact"
+      },
+      {
+        "name": "any_prior_positive_available",
+        "source_layer": "v2_model/front_features/causal_front_features.parquet",
+        "transformation": "identity binary indicator",
+        "lag": "strictly prior weeks only",
+        "scaling": "unscaled 0/1",
+        "missing_data_treatment": "required availability indicator"
+      },
+      {
+        "name": "prev4_positive_available",
+        "source_layer": "v2_model/front_features/causal_front_features.parquet",
+        "transformation": "identity binary indicator",
+        "lag": "strictly prior weeks only",
+        "scaling": "unscaled 0/1",
+        "missing_data_treatment": "required availability indicator"
+      },
+      {
+        "name": "detection_within_50km_ever_available",
+        "source_layer": "v2_model/front_features/causal_front_features.parquet",
+        "transformation": "identity binary indicator",
+        "lag": "strictly prior weeks only",
+        "scaling": "unscaled 0/1",
+        "missing_data_treatment": "required availability indicator"
+      },
+      {
+        "name": "road_density",
+        "source_layer": "predictor_augmentation/static/road_night_node_features.parquet",
+        "transformation": "log1p",
+        "lag": "static",
+        "scaling": "development-fit mean/SD after transformation",
+        "missing_data_treatment": "required finite static artifact; no production imputation"
+      },
+      {
+        "name": "night_illumination",
+        "source_layer": "predictor_augmentation/static/road_night_node_features.parquet",
+        "transformation": "log1p",
+        "lag": "static",
+        "scaling": "development-fit mean/SD after transformation",
+        "missing_data_treatment": "required finite static artifact; no production imputation"
+      },
+      {
+        "name": "clay_0_15",
+        "source_layer": "soil_feature_screening_resumed_s1/soil_node_features.parquet",
+        "transformation": "identity",
+        "lag": "static",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "required finite static artifact; no production imputation"
+      },
+      {
+        "name": "water_difference_wv0033_minus_wv0010_0_15",
+        "source_layer": "soil_feature_screening_resumed_s1/soil_node_features.parquet",
+        "transformation": "identity",
+        "lag": "static",
+        "scaling": "development-fit mean/SD",
+        "missing_data_treatment": "required finite static artifact; no production imputation"
+      }
+    ],
+    "excluded_predictors": [
+      "flight-path predictors",
+      "SIT predictors"
+    ],
+    "schema_authority": "docs/current/predictors.csv"
+  },
+  "model_specification": {
+    "architecture": "penalized spatiotemporal hurdle regression",
+    "model_family": "statistical machine learning; structured hurdle model",
+    "regularization_penalty": 0.01,
+    "graph_construction": null,
+    "graph_penalty_lambda": null,
+    "theta": 0.7018903965556372,
+    "theta_fixed": true,
+    "residual_scale": null,
+    "optimizer": {
+      "method": "L-BFGS-B",
+      "maxiter": 2000,
+      "ftol": 1e-10,
+      "gtol": 1e-7,
+      "maxls_count_component": 40,
+      "initialization": "zero occurrence coefficients; occurrence solution used as count initialization where applicable",
+      "occurrence_converged": true,
+      "positive_count_converged": true
+    },
+    "randomness": {
+      "fit_seed": null,
+      "fit_is_deterministic_given_inputs": true,
+      "diagnostic_permutation_seed": 20261006
+    },
+    "objective": "exact_joint_hurdle_nll",
+    "coefficient_artifact": "analysis/structured_a3_evaluation/results/final_a3_model.json"
+  },
+  "training_data_provenance": {
+    "canonical_input_paths": {
+      "model_output_root": "/project/disease_ecology/STGNN-output/revised_model_data",
+      "causal_front_features": "/project/disease_ecology/STGNN-output/v2_model/front_features/causal_front_features.parquet",
+      "anthropogenic_static_features": "/project/disease_ecology/STGNN-output/predictor_augmentation/static/road_night_node_features.parquet",
+      "soil_static_features": "/project/disease_ecology/STGNN-output/soil_feature_screening_resumed_s1/soil_node_features.parquet",
+      "observation_source": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2027-07-31.csv"
+    },
+    "authoritative_manifests": [
+      "analysis/structured_a3_evaluation/results/frozen_a3_evaluation_manifest.json",
+      "analysis/structured_a3_final_comparison/results/a3_feature_manifest.json",
+      "analysis/structured_a3_final_comparison/results/structured_a3_final_manifest.json",
+      "/project/disease_ecology/STGNN-output/revised_model_data/manifests/revised_production_manifest.json"
+    ],
+    "source_versions": {
+      "observation_source_sha256": "a3d55f3ddf867087b578df803920bf59c6c303fa695e3218a5f3463e596d497e",
+      "anthropogenic_static_features_sha256": "cb9c6275141cdad33f3563b1c4125d6f97afd7381325a71dcf20d5e1e76e26c6",
+      "soil_static_features_sha256": "58fcd1314c91f4d792ee221e9d9b7d9d01676087ea953b81a602dc2345bfd4b9",
+      "observation_snapshot_pre_freeze": true,
+      "observation_snapshot_note": "The source snapshot mtime predates the frozen A3 development comparison; later source dates are not eligible for an untouched claim."
+    },
+    "temporal_coverage": "2025-W01 through 2026-W29 response bundle; fit uses 2025-W01 through 2026-W16",
+    "spatial_extent": "canonical model_node_id 0 through 10036 in revised-domain order",
+    "history_cutoff_rule": "for forecast week t, only observations from weeks < t may be used",
+    "evaluation_responses_loaded_for_fit": false
+  },
+  "source_revision": {
+    "repository_sha_at_freeze_branch_base": "a83b5be0b589f56bbd1b4a4af2ee0064449db25d",
+    "historical_model_generation_sha_recorded_in_artifact": "f2be779b1f79aa2ec474de852485e9196a26c576",
+    "historical_evaluation_starting_main_sha": "88bcf3ae238f3aae712b123acfa07e4b2c5e4ad1",
+    "frozen_augmentation_source_commit": "bd8346fc42e31e4f1f52b2ce7f2d3694f6a4af00",
+    "soil_feature_source_commit": "97defc7595cfbc19dc5095168f12f7104c672806",
+    "historical_source_note": "The historical generation and evaluation SHAs are preserved in the frozen artifact records; they are not required to be reachable from the release-facing entrypoint branch."
+  },
+  "frozen_artifacts": [
+    {
+      "id": "frozen_model_metadata_and_coefficients",
+      "artifact_class": "production_inference",
+      "path": "analysis/structured_a3_evaluation/results/final_a3_model.json",
+      "purpose": "frozen A3 coefficient, theta, preprocessing, convergence, and fit metadata used by the inference fixture",
+      "required_for_production_inference": true,
+      "serialization": "JSON",
+      "sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "size_bytes": 6654,
+      "compatibility": "Structured A3 schema; Python JSON reader; coefficient-only inference"
+    },
+    {
+      "id": "frozen_coefficient_table",
+      "artifact_class": "audit",
+      "path": "analysis/structured_a3_evaluation/results/final_a3_coefficients.csv",
+      "purpose": "human-readable audit view of occurrence and positive-count standardized coefficients",
+      "required_for_production_inference": false,
+      "serialization": "CSV",
+      "sha256": "26249af4dcfe8329893937ba88daf5ab4ee8a23720e1dbf8d23ceba556dbae34",
+      "size_bytes": 3744,
+      "compatibility": "Must agree with final_a3_model.json"
+    },
+    {
+      "id": "frozen_scaling_table",
+      "artifact_class": "audit",
+      "path": "analysis/structured_a3_evaluation/results/final_a3_scaling_parameters.csv",
+      "purpose": "human-readable audit view of development-fit means, SDs, and scaled/unscaled status",
+      "required_for_production_inference": false,
+      "serialization": "CSV",
+      "sha256": "937217e2b2d554736daa1d08f160df2a55b87d30956072728692215b5e25e10a",
+      "size_bytes": 1936,
+      "compatibility": "Must agree with final_a3_model.json preprocessing"
+    },
+    {
+      "id": "frozen_evaluation_manifest",
+      "artifact_class": "governance",
+      "path": "analysis/structured_a3_evaluation/results/frozen_a3_evaluation_manifest.json",
+      "purpose": "immutable outcome-blind evaluation boundary and scientific contract",
+      "required_for_production_inference": true,
+      "serialization": "JSON",
+      "sha256": "9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61",
+      "size_bytes": 6625,
+      "compatibility": "Manifest sidecar must contain the same SHA-256"
+    },
+    {
+      "id": "structured_a3_final_manifest",
+      "artifact_class": "historical_decision_record",
+      "path": "analysis/structured_a3_final_comparison/results/structured_a3_final_manifest.json",
+      "purpose": "development comparison decision and no-feature-selection-reopen record",
+      "required_for_production_inference": false,
+      "serialization": "JSON",
+      "sha256": "56493723c3afeac1d2e5a15a3118ffe23189b12f9937182640069256f5d8cd8b",
+      "size_bytes": 1801,
+      "compatibility": "Must identify STRUCTURED A3 as the final structured specification"
+    },
+    {
+      "id": "a3_feature_manifest",
+      "artifact_class": "production_provenance",
+      "path": "analysis/structured_a3_final_comparison/results/a3_feature_manifest.json",
+      "purpose": "provenance for the four controlled A3 feature additions and source artifacts",
+      "required_for_production_inference": true,
+      "serialization": "JSON",
+      "sha256": "6c2082795bfeee4dc5bf1f6016f6a00c1e96e53a91a512f3b5e7251f4fb92a20",
+      "size_bytes": 16289,
+      "compatibility": "Must preserve the four recorded A3 additions"
+    },
+    {
+      "id": "predictor_schema_manifest",
+      "artifact_class": "production_schema",
+      "path": "docs/current/predictors.csv",
+      "purpose": "current human-readable predictor schema cross-checked against the frozen model metadata",
+      "required_for_production_inference": true,
+      "serialization": "CSV",
+      "sha256": "da347dff9ebdb87a02c7c31de85a6f50b95793b66ed066c4a8946e950fd85e67",
+      "size_bytes": 6099,
+      "compatibility": "The A3 column must be YES for every frozen predictor and no excluded feature may be required"
+    },
+    {
+      "id": "known_answer_inference_fixture",
+      "artifact_class": "verification_fixture",
+      "path": "tests/fixtures/production_model_freeze_inference.json",
+      "purpose": "small deterministic transformed-model-matrix fixture and expected outputs",
+      "required_for_production_inference": false,
+      "serialization": "JSON",
+      "sha256": "2c3be19a49c7ee9bc2bf420e0899661eb3bc9869e70704762443e70c5727b986",
+      "size_bytes": 2635,
+      "compatibility": "Fixture schema is the exact 34-column transformed model matrix"
+    }
+  ],
+  "software_environment": {
+    "historical_fit_environment": {
+      "python": "3.12.14",
+      "numpy": "2.5.3",
+      "pandas": "3.0.6",
+      "scipy": "required by historical L-BFGS-B fit; version not captured in compact software record"
+    },
+    "environment_reference": "analysis/structured_a3_final_comparison/results/software_environment.txt",
+    "runtime_bootstrap": "hpc/env_python.sh",
+    "atlas_module_reference": "py-torch/2.10.0",
+    "deployment_configuration_reference": "config/atlas-production.example.yaml",
+    "lockfile_reference": null,
+    "compatibility_note": "The freeze verifier uses the Python standard library for coefficient-only inference; production fitting and full-fit products use the validated Atlas environment bootstrap."
+  },
+  "immutability_contract": {
+    "immutable": [
+      "model_id and role",
+      "response definition",
+      "predictor order and schema",
+      "transformations and lag rules",
+      "training cutoff and domain",
+      "theta, penalty, objective, optimizer contract, and coefficients",
+      "artifact paths and SHA-256 values",
+      "source revisions and provenance"
+    ],
+    "mutable": [
+      "qualification documentation",
+      "verification and validation code",
+      "diagnostic reports",
+      "future evaluation results",
+      "production wrappers and monitoring code"
+    ],
+    "change_rule": "Changing an immutable field creates a separately identified challenger or new model version; it is not an edit to this freeze."
+  },
+  "qualification_boundary": {
+    "phases": ["P0", "P1", "P2", "P3", "P4", "P5", "P6", "P7"],
+    "p1_p7_must_not_silently_modify_p0": true,
+    "material_defect_rule": "If qualification reveals a material model defect, this candidate fails qualification and any replacement is developed as a separately identified challenger/new version.",
+    "flight_path_predictors_included": false,
+    "sit_predictors_included": false
+  },
+  "verification": {
+    "canonical_command": "python scripts/verify_production_model_freeze.py",
+    "trains_model": false,
+    "known_answer_fixture": "tests/fixtures/production_model_freeze_inference.json",
+    "deterministic_tolerance": 1e-12,
+    "success_marker": "PRODUCTION_MODEL_FREEZE_VERIFIED"
+  }
+}
