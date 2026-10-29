@@ -629,6 +629,11 @@ def limitation_rows(frame: pd.DataFrame, frontier: pd.DataFrame, count_strata: p
 
 def render_report(args: argparse.Namespace, metadata: dict[str, Any], frontier: pd.DataFrame, count_strata: pd.DataFrame, count_influence: pd.DataFrame, partitions: pd.DataFrame, fit_summary: dict[str, Any], init: pd.DataFrame, limitations: pd.DataFrame, decision: dict[str, Any]) -> None:
     f0 = frontier.loc[(frontier["definition"] == "F0_reference") & (frontier["horizon"] == 1)].sort_values("frontier_class")
+    f0_positive_counts = (
+        f0.groupby("frontier_class", as_index=False)["positives"]
+        .sum()
+        .sort_values("frontier_class")
+    )
     overall_count = count_influence.loc[count_influence["diagnostic"] == "untrimmed"].iloc[0]
     init_completed = init.loc[init["status"] == "COMPLETED"]
     lines = [
@@ -652,7 +657,7 @@ def render_report(args: argparse.Namespace, metadata: dict[str, Any], frontier: 
         "",
         "## V. Frontier Sensitivity",
         "",
-        f"All leakage and reproducibility checks passed. F0 h=1 classes had positive counts: " + "; ".join(f"{row.frontier_class}={int(row.positives)}" for row in f0.itertuples()) + ". F1 and F2 are reported separately in the machine-readable metrics, with no post-hoc pooling. The sparse-frontier qualification therefore remains materially unchanged, although class sample sizes and prevalence move with the definition.",
+        f"All leakage and reproducibility checks passed. F0 h=1 aggregate positive counts across all origins were: " + "; ".join(f"{row.frontier_class}={int(row.positives)}" for row in f0_positive_counts.itertuples()) + ". F1 and F2 are reported separately in the machine-readable metrics, with no post-hoc pooling. The sparse-frontier qualification therefore remains materially unchanged, although class sample sizes and prevalence move with the definition.",
         "",
         "## VI. Count Influence",
         "",
