@@ -515,7 +515,7 @@ def origin_run(args: argparse.Namespace, context: dict[str, Any], origin: str) -
         errors.extend(environment_error_rows(context["dynamic"], labels, origin, proxy_id, env_values))
     predictions = pd.concat(rows, ignore_index=True)
     predictions["key"] = make_key(predictions)
-    require(not predictions["key"].duplicated().any(), f"origin {origin} proxy keys duplicated")
+    require(not predictions[["key", "proxy_id"]].duplicated().any(), f"origin {origin} proxy keys duplicated")
     require(set(predictions["proxy_id"].unique()) >= {"REALIZED_ENV", "E0_LAST_AVAILABLE", "E1_TRAILING3_MEAN"}, f"origin {origin} missing required proxy")
     write_parquet(prediction_path, predictions)
     write_csv(error_path, pd.DataFrame(errors))
