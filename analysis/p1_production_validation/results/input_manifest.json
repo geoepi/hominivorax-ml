@@ -1,0 +1,108 @@
+{
+  "evaluation_start_rule": "strictly after 2026-W16; current validated refresh begins at W30",
+  "evaluation_weeks": [
+    "2026-W30",
+    "2026-W31",
+    "2026-W32",
+    "2026-W33",
+    "2026-W34",
+    "2026-W35",
+    "2026-W36",
+    "2026-W37",
+    "2026-W38",
+    "2026-W39"
+  ],
+  "inputs": [
+    {
+      "path": "/project/disease_ecology/STGNN-output/worktrees/p1-production-validation-v2/config/production_model_freeze.json",
+      "sha256": "420946f5752d24eeb643ec1bc0052d69420310d4c01d4795da23f11486a3de33",
+      "size_bytes": 24198
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/worktrees/p1-production-validation-v2/analysis/structured_a3_evaluation/results/final_a3_model.json",
+      "sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "size_bytes": 6654
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/prospective_evaluation_refresh_2026-10-17/a3-prospective-corrected-20261017/predictions/prospective_predictions.parquet",
+      "sha256": "7dad65ae2efa46fcb69da7fa2d36eab76c1c75bf7ab4129aed34e27c4c23f9b8",
+      "size_bytes": 5242320
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/dynamic_features.npy",
+      "sha256": "d61ebbaa113c435f44d2cbf6910d33f20abe47890456ed67e28990598d5c0f13",
+      "size_bytes": 43841696
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/static_features.npy",
+      "sha256": "c629df4b9658c11c3330d8b6ddbba1a64ce597df5c722554ea0560a2973e4f75",
+      "size_bytes": 401560
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/weeks.parquet",
+      "sha256": "0e45a70250d596f5d4a81a8d7edd4cba1c22cf0f2ec0264cdb0a49bb86e64429",
+      "size_bytes": 4285
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/calendar_features.parquet",
+      "sha256": "eb15803292bedaa9c165c749e30094ba7019c515c05cfb02d1b0098d5e8af8c7",
+      "size_bytes": 3950
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/v2_model/front_features/causal_front_features.parquet",
+      "sha256": "933b4beff394ea4cecbc82b8a07daccd6db520d8bae422f7ba825ac1867d5edd",
+      "size_bytes": 9864140
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/predictor_augmentation/static/road_night_node_features.parquet",
+      "sha256": "cb9c6275141cdad33f3563b1c4125d6f97afd7381325a71dcf20d5e1e76e26c6",
+      "size_bytes": 436873
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/soil_feature_screening_resumed_s1/soil_node_features.parquet",
+      "sha256": "58fcd1314c91f4d792ee221e9d9b7d9d01676087ea953b81a602dc2345bfd4b9",
+      "size_bytes": 32171808
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/revised_model_data/raw/targets_count.npy",
+      "sha256": "651cddb515db515db298a68f94324199387239de9df6e68fc96c8ad75ae96a05",
+      "size_bytes": 3252068
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/revised_model_data/raw/weeks.parquet",
+      "sha256": "0442ffb577797e82c4fa8c650e0b09c65c487fb774ff9d2f2662885accc42d34",
+      "size_bytes": 4108
+    }
+  ],
+  "latest_validated_week": "2026-W39",
+  "matrix": {
+    "feature_count": 34,
+    "front_rows": 100370,
+    "latest_week": "2026-W39",
+    "node_count": 10037,
+    "week_count": 10,
+    "weeks": [
+      "2026-W30",
+      "2026-W31",
+      "2026-W32",
+      "2026-W33",
+      "2026-W34",
+      "2026-W35",
+      "2026-W36",
+      "2026-W37",
+      "2026-W38",
+      "2026-W39"
+    ]
+  },
+  "model_artifact_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+  "model_id": "STRUCTURED_A3",
+  "no_recalibration": true,
+  "no_refit": true,
+  "no_threshold_tuning": true,
+  "repository_sha": "690b6c98caa8461aeea683eb0cf6563ef22c730e",
+  "uncertainty": {
+    "replicates": 399,
+    "rules": "Use ordered two-week temporal blocks, 5x5 spatial blocks, and joint week-block-by-spatial-block resampling; never resample individual rows as if independent.",
+    "seed": 20261029
+  }
+}

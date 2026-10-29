@@ -1,0 +1,22 @@
+{
+  "limitations": [
+    "U.S. and frontier positive support is sparse.",
+    "Positive-count error is reported descriptively and is not recalibrated.",
+    "Spatial transfer is a frozen-model geographic diagnostic, not a refitted spatial holdout."
+  ],
+  "overall_decision": "SUPPORTED_WITH_LIMITATIONS",
+  "qualitative_rules": {
+    "frontier": "SUPPORT if prior-history categories are reconstructible causally and newly detected/frontier outcomes are nonempty; otherwise mark not estimable.",
+    "overall": "SUPPORTED_WITH_LIMITATIONS when the regimes are estimable but sparse geographic/frontier support or systematic count-process error limits the strength of transfer claims; NOT_SUPPORTED only when a required regime cannot be executed without refit or valid inputs.",
+    "spatial": "SUPPORT if at least two predeclared geographic regions are scored with both outcome classes where estimable; sparse regions remain limited rather than being pooled silently.",
+    "spatiotemporal": "SUPPORT if the later interval and at least two geographic regions are jointly scored with exact week/node keys and no refit.",
+    "temporal": "SUPPORT if the complete post-fit interval is scored without refit and has at least eight ordered weeks; report instability descriptively.",
+    "uncertainty": "Use ordered two-week temporal blocks, 5x5 spatial blocks, and joint week-block-by-spatial-block resampling; never resample individual rows as if independent."
+  },
+  "regimes": {
+    "frontier": "SUPPORTED_WITH_LIMITATIONS",
+    "spatial": "SUPPORTED_WITH_LIMITATIONS",
+    "spatiotemporal": "SUPPORTED_WITH_LIMITATIONS",
+    "temporal": "SUPPORTED"
+  }
+}

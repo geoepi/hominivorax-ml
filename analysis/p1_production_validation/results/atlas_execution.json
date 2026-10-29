@@ -1,0 +1,19 @@
+{
+  "atlas_worktree": "/project/disease_ecology/STGNN-output/worktrees/p1-production-validation-v2",
+  "python_environment": "/project/disease_ecology/STGNN-python-venv",
+  "validation_job": {
+    "job_id": "21059059",
+    "state": "COMPLETED",
+    "elapsed": "00:06:54",
+    "exit_code": "0"
+  },
+  "figure_job": {
+    "job_id": "21059083",
+    "state": "COMPLETED",
+    "elapsed": "00:00:04",
+    "exit_code": "0"
+  },
+  "result_commit": "bd978609",
+  "latest_validated_week": "2026-W39",
+  "protected_inputs_committed": false
+}
