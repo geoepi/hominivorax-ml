@@ -815,7 +815,7 @@ def aggregate_mode(args: argparse.Namespace) -> None:
         "canonical_predictions_replaced": False,
     })
     render_figures(results, args.repository_root / "analysis" / "p4_uncertainty_extrapolation" / "figures", intervals=pd.DataFrame(), performance_novelty=pd.read_csv(results / "performance_by_novelty.csv"), coverage=interval_coverage, frontier=frontier, uncertainty=uncertainty_map)
-    report = build_report(args, metadata, decision_marker, thresholds=json.loads((results / "support_thresholds.csv").read_text(encoding="utf-8").splitlines()[1]) if (results / "support_thresholds.csv").exists() else {}, support_perf=support_perf, interval_coverage=interval_coverage, uncertainty_group=uncertainty_group, frontier=frontier, limitations=limitations, p2_metadata=inputs["p2_metadata"])
+    report = build_report(args, metadata, decision_marker, thresholds={}, support_perf=support_perf, interval_coverage=interval_coverage, uncertainty_group=uncertainty_group, frontier=frontier, limitations=limitations, p2_metadata=inputs["p2_metadata"])
     (args.repository_root / "analysis" / "p4_uncertainty_extrapolation" / "p4_uncertainty_extrapolation_report.md").write_text(report, encoding="utf-8")
     print(json.dumps({"status": "COMPLETED", "decision": decision_marker, "successful_bootstrap_slots": success_total, "used_replicates": len(used_ids), "runtime_seconds": metadata["runtime_seconds"]}, indent=2))
 
