@@ -386,6 +386,12 @@ def prepare(args: argparse.Namespace) -> None:
 def load_origin(args: argparse.Namespace, origin_index: int) -> tuple[dict[str, Any], dict[str, Any], np.ndarray, np.ndarray, pd.DataFrame]:
     manifest = pd.read_csv(args.output_root / "manifests" / "rolling_origin_manifest.csv")
     row = manifest.loc[manifest["origin_index"].astype(int) == int(origin_index)]
+    # Slurm array IDs are ordinal task positions (0..N-1), while the
+    # scientific origin_index is the absolute week index in the refresh.
+    # Accept the ordinal mapping used by the launcher and retain the absolute
+    # origin_index from the manifest for all scientific calculations.
+    if len(row) == 0 and 0 <= int(origin_index) < len(manifest):
+        row = manifest.iloc[[int(origin_index)]]
     require(len(row) == 1, f"origin index {origin_index} is not in the eligible manifest")
     origin = row.iloc[0].to_dict()
     procedure = json.loads((args.output_root / "manifests" / "procedure_spec.json").read_text(encoding="utf-8"))
