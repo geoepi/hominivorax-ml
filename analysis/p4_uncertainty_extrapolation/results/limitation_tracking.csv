@@ -1,0 +1,8 @@
+limitation_id,p4_classification,evidence
+sparse_frontier_support,ROBUST_LIMITATION,P2 frontier positives remain sparse; P4 reports frontier-by-support strata without pooling.
+sparse_us_regional_outcome_support,ROBUST_LIMITATION,P4 characterizes U.S./regional rows and positives but does not create outcome support.
+count_process_bias,BETTER_CHARACTERIZED,Exact hurdle intervals and conditional/full count performance are reported by support and frontier.
+retrospective_environmental_availability,NOT_ADDRESSABLE_IN_P4,P4 uses the validated retrospective refresh and does not invent release-time metadata.
+no_true_refitted_spatial_holdout,NOT_ADDRESSABLE_IN_P4,P4 stratifies frozen rolling-origin predictions and does not create a spatial refit.
+numerical_stability,BETTER_CHARACTERIZED,Bootstrap successful slots=120/120; used=100; failure_rate=0.000.
+environmental_extrapolation,PARTIALLY_EXPLAINED_BY_EXTRAPOLATION,The deterministic input-only support flag identifies low-support and extrapolative predictor conditions.
