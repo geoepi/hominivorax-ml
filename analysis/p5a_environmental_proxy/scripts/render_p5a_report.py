@@ -23,6 +23,36 @@ def table(frame: pd.DataFrame, columns: list[str], digits: int = 4) -> str:
 def render(repository_root: Path, output_root: Path) -> None:
     metrics_root = output_root / "metrics"
     manifests = output_root / "manifests"
+    results_root = repository_root / "analysis" / "p5a_environmental_proxy" / "results"
+    results_root.mkdir(parents=True, exist_ok=True)
+    compact_files = [
+        manifests / "origin_manifest.csv",
+        manifests / "proxy_applicability.csv",
+        manifests / "issue_time_environmental_availability.csv",
+        manifests / "e2_feasibility.csv",
+        manifests / "proxy_contract.json",
+        manifests / "p2_reference_manifest.json",
+        manifests / "freeze_verification.json",
+        manifests / "run_metadata.json",
+        output_root / "completion_ledger.csv",
+        metrics_root / "occurrence_count_metrics.csv",
+        metrics_root / "coverage.csv",
+        metrics_root / "paired_proxy_minus_realized.csv",
+        metrics_root / "horizon_degradation.csv",
+        metrics_root / "frontier_metrics.csv",
+        metrics_root / "support_metrics.csv",
+        metrics_root / "support_transitions.csv",
+        metrics_root / "proxy_prediction_spread.csv",
+        metrics_root / "environmental_proxy_error.csv",
+        metrics_root / "environmental_proxy_error_by_family.csv",
+        metrics_root / "bootstrap_intervals.csv",
+        metrics_root / "proxy_decision.csv",
+        metrics_root / "availability_reclassification.json",
+        metrics_root / "decision.json",
+    ]
+    for source in compact_files:
+        if source.exists():
+            (results_root / source.name).write_bytes(source.read_bytes())
     metadata = json.loads((manifests / "run_metadata.json").read_text(encoding="utf-8"))
     decision = json.loads((metrics_root / "decision.json").read_text(encoding="utf-8"))
     availability = json.loads((metrics_root / "availability_reclassification.json").read_text(encoding="utf-8"))
@@ -179,7 +209,8 @@ implementation must fail on missing, future-vintage, or nonfinite proxy inputs.
 
 - `analysis/p5a_environmental_proxy/p5a_prespecification.md`
 - `analysis/p5a_environmental_proxy/results/` compact machine-readable results
-- `analysis/p5a_environmental_proxy/figures/P5A-1_proxy_design.png` through `P5A-6_support_class_impact.png`
+- `analysis/p5a_environmental_proxy/figures/P5A-1_proxy_design.svg` through
+  `P5A-6_support_class_impact.svg` (or PNG equivalents when matplotlib is available)
 - Atlas output root: `{output_root}`
 
 ## XVII. CI / PR / Merge
