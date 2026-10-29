@@ -1,0 +1,43 @@
+{
+  "aggregate_job": {
+    "elapsed": "00:26:41",
+    "execution_code_sha": "c79bb8ec0a169f6833fda6c3b236e9179e65a3e2",
+    "exit_code": "0",
+    "job_id": "21059277",
+    "state": "COMPLETED"
+  },
+  "atlas_worktree": "/project/disease_ecology/STGNN-output/worktrees/p2-operational-nowcast-v1",
+  "figure_job": {
+    "elapsed": "00:00:04",
+    "exit_code": "0",
+    "job_id": "21059421",
+    "render_code_sha": "bd9d72c8",
+    "state": "COMPLETED"
+  },
+  "initial_diagnostics": {
+    "cause": "ordinal Slurm task IDs initially matched against absolute week indices; canceled before use",
+    "cause_figure": "Rscript was not initialized; corrected job sourced hpc/env_r.sh",
+    "corrective_array": "21059244",
+    "failed_figure_job": "21059418",
+    "failed_origin_array": "21059231"
+  },
+  "latest_validated_week": "2026-W39",
+  "origin_array": {
+    "elapsed": "per-task 00:00:11-00:00:21",
+    "eligible_origins": 21,
+    "exit_code": "0",
+    "job_id": "21059244",
+    "state": "COMPLETED",
+    "successful_origins": 21
+  },
+  "output_root": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029",
+  "prepare_job": {
+    "elapsed": "00:00:13",
+    "exit_code": "0",
+    "job_id": "21059228",
+    "state": "COMPLETED"
+  },
+  "protected_inputs_committed": false,
+  "python_environment": "/project/disease_ecology/STGNN-python-venv",
+  "result_rows": 632331
+}

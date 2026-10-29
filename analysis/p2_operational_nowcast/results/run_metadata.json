@@ -1,0 +1,97 @@
+{
+  "aggregate_execution_code_sha": "c79bb8ec0a169f6833fda6c3b236e9179e65a3e2",
+  "atlas_output_root": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029",
+  "bootstrap_replicates": 399,
+  "bootstrap_seed": 20261029,
+  "branch": "feature/p2-operational-nowcast",
+  "eligible_origins": 21,
+  "failed_origins": 0,
+  "feature_cache_sha256": "d78419099aea40dee085650df5b958b1bd90e9b196f2017071c20f5563b6b66a",
+  "feature_cache_shape": [
+    91,
+    10037,
+    34
+  ],
+  "figure_render_code_sha": "bd9d72c8",
+  "fitting_implementation": "/project/disease_ecology/STGNN-output/worktrees/p2-operational-nowcast-v1/analysis/predictor_augmentation/scripts/run_predictor_augmentation.py",
+  "fitting_implementation_sha256": "24fd9ac11dd5be7e3577238bbe057199607b31ae372d10f860dd936c178bf9ca",
+  "last_origin": "2026-W36",
+  "latest_week": "2026-W39",
+  "model_id": "STRUCTURED_A3",
+  "numpy": "2.5.3",
+  "p0_manifest": "config/production_model_freeze.json",
+  "p0_merge_sha": "6a797c6b8fb7fb8cace20c21503ec86a0a5dd750",
+  "p0_model_artifact_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+  "p1_merge_sha": "1a8cba7ad910f6608fc664effdc1bb218b90b8ac",
+  "pandas": "3.0.6",
+  "python": "3.12.14",
+  "refresh_week_count": 91,
+  "repository_sha": "c79bb8ec0a169f6833fda6c3b236e9179e65a3e2",
+  "runtime_seconds": 1592.8217833042145,
+  "scipy": "1.18.1",
+  "sklearn": "1.9.1",
+  "sources": [
+    {
+      "name": "production_manifest",
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/manifests/revised_production_manifest.json",
+      "sha256": "30422cc531d36f64632b013c0bbea016b8e15d4b7085979bce0f282a40379261",
+      "size_bytes": 5536
+    },
+    {
+      "name": "dynamic_features",
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/dynamic_features.npy",
+      "sha256": "d61ebbaa113c435f44d2cbf6910d33f20abe47890456ed67e28990598d5c0f13",
+      "size_bytes": 43841696
+    },
+    {
+      "name": "static_features",
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/static_features.npy",
+      "sha256": "c629df4b9658c11c3330d8b6ddbba1a64ce597df5c722554ea0560a2973e4f75",
+      "size_bytes": 401560
+    },
+    {
+      "name": "targets_count",
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/targets_count.npy",
+      "sha256": "9e10a2b72416a4c8703183dfc383ef228b5c66d08a9e59dd81864dbdfe676e1f",
+      "size_bytes": 3653548
+    },
+    {
+      "name": "weeks",
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/weeks.parquet",
+      "sha256": "0e45a70250d596f5d4a81a8d7edd4cba1c22cf0f2ec0264cdb0a49bb86e64429",
+      "size_bytes": 4285
+    },
+    {
+      "name": "calendar_features",
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/calendar_features.parquet",
+      "sha256": "eb15803292bedaa9c165c749e30094ba7019c515c05cfb02d1b0098d5e8af8c7",
+      "size_bytes": 3950
+    },
+    {
+      "name": "nodes",
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/revised_model_data/raw/nodes.parquet",
+      "sha256": "942215b94236e7b01596c6681aaed4d9c54e07f9e7fcbd68313d6b7998d4050a",
+      "size_bytes": 388689
+    },
+    {
+      "name": "front_features",
+      "path": "/project/disease_ecology/STGNN-output/refresh_2026-10-17/v2_model/front_features/causal_front_features.parquet",
+      "sha256": "933b4beff394ea4cecbc82b8a07daccd6db520d8bae422f7ba825ac1867d5edd",
+      "size_bytes": 9864140
+    },
+    {
+      "name": "road_night_features",
+      "path": "/project/disease_ecology/STGNN-output/predictor_augmentation/static/road_night_node_features.parquet",
+      "sha256": "cb9c6275141cdad33f3563b1c4125d6f97afd7381325a71dcf20d5e1e76e26c6",
+      "size_bytes": 436873
+    },
+    {
+      "name": "soil_features",
+      "path": "/project/disease_ecology/STGNN-output/soil_feature_screening_resumed_s1/soil_node_features.parquet",
+      "sha256": "58fcd1314c91f4d792ee221e9d9b7d9d01676087ea953b81a602dc2345bfd4b9",
+      "size_bytes": 32171808
+    }
+  ],
+  "starting_main_sha": "1a8cba7ad910f6608fc664effdc1bb218b90b8ac",
+  "successful_origins": 21
+}

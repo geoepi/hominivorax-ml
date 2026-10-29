@@ -1,0 +1,51 @@
+{
+  "decision": "P2_OPERATIONAL_NOWCAST_SUPPORTED_WITH_LIMITATIONS",
+  "fit_stability": {
+    "eligible_origins": 21,
+    "failed_origins": 0,
+    "successful_origins": 21
+  },
+  "limitations": [
+    {
+      "evidence": "U.S./domain-region positives across h=1..3: 123; P2 does not pool regions silently.",
+      "limitation_id": "P1_sparse_us_support",
+      "p1_finding": "Sparse U.S./regional outcome support limits spatial transfer strength.",
+      "p2_diagnostic": "Horizon-by-region occurrence metrics and positive counts.",
+      "status": "PERSISTS"
+    },
+    {
+      "evidence": "Newly detected/frontier positive outcome rows across h=1..3: 3211.",
+      "limitation_id": "P1_sparse_frontier_support",
+      "p1_finding": "Sparse frontier positive support limits frontier transfer strength.",
+      "p2_diagnostic": "Origin-time occupied versus previously-unoccupied strata and newly detected positive outcomes by horizon.",
+      "status": "PERSISTS"
+    },
+    {
+      "evidence": "P2 pooled conditional positive-count mean error: 0.649105.",
+      "limitation_id": "P1_count_process_bias",
+      "p1_finding": "Positive-count error/count-process bias prevents an unrestricted validity claim.",
+      "p2_diagnostic": "Conditional positive-count and full-hurdle calibration at h=1..3.",
+      "status": "PERSISTS"
+    },
+    {
+      "evidence": "P2 is an operational rolling-origin assessment; no spatial refit/holdout was introduced.",
+      "limitation_id": "P1_not_spatial_holdout",
+      "p1_finding": "P1 spatial transfer was a frozen-model geographic diagnostic, not a refitted spatial holdout.",
+      "p2_diagnostic": "Rolling origins preserve geography but do not create a spatial holdout.",
+      "status": "NOT_EVALUABLE_IN_P2"
+    },
+    {
+      "evidence": "P2 evaluated 21 weekly origins through three weeks; failed origins: 0.",
+      "limitation_id": "P1_extended_transport_boundary",
+      "p1_finding": "P1 evaluated extended transport of a single frozen W16 artifact, beyond normal operational use.",
+      "p2_diagnostic": "Weekly expanding-window origins and paired h=1..3 degradation.",
+      "status": "BETTER_CHARACTERIZED"
+    }
+  ],
+  "marker": "P2_OPERATIONAL_NOWCAST_SUPPORTED_WITH_LIMITATIONS",
+  "no_feature_selection": true,
+  "no_long_horizon_primary_evaluation": true,
+  "no_new_predictors": true,
+  "no_recalibration": true,
+  "primary_evaluation_label": "RETROSPECTIVE_1_TO_3_WEEK_ROLLING_ORIGIN_EVALUATION"
+}
