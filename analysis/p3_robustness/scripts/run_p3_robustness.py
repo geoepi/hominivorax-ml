@@ -57,6 +57,7 @@ from run_predictor_augmentation import (  # noqa: E402
 MODEL_ID = "STRUCTURED_A3"
 P0_MODEL_SHA256 = "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e"
 P2_MERGE_SHA = "ec6e951c63f7ec7fd252de5ddea6bb9772fea906"
+P3_BRANCH_NAME = "feature/p3-bounded-robustness"
 P2_ARCHIVE_SHA256 = "918b33e80d352c080fcefb3d7b2a44dc29d0096b0b2e7dd6f5b017becc983170"
 P2_EXPECTED_ROWS = 632_331
 P2_ORIGINS = [f"2026-W{week:02d}" for week in range(16, 37)]
@@ -746,7 +747,7 @@ def run(args: argparse.Namespace) -> None:
 
     metadata = {
         "model_id": MODEL_ID,
-        "branch": git_value(args.repository_root, "branch", "--show-current"),
+        "branch": git_value(args.repository_root, "branch", "--show-current") or P3_BRANCH_NAME,
         "repository_sha": git_value(args.repository_root, "rev-parse", "HEAD"),
         "starting_main_sha": P2_MERGE_SHA,
         "p2_merge_sha": P2_MERGE_SHA,
