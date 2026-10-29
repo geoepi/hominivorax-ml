@@ -830,7 +830,13 @@ def aggregate(args: argparse.Namespace, context: dict[str, Any]) -> dict[str, An
     decision_rows = []
     for proxy_id in ["E0_LAST_AVAILABLE", "E1_TRAILING3_MEAN", "E2_SEASONAL_EXPECTATION"]:
         if proxy_id not in set(predictions["proxy_id"]):
-            decision_rows.append({"proxy_id": proxy_id, "classification": "NOT_EVALUABLE", "reason": "E2 requires two prior seasonal cycles; the validated archive supplies only one."})
+            decision_rows.append({
+                "proxy_id": proxy_id,
+                "classification": "NOT_EVALUABLE",
+                "reason": "E2 requires two prior seasonal cycles; the validated archive supplies only one.",
+                "strict_failures": "",
+                "bounded_failures": "",
+            })
             continue
         p = paired.loc[paired["proxy_id"].eq(proxy_id)]
         strict_failures = []

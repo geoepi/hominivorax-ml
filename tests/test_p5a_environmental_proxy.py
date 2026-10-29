@@ -7,6 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 import sys
+import json
 
 import numpy as np
 
@@ -53,6 +54,15 @@ class P5AContractTests(unittest.TestCase):
         labels = ["2025-W01", "2026-W01", "2026-W02"]
         self.assertEqual(seasonal_cycle_count(labels, "2026-W02", "2026-W01"), 0)
         self.assertEqual(E2_MIN_SEASONAL_CYCLES, 2)
+
+    def test_committed_decision_is_strict_json(self) -> None:
+        path = Path(__file__).resolve().parents[1] / "analysis" / "p5a_environmental_proxy" / "results" / "decision.json"
+        text = path.read_text(encoding="utf-8")
+        self.assertNotIn("NaN", text)
+        decision = json.loads(text)
+        e2 = next(row for row in decision["proxy_decisions"] if row["proxy_id"] == "E2_SEASONAL_EXPECTATION")
+        self.assertEqual(e2["classification"], "NOT_EVALUABLE")
+        self.assertEqual(e2["strict_failures"], "")
 
 
 if __name__ == "__main__":
