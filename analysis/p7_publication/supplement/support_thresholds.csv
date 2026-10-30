@@ -1,0 +1,2 @@
+"training_loo_knn_q50","training_loo_knn_q75","training_loo_knn_q90","training_loo_knn_q95","training_loo_knn_q99","support_rule"
+0.543884384616144,0.694095521335505,0.829085538792411,0.910999907448292,1.08138371448995,"EXTRAPOLATIVE if any min/max exceedance or kNN>training q99; CAUTION if any 1-99 exceedance or kNN>training q95; SUPPORTED otherwise"

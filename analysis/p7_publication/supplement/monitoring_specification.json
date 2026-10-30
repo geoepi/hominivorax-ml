@@ -1,0 +1,45 @@
+{
+  "version": "P6_MONITORING_1.0",
+  "input_metrics": [
+    "latest_environment_week",
+    "input_lag",
+    "missingness",
+    "stale_input_count",
+    "future_dated_count",
+    "source_hashes"
+  ],
+  "prediction_metrics": [
+    "p_occurrence_distribution",
+    "expected_count_distribution",
+    "high_risk_fraction",
+    "near_zero_fraction"
+  ],
+  "support_metrics": [
+    "SUPPORTED",
+    "CAUTION",
+    "EXTRAPOLATIVE",
+    "novelty_q50",
+    "novelty_q95",
+    "novelty_q99"
+  ],
+  "operational_metrics": [
+    "runtime_seconds",
+    "row_count",
+    "warning_codes",
+    "retry_count"
+  ],
+  "drift_states": [
+    "NO_MATERIAL_DRIFT",
+    "DRIFT_WARNING",
+    "DRIFT_REVIEW_REQUIRED"
+  ],
+  "thresholds": {
+    "support_proportion_warning_absolute": 0.10000000000000001,
+    "support_proportion_review_absolute": 0.20000000000000001,
+    "distribution_relative_warning": 0.25,
+    "distribution_relative_review": 0.5,
+    "novelty_q99_warning_absolute": 0.10000000000000001,
+    "novelty_q99_review_absolute": 0.20000000000000001
+  },
+  "action_on_drift": "REVIEW_REQUIRED; no automated retraining"
+}
