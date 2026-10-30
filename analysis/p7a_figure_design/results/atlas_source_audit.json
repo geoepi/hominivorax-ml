@@ -1,0 +1,18 @@
+{
+  "audit_type": "aggregate_source_audit",
+  "execution_route": "authorized WSL/Ubuntu atlas-ssh",
+  "p2_archive_path": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/predictions/rolling_origin_predictions.parquet",
+  "p2_archive_sha256": "918b33e80d352c080fcefb3d7b2a44dc29d0096b0b2e7dd6f5b017becc983170",
+  "rows": 632331,
+  "canonical_cells": 10037,
+  "row_groups": 1,
+  "origin_week": ["2026-W16", "2026-W36"],
+  "target_week": ["2026-W17", "2026-W39"],
+  "horizons": [1, 2, 3],
+  "longitude": [-123.9013, -74.1656],
+  "latitude": [14.7499, 39.9985],
+  "domain_regions": ["Mexico", "U.S.-to-40N"],
+  "columns": ["origin_week", "target_week", "horizon", "model_node_id", "row", "column", "lon", "lat", "country_or_domain_region", "observed_count", "observed_positive", "p_occurrence", "conditional_count_mean", "underlying_mu", "expected_count", "persistence_probability", "historical_prevalence_probability", "historical_reference_source", "previously_occupied", "prediction_frontier_class", "outcome_frontier_label"],
+  "support_overlay": "P6 replay support_class is retained for replay-W16, replay-W26, and replay-W36 only",
+  "raw_row_level_archive_copied": false
+}

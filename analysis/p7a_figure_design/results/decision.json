@@ -1,0 +1,19 @@
+{
+  "decision": "P7A_FIGURE_PLAN_SUPPORTED_WITH_LIMITATIONS",
+  "main_figures": ["Figure 1", "Figure 2", "Figure 3", "Figure 4", "Figure 5", "Figure 6"],
+  "supplementary_figures": ["S1", "S2", "S3", "S4"],
+  "main_tables": ["Table 1", "Table 2", "Table 3", "Table 4"],
+  "limitations": [
+    "Focal cell-week predictions are retained on Atlas and require authorized descriptive extraction for final map rendering.",
+    "P6 support classes are complete only for selected replay windows, so a continuous focal support time series is not source-complete.",
+    "The 34-predictor coefficient artifact mixes standardized continuous predictors with unscaled indicators/calendar terms; no global coefficient-magnitude ranking is defensible.",
+    "Coefficient stability is canonically available for four augmented predictors, not all 34 predictors.",
+    "The focal crop has domain-region labels but not a retained state-boundary intersection table."
+  ],
+  "separate_analytic_authorization": [
+    "SHAP, permutation importance, ALE, partial dependence, or leave-one-predictor-out refitting.",
+    "Any refitting or feature-selection analysis to support a stronger predictor-contribution claim."
+  ],
+  "no_model_fitting": true,
+  "no_new_scientific_analysis": true
+}
