@@ -1,0 +1,6 @@
+{
+  "decision": "P7E_ROLLING_FORECAST_FIGURE_SUPPORTED_WITH_LIMITATIONS",
+  "reason": "Occurrence figure is complete and deterministic; count display is a candidate and no canonical regional uncertainty ribbon is available.",
+  "primary_figure": "figure_rolling_occurrence_forecasts",
+  "count_candidate": "figure_rolling_count_forecasts_candidate"
+}
