@@ -1,0 +1,4 @@
+"horizon","positive_n","conditional_mae","conditional_bias","observed_predicted_ratio","full_expected_mae","full_expected_bias","source_artifact"
+1,8948,"1.6797","0.5748","0.7979","0.1433","0.0327","analysis/p2_operational_nowcast/results/count_metrics.csv"
+2,9009,"1.7185","0.6546","0.7755","0.1474","0.0383","analysis/p2_operational_nowcast/results/count_metrics.csv"
+3,9102,"1.7698","0.7167","0.7601","0.1522","0.0428","analysis/p2_operational_nowcast/results/count_metrics.csv"
