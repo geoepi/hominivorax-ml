@@ -1,0 +1,69 @@
+"predictor","family","scale_category","component","coefficient"
+"night_illumination","anthropogenic","STANDARDIZED_CONTINUOUS","Conditional positive-count",-0.106288454283654
+"week_cos","calendar","UNSCALED_OR_IDENTITY","Conditional positive-count",-0.0253124301041574
+"week_sin","calendar","UNSCALED_OR_IDENTITY","Conditional positive-count",-0.192042192679402
+"any_prior_positive_available","detection/history","UNSCALED_OR_IDENTITY","Conditional positive-count",-0.000100582764277531
+"detection_within_50km_ever_available","detection/history","UNSCALED_OR_IDENTITY","Conditional positive-count",-0.0135641634636135
+"distance_to_any_prior_positive_log1p","detection/history","STANDARDIZED_CONTINUOUS","Conditional positive-count",0.0405178608522661
+"distance_to_prev4_positive_log1p","detection/history","STANDARDIZED_CONTINUOUS","Conditional positive-count",-0.389763191159802
+"prev4_positive_available","detection/history","UNSCALED_OR_IDENTITY","Conditional positive-count",-0.000100582764277531
+"weeks_since_detection_within_50km_log1p","detection/history","STANDARDIZED_CONTINUOUS","Conditional positive-count",-0.0334019477510894
+"cattle_density","livestock","STANDARDIZED_CONTINUOUS","Conditional positive-count",0.0209461892479624
+"cattle_density_imputed","livestock","UNSCALED_OR_IDENTITY","Conditional positive-count",0
+"goat_density","livestock","STANDARDIZED_CONTINUOUS","Conditional positive-count",-0.015193678334911
+"goat_density_imputed","livestock","UNSCALED_OR_IDENTITY","Conditional positive-count",0
+"horse_density","livestock","STANDARDIZED_CONTINUOUS","Conditional positive-count",-0.0362921658080793
+"horse_density_imputed","livestock","UNSCALED_OR_IDENTITY","Conditional positive-count",0
+"pig_density","livestock","STANDARDIZED_CONTINUOUS","Conditional positive-count",0.121892940477207
+"pig_density_imputed","livestock","UNSCALED_OR_IDENTITY","Conditional positive-count",0
+"road_density","livestock","STANDARDIZED_CONTINUOUS","Conditional positive-count",0.249844263154927
+"sheep_density","livestock","STANDARDIZED_CONTINUOUS","Conditional positive-count",0.071932675248713
+"sheep_density_imputed","livestock","UNSCALED_OR_IDENTITY","Conditional positive-count",0
+"agera5_relhum_min","moisture/soil","STANDARDIZED_CONTINUOUS","Conditional positive-count",0.289036954766611
+"era5_soilmoist","moisture/soil","STANDARDIZED_CONTINUOUS","Conditional positive-count",-0.115256126189031
+"era5land_soilwater_l1_mean","moisture/soil","STANDARDIZED_CONTINUOUS","Conditional positive-count",-0.0105165861928757
+"era5land_soilwater_l2_mean","moisture/soil","STANDARDIZED_CONTINUOUS","Conditional positive-count",0.0399953834635213
+"era5land_surface_pressure_mean","moisture/soil","STANDARDIZED_CONTINUOUS","Conditional positive-count",-0.215091683759817
+"clay_0_15","soil","STANDARDIZED_CONTINUOUS","Conditional positive-count",-0.123325167004015
+"water_difference_wv0033_minus_wv0010_0_15","soil","STANDARDIZED_CONTINUOUS","Conditional positive-count",-0.0692442402556385
+"era5_mintemp","temperature","STANDARDIZED_CONTINUOUS","Conditional positive-count",0.12945724221757
+"era5land_soiltemp_l1_mean","temperature","STANDARDIZED_CONTINUOUS","Conditional positive-count",0.0507142920263356
+"era5land_soiltemp_l2_mean","temperature","STANDARDIZED_CONTINUOUS","Conditional positive-count",0.0889856469542434
+"era5land_tmean","temperature","STANDARDIZED_CONTINUOUS","Conditional positive-count",0.360200972545946
+"era5_lai_low","vegetation","STANDARDIZED_CONTINUOUS","Conditional positive-count",0.32932714253446
+"era5land_lai_high_mean","vegetation","STANDARDIZED_CONTINUOUS","Conditional positive-count",0.167997974537211
+"era5land_lai_low_mean","vegetation","STANDARDIZED_CONTINUOUS","Conditional positive-count",-0.0274924953683821
+"night_illumination","anthropogenic","STANDARDIZED_CONTINUOUS","Occurrence",0.026644508777355
+"week_cos","calendar","UNSCALED_OR_IDENTITY","Occurrence",-0.026962174476736
+"week_sin","calendar","UNSCALED_OR_IDENTITY","Occurrence",0.012594161020714
+"any_prior_positive_available","detection/history","UNSCALED_OR_IDENTITY","Occurrence",1.07988968073075e-06
+"detection_within_50km_ever_available","detection/history","UNSCALED_OR_IDENTITY","Occurrence",0.0818843542888851
+"distance_to_any_prior_positive_log1p","detection/history","STANDARDIZED_CONTINUOUS","Occurrence",-0.366829923063836
+"distance_to_prev4_positive_log1p","detection/history","STANDARDIZED_CONTINUOUS","Occurrence",-0.495953637770697
+"prev4_positive_available","detection/history","UNSCALED_OR_IDENTITY","Occurrence",1.07988968073075e-06
+"weeks_since_detection_within_50km_log1p","detection/history","STANDARDIZED_CONTINUOUS","Occurrence",-0.39717671561589
+"cattle_density","livestock","STANDARDIZED_CONTINUOUS","Occurrence",0.0943571803765598
+"cattle_density_imputed","livestock","UNSCALED_OR_IDENTITY","Occurrence",0
+"goat_density","livestock","STANDARDIZED_CONTINUOUS","Occurrence",0.0369478240122504
+"goat_density_imputed","livestock","UNSCALED_OR_IDENTITY","Occurrence",0
+"horse_density","livestock","STANDARDIZED_CONTINUOUS","Occurrence",0.0552105984119842
+"horse_density_imputed","livestock","UNSCALED_OR_IDENTITY","Occurrence",0
+"pig_density","livestock","STANDARDIZED_CONTINUOUS","Occurrence",0.0917132773689071
+"pig_density_imputed","livestock","UNSCALED_OR_IDENTITY","Occurrence",-1.73745268964703e-05
+"road_density","livestock","STANDARDIZED_CONTINUOUS","Occurrence",0.0918120504828465
+"sheep_density","livestock","STANDARDIZED_CONTINUOUS","Occurrence",0.0571355113945503
+"sheep_density_imputed","livestock","UNSCALED_OR_IDENTITY","Occurrence",0
+"agera5_relhum_min","moisture/soil","STANDARDIZED_CONTINUOUS","Occurrence",0.0750093538373086
+"era5_soilmoist","moisture/soil","STANDARDIZED_CONTINUOUS","Occurrence",0.0327037887998584
+"era5land_soilwater_l1_mean","moisture/soil","STANDARDIZED_CONTINUOUS","Occurrence",0.034404841065555
+"era5land_soilwater_l2_mean","moisture/soil","STANDARDIZED_CONTINUOUS","Occurrence",0.0232119877945303
+"era5land_surface_pressure_mean","moisture/soil","STANDARDIZED_CONTINUOUS","Occurrence",0.020855324597928
+"clay_0_15","soil","STANDARDIZED_CONTINUOUS","Occurrence",-0.013434196811015
+"water_difference_wv0033_minus_wv0010_0_15","soil","STANDARDIZED_CONTINUOUS","Occurrence",-0.0658537479516608
+"era5_mintemp","temperature","STANDARDIZED_CONTINUOUS","Occurrence",0.0788668734857944
+"era5land_soiltemp_l1_mean","temperature","STANDARDIZED_CONTINUOUS","Occurrence",0.0485180135961406
+"era5land_soiltemp_l2_mean","temperature","STANDARDIZED_CONTINUOUS","Occurrence",0.0502587566253957
+"era5land_tmean","temperature","STANDARDIZED_CONTINUOUS","Occurrence",0.0567374145574812
+"era5_lai_low","vegetation","STANDARDIZED_CONTINUOUS","Occurrence",0.0527331982550428
+"era5land_lai_high_mean","vegetation","STANDARDIZED_CONTINUOUS","Occurrence",0.0597781775546167
+"era5land_lai_low_mean","vegetation","STANDARDIZED_CONTINUOUS","Occurrence",0.0398499892280556

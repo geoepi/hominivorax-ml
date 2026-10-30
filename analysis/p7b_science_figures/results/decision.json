@@ -1,0 +1,16 @@
+{
+  "p7b_decision": "P7B_SCIENCE_FIGURES_SUPPORTED_WITH_LIMITATIONS",
+  "focal_bbox": [
+    {
+      "xmin": -107.5,
+      "xmax": -96,
+      "ymin": 24,
+      "ymax": 33
+    }
+  ],
+  "focal_cells": 1689,
+  "focal_interval": ["2026-W17", "2026-W37"],
+  "map_weeks": ["2026-W17", "2026-W22", "2026-W27", "2026-W32", "2026-W37"],
+  "no_model_fitting": true,
+  "limitations": ["focal support time series not complete in canonical P2/P6 joins", "state-level boundaries not retained in P2 archive; country/domain orientation used", "coefficient display is association-only under mixed scaling", "expected-count map/time-series representation remains a scientific-review candidate"]
+}

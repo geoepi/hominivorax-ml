@@ -1,0 +1,20 @@
+{
+  "validation": "underlying plotted-data hashes recorded after repeated generation",
+  "plotted_data_files": ["figure_01_domain_framework_data.csv", "figure_02_performance_data.csv", "figure_03_focal_h1_map_data.csv", "figure_03_focal_h1_time_series.csv", "figure_04_e0_proxy_degradation_data.csv", "figure_05_coefficient_stability_subset_data.csv", "figure_05_signed_coefficient_associations_data.csv", "figure_06_support_proportions_data.csv", "supplement_S1_reliability_data.csv", "supplement_S2_frontier_sensitivity_data.csv", "supplement_S4_environmental_error_family_data.csv", "supplement_S4_support_transition_data.csv"],
+  "plotted_data_sha256": [
+    "8bfa6dc9e15d6869407a4f01ba90885f475a29e745125038f00700c2a2943c24",
+    "342747104a55cef555d717055dd3d0ebae2d749dd0d3ba6e724b20fff8478329",
+    "932df1a1cb62b4f59e5bfff6e0b6a71dff678ac163371f082a5cab7e5da21511",
+    "61643de44342e2bdb565b063f8c498f3c2a7eec16801cab8d1b73fcf1ceb6eb6",
+    "efe006df19291772e86f13ce0f56ca859a0c6d4068b88e92671704d5a6ce698f",
+    "e88ebc98071f138562e38817808fa2ceddd1f10cbb4d502d23d13a4e4953eda9",
+    "7075a9dbccc86744a37a5e5dad5e5087fbe522023cd77f76c7dd2d47585ebdc4",
+    "eca94cfe2ed3264a405402d2dd42eaecf8d7e1e1004399a6dea000bff3cddbd4",
+    "71dfabf9693fc58b837100a99e2190f8f4f4cabaa56cc1728d10eb0d0d8d4ec7",
+    "f86469d8deb5653b4bb2c38b992d00f64e7ac78b181390c329c6c4907857660a",
+    "b4c3663949df1ce77ab0194fe5350c46a339be503994abc97981bb15d578a4a3",
+    "5aaa2846b7d4321af89767470f5edefff511c3572d765010daea8526245ed8ee"
+  ],
+  "figure_render_hashes_may_differ": true,
+  "scientific_values_identical": true
+}

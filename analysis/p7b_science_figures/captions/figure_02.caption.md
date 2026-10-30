@@ -1,0 +1,1 @@
+Canonical P2 rolling-origin metrics by horizon. Lower Brier is better; AUPRC is prevalence-sensitive; calibration intercepts are centered on zero and slopes on one. Values are retrospective evaluation summaries and are not causal effects.
