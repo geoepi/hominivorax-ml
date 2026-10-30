@@ -2,6 +2,11 @@ testthat::test_that("P7 publication package is traceable and complete", {
   root <- normalizePath(testthat::test_path("..", ".."), mustWork = TRUE)
   p7 <- file.path(root, "analysis", "p7_publication")
   testthat::expect_true(file.exists(file.path(p7, "p7_prespecification.md")))
+  testthat::expect_true(file.exists(file.path(p7, "p7_publication_report.md")))
+  p7_decision <- jsonlite::fromJSON(file.path(p7, "results", "p7_decision.json"),
+                                    simplifyVector = FALSE)
+  testthat::expect_identical(p7_decision$decision,
+                             "P7_PUBLICATION_PACKAGE_SUPPORTED_WITH_LIMITATIONS")
   testthat::expect_true(file.exists(file.path(root, "docs", "model_qualification_summary.md")))
 
   p0 <- jsonlite::fromJSON(file.path(root, "config", "production_model_freeze.json"),

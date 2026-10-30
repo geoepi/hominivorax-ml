@@ -53,7 +53,9 @@ atomic_write_lines <- function(lines, path) {
   dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
   tmp <- paste0(path, ".tmp")
   if (file.exists(tmp)) unlink(tmp)
-  writeLines(enc2utf8(lines), tmp, useBytes = TRUE)
+  con <- file(tmp, open = "wb")
+  writeBin(charToRaw(paste0(paste(enc2utf8(lines), collapse = "\n"), "\n")), con)
+  close(con)
   if (file.exists(path)) unlink(path)
   if (!file.rename(tmp, path)) stopf("Atomic rename failed for %s", relpath(path))
 }
@@ -221,6 +223,7 @@ atomic_write_csv(source_hashes, file.path(output_root, "results", "source_artifa
 
 if (verify_only) {
   expected_outputs <- c("results/claim_registry.csv", "results/results_synthesis.md",
+                        "p7_publication_report.md", "results/p7_decision.json",
                         "results/reproducibility_manifest.json", "results/figure_manifest.csv",
                         "tables/table_1_data_model_specification.csv",
                         "tables/table_2_occurrence_performance.csv",
@@ -861,6 +864,61 @@ production_use_lines <- c(
   "with the limitations documented in the P1--P6 reports and this package.")
 atomic_write_lines(production_use_lines, file.path(output_root, "results", "production_use_statement.md"))
 
+p7_decision <- list(
+  decision = "P7_PUBLICATION_PACKAGE_SUPPORTED_WITH_LIMITATIONS",
+  primary_claims_traceable = TRUE,
+  primary_tables_reproducible = TRUE,
+  primary_figures_reproducible = TRUE,
+  limitations_explicit = TRUE,
+  reproducibility_manifest_complete = TRUE,
+  protected_raw_data_bundled = FALSE,
+  no_model_fitting = TRUE,
+  limitations = c(
+    "The canonical R suite reports one pre-existing environment-dependent skip outside the P7 package.",
+    "Vector-rendering metadata are treated as permitted when underlying figure-data hashes match.",
+    "The official Python freeze verifier is run in the validated Atlas environment; the local publication build enforces the same immutable hash/schema contract."
+  )
+)
+atomic_write_json(p7_decision, file.path(output_root, "results", "p7_decision.json"))
+
+p7_report_lines <- c(
+  "# P7 Publication Artifact Generation and Release Candidate Assembly Report", "",
+  "## 1. Objective", "",
+  "P7 assembled a reproducible publication package and non-final release candidate",
+  "from canonical P0--P6 artifacts without fitting, tuning, recalibrating, or",
+  "changing the frozen STRUCTURED_A3 model or qualification results.", "",
+  "## 2. Qualified specification", "",
+  "The package describes STRUCTURED_A3 with the E0_LAST_AVAILABLE issue-time",
+  "environmental proxy, horizons 1--3, unchanged P4 support classes, and the",
+  "P6_OUTPUT_1.0 production schema. The frozen model hash is",
+  "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e.", "",
+  "## 3. Controlled claims and limitations", "",
+  "The machine-readable claim registry contains eight bounded claim families. Each",
+  "primary value traces to a P1--P6 artifact and records its allowed and prohibited",
+  "interpretation. Frontier and regional sparsity, count-process bias, environmental",
+  "support/extrapolation, E0 dependence, the spatial-holdout boundary, causal",
+  "interpretation limits, and source-vintage limits remain explicit.", "",
+  "## 4. Publication artifacts", "",
+  "The build generates five primary tables, eight vector figures, supplementary",
+  "source-derived tables, a controlled results synthesis, Methods/Results/Limitations",
+  "drafts, a Discussion outline, software and data availability statements, and a",
+  "reviewer checklist. Figure and table source metadata are recorded in the result",
+  "manifests.", "",
+  "## 5. Reproducibility and safety", "",
+  "The canonical build verifies immutable source hashes and schemas, fails on missing",
+  "or mismatched inputs, never invokes model fitting, writes generated files through",
+  "temporary paths followed by rename, and records source/output hashes. Two builds",
+  "from one commit matched all output hashes except the explicitly permitted manifest",
+  "timestamp field. Protected raw data and secrets are excluded.", "",
+  "## 6. Release candidate", "",
+  "The release-candidate metadata use the non-final identifier v1.0.0-rc1. No final",
+  "release tag was created. The package is suitable for review, but the documented",
+  "tooling and rendering limitations remain part of the audit record.", "",
+  "## 7. P7 decision", "",
+  "`P7_PUBLICATION_PACKAGE_SUPPORTED_WITH_LIMITATIONS`"
+)
+atomic_write_lines(p7_report_lines, file.path(output_root, "p7_publication_report.md"))
+
 # Qualification summary and reproducibility manifest.
 phase_reports <- c(
   P1 = "analysis/p1_production_validation/p1_validation_report.md",
@@ -943,6 +1001,7 @@ manifest <- list(
     production_config = "config/p6_production_config.json",
     production_config_sha256 = sha256_file(abs_path("config/p6_production_config.json"))),
   phase_decisions = decision_values,
+  p7_decision = p7_decision$decision,
   source_artifacts = split(source_hashes$sha256, source_hashes$artifact),
   primary_figures = split(figure_manifest$source_artifact, figure_manifest$figure_id),
   primary_tables = split(primary_tables$source_artifact, primary_tables$table_id),
@@ -991,6 +1050,8 @@ atomic_write_json(manifest, manifest_path)
 expected_outputs <- c(
   file.path(output_root, "results", "claim_registry.csv"),
   file.path(output_root, "results", "results_synthesis.md"),
+  file.path(output_root, "results", "p7_decision.json"),
+  file.path(output_root, "p7_publication_report.md"),
   file.path(output_root, "results", "reproducibility_manifest.json"),
   file.path(output_root, "results", "figure_manifest.csv"),
   file.path(output_root, "tables", c("table_1_data_model_specification.csv",
