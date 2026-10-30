@@ -1,0 +1,33 @@
+{
+  "schema_version": "P6_OUTPUT_1.0",
+  "fields": [
+    "canonical_node_id",
+    "model_node_id",
+    "issue_week",
+    "target_week",
+    "horizon",
+    "p_occurrence",
+    "conditional_count_mean",
+    "expected_count",
+    "full_q025",
+    "full_q975",
+    "p_boot_sd",
+    "expected_boot_sd",
+    "novelty_knn_distance",
+    "support_class",
+    "warning_status",
+    "warning_flags",
+    "model_uncertainty_status",
+    "production_run_id",
+    "model_id",
+    "model_sha256",
+    "proxy_id"
+  ],
+  "support_classes": [
+    "SUPPORTED",
+    "CAUTION",
+    "EXTRAPOLATIVE"
+  ],
+  "expected_rows": 30111,
+  "field_order_is_stable": true
+}

@@ -1,0 +1,6 @@
+"table_id","path","source_artifact","generation_script"
+"Table 1","analysis/p7_publication/tables/table_1_data_model_specification.csv","config/production_model_freeze.json; config/p6_production_config.json","analysis/p7_publication/scripts/build_publication_artifacts.R"
+"Table 2","analysis/p7_publication/tables/table_2_occurrence_performance.csv","analysis/p2_operational_nowcast/results/horizon_metrics.csv","analysis/p7_publication/scripts/build_publication_artifacts.R"
+"Table 3","analysis/p7_publication/tables/table_3_count_performance.csv","analysis/p2_operational_nowcast/results/count_metrics.csv","analysis/p7_publication/scripts/build_publication_artifacts.R"
+"Table 4","analysis/p7_publication/tables/table_4_proxy_comparison.csv","analysis/p5a_environmental_proxy/results/occurrence_count_metrics.csv; analysis/p5a_environmental_proxy/results/paired_proxy_minus_realized.csv","analysis/p7_publication/scripts/build_publication_artifacts.R"
+"Table 5","analysis/p7_publication/tables/table_5_limitation_summary.csv","P1--P6 limitation artifacts","analysis/p7_publication/scripts/build_publication_artifacts.R"

@@ -58,12 +58,33 @@ rasters, and Atlas-local products remain outside Git.
 
 - Development is complete and the Structured A3 specification is frozen.
 - The historical exposed holdout is supported under the documented rubric.
-- Independent prospective validation has **not yet been tested**.
+- The qualified operational contract supports 1–3 week nowcasting with the
+  issue-time `E0_LAST_AVAILABLE` environmental proxy and explicit P4 support
+  flags; this is prospective input construction, not a true future-environment
+  forecast.
 - The current descriptive full fit is not independent validation data.
 
-Operational production functionality and scientific prospective validation are
-separate claims. See [`docs/current/validation.md`](docs/current/validation.md)
-and [`docs/current/limitations.md`](docs/current/limitations.md).
+Operational production functionality and scientific transfer evidence remain
+separate claims. See [`docs/current/validation.md`](docs/current/validation.md),
+[`docs/current/limitations.md`](docs/current/limitations.md), and the
+[`model qualification summary`](docs/model_qualification_summary.md).
+
+## Qualified operational contract and publication build
+
+The qualified configuration is the frozen `STRUCTURED_A3` model with
+`E0_LAST_AVAILABLE` held across horizons 1–3. Every output retains the P4
+`SUPPORTED`, `CAUTION`, or `EXTRAPOLATIVE` class and uncertainty/provenance
+fields. The canonical P6 entry point is
+`analysis/p6_production_hardening/scripts/p6_production.py`; the P7 publication
+package is generated from tracked P1–P6 artifacts with:
+
+```text
+Rscript analysis/p7_publication/scripts/build_publication_artifacts.R --repo-root .
+```
+
+See [`analysis/p7_publication/p7_prespecification.md`](analysis/p7_publication/p7_prespecification.md),
+the [`publication results`](analysis/p7_publication/results/results_synthesis.md),
+and [`docs/model_qualification_summary.md`](docs/model_qualification_summary.md).
 
 ## Running the production workflow
 

@@ -94,6 +94,10 @@ STGNN-output/
 !tests/fixtures/
 !tests/fixtures/**
 
+# Keep compact P7 publication tables, claim registry, and figure data tracked.
+!analysis/p7_publication/
+!analysis/p7_publication/**/*.csv
+
 # Keep selected compact A3 reproducibility artifacts tracked while continuing
 # to ignore raw/large data products and arbitrary generated output.
 !analysis/structured_a3_final_comparison/
