@@ -1,0 +1,11 @@
+{
+  "decision": "P7_PUBLICATION_PACKAGE_SUPPORTED_WITH_LIMITATIONS",
+  "primary_claims_traceable": true,
+  "primary_tables_reproducible": true,
+  "primary_figures_reproducible": true,
+  "limitations_explicit": true,
+  "reproducibility_manifest_complete": true,
+  "protected_raw_data_bundled": false,
+  "no_model_fitting": true,
+  "limitations": ["The canonical R suite reports one pre-existing environment-dependent skip outside the P7 package.", "Vector-rendering metadata are treated as permitted when underlying figure-data hashes match.", "The official Python freeze verifier is run in the validated Atlas environment; the local publication build enforces the same immutable hash/schema contract."]
+}
