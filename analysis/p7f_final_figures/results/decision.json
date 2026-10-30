@@ -1,0 +1,7 @@
+{
+  "decision": "P7F_FINAL_FIGURE_SET_SUPPORTED_WITH_LIMITATIONS",
+  "predictor_association_status": "INADEQUATE_REQUIRES_SEPARATE_PREDICTOR_INFLUENCE_ANALYSIS",
+  "main_figure_count": 6,
+  "no_model_fitting": true,
+  "uncertainty_ribbon": "NOT_SUPPORTED_BY_CURRENT_CANONICAL_ARTIFACTS"
+}

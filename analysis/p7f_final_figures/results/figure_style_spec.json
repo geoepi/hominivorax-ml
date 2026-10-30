@@ -1,0 +1,32 @@
+{
+  "font_family": "sans",
+  "base_font_size_pt": 11,
+  "title_size_pt": 12,
+  "panel_label_convention": "A., B., C., ...",
+  "panel_label_position": "upper-left within panel title",
+  "axis_title_size_pt": 10,
+  "axis_text_size_pt": 9,
+  "legend_text_size_pt": 9,
+  "main_dimensions_in": {
+    "full_width": [11, 8.5],
+    "single_column": [7.2, 5.2]
+  },
+  "supplement_dimensions_in": [8.5, 7],
+  "raster_preview_dpi": 220,
+  "vector_formats": ["SVG", "PDF"],
+  "map_palette": "sequential light-low to dark-high; inherited from P7D corrected assets",
+  "observed_series": "#222222",
+  "rolling_neutral": "#AEB7C0 / #C7CDD3",
+  "rolling_highlight": "#D55E00",
+  "support_classes": {
+    "SUPPORTED": "#009E73",
+    "CAUTION": "#E69F00",
+    "EXTRAPOLATIVE": "#D55E00"
+  },
+  "horizon_symbols": {
+    "h1": 16,
+    "h2": 17,
+    "h3": 15
+  },
+  "uncertainty_ribbon": "NOT_SUPPORTED_BY_CURRENT_CANONICAL_ARTIFACTS"
+}

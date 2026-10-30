@@ -1,0 +1,8 @@
+{
+  "source_main_sha": "5c826708c03dbd9117da0ddf0e1fa842000767d2",
+  "frozen_model": "STRUCTURED_A3",
+  "frozen_artifact_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+  "proxy": "E0_LAST_AVAILABLE",
+  "generator": "analysis/p7f_final_figures/scripts/generate_p7f_figures.R",
+  "no_model_fitting": true
+}
