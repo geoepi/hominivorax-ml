@@ -1,0 +1,8 @@
+"priority_rank","table_id","proposed_title","central_manuscript_question","source_phase","recommendation","redundancy","scientific_risk"
+1,"Table 1","Model/data specification","What is the qualified model?","P0/P6/P7","MAIN_REQUIRED","low","low"
+2,"Table 2","Occurrence performance by horizon","How well does occurrence prediction perform?","P2/P7","MAIN_REQUIRED","low","low"
+3,"Table 3","Count performance by horizon","How should count outputs be interpreted?","P2/P3/P7","MAIN_PREFERRED","moderate with Figure 6","low"
+4,"Table 4","Environmental proxy comparison","Is E0 operationally viable?","P5A/P7","MAIN_REQUIRED","low","low"
+5,"Table 5","Limitations and operational interpretation","What remains limited?","P1--P6/P7","SUPPLEMENT_OR_TEXTBOX","moderate with Discussion","low"
+6,"Supplementary Table 1","34-predictor inventory and provenance","What exactly enters the frozen model?","P0/P7","SUPPLEMENT","low","low"
+7,"Supplementary Table 2","Production schema and warning/support codes","How are production outputs audited?","P4--P6/P7","SUPPLEMENT","low","low"
