@@ -1,0 +1,19 @@
+{
+  "crs": "EPSG:4326",
+  "focal_bbox": [-107.5, -96, 24, 33],
+  "focal_cells": 1689,
+  "map_weeks": ["2026-W17", "2026-W22", "2026-W27", "2026-W32", "2026-W37"],
+  "map_horizon": 1,
+  "figure_1_shared_domain_colors": ["#56B4E9", "#E69F00"],
+  "figure_3_occurrence_palette": "light-low-to-dark-high sequential",
+  "figure_3_expected_count_palette": "light-low-to-dark-high sequential",
+  "figure_3_layers": ["geom_tile", "geom_sf", "observed_positive_points"],
+  "figure_6_surface_geometry": "geom_tile",
+  "figure_6_layers": ["geom_tile", "geom_sf"],
+  "north_arrow": true,
+  "scale_bar": true,
+  "forecast_issue_week": "2026-W36",
+  "forecast_targets": ["2026-W37", "2026-W38", "2026-W39"],
+  "uncertainty_ribbon": "NOT_SUPPORTED_BY_CURRENT_CANONICAL_ARTIFACTS"
+}
+

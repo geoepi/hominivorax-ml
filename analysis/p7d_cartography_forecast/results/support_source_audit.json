@@ -1,0 +1,10 @@
+{
+  "source": "analysis/p4_uncertainty_extrapolation/results/representative_support_map.csv",
+  "source_sha256": "05f209306f54276b694b9409482861d3af49100fe3571a16bd40cef26b4e3268",
+  "rows": 10037,
+  "unique_cells": 10037,
+  "classes": ["CAUTION", "EXTRAPOLATIVE", "SUPPORTED"],
+  "rendering": "geom_tile followed by geom_sf",
+  "prior_point_map_reused": false
+}
+

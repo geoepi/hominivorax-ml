@@ -1,0 +1,10 @@
+{
+  "status": "NOT_SUPPORTED_BY_CURRENT_CANONICAL_ARTIFACTS",
+  "issue_week": "2026-W36",
+  "target_weeks": ["2026-W37", "2026-W38", "2026-W39"],
+  "reason": "Available uncertainty artifacts are cell-level; summing interval limits or assuming cell independence is not authorized.",
+  "ribbon_drawn": false,
+  "qualified_region_level_source": null,
+  "model_fitting": false
+}
+

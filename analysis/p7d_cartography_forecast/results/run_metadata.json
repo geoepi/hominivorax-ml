@@ -1,0 +1,11 @@
+{
+  "phase": "P7D",
+  "script": "analysis/p7d_cartography_forecast/scripts/generate_p7d_figures.R",
+  "r_version": "R version 4.5.0 (2025-04-11 ucrt)",
+  "model_fitting": false,
+  "scientific_model_modified": false,
+  "atlas_extract": "analysis/p7d_cartography_forecast/results/atlas_extract/forecast_trajectory_manifest.json",
+  "source_registry": "analysis/p7d_cartography_forecast/results/figure_source_registry.csv",
+  "uncertainty_status": "NOT_SUPPORTED_BY_CURRENT_CANONICAL_ARTIFACTS"
+}
+
