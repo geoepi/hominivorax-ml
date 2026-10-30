@@ -1,0 +1,2 @@
+Candidate focal-region operational trajectory for an issue at 2026-W36. Historical h=1 rows cover W17-W36; the dashed W37-W39 path uses only the single W36-origin predictions under E0_LAST_AVAILABLE. Crosses are subsequently observed outcomes shown separately for audit and are not connected as forecasts. No regional uncertainty ribbon is shown because no qualified joint region-level artifact supports one.
+

@@ -1,0 +1,2 @@
+A. The full-domain and focal panels use the same named domain colors and the tracked WGS84 boundary derivative, rendered above the cell tiles. B. The focal extent is fixed at longitude -107.5 to -96.0 and latitude 24.0 to 33.0. C. STRUCTURED_A3 combines occurrence probability with conditional positive-count prediction. D. E0_LAST_AVAILABLE holds the latest legitimately available environmental state across h=1 to h=3. Boundaries are cartographic orientation only.
+

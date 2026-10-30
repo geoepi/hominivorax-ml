@@ -1,0 +1,7 @@
+{
+  "decision": "P7D_CARTOGRAPHY_FORECAST_SUPPORTED_WITH_LIMITATIONS",
+  "no_model_fitting": true,
+  "changes": ["corrected boundary layering", "shared Figure 1 domain colors", "shared light-low/dark-high Figure 3 scales", "cell-level geom_tile P4 support map", "bounded W36 operational trajectory candidate"],
+  "limitations": ["no qualified region-level uncertainty artifact for a forecast ribbon", "boundary derivative is cartographic orientation only", "expected-count maps remain a visual candidate", "forecast trajectory is a descriptive candidate, not a scheduler or deployment"]
+}
+

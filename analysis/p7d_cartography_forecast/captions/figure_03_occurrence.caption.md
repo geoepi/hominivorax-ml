@@ -1,0 +1,2 @@
+Focal-region h=1 occurrence probability for the prespecified target weeks 2026-W17, W22, W27, W32, and W37. All maps use identical spatial and probability scales, sequential light-low/dark-high colors, and boundaries, north arrows, and scale bars above the tile surface. White outlined cells mark observed positives. The time series compares observed positive cells with the expected number of positive cells, defined as the sum of cell-level occurrence probabilities; it is not a regional risk index.
+
