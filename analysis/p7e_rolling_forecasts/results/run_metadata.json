@@ -1,0 +1,5 @@
+{
+  "generated_at_utc": "2026-10-30 18:44:26 UTC",
+  "script": "analysis/p7e_rolling_forecasts/scripts/generate_p7e_rolling_forecasts.R",
+  "source_archive_sha256": "918b33e80d352c080fcefb3d7b2a44dc29d0096b0b2e7dd6f5b017becc983170"
+}
