@@ -1,0 +1,11 @@
+{
+  "phase": "P7C",
+  "script": "analysis/p7c_figure_refinement/scripts/generate_p7c_figures.R",
+  "r_version": "R version 4.5.0 (2025-04-11 ucrt)",
+  "model_fitting": false,
+  "forbidden_methods_used": false,
+  "plotting_framework": ["ggplot2", "sf", "ggspatial"],
+  "source_registry": "analysis/p7c_figure_refinement/results/figure_source_registry.csv",
+  "boundary_audit": "analysis/p7c_figure_refinement/results/boundary_audit.json",
+  "rendering_contract": "analysis/p7c_figure_refinement/results/rendering_contract.json"
+}
