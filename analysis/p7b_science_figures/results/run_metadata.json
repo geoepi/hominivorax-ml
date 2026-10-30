@@ -1,0 +1,7 @@
+{
+  "phase": "P7B",
+  "script": "analysis/p7b_science_figures/scripts/generate_p7b_figures.R",
+  "r_version": "R version 4.5.0 (2025-04-11 ucrt)",
+  "model_fitting": false,
+  "source_registry": "analysis/p7b_science_figures/results/figure_source_registry.csv"
+}

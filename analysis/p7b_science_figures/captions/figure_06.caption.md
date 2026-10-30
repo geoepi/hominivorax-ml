@@ -1,0 +1,1 @@
+P4 support classes are shown without threshold changes. The canonical support display is reused from P4. SUPPORTED, CAUTION, and EXTRAPOLATIVE identify predictor-space support states; extrapolative predictions remain visible and are not treated as validated everywhere.
