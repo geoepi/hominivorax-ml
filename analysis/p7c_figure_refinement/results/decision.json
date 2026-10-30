@@ -1,0 +1,9 @@
+{
+  "p7c_decision": "P7C_FIGURE_REFINEMENT_SUPPORTED_WITH_LIMITATIONS",
+  "no_model_fitting": true,
+  "fixed_focal_bbox": [-107.5, -96, 24, 33],
+  "focal_cells": 1689,
+  "map_weeks": ["2026-W17", "2026-W22", "2026-W27", "2026-W32", "2026-W37"],
+  "time_interval": ["2026-W17", "2026-W37"],
+  "limitations": ["support map panel reused from canonical P4 because complete cell-level support records are unavailable for a new re-render", "provided boundary layer has unknown user-input CRS but WGS84-based Albers WKT; transformed to EPSG:4326 for orientation", "Figure 5 remains a mixed-scaling signed-association display", "expected-count Figure 3 remains a candidate alternative"]
+}

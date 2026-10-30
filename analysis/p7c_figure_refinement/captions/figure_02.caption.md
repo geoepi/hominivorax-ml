@@ -1,0 +1,1 @@
+Canonical P2 rolling-origin metrics by horizon. Lower Brier is better; AUPRC is prevalence-sensitive; calibration intercepts are referenced to zero and slopes to one; AUROC is secondary discrimination context. These are retrospective predictive summaries, not causal effects.

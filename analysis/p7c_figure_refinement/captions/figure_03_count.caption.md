@@ -1,0 +1,1 @@
+Candidate full hurdle expected-count maps and focal count time series for the same prespecified weeks and h=1 interval. Cell tiles use one count scale across weeks. The predicted total expected count is the sum of cell-level full hurdle expected counts. This is a visual candidate for review and does not change the count model.

@@ -1,0 +1,16 @@
+{
+  "source_archive": "analysis/p7b_science_figures/results/figure_03_focal_h1_map_data.csv",
+  "source_sha256": "959e11081bd41d2bd128d2df141d0bb4a40c4ee11a07713b4a46ee9b71c4cc78",
+  "filter": {
+    "horizon": 1,
+    "target_weeks": ["2026-W17", "2026-W22", "2026-W27", "2026-W32", "2026-W37"],
+    "bbox": [-107.5, -96, 24, 33]
+  },
+  "fields": ["origin_week", "target_week", "horizon", "model_node_id", "row", "column", "lon", "lat", "observed_count", "observed_positive", "p_occurrence", "conditional_count_mean", "expected_count", "previously_occupied", "prediction_frontier_class", "outcome_frontier_label"],
+  "row_count": 8445,
+  "canonical_cell_count": 1689,
+  "extraction_script": "analysis/p7c_figure_refinement/scripts/generate_p7c_figures.R",
+  "output": "analysis/p7c_figure_refinement/results/mexico_texas_focal_h1_2026w17_w37.csv",
+  "output_sha256": "e0432a20dd6d8ff956429d7084f444ca0f6ceb751b28c048aed5e304cc93ef9f",
+  "scientific_status": "bounded derived extract; no model fitting or scientific transformation"
+}
