@@ -1,6 +1,6 @@
 {
   "schema_version": "P7_REPRODUCIBILITY_1.0",
-  "canonical_main_sha_at_build": "87c05bc18130aba9b5dc441396660ebb0dd7e93e",
+  "canonical_main_sha_at_build": "499e0114b38249e7fd8b79c3cf127e2d96ee7bb4",
   "frozen_model": {
     "model_id": "STRUCTURED_A3",
     "artifact": "analysis/structured_a3_evaluation/results/final_a3_model.json",
@@ -96,7 +96,7 @@
   },
   "claim_registry": "analysis/p7_publication/results/claim_registry.csv",
   "build_script": "analysis/p7_publication/scripts/build_publication_artifacts.R",
-  "generation_timestamp_utc": "2026-10-30 00:10:45 UTC",
+  "generation_timestamp_utc": "2026-10-30 00:15:52 UTC",
   "output_hashes_excluding_manifest": {
     "analysis/p7_publication/figures/figure_01_framework.svg": "84e674e1c7dd08864dfbaa6d5b4a649f74b49b002c9ccd79888b24661c0abfed",
     "analysis/p7_publication/figures/figure_02_rolling_origin_performance.svg": "5f449f5eb9096b8c1772d941eb87370bdef58a128152e8777070ff125168eb68",
@@ -109,7 +109,7 @@
     "analysis/p7_publication/p7_prespecification.md": "cbc97e1aff6949d9bac3b77278061c1abad6c796c2dfbfedd0e869e76d5257d6",
     "analysis/p7_publication/p7_publication_report.md": "4b7ac27a8ad526415560eb0a8386ff44120d4f5d6343114a9583fed6d57e7653",
     "analysis/p7_publication/release_candidate/README.md": "4edad297f70bb9d5e67e895836fbbbcbad50f5a1b8da7e4a4a983c0a0666d2e2",
-    "analysis/p7_publication/release_candidate/package_manifest.json": "36fb6d3bb34e8250291b0c61f1e114753873a9fc4f76091c3272edc35cea60f2",
+    "analysis/p7_publication/release_candidate/package_manifest.json": "86e28d60be8c67ce2c7668570af4276073f291b46f6bf833eb24c54ea31e9422",
     "analysis/p7_publication/results/claim_registry.csv": "6e0cb164ffa6f34950b6c2644e6e0588eb5934a9e1cb9f6a74a19972152825a0",
     "analysis/p7_publication/results/data_availability.md": "8a8f4169eb9d9b42c2423927a73dec1b3ed17634f75a905b413c05ccfc7670e6",
     "analysis/p7_publication/results/discussion_outline.md": "029d90e13f66f4089af96d2ab55797a45b80c22f4cdeb70e08925436dc8b3471",
