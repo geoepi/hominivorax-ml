@@ -1,13 +1,13 @@
 {
   "source_path_atlas": "/project/disease_ecology/NWScrewworm/data/processed_data/spatial_domain/study_states.gpkg",
-  "local_copy": "analysis/p7c_figure_refinement/results/boundaries/study_states.gpkg",
-  "layer_names": "study_states",
+  "local_copy": "analysis/p7c_figure_refinement/results/boundaries/study_states_wgs84.csv",
+  "layer_names": "study_states (WGS84 WKT-CSV derivative)",
   "layer_used": "study_states",
   "feature_count": 492,
-  "source_crs_input": "unknown",
-  "source_crs_wkt": "PROJCRS[\"unknown\",\n    BASEGEOGCRS[\"unknown\",\n        DATUM[\"World Geodetic System 1984\",\n            ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n                LENGTHUNIT[\"metre\",1]]],\n        PRIMEM[\"Greenwich\",0,\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        ID[\"EPSG\",4326]],\n    CONVERSION[\"unnamed\",\n        METHOD[\"Albers Equal Area\",\n            ID[\"EPSG\",9822]],\n        PARAMETER[\"Latitude of false origin\",20,\n            ANGLEUNIT[\"degree\",0.0174532925199433],\n            ID[\"EPSG\",8821]],\n        PARAMETER[\"Longitude of false origin\",-75,\n            ANGLEUNIT[\"degree\",0.0174532925199433],\n            ID[\"EPSG\",8822]],\n        PARAMETER[\"Latitude of 1st standard parallel\",10,\n            ANGLEUNIT[\"degree\",0.0174532925199433],\n            ID[\"EPSG\",8823]],\n        PARAMETER[\"Latitude of 2nd standard parallel\",30,\n            ANGLEUNIT[\"degree\",0.0174532925199433],\n            ID[\"EPSG\",8824]],\n        PARAMETER[\"Easting at false origin\",0,\n            LENGTHUNIT[\"kilometre\",1000],\n            ID[\"EPSG\",8826]],\n        PARAMETER[\"Northing at false origin\",0,\n            LENGTHUNIT[\"kilometre\",1000],\n            ID[\"EPSG\",8827]]],\n    CS[Cartesian,2],\n        AXIS[\"easting\",east,\n            ORDER[1],\n            LENGTHUNIT[\"kilometre\",1000,\n                ID[\"EPSG\",9036]]],\n        AXIS[\"northing\",north,\n            ORDER[2],\n            LENGTHUNIT[\"kilometre\",1000,\n                ID[\"EPSG\",9036]]]]",
+  "source_crs_input": "unknown (Atlas GeoPackage input; WGS84 WKT-CSV derivative)",
+  "source_crs_wkt": "Atlas audit: WGS84-based Albers Equal Area WKT; derivative is explicit EPSG:4326 WKT",
   "plot_crs": "EPSG:4326",
   "transformation": "st_make_valid followed by st_transform to EPSG:4326",
-  "local_sha256": "b2176d82a2d0b4ec44d1c23c5bac5ba43fbe5a53eeede593c4ea0f5cf8924f58",
+  "local_sha256": "0b790b82fb7373fec51d9dc6a1a41658ff52dc8ed0852e323085120b8f5542f9",
   "use": "cartographic orientation only; scientific results unchanged"
 }

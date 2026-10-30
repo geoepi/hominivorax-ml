@@ -15,7 +15,7 @@ p7b <- file.path(repo, "analysis", "p7b_science_figures")
 main <- file.path(root, "figures", "main"); supp <- file.path(root, "figures", "supplement")
 tables <- file.path(root, "tables"); captions <- file.path(root, "captions")
 results <- file.path(root, "results"); plot_data <- file.path(results, "plot_data")
-boundary_path <- file.path(results, "boundaries", "study_states.gpkg")
+boundary_path <- file.path(results, "boundaries", "study_states_wgs84.csv")
 for (p in c(main, supp, tables, captions, results, plot_data)) dir.create(p, recursive = TRUE, showWarnings = FALSE)
 if (!file.exists(boundary_path)) stop("missing P7C boundary source: ", boundary_path)
 
@@ -105,8 +105,7 @@ jsonlite::write_json(list(
 ), file.path(results, "focal_extract_manifest.json"), auto_unbox = TRUE, pretty = TRUE)
 dd <- tile_dims(domain); md <- tile_dims(maps)
 
-layers <- st_layers(boundary_path)
-boundary_raw <- st_read(boundary_path, layer = "study_states", quiet = TRUE)
+boundary_raw <- st_as_sf(read_csv(boundary_path), wkt = "geometry_wkt", crs = 4326, remove = FALSE)
 boundary_crs <- st_crs(boundary_raw)
 boundary <- st_transform(st_make_valid(boundary_raw), 4326)
 boundary_domain <- suppressWarnings(st_crop(boundary, c(xmin = min(domain$lon) - 1, xmax = max(domain$lon) + 1,
@@ -289,9 +288,9 @@ writeLines(c(
 # Boundary/rendering audit records.
 boundary_audit <- list(
   source_path_atlas = "/project/disease_ecology/NWScrewworm/data/processed_data/spatial_domain/study_states.gpkg",
-  local_copy = rel(boundary_path), layer_names = layers$name, layer_used = "study_states", feature_count = nrow(boundary_raw),
-  source_crs_input = if (is.null(boundary_crs$input)) NA_character_ else boundary_crs$input,
-  source_crs_wkt = boundary_crs$wkt, plot_crs = "EPSG:4326",
+  local_copy = rel(boundary_path), layer_names = "study_states (WGS84 WKT-CSV derivative)", layer_used = "study_states", feature_count = nrow(boundary_raw),
+  source_crs_input = "unknown (Atlas GeoPackage input; WGS84 WKT-CSV derivative)",
+  source_crs_wkt = "Atlas audit: WGS84-based Albers Equal Area WKT; derivative is explicit EPSG:4326 WKT", plot_crs = "EPSG:4326",
   transformation = "st_make_valid followed by st_transform to EPSG:4326",
   local_sha256 = sha256(boundary_path), use = "cartographic orientation only; scientific results unchanged"
 )
@@ -323,7 +322,7 @@ add_reg <- function(id, panel, phase, source, fields, trans, filt, focal, bsrc, 
     stringsAsFactors = FALSE
   ))
 }
-bsrc <- "analysis/p7c_figure_refinement/results/boundaries/study_states.gpkg; layer=study_states; transformed EPSG:4326"
+bsrc <- "Atlas study_states.gpkg; tracked WGS84 WKT-CSV derivative; EPSG:4326"
 add_reg("Figure 1", "A", "P2/P7", "analysis/p7b_science_figures/results/figure_01_domain_grid.csv", "lon,lat,region", "geom_tile plus geom_sf", "full domain", "full canonical domain", bsrc, "fixed domain extent", "domain categorical", rel(f1[["svg"]]), "revised", rel(d1))
 add_reg("Figure 1", "B", "P2/P7A", "analysis/p7b_science_figures/results/figure_01_domain_grid.csv; analysis/p7a_figure_design/results/mexico_texas_focal_region.json", "lon,lat,bbox", "fixed focal geom_tile plus geom_sf", "bbox exact", "EPSG:4326 -107.5:-96,24:33", bsrc, "fixed focal extent", "domain categorical", rel(f1[["svg"]]), "revised", rel(d1))
 add_reg("Figure 1", "C-D", "P0/P5A/P6", "config/production_model_freeze.json; analysis/p5a_environmental_proxy/results/proxy_contract.json; config/p6_production_config.json", "model ID, hurdle, proxy", "schematic formatting", "none", "not applicable", "none", "not applicable", "semantic schematic", rel(f1[["svg"]]), "revised", rel(d1))

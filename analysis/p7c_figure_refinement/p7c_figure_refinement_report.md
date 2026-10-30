@@ -23,7 +23,7 @@ The boundary source was read from Atlas using the authorized WSL/Ubuntu `atlas-s
 
 `/project/disease_ecology/NWScrewworm/data/processed_data/spatial_domain/study_states.gpkg`, layer `study_states`.
 
-The source contains 492 features. Its user-input CRS is reported as unknown, but its WKT identifies WGS84 geographic coordinates with an Albers Equal Area conversion and kilometre units. P7C applies `sf::st_make_valid()` followed by transformation to EPSG:4326. The local cartographic copy is recorded at `results/boundaries/study_states.gpkg` with SHA-256 `b2176d82a2d0b4ec44d1c23c5bac5ba43fbe5a53eeede593c4ea0f5cf8924f58`. Boundaries are used for orientation only; they do not alter scientific records or subsets.
+The source contains 492 features. Its user-input CRS is reported as unknown, but its WKT identifies WGS84 geographic coordinates with an Albers Equal Area conversion and kilometre units. P7C applies `sf::st_make_valid()` followed by transformation to EPSG:4326. To satisfy repository hygiene, the tracked cartographic derivative is the bounded WGS84 WKT-CSV file `results/boundaries/study_states_wgs84.csv`; the Atlas GeoPackage remains the authoritative source audit target. Boundaries are used for orientation only; they do not alter scientific records or subsets.
 
 ## Figure set
 
