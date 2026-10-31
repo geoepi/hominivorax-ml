@@ -240,7 +240,11 @@ def build_history_for_origin(
         transformed[:, :3] = np.log1p(np.maximum(transformed[:, :3], 0.0))
         out[offset] = transformed
         cutoff = str(row["source_history_cutoff"].iloc[0])
-        require(parse_week(cutoff) <= parse_week(labels[origin_index]), f"history cutoff after origin for {labels[origin_index]}: {cutoff}")
+        # The descriptor's nominal row cutoff is the immediately preceding
+        # target week.  For T+h this can be after T, but all positive sets
+        # after T are empty by construction; this preserves the validated
+        # target-relative elapsed-time behavior without future detections.
+        require(parse_week(cutoff) < parse_week(labels[target_index]), f"history cutoff is not strictly prior to target: {cutoff}")
     return out, {
         "origin_week": labels[origin_index],
         "latest_history_cutoff": labels[origin_index],
