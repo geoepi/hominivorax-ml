@@ -1,0 +1,1420 @@
+{
+  "compact_output_files": [
+    "data_source_provenance.csv",
+    "decision.json",
+    "early_warning_metadata_reconciliation.json",
+    "frontier_benchmark_event_percentiles.csv",
+    "frontier_benchmark_topk.csv",
+    "frontier_metrics.csv",
+    "p4_coefficient_stability_reconciliation.json",
+    "p7i_provenance_manifest.json",
+    "paired_bootstrap_intervals.csv",
+    "paired_first_detection_trajectory.csv",
+    "paired_variant_differences.csv",
+    "predictor_dependence_reconciliation.csv",
+    "support_metrics.csv",
+    "v1_v2_equivalence.csv",
+    "variant_metrics.csv"
+  ],
+  "correlation_reconciliation": {
+    "counts": [
+      {
+        "pair_count": 4,
+        "rule": "pearson_only",
+        "threshold": 0.7
+      },
+      {
+        "pair_count": 2,
+        "rule": "spearman_only",
+        "threshold": 0.7
+      },
+      {
+        "pair_count": 19,
+        "rule": "max_abs_implemented",
+        "threshold": 0.7
+      },
+      {
+        "pair_count": 13,
+        "rule": "both",
+        "threshold": 0.7
+      },
+      {
+        "pair_count": 0,
+        "rule": "pearson_only",
+        "threshold": 0.9
+      },
+      {
+        "pair_count": 0,
+        "rule": "spearman_only",
+        "threshold": 0.9
+      },
+      {
+        "pair_count": 11,
+        "rule": "max_abs_implemented",
+        "threshold": 0.9
+      },
+      {
+        "pair_count": 11,
+        "rule": "both",
+        "threshold": 0.9
+      }
+    ],
+    "pair_count": 561,
+    "retained_copy": "/project/disease_ecology/STGNN-output/worktrees/p7i-issue-time-causal-validation/analysis/p7h_manuscript_integration/results/predictor_dependence_pairs.csv",
+    "source_artifact": "analysis/p7g_manuscript_evidence/results/predictor_dependence_pairs.csv",
+    "source_sha256": "105b068fbb282cdc109d8344e11e4ab1175eeed6b148381d0bb17532f8853eff"
+  },
+  "detailed_output_root": "/project/disease_ecology/STGNN-output/p7i_issue_time_validation_20261031_v1",
+  "early_warning_reconciliation": {
+    "bookkeeping_rule": "unique event x horizon records, not duplicated by full-domain/frontier pool output rows",
+    "event_horizon_rows": 2529,
+    "excluded_missing_horizon_records": 255,
+    "first_detection_cells": 928,
+    "first_detection_rows": 928,
+    "prior_metadata": {
+      "excluded_missing_horizon_records": 255,
+      "first_detection_cells": 928,
+      "first_detection_rows": 928,
+      "rank_formula": "100 * (midrank - 0.5) / n",
+      "reference_scores": [
+        "historical_prevalence_probability",
+        "persistence_probability"
+      ],
+      "top_fractions": [
+        0.01,
+        0.05,
+        0.1,
+        0.2
+      ]
+    },
+    "rank_formula": "100 * (midrank - 0.5) / n",
+    "reference_scores": [
+      "B1_DISTANCE_ANY",
+      "B2_DISTANCE_PREV4",
+      "B3_RECENCY_50KM"
+    ],
+    "scientific_event_outputs_rewritten": false,
+    "top_fractions": [
+      0.01,
+      0.05,
+      0.1,
+      0.2
+    ]
+  },
+  "equivalence_status": "PASSED",
+  "figure_paths": [],
+  "frontier_decision": "A3_FRONTIER_RANKING_COMPARABLE_TO_SIMPLE_HISTORY",
+  "horizons": [
+    1,
+    2,
+    3
+  ],
+  "issue_time_decision": "ISSUE_TIME_CAUSAL_PERFORMANCE_MATERIALLY_DEGRADED",
+  "limitations": [
+    "ISSUE_TIME_CAUSAL_PERFORMANCE_MATERIALLY_DEGRADED",
+    "A3_FRONTIER_RANKING_COMPARABLE_TO_SIMPLE_HISTORY"
+  ],
+  "model_id": "STRUCTURED_A3",
+  "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+  "no_future_detection_sets_used_in_v4": true,
+  "no_model_fitting": true,
+  "origin_count": 21,
+  "origin_statuses": [
+    {
+      "environment_reference_week": "2026-W15",
+      "equivalence": {
+        "origin_week": "2026-W16",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 2.6645352591003757e-15,
+          "expected_count": 1.3322676295501878e-15,
+          "p_occurrence": 1.6653345369377348e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 3.552713678800501e-15,
+          "expected_count": 2.6645352591003757e-15,
+          "p_occurrence": 2.220446049250313e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W16.json",
+      "fit_artifact_sha256": "f451415cbd776ce863d41327f423236bc4af4ca211d7741f226dd1abe94fcbe1",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W16",
+        "origin_week": "2026-W16",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-04-20T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W16",
+      "prediction_sha256": "1578dbb322f438002e96c76cdbd043481835273e24c81f74129faa8a5192f61f",
+      "rows": 120444,
+      "runtime_seconds": 9.5837242603302,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W17",
+        "2026-W18",
+        "2026-W19"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W16",
+      "equivalence": {
+        "origin_week": "2026-W17",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 2.886579864025407e-15,
+          "expected_count": 8.881784197001252e-16,
+          "p_occurrence": 2.220446049250313e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 6.217248937900877e-15,
+          "expected_count": 8.881784197001252e-16,
+          "p_occurrence": 2.7755575615628914e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W17.json",
+      "fit_artifact_sha256": "fc5419c2e596bef1e92260d9300cd7b9831443985ec2bc2fe00b584d0b1d5cd1",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W17",
+        "origin_week": "2026-W17",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-04-27T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W17",
+      "prediction_sha256": "b3ff8d2615c8c7567921011ff964f7ff4320fbabb07eda79a0aa35e6f68cece0",
+      "rows": 120444,
+      "runtime_seconds": 10.075536727905273,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W18",
+        "2026-W19",
+        "2026-W20"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W17",
+      "equivalence": {
+        "origin_week": "2026-W18",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 2.6645352591003757e-15,
+          "expected_count": 1.3322676295501878e-15,
+          "p_occurrence": 2.7755575615628914e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 2.6645352591003757e-15,
+          "expected_count": 8.881784197001252e-16,
+          "p_occurrence": 3.3306690738754696e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W18.json",
+      "fit_artifact_sha256": "40600138b1f121b7042a43bf19016af50493caad56b07c74c9b1cee9f6f38b08",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W18",
+        "origin_week": "2026-W18",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-05-04T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W18",
+      "prediction_sha256": "469126eee883e99a16f8dc9d76af39946d9bcdca80638b0d85ae33ae6ee039ec",
+      "rows": 120444,
+      "runtime_seconds": 13.839219331741333,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W19",
+        "2026-W20",
+        "2026-W21"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W18",
+      "equivalence": {
+        "origin_week": "2026-W19",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 5.773159728050814e-15,
+          "expected_count": 1.3322676295501878e-15,
+          "p_occurrence": 3.3306690738754696e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 3.3306690738754696e-15,
+          "expected_count": 1.7763568394002505e-15,
+          "p_occurrence": 2.220446049250313e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W19.json",
+      "fit_artifact_sha256": "78d6db2afcc0022a4b5b7b7d34972f1a48c6654311ef37fd004e850222146eb3",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W19",
+        "origin_week": "2026-W19",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-05-11T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W19",
+      "prediction_sha256": "bc68756148f9eb8bd7ac5816823dfa0e34876fca1595b12564bc393112386507",
+      "rows": 120444,
+      "runtime_seconds": 14.814211368560791,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W20",
+        "2026-W21",
+        "2026-W22"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W19",
+      "equivalence": {
+        "origin_week": "2026-W20",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 1.7763568394002505e-15,
+          "expected_count": 1.3322676295501878e-15,
+          "p_occurrence": 3.3306690738754696e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 3.1086244689504383e-15,
+          "expected_count": 2.220446049250313e-15,
+          "p_occurrence": 3.3306690738754696e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W20.json",
+      "fit_artifact_sha256": "b01438c6ef71408d045155faa222016979921a527cd57195e0634ff679c04a95",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W20",
+        "origin_week": "2026-W20",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-05-18T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W20",
+      "prediction_sha256": "0d10ee6e638da3dc46eff27ee69806da96a58150521c2bdcbd3b34e9bb8aec34",
+      "rows": 120444,
+      "runtime_seconds": 15.560822010040283,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W21",
+        "2026-W22",
+        "2026-W23"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W20",
+      "equivalence": {
+        "origin_week": "2026-W21",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 3.552713678800501e-15,
+          "expected_count": 1.7763568394002505e-15,
+          "p_occurrence": 3.3306690738754696e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 4.6629367034256575e-15,
+          "expected_count": 1.3322676295501878e-15,
+          "p_occurrence": 4.440892098500626e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W21.json",
+      "fit_artifact_sha256": "a060eb99b35fbef8c8a6d49535f6a68d0a870d274518966e1acea3f703c72309",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W21",
+        "origin_week": "2026-W21",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-05-25T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W21",
+      "prediction_sha256": "fc2e2bdf0d463a539dc57a6cfb95d4ff2dfea6e1151343f116f5ba22a1e8c44e",
+      "rows": 120444,
+      "runtime_seconds": 19.02643132209778,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W22",
+        "2026-W23",
+        "2026-W24"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W21",
+      "equivalence": {
+        "origin_week": "2026-W22",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 1.7763568394002505e-15,
+          "expected_count": 2.220446049250313e-15,
+          "p_occurrence": 3.3306690738754696e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 1.7763568394002505e-15,
+          "expected_count": 1.3322676295501878e-15,
+          "p_occurrence": 3.885780586188048e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W22.json",
+      "fit_artifact_sha256": "31e9484d85e37946ead8ca5353cd7aac65f14fe8f9b233d1ff30558315f8aeda",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W22",
+        "origin_week": "2026-W22",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-06-01T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W22",
+      "prediction_sha256": "24ee77cfa3c04d4b0de79040f3fa23b7bda7e55ae57d03ccf1c73f9ebb98359f",
+      "rows": 120444,
+      "runtime_seconds": 20.236892223358154,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W23",
+        "2026-W24",
+        "2026-W25"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W22",
+      "equivalence": {
+        "origin_week": "2026-W23",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 1.7763568394002505e-15,
+          "expected_count": 8.881784197001252e-16,
+          "p_occurrence": 2.220446049250313e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 1.7763568394002505e-15,
+          "expected_count": 6.661338147750939e-16,
+          "p_occurrence": 3.3306690738754696e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W23.json",
+      "fit_artifact_sha256": "e669fdc2dec15f57007f714e1e7e0d684349738b3ec73a4d4be0d947fb68e32f",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W23",
+        "origin_week": "2026-W23",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-06-08T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W23",
+      "prediction_sha256": "820eb29eb4b6b034f8f0dd85119b400ac24ece7fda17ae777dc7348e4d22efe0",
+      "rows": 120444,
+      "runtime_seconds": 24.710195779800415,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W24",
+        "2026-W25",
+        "2026-W26"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W23",
+      "equivalence": {
+        "origin_week": "2026-W24",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 2.6645352591003757e-15,
+          "expected_count": 2.6645352591003757e-15,
+          "p_occurrence": 4.440892098500626e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 2.6645352591003757e-15,
+          "expected_count": 1.5543122344752192e-15,
+          "p_occurrence": 2.7755575615628914e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W24.json",
+      "fit_artifact_sha256": "a7646083685b7793b22009baa8fbc0868d1defec803ce18467cd7be237a94206",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W24",
+        "origin_week": "2026-W24",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-06-15T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W24",
+      "prediction_sha256": "f5c4f2b1c9f62ec74a1e35037effb9c56eafbfa52c548de449be801811850fd0",
+      "rows": 120444,
+      "runtime_seconds": 25.516360759735107,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W25",
+        "2026-W26",
+        "2026-W27"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W24",
+      "equivalence": {
+        "origin_week": "2026-W25",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 1.7763568394002505e-15,
+          "expected_count": 5.551115123125783e-16,
+          "p_occurrence": 3.3306690738754696e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 2.6645352591003757e-15,
+          "expected_count": 1.3322676295501878e-15,
+          "p_occurrence": 2.220446049250313e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W25.json",
+      "fit_artifact_sha256": "c416adfa5f032d156e97bf062c837bf67343ba0f43bb93b232f168f8cf6a2e2b",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W25",
+        "origin_week": "2026-W25",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-06-22T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W25",
+      "prediction_sha256": "27f0bd76ade48749d61c3be078887e98a445bd77a4d9424061989cc476e5e18f",
+      "rows": 120444,
+      "runtime_seconds": 28.06193733215332,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W26",
+        "2026-W27",
+        "2026-W28"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W25",
+      "equivalence": {
+        "origin_week": "2026-W26",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 3.552713678800501e-15,
+          "expected_count": 1.7763568394002505e-15,
+          "p_occurrence": 3.3306690738754696e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 1.7763568394002505e-15,
+          "expected_count": 2.6645352591003757e-15,
+          "p_occurrence": 5.551115123125783e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W26.json",
+      "fit_artifact_sha256": "0a63cddb898c4be5d089d95fb410c784da1871f08fea1f7eb92c8812831afb12",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W26",
+        "origin_week": "2026-W26",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-06-29T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W26",
+      "prediction_sha256": "234d7c03c54570c8cd5d45ce88e4534777968ae8744512f368772d54e8241c4e",
+      "rows": 120444,
+      "runtime_seconds": 33.64308428764343,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W27",
+        "2026-W28",
+        "2026-W29"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W26",
+      "equivalence": {
+        "origin_week": "2026-W27",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 1.7763568394002505e-15,
+          "expected_count": 8.881784197001252e-16,
+          "p_occurrence": 3.3306690738754696e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 1.1102230246251565e-15,
+          "expected_count": 6.661338147750939e-16,
+          "p_occurrence": 2.7755575615628914e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W27.json",
+      "fit_artifact_sha256": "c31e01484e4fbe8df75c0952f8f3a40f84dbce740d8ced1c0708d0e9796da902",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W27",
+        "origin_week": "2026-W27",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-07-06T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W27",
+      "prediction_sha256": "7321b7a2f785104d0b3b71ccae12fb1dcf11e31b18a6be71d93f53e89ded8fd5",
+      "rows": 120444,
+      "runtime_seconds": 30.086135625839233,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W28",
+        "2026-W29",
+        "2026-W30"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W27",
+      "equivalence": {
+        "origin_week": "2026-W28",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 1.7763568394002505e-15,
+          "expected_count": 8.881784197001252e-16,
+          "p_occurrence": 2.220446049250313e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 1.1102230246251565e-15,
+          "expected_count": 1.7763568394002505e-15,
+          "p_occurrence": 3.3306690738754696e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W28.json",
+      "fit_artifact_sha256": "82b3977818cd2ec8d55a0949bfd60bdc771ef007b546264d8bf6c0c71a7f5218",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W28",
+        "origin_week": "2026-W28",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-07-13T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W28",
+      "prediction_sha256": "b2cb1847d2483d3ef7d6499b595dbb0fc75fb377d8121fbc620da3e86ef2d949",
+      "rows": 120444,
+      "runtime_seconds": 29.689121961593628,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W29",
+        "2026-W30",
+        "2026-W31"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W28",
+      "equivalence": {
+        "origin_week": "2026-W29",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 1.7763568394002505e-15,
+          "expected_count": 2.220446049250313e-15,
+          "p_occurrence": 5.551115123125783e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 2.6645352591003757e-15,
+          "expected_count": 1.3322676295501878e-15,
+          "p_occurrence": 2.7755575615628914e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W29.json",
+      "fit_artifact_sha256": "a0bb9ec930c7ccb7a61aa45b834d17d75adeed04c4b233377e2e8fa22e788121",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W29",
+        "origin_week": "2026-W29",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-07-20T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W29",
+      "prediction_sha256": "08a493441308bc3bb210bff6882041cdda61796f3d6af35ae1555cc50561da40",
+      "rows": 120444,
+      "runtime_seconds": 30.90972352027893,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W30",
+        "2026-W31",
+        "2026-W32"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W29",
+      "equivalence": {
+        "origin_week": "2026-W30",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 2.6645352591003757e-15,
+          "expected_count": 1.3322676295501878e-15,
+          "p_occurrence": 3.0531133177191805e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 1.7763568394002505e-15,
+          "expected_count": 6.661338147750939e-16,
+          "p_occurrence": 2.220446049250313e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W30.json",
+      "fit_artifact_sha256": "4081088bfdee40f13f1acec448e3692dde594bcb6c6caa6a28b4f2ebb2355599",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W30",
+        "origin_week": "2026-W30",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-07-27T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W30",
+      "prediction_sha256": "4d6c4977ec0a52e886b816724afa0cd9797b42d5fd5e4eb675dd357af8b6bc32",
+      "rows": 120444,
+      "runtime_seconds": 33.509926080703735,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W31",
+        "2026-W32",
+        "2026-W33"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W30",
+      "equivalence": {
+        "origin_week": "2026-W31",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 2.220446049250313e-15,
+          "expected_count": 8.881784197001252e-16,
+          "p_occurrence": 3.885780586188048e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 8.881784197001252e-16,
+          "expected_count": 8.881784197001252e-16,
+          "p_occurrence": 1.6653345369377348e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W31.json",
+      "fit_artifact_sha256": "17aeab791d0049dbd92008d45ee0bfaac5d6cd35b6893a474734934740bb34e8",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W31",
+        "origin_week": "2026-W31",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-08-03T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W31",
+      "prediction_sha256": "c24e2ee1660a39d9464107a06d1346c00a3040b06d874270293603344d4cf894",
+      "rows": 120444,
+      "runtime_seconds": 33.19169807434082,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W32",
+        "2026-W33",
+        "2026-W34"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W31",
+      "equivalence": {
+        "origin_week": "2026-W32",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 2.6645352591003757e-15,
+          "expected_count": 8.881784197001252e-16,
+          "p_occurrence": 3.608224830031759e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 5.329070518200751e-15,
+          "expected_count": 3.9968028886505635e-15,
+          "p_occurrence": 2.220446049250313e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W32.json",
+      "fit_artifact_sha256": "d81bf24a25612871739c893d8c8effa456731eaa85561450bb9b0d949fcfbc79",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W32",
+        "origin_week": "2026-W32",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-08-10T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W32",
+      "prediction_sha256": "9f10b8b0fa1c71efe3c821609a9c9bb3cf6825b1d35235bbd5da644e1943f671",
+      "rows": 120444,
+      "runtime_seconds": 34.261544704437256,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W33",
+        "2026-W34",
+        "2026-W35"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W32",
+      "equivalence": {
+        "origin_week": "2026-W33",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 8.881784197001252e-16,
+          "expected_count": 9.992007221626409e-16,
+          "p_occurrence": 3.608224830031759e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 1.3322676295501878e-15,
+          "expected_count": 8.881784197001252e-16,
+          "p_occurrence": 2.7755575615628914e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W33.json",
+      "fit_artifact_sha256": "de548d4750a610215c9159ff8ff0525ddb20cc3530ea0d3f7292b18f0aadbb4a",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W33",
+        "origin_week": "2026-W33",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-08-17T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W33",
+      "prediction_sha256": "642499b7aba5b56bc09210b0c0b8cf76ffee468fca0910dba39e6b1c4e8b6371",
+      "rows": 120444,
+      "runtime_seconds": 35.47595691680908,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W34",
+        "2026-W35",
+        "2026-W36"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W33",
+      "equivalence": {
+        "origin_week": "2026-W34",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 3.1086244689504383e-15,
+          "expected_count": 1.3322676295501878e-15,
+          "p_occurrence": 5.551115123125783e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 1.7763568394002505e-15,
+          "expected_count": 9.992007221626409e-16,
+          "p_occurrence": 3.3306690738754696e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W34.json",
+      "fit_artifact_sha256": "07ec5b2e0b35cf30710242758da58333d9da9a0807fb659c78574629c0414a29",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W34",
+        "origin_week": "2026-W34",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-08-24T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W34",
+      "prediction_sha256": "baed1ce8e94dcdc6aff05007b513435b1e221d5f204940a39ff3cdeff907d4cc",
+      "rows": 120444,
+      "runtime_seconds": 37.940709352493286,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W35",
+        "2026-W36",
+        "2026-W37"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W34",
+      "equivalence": {
+        "origin_week": "2026-W35",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 8.881784197001252e-16,
+          "expected_count": 1.1102230246251565e-15,
+          "p_occurrence": 2.220446049250313e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 2.6645352591003757e-15,
+          "expected_count": 2.220446049250313e-15,
+          "p_occurrence": 3.3306690738754696e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W35.json",
+      "fit_artifact_sha256": "f027f29a7307aec48e8a5e1737b5b8326c12b36adb564d77a768010aa1928270",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W35",
+        "origin_week": "2026-W35",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-08-31T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W35",
+      "prediction_sha256": "d053b9cc1065cedb0eed3a9669f21bfc37c282533becf3b5fa270bef9938a105",
+      "rows": 120444,
+      "runtime_seconds": 38.70180702209473,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W36",
+        "2026-W37",
+        "2026-W38"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    },
+    {
+      "environment_reference_week": "2026-W35",
+      "equivalence": {
+        "origin_week": "2026-W36",
+        "v1_max_abs_difference": {
+          "conditional_count_mean": 1.3322676295501878e-15,
+          "expected_count": 4.440892098500626e-16,
+          "p_occurrence": 1.6653345369377348e-16
+        },
+        "v2_max_abs_difference": {
+          "conditional_count_mean": 1.1102230246251565e-15,
+          "expected_count": 1.7763568394002505e-15,
+          "p_occurrence": 3.3306690738754696e-16
+        },
+        "v2_support_mismatches": 0
+      },
+      "fit_artifact": "/project/disease_ecology/STGNN-output/p2_operational_nowcast_20261029/fits/origin_2026-W36.json",
+      "fit_artifact_sha256": "0f0688a30d74c74b42236ab80e1946d1cd84b8c29631c78e1baf743f1981b3d7",
+      "fit_reused_without_refit": true,
+      "future_detection_sets_used_in_v4": false,
+      "history": {
+        "distance_placeholder_km": 5529.798445504082,
+        "history_constructor": "scripts/run_task3a_v2_audit.py::causal_front_descriptors",
+        "latest_history_cutoff": "2026-W36",
+        "origin_week": "2026-W36",
+        "post_origin_positive_sets_empty": true,
+        "recency_placeholder_weeks": 92.0
+      },
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "issue_timestamp": "2026-09-07T00:00:00Z",
+      "model_id": "STRUCTURED_A3",
+      "model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "origin_week": "2026-W36",
+      "prediction_sha256": "c88a59da2e1ce264b639fdb8349ad11466be2982a3ad8396694cf70c03997f31",
+      "rows": 120444,
+      "runtime_seconds": 38.77954292297363,
+      "status": "COMPLETED",
+      "target_outcomes_used_in_feature_construction": false,
+      "target_weeks": [
+        "2026-W37",
+        "2026-W38",
+        "2026-W39"
+      ],
+      "variants": [
+        "V1_REALIZED_RETROSPECTIVE",
+        "V2_E0_RETROSPECTIVE_HISTORY",
+        "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+        "V4_ISSUE_TIME_CAUSAL"
+      ]
+    }
+  ],
+  "origins": [
+    "2026-W16",
+    "2026-W17",
+    "2026-W18",
+    "2026-W19",
+    "2026-W20",
+    "2026-W21",
+    "2026-W22",
+    "2026-W23",
+    "2026-W24",
+    "2026-W25",
+    "2026-W26",
+    "2026-W27",
+    "2026-W28",
+    "2026-W29",
+    "2026-W30",
+    "2026-W31",
+    "2026-W32",
+    "2026-W33",
+    "2026-W34",
+    "2026-W35",
+    "2026-W36"
+  ],
+  "overall_decision": "P7I_EVIDENCE_CLOSURE_COMPLETE_WITH_LIMITATIONS",
+  "p2_archive_rows": 632331,
+  "p2_archive_sha256": "918b33e80d352c080fcefb3d7b2a44dc29d0096b0b2e7dd6f5b017becc983170",
+  "p4_stability_reconciliation": {
+    "artifact": "/project/disease_ecology/STGNN-output/worktrees/p7i-issue-time-causal-validation/analysis/p4_uncertainty_extrapolation/results/bootstrap_coefficient_stability.csv",
+    "bootstrap_manifest_rows": 120,
+    "bootstrap_used_replicate_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99
+    ],
+    "bootstrap_used_replicates": 100,
+    "components": [
+      "count",
+      "occurrence"
+    ],
+    "creation_commit": "4c7cbcbf7dcd375d8b4f4fe401077da72a5bd2c7",
+    "expected_rows_from_35_terms_and_2_components": 70,
+    "feature_rows_excluding_intercepts": 68,
+    "manuscript_intervals_added": false,
+    "model_hash": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+    "p2_archive_hash": "918b33e80d352c080fcefb3d7b2a44dc29d0096b0b2e7dd6f5b017becc983170",
+    "p7g_prior_metadata_conflict": "P7G reported artifact unavailable because its Atlas output-root inventory did not retain this repository artifact; the canonical repository file is now hash-verified and provenance-audited.",
+    "rows": 70,
+    "sha256": "41e84a900768fd0f38b0faa270e1b8f27631cf1b356c131a5d2aab0421886373",
+    "source_script": "analysis/p4_uncertainty_extrapolation/scripts/run_p4_uncertainty_extrapolation.py:719",
+    "status": "CANONICAL_RETAINED_ARTIFACT_VERIFIED"
+  },
+  "p4_support_sha256": "c35bf794fcc882e3ea71bc1a279b90e4f32aeff412a9399f2fb25e383141d058",
+  "p5a_output_root": "/project/disease_ecology/STGNN-output/p5a_environmental_proxy_20261029_v1",
+  "phase": "P7I",
+  "repository_sha": "7d52159ce47e9e805f0dc9d9cff02dbea7ebb2f5",
+  "source_provenance_rows": 5,
+  "status": "COMPLETED",
+  "target_outcomes_used_in_feature_construction": false,
+  "v3_status": "COMPUTED_REALIZED_ENVIRONMENT_WITH_ORIGIN_BOUNDED_HISTORY",
+  "variants": [
+    "V1_REALIZED_RETROSPECTIVE",
+    "V2_E0_RETROSPECTIVE_HISTORY",
+    "V3_REALIZED_ORIGIN_BOUNDED_HISTORY",
+    "V4_ISSUE_TIME_CAUSAL"
+  ]
+}

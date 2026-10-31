@@ -1,0 +1,36 @@
+{
+  "bookkeeping_rule": "unique event x horizon records, not duplicated by full-domain/frontier pool output rows",
+  "event_horizon_rows": 2529,
+  "excluded_missing_horizon_records": 255,
+  "first_detection_cells": 928,
+  "first_detection_rows": 928,
+  "prior_metadata": {
+    "excluded_missing_horizon_records": 255,
+    "first_detection_cells": 928,
+    "first_detection_rows": 928,
+    "rank_formula": "100 * (midrank - 0.5) / n",
+    "reference_scores": [
+      "historical_prevalence_probability",
+      "persistence_probability"
+    ],
+    "top_fractions": [
+      0.01,
+      0.05,
+      0.1,
+      0.2
+    ]
+  },
+  "rank_formula": "100 * (midrank - 0.5) / n",
+  "reference_scores": [
+    "B1_DISTANCE_ANY",
+    "B2_DISTANCE_PREV4",
+    "B3_RECENCY_50KM"
+  ],
+  "scientific_event_outputs_rewritten": false,
+  "top_fractions": [
+    0.01,
+    0.05,
+    0.1,
+    0.2
+  ]
+}
