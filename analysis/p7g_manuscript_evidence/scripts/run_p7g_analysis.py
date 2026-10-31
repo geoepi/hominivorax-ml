@@ -368,7 +368,8 @@ def early_warning_analysis(frame: pd.DataFrame, output: Path) -> None:
         for index, row in complete.iterrows():
             trajectories.append({"pool": pool, "model_node_id": int(index[0]), "target_week": str(index[1]), "h1_percentile": float(row[1]), "h2_percentile": float(row[2]), "h3_percentile": float(row[3]), "h3_to_h1_change": float(row[1] - row[3])})
     write_csv(output / "early_warning_trajectory.csv", pd.DataFrame(trajectories))
-    write_json(output / "early_warning_metadata.json", {"first_detection_cells": int(first["model_node_id"].nunique()), "first_detection_rows": int(len(first)), "excluded_missing_horizon_records": int(len(first) * 3 - events.loc[events["score"] == "p_occurrence", "horizon"].nunique()), "rank_formula": "100 * (midrank - 0.5) / n", "top_fractions": list(TOP_FRACTIONS), "reference_scores": [x for x in score_columns if x != "p_occurrence"]})
+    primary_event_horizon_rows = int((events["score"] == "p_occurrence").sum())
+    write_json(output / "early_warning_metadata.json", {"first_detection_cells": int(first["model_node_id"].nunique()), "first_detection_rows": int(len(first)), "excluded_missing_horizon_records": int(len(first) * len(HORIZONS) - primary_event_horizon_rows), "rank_formula": "100 * (midrank - 0.5) / n", "top_fractions": list(TOP_FRACTIONS), "reference_scores": [x for x in score_columns if x != "p_occurrence"]})
 
 
 def predictor_analysis(args: argparse.Namespace, output: Path) -> dict[str, Any]:

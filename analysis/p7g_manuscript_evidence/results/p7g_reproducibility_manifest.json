@@ -14,8 +14,8 @@
     },
     {
       "path": "analysis/p7g_manuscript_evidence/results/early_warning_metadata.json",
-      "sha256": "e1e186e231e699245668a6eda6e4e73731848a8c1be0dc74d6b56bc57e7757b0",
-      "size_bytes": 320
+      "sha256": "75076b56b84d66fd66c37f689d5ca7a612ce206b05bdf2549662ba6297c7d924",
+      "size_bytes": 319
     },
     {
       "path": "analysis/p7g_manuscript_evidence/results/early_warning_topk.csv",
@@ -170,7 +170,7 @@
   ],
   "atlas_job_id": "21069366",
   "atlas_output_root": "/project/disease_ecology/STGNN-output/p7g_manuscript_evidence_20261030_r2/",
-  "built_from_commit": "92efd331d9849d87cf89c1521d81e3430f71f507",
+  "built_from_commit": "5e9944bc193d1c44bd2a8497ee9dead968738192",
   "frozen_model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
   "no_model_fitting": true,
   "p2_archive_sha256": "918b33e80d352c080fcefb3d7b2a44dc29d0096b0b2e7dd6f5b017becc983170",
