@@ -1,0 +1,180 @@
+{
+  "analysis_version": "p7g-manuscript-evidence-v1",
+  "artifact_count": 33,
+  "artifacts": [
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/configuration.json",
+      "sha256": "31fe52a50ceff1a544e7ef7f05561f4ecafc2abee79e6302d714f90aadc41bc2",
+      "size_bytes": 1113
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/decision.json",
+      "sha256": "0c454983db0dceb5b88afff55119c810f2c52fb5042d5f807bd76934c1e18f2b",
+      "size_bytes": 678
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/early_warning_metadata.json",
+      "sha256": "e1e186e231e699245668a6eda6e4e73731848a8c1be0dc74d6b56bc57e7757b0",
+      "size_bytes": 320
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/early_warning_topk.csv",
+      "sha256": "04ee4e7b8d9bfc4f8f07c1bf60e3cecad35178e70b71b7bdc094432c465800f9",
+      "size_bytes": 5401
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/early_warning_trajectory.csv",
+      "sha256": "431716e05dbd758ab561b080ea451f5c935ff986d46a35ee257be7dfbc9fce46",
+      "size_bytes": 154004
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/first_detection_event_rankings.csv",
+      "sha256": "a72baf537ca2fc02d6413a2d638cea257eefc037d525b6bac783ad3a118c7d21",
+      "size_bytes": 1481522
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/predictor_analysis_metadata.json",
+      "sha256": "800b8968bbdfb0434b8de621af7785eeac1add19cf093f3a1b6d2c053c237cd0",
+      "size_bytes": 359
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/predictor_dependence_pairs.csv",
+      "sha256": "84d7988a545cc26fd835374f360aa9333c75ff91bee04a657509c7e288068a64",
+      "size_bytes": 64557
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/predictor_dependence_summary.csv",
+      "sha256": "ef2d2a3f66a5655fd61c4203c4ec573a23fcd05b61c4c60423c207dc3a8f90f1",
+      "size_bytes": 94
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/predictor_standardized_associations.csv",
+      "sha256": "52798f2869449cf440af4ee8803388744b6104f0e388ba3675cdfeaa67e36b6c",
+      "size_bytes": 15594
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/run_metadata.json",
+      "sha256": "2476b60dfa16ddf5ac3998d3a5f74b168ee9f9b14c1f226a0b15a4142f733e16",
+      "size_bytes": 368
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/source_hash_manifest.json",
+      "sha256": "e02dca57e150e3c938243bdb211316b3ccbafbb9e29dbed6f6e82e3765036ea8",
+      "size_bytes": 3082
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/source_registry.csv",
+      "sha256": "f4f2258e658fbe07c9756aa7ff347d294f892c7edf29c9e33d36f9e40b7098d4",
+      "size_bytes": 2502
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/spatial_dependence.csv",
+      "sha256": "4fcfc31921aa00d8df56b9ac19aa03af91ab5aabe9eb66f33d54cceaf61807c9",
+      "size_bytes": 31270
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/spatial_shell_dependence.csv",
+      "sha256": "8119752144c9661908a40e2f928ec5cd7e266f3216952397270f59b2d8739276",
+      "size_bytes": 5942
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/support_class_proportions.csv",
+      "sha256": "f5a4ae9723871cbcc49930a1d29885ca6c8a1f8efb11b468110de567e746c6e2",
+      "size_bytes": 139
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/support_horizon_bootstrap_ci.csv",
+      "sha256": "8cd569fbbfd41eb83386aa81e63cff7103fc3000edf52941a4165d636230003b",
+      "size_bytes": 1121
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/support_horizon_calibration_metrics.csv",
+      "sha256": "283f8201e8d726f41e1f67f47d38dbfd55302c3687b68cc6d645ba3a71590a32",
+      "size_bytes": 1878
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/support_horizon_reliability.csv",
+      "sha256": "67934b16415304e9a2d17d2861502396fdad126dab9db7da6ec9e0b7f50c174b",
+      "size_bytes": 11200
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/results/temporal_dependence.csv",
+      "sha256": "af2bf19dca6e84894bcb8a7d4bdb33ce5dfd8e91d33cd322b7068f4085c19bd9",
+      "size_bytes": 4973
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/figures/README.md",
+      "sha256": "d94e91699ed12f9a92e780854859e1357b88578f0b9afb28d05622ff3bf0ab92",
+      "size_bytes": 182
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/figures/p7g_early_warning_capture.pdf",
+      "sha256": "e9e3a868647e39fed7eff6c5f2ddfc907d3283a70596062d95028cd6ebd39fb7",
+      "size_bytes": 5992
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/figures/p7g_early_warning_capture.png",
+      "sha256": "29a7a0d5692be573f1591f9cd333ba1a1dcbe43177649747efb52c95011065b2",
+      "size_bytes": 19181
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/figures/p7g_figures_captions.md",
+      "sha256": "a36bc4eaa84cebdfc3ac875932cf5f41f83836765f61743c2ed4982bf18d261b",
+      "size_bytes": 1974
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/figures/p7g_predictor_dependence.pdf",
+      "sha256": "09ad1dafbd515c146a2649cf366dd4cf989f4660666647339bed4df51d223e4d",
+      "size_bytes": 9626
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/figures/p7g_predictor_dependence.png",
+      "sha256": "4fc9e9bcc28d8ce60d321b494ca209ca37fa841e46d43ae586dbc5a5c90a43ed",
+      "size_bytes": 27624
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/figures/p7g_spatial_dependence.pdf",
+      "sha256": "0575b94d30b45ba936d7cf1babfcb70072cc8318f59b8b94969546d18e6f5782",
+      "size_bytes": 6390
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/figures/p7g_spatial_dependence.png",
+      "sha256": "095575411bb4b4bdb314b6478855b8ac54c0eade28fb7ade36b65d3ae872d672",
+      "size_bytes": 18413
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/figures/p7g_support_calibration.pdf",
+      "sha256": "589e49138f0c8df643e816655fb44c9e1737ffa4bb8dd4785543bb327dcba897",
+      "size_bytes": 5579
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/figures/p7g_support_calibration.png",
+      "sha256": "f56e10dff1bdaad53ab388ce0fa7a9b38ea108801da47ce0fcf2d398800add1d",
+      "size_bytes": 22838
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/config/p7g_analysis_config.json",
+      "sha256": "0ff71d48f60d2d8041d4bb53082060b42d3403c8811a1d08d5fbfa5b95e8c0b0",
+      "size_bytes": 1065
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/p7g_prespecification.md",
+      "sha256": "5d47094850a9c61e626368e4c6a709b3281807ad987898a0026499ca3de974f5",
+      "size_bytes": 10682
+    },
+    {
+      "path": "analysis/p7g_manuscript_evidence/p7g_manuscript_evidence_report.md",
+      "sha256": "bbb7eff5e1fba6a5439f83109e9edeff80384abc08bc6b2efbe73d45d9bef037",
+      "size_bytes": 7074
+    }
+  ],
+  "atlas_job_id": "21069366",
+  "atlas_output_root": "/project/disease_ecology/STGNN-output/p7g_manuscript_evidence_20261030_r2/",
+  "built_from_commit": "92efd331d9849d87cf89c1521d81e3430f71f507",
+  "frozen_model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+  "no_model_fitting": true,
+  "p2_archive_sha256": "918b33e80d352c080fcefb3d7b2a44dc29d0096b0b2e7dd6f5b017becc983170",
+  "p4_support_sha256": "c35bf794fcc882e3ea71bc1a279b90e4f32aeff412a9399f2fb25e383141d058",
+  "phase": "P7G",
+  "prespecification_commit": "cf092e888a6014f627dc7cd452963a5ffb66aeda"
+}
