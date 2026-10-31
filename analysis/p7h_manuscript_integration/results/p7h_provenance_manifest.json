@@ -1,6 +1,6 @@
 {
   "schema_version": "P7H_MANUSCRIPT_INTEGRATION_1.0",
-  "canonical_main_sha_at_build": "8c878d9d92d3ebd4dac035150381e3618fcde8fb",
+  "canonical_main_sha_at_build": "5660ebf2d8b94e87c3d36bf83788ac428c1eb05b",
   "frozen_model": {
     "model_id": "STRUCTURED_A3",
     "sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e"
@@ -39,5 +39,5 @@
     "analysis/p7f_final_figures/results/figure_source_registry.csv": "7cc9455313be786536dcdd6e324da71fd7d110e8611dbc8746808ebf892c12eb",
     "analysis/p7f_final_figures/captions/final_captions.md": "0506d506c8ae4e0ba7efeaaedf2d16f31d52328881568eca7b811166fad2491d"
   },
-  "generation_timestamp_utc": "2026-10-31 00:43:58 UTC"
+  "generation_timestamp_utc": "2026-10-31 00:44:44 UTC"
 }

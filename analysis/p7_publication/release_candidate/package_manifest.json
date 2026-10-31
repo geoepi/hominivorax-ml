@@ -2,7 +2,7 @@
   "package_type": "publication_release_candidate",
   "version_identifier": "v1.0.0-rc1",
   "final_release_tag_created": false,
-  "generated_from_git_sha": "8c878d9d92d3ebd4dac035150381e3618fcde8fb",
+  "generated_from_git_sha": "5660ebf2d8b94e87c3d36bf83788ac428c1eb05b",
   "included": [
     "analysis/p7_publication/results",
     "analysis/p7_publication/figures",
