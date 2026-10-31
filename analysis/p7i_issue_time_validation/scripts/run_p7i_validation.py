@@ -240,7 +240,7 @@ def build_history_for_origin(
         transformed[:, :3] = np.log1p(np.maximum(transformed[:, :3], 0.0))
         out[offset] = transformed
         cutoff = str(row["source_history_cutoff"].iloc[0])
-        require(parse_week(cutoff) <= parse_week(labels[origin_index]), f"history cutoff after origin for {origin}: {cutoff}")
+        require(parse_week(cutoff) <= parse_week(labels[origin_index]), f"history cutoff after origin for {labels[origin_index]}: {cutoff}")
     return out, {
         "origin_week": labels[origin_index],
         "latest_history_cutoff": labels[origin_index],
