@@ -119,7 +119,10 @@ counts, bootstrap count, and the no-model-fitting contract.
 
 Technical diagnostic figures generated from the compact results are under
 `figures/`, with captions in `figures/p7g_figures_captions.md`. These figures
-are evidence-review displays, not manuscript prose.
+are evidence-review displays, not manuscript prose. Rebuilding the figures
+produced identical PNG hashes and identical source-derived plotted values. Base
+R PDF device metadata differed between renders; this benign rendering
+difference is recorded rather than treated as a scientific discrepancy.
 
 ## 8. Remaining limitations
 
