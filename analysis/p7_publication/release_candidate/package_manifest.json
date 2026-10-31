@@ -2,8 +2,24 @@
   "package_type": "publication_release_candidate",
   "version_identifier": "v1.0.0-rc1",
   "final_release_tag_created": false,
-  "generated_from_git_sha": "499e0114b38249e7fd8b79c3cf127e2d96ee7bb4",
-  "included": ["analysis/p7_publication/results", "analysis/p7_publication/figures", "analysis/p7_publication/tables", "analysis/p7_publication/supplement", "analysis/p7_publication/scripts", "docs/model_qualification_summary.md", "analysis/p7_publication/p7_prespecification.md"],
-  "excluded": ["protected raw data", "secrets", "unnecessary large Atlas intermediates", "machine-specific runtime paths"],
-  "manifest": "analysis/p7_publication/results/reproducibility_manifest.json"
+  "generated_from_git_sha": "8c878d9d92d3ebd4dac035150381e3618fcde8fb",
+  "included": [
+    "analysis/p7_publication/results",
+    "analysis/p7_publication/figures",
+    "analysis/p7_publication/tables",
+    "analysis/p7_publication/supplement",
+    "analysis/p7_publication/scripts",
+    "docs/model_qualification_summary.md",
+    "analysis/p7_publication/p7_prespecification.md",
+    "analysis/p7h_manuscript_integration",
+    "analysis/p7g_manuscript_evidence/results",
+    "analysis/p7g_manuscript_evidence/figures"
+  ],
+  "excluded": [
+    "protected raw data",
+    "secrets",
+    "unnecessary large Atlas intermediates",
+    "machine-specific runtime paths"
+  ],
+  "manifest": "analysis/p7h_manuscript_integration/results/p7h_provenance_manifest.json"
 }

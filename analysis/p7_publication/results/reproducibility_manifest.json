@@ -1,6 +1,6 @@
 {
   "schema_version": "P7_REPRODUCIBILITY_1.0",
-  "canonical_main_sha_at_build": "499e0114b38249e7fd8b79c3cf127e2d96ee7bb4",
+  "canonical_main_sha_at_build": "8c878d9d92d3ebd4dac035150381e3618fcde8fb",
   "frozen_model": {
     "model_id": "STRUCTURED_A3",
     "artifact": "analysis/structured_a3_evaluation/results/final_a3_model.json",
@@ -96,7 +96,7 @@
   },
   "claim_registry": "analysis/p7_publication/results/claim_registry.csv",
   "build_script": "analysis/p7_publication/scripts/build_publication_artifacts.R",
-  "generation_timestamp_utc": "2026-10-30 00:15:52 UTC",
+  "generation_timestamp_utc": "2026-10-31 00:43:58 UTC",
   "output_hashes_excluding_manifest": {
     "analysis/p7_publication/figures/figure_01_framework.svg": "84e674e1c7dd08864dfbaa6d5b4a649f74b49b002c9ccd79888b24661c0abfed",
     "analysis/p7_publication/figures/figure_02_rolling_origin_performance.svg": "5f449f5eb9096b8c1772d941eb87370bdef58a128152e8777070ff125168eb68",
@@ -109,7 +109,7 @@
     "analysis/p7_publication/p7_prespecification.md": "cbc97e1aff6949d9bac3b77278061c1abad6c796c2dfbfedd0e869e76d5257d6",
     "analysis/p7_publication/p7_publication_report.md": "4b7ac27a8ad526415560eb0a8386ff44120d4f5d6343114a9583fed6d57e7653",
     "analysis/p7_publication/release_candidate/README.md": "4edad297f70bb9d5e67e895836fbbbcbad50f5a1b8da7e4a4a983c0a0666d2e2",
-    "analysis/p7_publication/release_candidate/package_manifest.json": "86e28d60be8c67ce2c7668570af4276073f291b46f6bf833eb24c54ea31e9422",
+    "analysis/p7_publication/release_candidate/package_manifest.json": "222d17e311ec6fb4f1a267d9241e765be95584a5e84965f0aaa41ce4857f40fe",
     "analysis/p7_publication/results/claim_registry.csv": "6e0cb164ffa6f34950b6c2644e6e0588eb5934a9e1cb9f6a74a19972152825a0",
     "analysis/p7_publication/results/data_availability.md": "8a8f4169eb9d9b42c2423927a73dec1b3ed17634f75a905b413c05ccfc7670e6",
     "analysis/p7_publication/results/discussion_outline.md": "029d90e13f66f4089af96d2ab55797a45b80c22f4cdeb70e08925436dc8b3471",
@@ -132,6 +132,23 @@
     "analysis/p7_publication/results/source_artifact_hashes.csv": "8e37e06e59f8887787296eeddc6ecb9889f169afe97b6a1b9e9123c89a1c66b4",
     "analysis/p7_publication/results/table_manifest.csv": "08cd89a46983fb8eee450029ac912591c3b5cf262e0f70fd375cf46246cf27bd",
     "analysis/p7_publication/scripts/build_publication_artifacts.R": "641a487ba3fa00e962d6e714378ee656360c1fc4533344b7c3e832237842b8d1",
+    "analysis/p7_publication/supplement/P7G_early_warning_topk.csv": "04ee4e7b8d9bfc4f8f07c1bf60e3cecad35178e70b71b7bdc094432c465800f9",
+    "analysis/p7_publication/supplement/P7G_p7g_early_warning_capture.pdf": "e9e3a868647e39fed7eff6c5f2ddfc907d3283a70596062d95028cd6ebd39fb7",
+    "analysis/p7_publication/supplement/P7G_p7g_early_warning_capture.png": "29a7a0d5692be573f1591f9cd333ba1a1dcbe43177649747efb52c95011065b2",
+    "analysis/p7_publication/supplement/P7G_p7g_predictor_dependence.pdf": "09ad1dafbd515c146a2649cf366dd4cf989f4660666647339bed4df51d223e4d",
+    "analysis/p7_publication/supplement/P7G_p7g_predictor_dependence.png": "4fc9e9bcc28d8ce60d321b494ca209ca37fa841e46d43ae586dbc5a5c90a43ed",
+    "analysis/p7_publication/supplement/P7G_p7g_spatial_dependence.pdf": "0575b94d30b45ba936d7cf1babfcb70072cc8318f59b8b94969546d18e6f5782",
+    "analysis/p7_publication/supplement/P7G_p7g_spatial_dependence.png": "095575411bb4b4bdb314b6478855b8ac54c0eade28fb7ade36b65d3ae872d672",
+    "analysis/p7_publication/supplement/P7G_p7g_support_calibration.pdf": "589e49138f0c8df643e816655fb44c9e1737ffa4bb8dd4785543bb327dcba897",
+    "analysis/p7_publication/supplement/P7G_p7g_support_calibration.png": "f56e10dff1bdaad53ab388ce0fa7a9b38ea108801da47ce0fcf2d398800add1d",
+    "analysis/p7_publication/supplement/P7G_predictor_dependence_pairs.csv": "84d7988a545cc26fd835374f360aa9333c75ff91bee04a657509c7e288068a64",
+    "analysis/p7_publication/supplement/P7G_predictor_dependence_summary.csv": "ef2d2a3f66a5655fd61c4203c4ec573a23fcd05b61c4c60423c207dc3a8f90f1",
+    "analysis/p7_publication/supplement/P7G_predictor_standardized_associations.csv": "52798f2869449cf440af4ee8803388744b6104f0e388ba3675cdfeaa67e36b6c",
+    "analysis/p7_publication/supplement/P7G_spatial_shell_dependence.csv": "8119752144c9661908a40e2f928ec5cd7e266f3216952397270f59b2d8739276",
+    "analysis/p7_publication/supplement/P7G_support_horizon_bootstrap_ci.csv": "8cd569fbbfd41eb83386aa81e63cff7103fc3000edf52941a4165d636230003b",
+    "analysis/p7_publication/supplement/P7G_support_horizon_calibration_metrics.csv": "283f8201e8d726f41e1f67f47d38dbfd55302c3687b68cc6d645ba3a71590a32",
+    "analysis/p7_publication/supplement/P7G_support_horizon_reliability.csv": "67934b16415304e9a2d17d2861502396fdad126dab9db7da6ec9e0b7f50c174b",
+    "analysis/p7_publication/supplement/P7G_temporal_dependence.csv": "af2bf19dca6e84894bcb8a7d4bdb33ce5dfd8e91d33cd322b7068f4085c19bd9",
     "analysis/p7_publication/supplement/frontier_metrics.csv": "9ca335301ddbe7ceb9e5651925333e906822fd6a4f98b33605641f7d7b4eb6a1",
     "analysis/p7_publication/supplement/frontier_sensitivity_metrics.csv": "90ff81fcc6d256f65d0bdc3fb74b07a8cc97f22b0ac2a818ec0e3cd690b86a5d",
     "analysis/p7_publication/supplement/frozen_34_predictor_inventory.csv": "4b5bfd344853821df7852e71b26c2af31ff9fe442a6d351134f4b1c6f4dd27a9",
@@ -150,5 +167,12 @@
     "analysis/p7_publication/tables/table_5_limitation_summary.csv": "89b3b4cbbc0689b1f559e9b6601396bb5d4ed8c74331ff807156db27278f647e"
   },
   "no_model_fitting": true,
-  "protected_raw_data_bundled": false
+  "protected_raw_data_bundled": false,
+  "p7h_integration": {
+    "manifest": "analysis/p7h_manuscript_integration/results/p7h_provenance_manifest.json",
+    "manifest_sha256": "f55c9417b9a05f42c0ff4f0317ff73fb226125703a01ef748cafe0bf3bfa53ae",
+    "p7g_manifest": "analysis/p7g_manuscript_evidence/results/p7g_reproducibility_manifest.json",
+    "p7g_decision": "P7G_MANUSCRIPT_EVIDENCE_COMPLETE_WITH_LIMITATIONS",
+    "no_model_fitting": true
+  }
 }
