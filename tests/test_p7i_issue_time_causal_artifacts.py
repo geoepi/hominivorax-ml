@@ -27,7 +27,7 @@ class P7IIssueTimeCausalArtifactTests(unittest.TestCase):
         prespec_text = prespec.read_text(encoding="utf-8")
         self.assertIn("V4_ISSUE_TIME_CAUSAL", prespec_text)
         self.assertIn("E0_LAST_AVAILABLE", prespec_text)
-        self.assertIn("target-week block bootstrap", prespec_text)
+        self.assertIn("target-week block resampling", prespec_text)
         required = {
             "variant_metrics.csv",
             "paired_variant_differences.csv",
