@@ -1,0 +1,8 @@
+{
+  "p4_coefficient_bootstrap_available": false,
+  "p4_coefficient_bootstrap_reason": "No bootstrap_coefficient_stability.csv was retained in the canonical P4 output root; no new coefficient refitting was performed.",
+  "predictor_count": 34,
+  "standardize_state_matches_cache": true,
+  "training_reference": "2025-W01:2026-W16",
+  "training_rows": 682516
+}

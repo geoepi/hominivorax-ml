@@ -1,0 +1,16 @@
+{
+  "excluded_missing_horizon_records": 2781,
+  "first_detection_cells": 928,
+  "first_detection_rows": 928,
+  "rank_formula": "100 * (midrank - 0.5) / n",
+  "reference_scores": [
+    "historical_prevalence_probability",
+    "persistence_probability"
+  ],
+  "top_fractions": [
+    0.01,
+    0.05,
+    0.1,
+    0.2
+  ]
+}

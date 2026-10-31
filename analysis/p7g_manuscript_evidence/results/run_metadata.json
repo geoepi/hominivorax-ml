@@ -1,0 +1,11 @@
+{
+  "generated_utc": "2026-10-31T00:12:39.725786+00:00",
+  "no_model_fitting": true,
+  "numpy": "2.5.3",
+  "output_root": "/project/disease_ecology/STGNN-output/p7g_manuscript_evidence_20261030_r2/results",
+  "pandas": "3.0.6",
+  "python": "3.12.14",
+  "repository_branch": "",
+  "repository_sha": "a00c92e5ea25b929a324eb1ad53a81aec1008c29",
+  "status": "completed"
+}

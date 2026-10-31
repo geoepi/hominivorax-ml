@@ -1,0 +1,11 @@
+{
+  "decision": "P7G_MANUSCRIPT_EVIDENCE_COMPLETE_WITH_LIMITATIONS",
+  "limitations": [
+    "P4 coefficient-bootstrap stability artifact was not retained in the canonical P4 output root, so no coefficient interval/stability panel was generated.",
+    "Support-stratified estimates and first-detection strata are descriptive and may be sparse.",
+    "The P2 archive is retrospective realized-environment evaluation; no prospective environmental data are introduced."
+  ],
+  "no_model_fitting": true,
+  "source_hash_manifest": "/project/disease_ecology/STGNN-output/p7g_manuscript_evidence_20261030_r2/results/source_hash_manifest.json",
+  "status": "complete_with_limitations"
+}
