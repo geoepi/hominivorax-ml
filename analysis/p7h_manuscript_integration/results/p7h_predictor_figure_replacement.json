@@ -1,0 +1,9 @@
+{
+  "replacement": true,
+  "active_figure": "analysis/p7f_final_figures/figures/main/figure_06_predictor_associations.{svg,png}",
+  "source": "analysis/p7g_manuscript_evidence/results/predictor_standardized_associations.csv",
+  "superseded_archive": "analysis/p7h_manuscript_integration/figures/archive/figure_06_predictor_associations_p7f_superseded.{svg,png}",
+  "rationale": "P7G standardized fitted-scale contrasts support a clearer scale-labeled conditional-association display than the mixed raw-coefficient figure.",
+  "prohibited_interpretations": ["causal effect", "global feature importance", "independent importance ranking"],
+  "no_model_fitting": true
+}

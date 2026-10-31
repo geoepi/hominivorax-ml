@@ -20,10 +20,8 @@ Observed positive cells and repeated focal-region rolling-origin nowcasts from a
 
 Paired E0_LAST_AVAILABLE minus REALIZED_ENV differences for occurrence and count metrics across h=1-3, using the canonical P5A comparison. E0 uses the latest legitimately available environmental state at issue time; REALIZED_ENV uses target-week realized environmental inputs. The comparison concerns predictive outputs, not equality of environmental conditions.
 
-## Figure 6. Predictor associations
-
-Signed occurrence- and conditional-count-component coefficient associations with predictor families and scale classes shown. Coefficients are conditional predictive associations; magnitudes are most comparable within compatible scaling classes. Correlated predictors may redistribute coefficient magnitude, and no causal or global feature-importance interpretation is intended.
-
+## Figure 6. Predictor associations (P7H standardized display)
+P7G fitted-scale association contrasts for the occurrence and conditional positive-count components, with predictor scale categories shown. Contrasts are conditional predictive associations; correlated predictors can redistribute coefficient magnitude. The display is not a causal effect plot or a global feature-importance ranking, and no coefficient-bootstrap intervals are available in the retained canonical artifacts.
 ## Supplement S1. Reliability curves
 
 Canonical P2 reliability curves by horizon. Curves summarize retrospective calibration behavior and should not be interpreted as causal calibration mechanisms.

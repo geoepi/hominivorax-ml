@@ -1,0 +1,11 @@
+{
+  "decision": "P7H_MANUSCRIPT_PACKAGE_READY_WITH_LIMITATIONS",
+  "prespecification_committed_before_integration": "8c878d9",
+  "p7g_source_hashes_verified": true,
+  "primary_claims_traceable": true,
+  "publication_components_updated": true,
+  "predictor_figure_replaced_with_standardized_association_display": true,
+  "no_model_fitting": true,
+  "limitations": ["P7G support-stratified and first-recorded detection strata are descriptive and may be sparse.", "Residual dependence remains positive and is not a refitted spatial holdout.", "Predictors are correlated and the retained P4 coefficient-bootstrap stability artifact is unavailable.", "P2 remains retrospective realized-environment evaluation; E0 is the qualified issue-time proxy.", "The validated Atlas environment lacks testthat; this is a tooling limitation, not a scientific result."],
+  "no_release_tag": true
+}

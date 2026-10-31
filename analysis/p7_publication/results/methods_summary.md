@@ -1,21 +1,11 @@
 # Methods Summary
 
-The analysis uses weekly node-level observations on the frozen 25 x 25 km
-canonical grid covering Mexico and the established United States footprint
-south of 40 degrees north. `STRUCTURED_A3` is a penalized spatiotemporal
-hurdle model with a Bernoulli/logistic occurrence component and a zero-truncated
-negative-binomial conditional positive-count component. The frozen schema has
-34 predictors and is defined by the P0 production-freeze manifest.
+The analysis uses weekly node-level observations on the frozen 25 x 25 km canonical grid. `STRUCTURED_A3` is a penalized spatiotemporal hurdle model with a Bernoulli/logistic occurrence component and a zero-truncated negative-binomial conditional positive-count component. The frozen schema has 34 predictors and is defined by the P0 production-freeze manifest.
 
-Qualification used retrospective rolling-origin evaluation at h=1, h=2, and
-h=3, with the canonical P1 transfer regimes, P2 calibration and count metrics,
-bounded P3 frontier/partition/count/initialization sensitivity, P4 uncertainty
-and support classification, P5 operational-contract testing, P5A issue-time
-environmental proxy comparison, and P6 hardening/restart/provenance validation.
+Qualification used retrospective rolling-origin evaluation at h=1, h=2, and h=3, with canonical P1 transfer regimes, P2 calibration and count metrics, bounded P3 sensitivity, P4 uncertainty and support classification, P5 operational-contract testing, P5A issue-time environmental proxy comparison, and P6 hardening/restart/provenance validation.
 
-The operational environmental state is `E0_LAST_AVAILABLE`: the latest
-legitimately available environmental observation at issue time, held constant
-for h=1--3. Support classes use the unchanged P4 reference distribution and
-thresholds. Production output includes occurrence risk, conditional positive
-count, full hurdle expected count, uncertainty/support fields, warnings, and
-complete provenance. Primary results are read from tracked P1--P6 outputs.
+P7G manuscript diagnostics reused the immutable P2 prediction archive and P4 support classifications. Spatial dependence used the canonical queen graph and exact shortest-path shells 1--4; residual occurrence was `observed_positive - p_occurrence`, residual positive count was defined against the conditional count mean, and full-hurdle residuals used the observed count minus expected count. Temporal dependence used same-cell exact ISO-week lags 1--3 within horizon. These are descriptive dependence diagnostics and are not a refitted spatial holdout.
+
+First-recorded detections were defined from prediction-time previously-unoccupied rows and ranked by fixed midranks within the prespecified full-domain and frontier-relative pools. Predictor dependence used Pearson and Spearman correlations among the 34 frozen predictors in the P4 training reference, with warning thresholds of absolute correlation 0.70 and 0.90. Standardized association contrasts used the P7G fitted-scale contrast definitions and are reported as conditional predictive associations; no new importance method or coefficient-bootstrap interval was introduced.
+
+Support-stratified calibration used the unchanged P4 support classes and fixed ten-bin summaries with 199 target-week block-bootstrap replicates. The operational environmental state remains `E0_LAST_AVAILABLE`, held across h=1--3. Production output includes occurrence risk, conditional positive count, full hurdle expected count, uncertainty/support fields, warnings, and provenance.

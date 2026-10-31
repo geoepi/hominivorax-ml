@@ -1,0 +1,43 @@
+{
+  "schema_version": "P7H_MANUSCRIPT_INTEGRATION_1.0",
+  "canonical_main_sha_at_build": "5660ebf2d8b94e87c3d36bf83788ac428c1eb05b",
+  "frozen_model": {
+    "model_id": "STRUCTURED_A3",
+    "sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e"
+  },
+  "p7g_manifest": "analysis/p7g_manuscript_evidence/results/p7g_reproducibility_manifest.json",
+  "p7g_manifest_sha256": "efbc95b803a532e0e40db45c51329ca4f9a71c052a950c67432246d2490c7cf8",
+  "p7g_decision": "P7G_MANUSCRIPT_EVIDENCE_COMPLETE_WITH_LIMITATIONS",
+  "p7g_atlas_job_id": "21069366",
+  "no_model_fitting": true,
+  "output_hashes_excluding_manifest": {
+    "analysis/p7h_manuscript_integration/p7h_prespecification.md": "bfe20f03814cdf1849125e459e99cf2f41876e385198abd49a964a7ae5bb9909",
+    "analysis/p7h_manuscript_integration/p7h_manuscript_integration_report.md": "acbba6e4e0411850506b917afd2794f9aa1a49b9bee71f2cbb56e27d85ba4ffc",
+    "analysis/p7h_manuscript_integration/scripts/build_p7h_manuscript_package.R": "059a9be22ae9932744c42d23bff162881a9ba1194b055c44b26748992e26434b",
+    "analysis/p7h_manuscript_integration/scripts/validate_p7h_outputs.R": "bbb9582dd2ae96a7815c551f1bb616d7026bc0a437f4d871143e974006a87414",
+    "analysis/p7h_manuscript_integration/results/p7h_decision.json": "6fce3708cfee29ea41f1e90810116c25196774895f63df2450afdfce03d57b50",
+    "analysis/p7h_manuscript_integration/results/p7h_numerical_traceability.csv": "aaee434decb6e9cde9f34feb38a3d61e68d6a73c2e9e6289f7c4c583b3cffec9",
+    "analysis/p7h_manuscript_integration/results/predictor_standardized_associations.csv": "28d62c09648d94caf4f4f93b528983d980e823756b2ad763156650520155ddc8",
+    "analysis/p7h_manuscript_integration/results/predictor_dependence_pairs.csv": "105b068fbb282cdc109d8344e11e4ab1175eeed6b148381d0bb17532f8853eff",
+    "analysis/p7h_manuscript_integration/results/support_horizon_calibration_metrics.csv": "f2236ef074d8c4f0cd9afd19810c942a5a61c398241e75160382ef5bfdcfe517",
+    "analysis/p7h_manuscript_integration/results/support_horizon_bootstrap_ci.csv": "f6c1dbc4ef7e735b1e47db37608b3c0c2c56b0a94eeedf4137d3a5365f92562e",
+    "analysis/p7h_manuscript_integration/results/p7h_claim_audit.csv": "acb692114b88b5262ec40e7167427c69442494d262707cbd6a018bae73fe9aa7",
+    "analysis/p7h_manuscript_integration/results/p7h_predictor_figure_replacement.json": "f1b7adc5da0f748a83b7c380bccb3c79fe1ebb4afe89180534226aa6cbce931e",
+    "analysis/p7h_manuscript_integration/results/p7h_source_registry.csv": "936719825445abb4fd0e8e447997982f1d3174e730dbf5cae34356f765d91ae6",
+    "analysis/p7h_manuscript_integration/results/p7h_publication_artifact_registry.csv": "b9650b95d302b93567387f97de3ab7c902d29c2ee6965d58fab98502eb79704e",
+    "analysis/p7h_manuscript_integration/figures/figure_06_predictor_associations_standardized.svg": "124dcb155520672f52809e89d722e6a51b22edbad200a67a79744c529178f0cd",
+    "analysis/p7h_manuscript_integration/figures/figure_06_predictor_associations_standardized.png": "c2634df930b4939b39ac046bc76b01717965ea9bcc2946918a4e272e12e1f837",
+    "analysis/p7_publication/results/claim_registry.csv": "aa4e21ff8ec9531f34067f462c7655d647d67923e3ba8bb63eae2957a2ce5cf4",
+    "analysis/p7_publication/results/methods_summary.md": "e8da79f4093ee09bf4836214254919903f69e23673f91f537db5f7504007fe66",
+    "analysis/p7_publication/results/results_draft.md": "febb2c4187286126ee3c5ffea3ba9b57fefee4923189b411a104c0d3cf8012d8",
+    "analysis/p7_publication/results/results_synthesis.md": "20773928d617275f01f5d2bba628bf6a356c377e04bd2daf47106bf929c571ab",
+    "analysis/p7_publication/results/limitations_draft.md": "f655ec0e00ad3d61601c5a53b0d52ec5e47bc38ae1227189218197470866dec8",
+    "analysis/p7_publication/results/discussion_outline.md": "d216efda5870e966db220da282adf3f1175a2d702140c991f4229819553929aa",
+    "analysis/p7_publication/results/publication_reviewer_checklist.md": "b10ada6e9ec16420115de0da6aad8cb7c6dfb2e69db06ff8557b37f1dc9773bb",
+    "analysis/p7_publication/tables/table_5_limitation_summary.csv": "64df4af6549488559de05886bd015f659776f8c850887c5089914a325ae38d83",
+    "analysis/p7_publication/p7_publication_report.md": "54a995b0eac53e95a68b0d3e20904b45ccf13fc48c87eda3949468158be324d6",
+    "analysis/p7f_final_figures/results/figure_source_registry.csv": "7cc9455313be786536dcdd6e324da71fd7d110e8611dbc8746808ebf892c12eb",
+    "analysis/p7f_final_figures/captions/final_captions.md": "0506d506c8ae4e0ba7efeaaedf2d16f31d52328881568eca7b811166fad2491d"
+  },
+  "generation_timestamp_utc": "2026-10-31 00:44:44 UTC"
+}
