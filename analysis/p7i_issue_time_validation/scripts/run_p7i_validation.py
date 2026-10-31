@@ -934,6 +934,7 @@ def aggregate(args: argparse.Namespace, context: dict[str, Any], statuses: list[
         "compact_output_files": sorted(str(path.relative_to(result_root)) for path in result_root.glob("*")),
         "figure_paths": figure_paths,
         "equivalence_status": equivalence_status,
+        "v3_status": "COMPUTED_REALIZED_ENVIRONMENT_WITH_ORIGIN_BOUNDED_HISTORY",
         "issue_time_decision": issue_decision,
         "frontier_decision": frontier_decision_value,
         "overall_decision": overall,
