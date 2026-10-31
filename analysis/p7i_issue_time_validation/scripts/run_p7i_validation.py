@@ -924,6 +924,7 @@ def aggregate(args: argparse.Namespace, context: dict[str, Any], statuses: list[
         "p4_support_sha256": sha256_file(args.p4_root / "support_classifications.parquet"),
         "p5a_output_root": str(args.p5a_root),
         "origins": ORIGINS,
+        "origin_count": len(statuses),
         "horizons": list(HORIZONS),
         "variants": VARIANTS,
         "no_model_fitting": True,
