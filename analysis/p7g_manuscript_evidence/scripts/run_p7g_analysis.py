@@ -380,7 +380,9 @@ def predictor_analysis(args: argparse.Namespace, output: Path) -> dict[str, Any]
     require(model.get("feature_order") == list(FEATURE_ORDER), "frozen model feature order changed")
     require(len(model.get("occurrence_coefficients", [])) == FEATURE_COUNT + 1 and len(model.get("count_coefficients", [])) == FEATURE_COUNT + 1, "frozen coefficient length changed")
     scaling = pd.read_csv(args.scaling_csv)
-    require(list(scaling["predictor"].astype(str)) == list(FEATURE_ORDER), "frozen scaling order changed")
+    scaling_name_column = "predictor" if "predictor" in scaling.columns else ("feature" if "feature" in scaling.columns else None)
+    require(scaling_name_column is not None, "frozen scaling schema lacks feature-name column")
+    require(list(scaling[scaling_name_column].astype(str)) == list(FEATURE_ORDER), "frozen scaling order changed")
     assoc_rows: list[dict[str, Any]] = []
     occ_beta = np.asarray(model["occurrence_coefficients"], dtype=float)[1:]
     count_beta = np.asarray(model["count_coefficients"], dtype=float)[1:]
