@@ -767,14 +767,16 @@ def assess_decision(fold_metrics: pd.DataFrame, spatial: pd.DataFrame, hybrid_au
             "pr_auc_seed_sd": float(seed_values.std(ddof=0)),
             "no_major_seed_collapse": bool(seed_values.std(ddof=0) <= 0.05),
         }
-        count_reproduction = True
+        count_reproduction: bool | str = "not_applicable"
         if candidate == "A5B-HYBRID":
             count_reproduction = bool(hybrid_valid and not hybrid_audit.empty and hybrid_audit["a4s_component_reproduced"].astype(bool).all() and hybrid_audit[["conditional_max_abs_difference", "mu_max_abs_difference"]].to_numpy(dtype=float).max() <= 1e-12)
+        stability_ok = bool(stability["convergence_failures"] == 0 and stability["finite_predictions"] and stability["no_major_seed_collapse"])
+        count_ok = bool(count_reproduction) if candidate == "A5B-HYBRID" else True
         assessments[candidate] = {
             "complete": True, "predictive_guardrails": predictive, "occurrence_shell_reduction_vs_a3": shell_reduction,
             "outer_shell_worst_worsening": outer_worsening, "spatial_guardrails": spatial_guard,
             "seed_stability": stability, "a4s_count_reproduction": count_reproduction,
-            "all_guardrails": bool(all(predictive.values()) and all(spatial_guard.values()) and stability["convergence_failures"] == 0 and stability["finite_predictions"] and stability["no_major_seed_collapse"] and count_reproduction),
+            "all_guardrails": bool(all(predictive.values()) and all(spatial_guard.values()) and stability_ok and count_ok),
             "mean_metrics": {metric: float(group[metric].mean()) for metric in REQUIRED_METRICS},
             "mean_metrics_a3": a3_mean, "mean_metrics_a5_gnn_nope": nope_mean,
         }
@@ -795,6 +797,7 @@ def assess_decision(fold_metrics: pd.DataFrame, spatial: pd.DataFrame, hybrid_au
         selected = None
     a3_occ = spatial_mean.loc[(spatial_mean["candidate"].eq("A3")) & (spatial_mean["residual"].eq("occurrence"))].set_index("shell")["moran_i"]
     selected_assessment = assessments.get(selected, {}) if selected else {}
+    hybrid_count_reproduced = bool(assessments.get("A5B-HYBRID", {}).get("a4s_count_reproduction", False))
     evidence = {
         "decision": decision, "selected_candidate": selected, "development_classification": "DEVELOPMENT_INFORMED_FOLLOWUP",
         "a3": a3_mean, "a5_gnn_nope": nope_mean, "candidate_assessments": assessments,
@@ -803,8 +806,8 @@ def assess_decision(fold_metrics: pd.DataFrame, spatial: pd.DataFrame, hybrid_au
             "improved_beyond_a5_gnn_nope": bool(selected_assessment.get("spatial_guardrails", {}).get("larger_shell_mean_improves_over_a5_gnn_nope", False)),
             "sustained_through_shells_2_to_4": bool(selected_assessment.get("spatial_guardrails", {}).get("shell2_to_4_not_worse_than_0.01", False)),
             "predictive_discrimination_and_calibration_acceptable": bool(all(selected_assessment.get("predictive_guardrails", {}).values())) if selected else False,
-            "hybrid_preserved_frozen_a4s_count": bool(selected_assessment.get("a4s_count_reproduction", False)) if selected else False,
-            "component_specific_treatments_supported": bool(selected == "A5B-HYBRID" and selected_assessment.get("a4s_count_reproduction", False)),
+            "hybrid_preserved_frozen_a4s_count": hybrid_count_reproduced,
+            "component_specific_treatments_supported": hybrid_count_reproduced,
         },
         "a3_first_shell_occurrence_moran": float(a3_occ.loc[1]) if 1 in a3_occ.index else None,
         "a5_prior_decision_preserved": "A5_GNN_NOT_SUPPORTED",
