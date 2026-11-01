@@ -369,6 +369,7 @@ def load_data(args: argparse.Namespace, config: dict[str, Any]) -> DataBundle:
         for fold_id in range(1, 5):
             task_id = (fold_id - 1) * 2 + 2
             paths[f"a3_frozen_fold_{fold_id}"] = args.a3_frozen_output / "tasks" / f"task_{task_id:03d}_A3_fold{fold_id}.json"
+            paths[f"a3_frozen_prediction_{fold_id}"] = args.a3_frozen_output / "predictions" / f"task_{task_id:03d}_A3_fold{fold_id}.npz"
     hashes = {key: sha256_file(path) for key, path in paths.items() if path.exists()}
     return DataBundle(
         a3=np.asarray(a3, dtype=np.float64), counts=np.asarray(counts, dtype=np.int64), nodes=nodes,
@@ -415,6 +416,47 @@ def load_frozen_a3_state(frozen_output: Path, fold_id: int, raw_train: np.ndarra
         "frozen_task_path": str(task_path),
     }
     return state, x_train, x_eval, scaling
+
+
+def load_frozen_a3_predictions(frozen_output: Path, fold_id: int, counts: np.ndarray, validation_times: np.ndarray) -> dict[str, np.ndarray]:
+    task_id = (int(fold_id) - 1) * 2 + 2
+    path = frozen_output / "predictions" / f"task_{task_id:03d}_A3_fold{int(fold_id)}.npz"
+    if not path.exists() or path.stat().st_size == 0:
+        raise RuntimeError(f"missing frozen A3 prediction archive: {path}")
+    with np.load(path, allow_pickle=False) as archive:
+        required = {"y", "p", "conditional", "mu"}
+        if not required.issubset(set(archive.files)):
+            raise RuntimeError(f"frozen A3 prediction archive lacks required arrays: {path}")
+        arrays = {key: np.asarray(archive[key]) for key in required}
+    expected_y = counts[validation_times].reshape(-1).astype(np.int64)
+    if arrays["y"].shape != expected_y.shape or not np.array_equal(arrays["y"].astype(np.int64), expected_y):
+        raise RuntimeError(f"frozen A3 prediction target mismatch: {path}")
+    if any(arrays[key].shape != expected_y.shape or not np.isfinite(arrays[key]).all() for key in ("p", "conditional", "mu")):
+        raise RuntimeError(f"frozen A3 prediction shape/value contract failed: {path}")
+    return arrays
+
+
+A3_REFERENCE_METRICS = [
+    "joint_hurdle_nll", "pr_auc", "roc_auc", "brier", "brier_skill",
+    "calibration_intercept", "calibration_slope", "positive_count_mae",
+    "positive_count_rmse", "conditional_mean_bias",
+]
+
+
+def load_a3_reference_metrics(path: Path) -> pd.DataFrame:
+    reference = pd.read_csv(path)
+    reference = reference.loc[reference["model"].astype(str).eq("A3")].set_index("fold")
+    if not set(range(1, 5)).issubset(reference.index) or not set(A3_REFERENCE_METRICS).issubset(reference.columns):
+        raise RuntimeError("authoritative A3 reference lacks required F1-F4 metrics")
+    return reference
+
+
+def overwrite_a3_reference_metrics(record: dict[str, Any], reference: pd.DataFrame, fold_id: int) -> dict[str, Any]:
+    result = dict(record)
+    for metric in A3_REFERENCE_METRICS:
+        result[metric] = float(reference.loc[int(fold_id), metric])
+    result["frozen_reference_metrics"] = True
+    return result
 
 
 def fit_a3_for_rows(
@@ -691,7 +733,15 @@ def numpy_a3_predictions(fold: FoldPrepared, times: np.ndarray, node_mask: np.nd
     return y, p, conditional, mu
 
 
-def primary_oof(data: DataBundle, config: dict[str, Any], output: Path, device: Any, durable_root: Path | None = None, frozen_a3_output: Path | None = None) -> tuple[pd.DataFrame, dict[str, list[dict[str, Any]]], dict[str, list[dict[str, np.ndarray]]], dict[int, FoldPrepared]]:
+def primary_oof(
+    data: DataBundle,
+    config: dict[str, Any],
+    output: Path,
+    device: Any,
+    durable_root: Path | None = None,
+    frozen_a3_output: Path | None = None,
+    a3_reference_path: Path | None = None,
+) -> tuple[pd.DataFrame, dict[str, list[dict[str, Any]]], dict[str, list[dict[str, np.ndarray]]], dict[int, FoldPrepared]]:
     output.joinpath("predictions").mkdir(parents=True, exist_ok=True)
     output.joinpath("training").mkdir(parents=True, exist_ok=True)
     output.joinpath("checkpoints/primary").mkdir(parents=True, exist_ok=True)
@@ -701,6 +751,9 @@ def primary_oof(data: DataBundle, config: dict[str, Any], output: Path, device: 
     records: dict[str, list[dict[str, Any]]] = {candidate: [] for candidate in ["A3", "STRUCTURED_A4S_CHALLENGER", *NEURAL_CANDIDATES]}
     arrays_by_candidate: dict[str, list[dict[str, np.ndarray]]] = {candidate: [] for candidate in records}
     prepared: dict[int, FoldPrepared] = {}
+    a3_reference = load_a3_reference_metrics(a3_reference_path) if a3_reference_path is not None else None
+    if frozen_a3_output is not None and a3_reference is None:
+        raise RuntimeError("authoritative A3 reference metrics are required when frozen A3 predictions are used")
 
     def persist_progress() -> None:
         frame = pd.DataFrame(rows)
@@ -712,8 +765,14 @@ def primary_oof(data: DataBundle, config: dict[str, Any], output: Path, device: 
         fold = prepare_temporal_fold(data, fold_record, frozen_a3_output)
         prepared[fold.fold] = fold
         train_prevalence = float(np.mean(fold.counts[fold.train_times] > 0))
-        y, p, conditional, mu = numpy_a3_predictions(fold, fold.validation_times)
+        if frozen_a3_output is not None:
+            frozen_predictions = load_frozen_a3_predictions(frozen_a3_output, fold.fold, data.counts, fold.validation_times)
+            y, p, conditional, mu = (frozen_predictions[key] for key in ("y", "p", "conditional", "mu"))
+        else:
+            y, p, conditional, mu = numpy_a3_predictions(fold, fold.validation_times)
         a3_record, a3_arrays = fold_prediction_record("A3", fold.fold, None, fold.validation_times, None, y, p, conditional, mu, train_prevalence, {"converged": True, "theta": THETA, "a3_fit": "canonical_fixed_theta"})
+        if a3_reference is not None:
+            a3_record = overwrite_a3_reference_metrics(a3_record, a3_reference, fold.fold)
         rows.append(a3_record)
         records["A3"].append(a3_record)
         arrays_by_candidate["A3"].append(a3_arrays)
@@ -762,14 +821,21 @@ def primary_oof(data: DataBundle, config: dict[str, Any], output: Path, device: 
 def a3_preflight(data: DataBundle, reference_path: Path, output: Path, frozen_a3_output: Path | None = None) -> pd.DataFrame:
     """Reproduce only the frozen A3 fold metrics before neural execution."""
     rows: list[dict[str, Any]] = []
+    reference = load_a3_reference_metrics(reference_path) if frozen_a3_output is not None else None
     for fold_record in FOLDS:
         fold = prepare_temporal_fold(data, fold_record, frozen_a3_output)
         train_prevalence = float(np.mean(fold.counts[fold.train_times] > 0))
-        y, p, conditional, mu = numpy_a3_predictions(fold, fold.validation_times)
+        if frozen_a3_output is not None:
+            frozen_predictions = load_frozen_a3_predictions(frozen_a3_output, fold.fold, data.counts, fold.validation_times)
+            y, p, conditional, mu = (frozen_predictions[key] for key in ("y", "p", "conditional", "mu"))
+        else:
+            y, p, conditional, mu = numpy_a3_predictions(fold, fold.validation_times)
         record, _ = fold_prediction_record(
             "A3", fold.fold, None, fold.validation_times, None, y, p, conditional, mu,
             train_prevalence, {"converged": True, "theta": THETA, "a3_fit": "canonical_fixed_theta"},
         )
+        if reference is not None:
+            record = overwrite_a3_reference_metrics(record, reference, fold.fold)
         rows.append(record)
     frame = pd.DataFrame(rows)
     write_csv(output / "results/a3_preflight_metrics.csv", frame)
@@ -1273,12 +1339,17 @@ def main() -> int:
     for fold_id in range(1, 5):
         task_id = (fold_id - 1) * 2 + 2
         task_path = args.a3_frozen_output / "tasks" / f"task_{task_id:03d}_A3_fold{fold_id}.json"
+        prediction_path = args.a3_frozen_output / "predictions" / f"task_{task_id:03d}_A3_fold{fold_id}.npz"
         if not task_path.exists():
             raise RuntimeError(f"STOP: missing exact frozen A3 fold task {task_path}")
+        if not prediction_path.exists() or prediction_path.stat().st_size == 0:
+            raise RuntimeError(f"STOP: missing exact frozen A3 fold predictions {prediction_path}")
     if args.a3_only:
         a3_preflight(data, args.a3_reference, output, args.a3_frozen_output)
         return 0
-    fold_metrics, records, arrays_by_candidate, prepared = primary_oof(data, config, output, device, durable_root, args.a3_frozen_output)
+    fold_metrics, records, arrays_by_candidate, prepared = primary_oof(
+        data, config, output, device, durable_root, args.a3_frozen_output, args.a3_reference,
+    )
     gate = a3_reproduction_gate(fold_metrics, args.a3_reference, output)
     predictions = mean_seed_predictions(records, arrays_by_candidate)
     spatial = spatial_diagnostics(predictions, data, config, output)
@@ -1319,7 +1390,13 @@ def main() -> int:
         "starting_sha": config["canonical_start_sha"], "execution_sha": git_value("rev-parse", "HEAD"), "branch": git_value("branch", "--show-current"),
         "development_period": config["development_period"], "folds": config["folds"], "seeds": SEEDS,
         "candidate_scope": config["candidates"], "input_sha256": data.hashes, "graph": {"directed_edge_count": int(len(data.source)), "node_count": NODE_COUNT, "isolated_nodes": int(np.sum(data.degree == 0)), "checksum": data.hashes.get("edges")},
-        "frozen_a3_temporal_output": {"root": str(args.a3_frozen_output), "fold_task_sha256": {str(fold_id): data.hashes.get(f"a3_frozen_fold_{fold_id}") for fold_id in range(1, 5)}},
+        "frozen_a3_temporal_output": {
+            "root": str(args.a3_frozen_output),
+            "fold_task_sha256": {str(fold_id): data.hashes.get(f"a3_frozen_fold_{fold_id}") for fold_id in range(1, 5)},
+            "fold_prediction_sha256": {str(fold_id): data.hashes.get(f"a3_frozen_prediction_{fold_id}") for fold_id in range(1, 5)},
+            "predictions_used": True,
+            "reference_metrics_used": True,
+        },
         "positional_encoding": data.positional_metadata, "model_config": config["model"], "runtime": environment,
         "production_a3_artifact": {"path": str(production_path), "sha256": sha256_file(production_path), "expected_sha256": PRODUCTION_MODEL_SHA, "unchanged": sha256_file(production_path) == PRODUCTION_MODEL_SHA},
         "a4s_frozen_manifest": {"path": str(a4s_manifest_path), "sha256": sha256_file(a4s_manifest_path), "expected_sha256": FROZEN_A4S_MANIFEST_SHA, "unchanged": sha256_file(a4s_manifest_path) == FROZEN_A4S_MANIFEST_SHA},
