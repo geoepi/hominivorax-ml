@@ -337,8 +337,6 @@ def make_gp_model(gpb: Any, candidate: str, coords: np.ndarray, seed: int, confi
         num_parallel_threads=min(16, os.cpu_count() or 1),
         num_neighbors=gp["num_neighbors"],
         vecchia_ordering=gp["vecchia_ordering_spatiotemporal"] if space_time else gp["vecchia_ordering_spatial"],
-        vecchia_pred_type=gp["vecchia_pred_type"],
-        num_neighbors_pred=gp["num_neighbors_pred"],
         seed=seed,
     )
 
@@ -457,7 +455,7 @@ def choose_rounds(gpb: Any, candidate: str, fold: A5.FoldPrepared, seed: int, co
 
 def predict_booster(booster: Any, gp: Any | None, candidate: str, x: np.ndarray, offset: np.ndarray, coords: np.ndarray, rounds: int, config: dict[str, Any]) -> np.ndarray:
     if gp is None:
-        raw = np.asarray(booster.predict(x, raw_score=True, num_iteration=int(rounds)), dtype=float) + offset
+        raw = np.asarray(booster.predict(x, pred_latent=True, num_iteration=int(rounds)), dtype=float) + offset
         probability = expit(raw)
     else:
         gp.set_prediction_data(
