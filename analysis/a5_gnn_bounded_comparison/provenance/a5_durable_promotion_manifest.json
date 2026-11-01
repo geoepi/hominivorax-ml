@@ -1,0 +1,79 @@
+{
+  "durable_summary_root": "/project/disease_ecology/STGNN-output/_WORKTREES/a5-gnn-bounded-comparison/analysis/a5_gnn_bounded_comparison",
+  "files": [
+    {
+      "path": "results/fold_seed_metrics.csv",
+      "sha256": "abff295bf99d9b5e1bfc5229130961a69274bb3f75190411d24418e6a591f265",
+      "size_bytes": 318807
+    },
+    {
+      "path": "results/aggregate_metrics.csv",
+      "sha256": "7fb2e62d8ab82e047b839db07d698610a24d540c5e61af27145e990706cdae1b",
+      "size_bytes": 9149
+    },
+    {
+      "path": "results/a3_baseline_reproduction.csv",
+      "sha256": "15376014b01160787f15d7957eb09b134606842957ccfd02688335949e5a25ac",
+      "size_bytes": 2858
+    },
+    {
+      "path": "results/residual_spatial_summary.csv",
+      "sha256": "81993b188cf3b204d31ba1d22161485cf6168cd367c68edc32c958439d240353",
+      "size_bytes": 6504
+    },
+    {
+      "path": "results/residual_temporal_summary.csv",
+      "sha256": "90a0cbafc50210ecbe0e71dad6bcd8c233e6c75007c0babee5954058020e086a",
+      "size_bytes": 2459
+    },
+    {
+      "path": "results/frontier_metrics.csv",
+      "sha256": "ced4684cc6920a3deb5e94d2367d043ce7068e8ae480470eb6591ee28fab51ba",
+      "size_bytes": 99068
+    },
+    {
+      "path": "results/spatial_stress_metrics.csv",
+      "sha256": "1d9ab9d939f3a3086578fd7fd5d13b4e2422dd1bd679305bdbadf7da0194c834",
+      "size_bytes": 138237
+    },
+    {
+      "path": "results/spatial_stress_status.json",
+      "sha256": "f0dd467ce1ec44cdbd1635a94df4e83871f8a51319e6242508738a748e543330",
+      "size_bytes": 104
+    },
+    {
+      "path": "results/a5_decision.json",
+      "sha256": "63472eaafb71e0f940a6176845ed56c1998759327df7c5abd9c1dcbe5d0b2a10",
+      "size_bytes": 1505
+    },
+    {
+      "path": "figures/figure_generation_status.json",
+      "sha256": "92767ae20c8655ff3e35eb4b876b46d21a16c942104f8afc5204152d641ebe2d",
+      "size_bytes": 75
+    },
+    {
+      "path": "provenance/a5_analysis_manifest.json",
+      "sha256": "8406a7d79456816aefdd40941876e572908652e2b622f1186a7d47485686c3d1",
+      "size_bytes": 14131
+    },
+    {
+      "path": "provenance/feature_target_access_audit.json",
+      "sha256": "647771045b67fa01749e00c08606d6f68c76c7e1b899ea79e5dd3cc72d3da5b7",
+      "size_bytes": 721
+    },
+    {
+      "path": "provenance/checksum_manifest.json",
+      "sha256": "babdce6fc739a482f7144c17e9b501f290f753a079a319d7b13bae81c7bb45ac",
+      "size_bytes": 21653
+    },
+    {
+      "path": "final_decision_report.md",
+      "sha256": "b1d5fab9b9072f2adb651a463048e6402c53b27e4a0b615ab63762d47c59daf6",
+      "size_bytes": 6115
+    }
+  ],
+  "source_output_root": "/90daydata/disease_ecology/hominivorax-ml/a5_gnn_bounded_comparison/run_20261101T201500Z_b33a2ab",
+  "status": "COMPLETED",
+  "storage_class": "DURABLE_PROJECT_ARTIFACTS",
+  "temporary_storage_warning": "TEMPORARY_90DAY_STORAGE large products remain under /90daydata and are automatically removed after 90 days without activity."
+}

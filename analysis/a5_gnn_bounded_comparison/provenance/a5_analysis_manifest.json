@@ -1,0 +1,366 @@
+{
+  "a3_reproduction_max_difference": 0.0,
+  "a4s_frozen_manifest": {
+    "expected_sha256": "156ab650b8fa79f7a4fe390f3687ca53212fbf37fb7e9963ba91b9f70c9b68af",
+    "path": "/project/disease_ecology/STGNN-output/_WORKTREES/a5-gnn-bounded-comparison/analysis/structured_a4s_deferred_validation/results/frozen_a4s_challenger_manifest.json",
+    "sha256": "156ab650b8fa79f7a4fe390f3687ca53212fbf37fb7e9963ba91b9f70c9b68af",
+    "unchanged": true
+  },
+  "analysis": "a5_gnn_bounded_comparison",
+  "branch": "feature/a5-gnn-bounded-comparison",
+  "candidate_scope": [
+    "A3",
+    "STRUCTURED_A4S_CHALLENGER",
+    "A5-PE",
+    "A5-GNN-NOPE",
+    "A5-GNN"
+  ],
+  "decision": "A5_GNN_NOT_SUPPORTED",
+  "development_period": {
+    "end": "2026-W16",
+    "forbidden_response_period": "2026-W17 onward",
+    "forbidden_selection_periods": [
+      "2026-W17 onward",
+      "2026-W30 through 2026-W39"
+    ],
+    "start": "2025-W01",
+    "week_count": 68
+  },
+  "durable_promotion": {
+    "durable_summary_root": "/project/disease_ecology/STGNN-output/_WORKTREES/a5-gnn-bounded-comparison/analysis/a5_gnn_bounded_comparison",
+    "files": [
+      {
+        "path": "results/fold_seed_metrics.csv",
+        "sha256": "abff295bf99d9b5e1bfc5229130961a69274bb3f75190411d24418e6a591f265",
+        "size_bytes": 318807
+      },
+      {
+        "path": "results/aggregate_metrics.csv",
+        "sha256": "7fb2e62d8ab82e047b839db07d698610a24d540c5e61af27145e990706cdae1b",
+        "size_bytes": 9149
+      },
+      {
+        "path": "results/a3_baseline_reproduction.csv",
+        "sha256": "15376014b01160787f15d7957eb09b134606842957ccfd02688335949e5a25ac",
+        "size_bytes": 2858
+      },
+      {
+        "path": "results/residual_spatial_summary.csv",
+        "sha256": "81993b188cf3b204d31ba1d22161485cf6168cd367c68edc32c958439d240353",
+        "size_bytes": 6504
+      },
+      {
+        "path": "results/residual_temporal_summary.csv",
+        "sha256": "90a0cbafc50210ecbe0e71dad6bcd8c233e6c75007c0babee5954058020e086a",
+        "size_bytes": 2459
+      },
+      {
+        "path": "results/frontier_metrics.csv",
+        "sha256": "ced4684cc6920a3deb5e94d2367d043ce7068e8ae480470eb6591ee28fab51ba",
+        "size_bytes": 99068
+      },
+      {
+        "path": "results/spatial_stress_metrics.csv",
+        "sha256": "1d9ab9d939f3a3086578fd7fd5d13b4e2422dd1bd679305bdbadf7da0194c834",
+        "size_bytes": 138237
+      },
+      {
+        "path": "results/spatial_stress_status.json",
+        "sha256": "f0dd467ce1ec44cdbd1635a94df4e83871f8a51319e6242508738a748e543330",
+        "size_bytes": 104
+      },
+      {
+        "path": "results/a5_decision.json",
+        "sha256": "63472eaafb71e0f940a6176845ed56c1998759327df7c5abd9c1dcbe5d0b2a10",
+        "size_bytes": 1505
+      },
+      {
+        "path": "figures/figure_generation_status.json",
+        "sha256": "92767ae20c8655ff3e35eb4b876b46d21a16c942104f8afc5204152d641ebe2d",
+        "size_bytes": 75
+      },
+      {
+        "path": "provenance/a5_analysis_manifest.json",
+        "sha256": "51f87fe717ed45216fc4efd6168b3422d4179a5f9b53eef2c14c55b34eb686ca",
+        "size_bytes": 11067
+      },
+      {
+        "path": "provenance/feature_target_access_audit.json",
+        "sha256": "647771045b67fa01749e00c08606d6f68c76c7e1b899ea79e5dd3cc72d3da5b7",
+        "size_bytes": 721
+      },
+      {
+        "path": "provenance/checksum_manifest.json",
+        "sha256": "037f96c56894ee5796277028349bb8af7473d78fb146b09bd09f5846554e5c8c",
+        "size_bytes": 21653
+      },
+      {
+        "path": "final_decision_report.md",
+        "sha256": "b1d5fab9b9072f2adb651a463048e6402c53b27e4a0b615ab63762d47c59daf6",
+        "size_bytes": 6115
+      }
+    ],
+    "source_output_root": "/90daydata/disease_ecology/hominivorax-ml/a5_gnn_bounded_comparison/run_20261101T201500Z_b33a2ab",
+    "status": "COMPLETED",
+    "storage_class": "DURABLE_PROJECT_ARTIFACTS",
+    "temporary_storage_warning": "TEMPORARY_90DAY_STORAGE large products remain under /90daydata and are automatically removed after 90 days without activity."
+  },
+  "evidence": {
+    "a3": {
+      "brier_skill": 0.37067938957048735,
+      "calibration_intercept": 0.10313514313819724,
+      "calibration_slope": 1.185496155472436,
+      "joint_hurdle_nll": 0.07633329000869966,
+      "pr_auc": 0.47413505691593183
+    },
+    "a5_gnn": {
+      "brier_skill": 0.3638900589314451,
+      "calibration_intercept": -0.2108367503200279,
+      "calibration_slope": 1.020717708357792,
+      "joint_hurdle_nll": 0.07619987970506677,
+      "pr_auc": 0.5137387653983486
+    },
+    "decision": "A5_GNN_NOT_SUPPORTED",
+    "graph_ablation": {
+      "gnn_joint_nll_not_worse": true,
+      "graph_structural_advantage": false
+    },
+    "positional_interpretation": null,
+    "predictive_preservation": {
+      "calibration_intercept": true,
+      "calibration_slope": true,
+      "joint_hurdle_nll": true,
+      "mean_brier_skill": true,
+      "mean_pr_auc": true,
+      "worst_fold_pr_auc": true
+    },
+    "seed_stability": {
+      "convergence_failures": 0,
+      "no_severe_seed_instability": true,
+      "pr_auc_seed_sd": 0.0033469186665952225
+    },
+    "spatial_guardrails": {
+      "occurrence": false,
+      "positive_count": false
+    },
+    "spatial_improvement": {
+      "occurrence_moran_reduction_vs_a3": -0.0077934542225555625,
+      "occurrence_moran_reduction_vs_a4s": -0.012504692477769419,
+      "positive_count_moran_reduction_vs_a3": 9.475886008863954e-05
+    }
+  },
+  "execution_sha": "b33a2ab",
+  "figures": {
+    "reason": "No module named 'matplotlib'",
+    "status": "NOT_RENDERED"
+  },
+  "folds": [
+    {
+      "fold": 1,
+      "train_end": "2025-W26",
+      "train_indices": [
+        0,
+        25
+      ],
+      "train_start": "2025-W01",
+      "validation_end": "2025-W39",
+      "validation_indices": [
+        26,
+        38
+      ],
+      "validation_start": "2025-W27"
+    },
+    {
+      "fold": 2,
+      "train_end": "2025-W39",
+      "train_indices": [
+        0,
+        38
+      ],
+      "train_start": "2025-W01",
+      "validation_end": "2025-W52",
+      "validation_indices": [
+        39,
+        51
+      ],
+      "validation_start": "2025-W40"
+    },
+    {
+      "fold": 3,
+      "train_end": "2025-W52",
+      "train_indices": [
+        0,
+        51
+      ],
+      "train_start": "2025-W01",
+      "validation_end": "2026-W08",
+      "validation_indices": [
+        52,
+        59
+      ],
+      "validation_start": "2026-W01"
+    },
+    {
+      "fold": 4,
+      "train_end": "2026-W08",
+      "train_indices": [
+        0,
+        59
+      ],
+      "train_start": "2025-W01",
+      "validation_end": "2026-W16",
+      "validation_indices": [
+        60,
+        67
+      ],
+      "validation_start": "2026-W09"
+    }
+  ],
+  "frozen_a3_temporal_output": {
+    "fold_prediction_sha256": {
+      "1": "344f4b47ebd09124902035bf3671c3c03beb3a83019989802cb61f56aba15b72",
+      "2": "de9f4a746551d2b402e9f6d8a521df379da423007fd0221c8c4f6c5a078324ce",
+      "3": "774ba3e911dfc572d3dc454fedfd8d379d162d907452d9dc9e128dbc9bd5b031",
+      "4": "6c3a5de7786cd5530d2dcaec1d3c7e087377437cacdf2fc656f4c56cfa2f4969"
+    },
+    "fold_task_sha256": {
+      "1": "c3651efce40c5fb6c02f6bbdb5caa16fc5acca4423f45f73707528026d057d60",
+      "2": "2cced91bb76cff9f0eb4bc03c25f36e3e215541c0778d7574c06b4b1234c5917",
+      "3": "381c5020bc2f43c94573ec65ffcb17b229dacdf93fec52d338d1a11bdef88219",
+      "4": "2804786a9aec0c52163ffdadad5b77530e5ee0e8d8f0655dfbc7b5872f133e74"
+    },
+    "predictions_used": true,
+    "reference_metrics_used": true,
+    "root": "/project/disease_ecology/STGNN-output/structured_a3_final_comparison"
+  },
+  "generated_utc": "2026-11-01T20:09:24+00:00",
+  "graph": {
+    "checksum": "539876a1528c84f2bf7ab97f5b8f20b3da480cb1c705ac47611542e4a00ad9a7",
+    "directed_edge_count": 77614,
+    "isolated_nodes": 3,
+    "node_count": 10037
+  },
+  "input_sha256": {
+    "a3_frozen_fold_1": "c3651efce40c5fb6c02f6bbdb5caa16fc5acca4423f45f73707528026d057d60",
+    "a3_frozen_fold_2": "2cced91bb76cff9f0eb4bc03c25f36e3e215541c0778d7574c06b4b1234c5917",
+    "a3_frozen_fold_3": "381c5020bc2f43c94573ec65ffcb17b229dacdf93fec52d338d1a11bdef88219",
+    "a3_frozen_fold_4": "2804786a9aec0c52163ffdadad5b77530e5ee0e8d8f0655dfbc7b5872f133e74",
+    "a3_frozen_prediction_1": "344f4b47ebd09124902035bf3671c3c03beb3a83019989802cb61f56aba15b72",
+    "a3_frozen_prediction_2": "de9f4a746551d2b402e9f6d8a521df379da423007fd0221c8c4f6c5a078324ce",
+    "a3_frozen_prediction_3": "774ba3e911dfc572d3dc454fedfd8d379d162d907452d9dc9e128dbc9bd5b031",
+    "a3_frozen_prediction_4": "6c3a5de7786cd5530d2dcaec1d3c7e087377437cacdf2fc656f4c56cfa2f4969",
+    "a3_reference": "3d7e58333486505904903746a309a0ae260a6b230f663d29af234b1f14f7c89c",
+    "anthropogenic_features": "cb9c6275141cdad33f3563b1c4125d6f97afd7381325a71dcf20d5e1e76e26c6",
+    "causal_front_features": "7f0f366af90cb3e4da3c3259da9cea01eaccd05c2e22de238f7ae238cfe13dba",
+    "config": "2143f59a2db6fc1d7834427a6760e77dac757515a25f69497428fc6f898d2d10",
+    "dynamic_features": "91e353804469e59851e8eaef7c7fc21b7b26614eaccd1299a9f7666b578705df",
+    "edges": "539876a1528c84f2bf7ab97f5b8f20b3da480cb1c705ac47611542e4a00ad9a7",
+    "model_manifest": "ce60e713ccaf1651f0a9724bd7209c52ee83ee6efa4613a9ffc3b2882b8c74b7",
+    "nodes": "942215b94236e7b01596c6681aaed4d9c54e07f9e7fcbd68313d6b7998d4050a",
+    "soil_features": "58fcd1314c91f4d792ee221e9d9b7d9d01676087ea953b81a602dc2345bfd4b9",
+    "spatial_assignments": "91c50beac1f670b63cb5b4b85e208ebf5f153a69da99ef7775412e744b1f772d",
+    "static_features": "c629df4b9658c11c3330d8b6ddbba1a64ce597df5c722554ea0560a2973e4f75",
+    "targets_count": "651cddb515db515db298a68f94324199387239de9df6e68fc96c8ad75ae96a05",
+    "weeks": "0442ffb577797e82c4fa8c650e0b09c65c487fb774ff9d2f2662885accc42d34"
+  },
+  "model_config": {
+    "activation": "relu",
+    "center_residual": true,
+    "dropout": 0.1,
+    "early_stopping_patience": 8,
+    "gradient_clip_norm": 1.0,
+    "hidden_dim": 16,
+    "inner_monitor_fraction": 0.2,
+    "inner_monitor_min_weeks": 4,
+    "layers": 2,
+    "learning_rate": 0.001,
+    "loss": "exact_joint_hurdle_nll",
+    "max_epochs": 60,
+    "optimizer": "AdamW",
+    "theta": 0.7018903965556372,
+    "weight_decay": 0.0001
+  },
+  "positional_encoding": {
+    "coordinate_mean": [
+      -99.27440356674063,
+      31.521576124850903
+    ],
+    "coordinate_sd": [
+      10.949284831422409,
+      6.360143667235834
+    ],
+    "eigenvalues": [
+      0.0001311493626549522,
+      0.00018170285494706876,
+      0.0004027050068626095,
+      0.0005132046132488703,
+      0.0006945666510578249,
+      0.0010816060948373272,
+      0.0011103564081779498,
+      0.0014584935796361927
+    ],
+    "eigenvector_count": 8,
+    "orientation": "entry with maximum absolute value is positive"
+  },
+  "post_w16_outcomes_used_for_selection": false,
+  "production_a3_artifact": {
+    "expected_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+    "path": "/project/disease_ecology/STGNN-output/_WORKTREES/a5-gnn-bounded-comparison/analysis/structured_a3_evaluation/results/final_a3_model.json",
+    "sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+    "unchanged": true
+  },
+  "prospective_data_loaded": false,
+  "runtime": {
+    "cuda_available": true,
+    "cuda_version": "12.8",
+    "device_used": "cuda",
+    "durable_summary_root": "/project/disease_ecology/STGNN-output/_WORKTREES/a5-gnn-bounded-comparison/analysis/a5_gnn_bounded_comparison",
+    "gpu": "NVIDIA A100-SXM4-80GB",
+    "numpy": "2.5.3",
+    "output_root": "/90daydata/disease_ecology/hominivorax-ml/a5_gnn_bounded_comparison/run_20261101T201500Z_b33a2ab",
+    "pandas": "3.0.6",
+    "python": "3.12.14",
+    "scipy": "1.18.1",
+    "temporary_storage_class": "TEMPORARY_90DAY_STORAGE",
+    "tmpdir": "/90daydata/disease_ecology/hominivorax-ml/a5_gnn_bounded_comparison/run_20261101T201500Z_b33a2ab/tmp",
+    "torch": "2.10.0",
+    "torch_geometric": true,
+    "torch_geometric_temporal": true,
+    "torch_home": "/90daydata/disease_ecology/hominivorax-ml/a5_gnn_bounded_comparison/run_20261101T201500Z_b33a2ab/cache/torch",
+    "xdg_cache_home": "/90daydata/disease_ecology/hominivorax-ml/a5_gnn_bounded_comparison/run_20261101T201500Z_b33a2ab/cache/xdg"
+  },
+  "script_sha256": {
+    "a5_model.py": "d48bf4eddac20317ef9ad31362ff078ea5eb8079fb00e970ac90ec425eeb355d",
+    "config": "2143f59a2db6fc1d7834427a6760e77dac757515a25f69497428fc6f898d2d10",
+    "run_a5_gnn.py": "8aaf79f218b1f3d07ce96451a600648dd170c88dfa148c591ddb6615d50c09f6"
+  },
+  "seeds": [
+    1729,
+    31415,
+    271828
+  ],
+  "sit_included": false,
+  "spatial_stress_test": {
+    "a4s_refit": false,
+    "selection_used": false,
+    "spatial_fold_count": 5,
+    "status": "COMPLETED"
+  },
+  "starting_sha": "6715a4397dad21a77414bd2ce41586751290f374",
+  "status": "completed",
+  "storage": {
+    "durable_summary_root": "/project/disease_ecology/STGNN-output/_WORKTREES/a5-gnn-bounded-comparison/analysis/a5_gnn_bounded_comparison",
+    "output_paths": {
+      "cache": "/90daydata/disease_ecology/hominivorax-ml/a5_gnn_bounded_comparison/run_20261101T201500Z_b33a2ab/cache",
+      "checkpoints": "/90daydata/disease_ecology/hominivorax-ml/a5_gnn_bounded_comparison/run_20261101T201500Z_b33a2ab/checkpoints",
+      "figures_work": "/90daydata/disease_ecology/hominivorax-ml/a5_gnn_bounded_comparison/run_20261101T201500Z_b33a2ab/figures_work",
+      "predictions": "/90daydata/disease_ecology/hominivorax-ml/a5_gnn_bounded_comparison/run_20261101T201500Z_b33a2ab/predictions",
+      "tmp": "/90daydata/disease_ecology/hominivorax-ml/a5_gnn_bounded_comparison/run_20261101T201500Z_b33a2ab/tmp",
+      "training": "/90daydata/disease_ecology/hominivorax-ml/a5_gnn_bounded_comparison/run_20261101T201500Z_b33a2ab/training"
+    },
+    "temporary_output_root": "/90daydata/disease_ecology/hominivorax-ml/a5_gnn_bounded_comparison/run_20261101T201500Z_b33a2ab",
+    "temporary_storage_class": "TEMPORARY_90DAY_STORAGE",
+    "temporary_storage_retention": "90 days without activity"
+  },
+  "w30_w39_used_for_selection": false
+}

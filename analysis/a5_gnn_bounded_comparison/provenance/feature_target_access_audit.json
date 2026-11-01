@@ -1,0 +1,20 @@
+{
+  "feature_blocks": [
+    "standardized_34_predictor_A3_matrix",
+    "frozen_A3_occurrence_offset",
+    "frozen_A3_positive_count_offset",
+    "standardized_lon_lat",
+    "8_response_independent_normalized_laplacian_eigenvectors"
+  ],
+  "forbidden_inputs": [
+    "same_week_outcomes",
+    "future_outcomes",
+    "same_week_residuals",
+    "node_id_embedding",
+    "SIT_or_intervention_proxy"
+  ],
+  "graph_contract": "canonical bidirectional queen adjacency; no persisted self-loops; mean aggregation only",
+  "selection_boundary": "2025-W01 through 2026-W16; F1-F4 only",
+  "status": "PASSED",
+  "target_access": "targets are accessed only by exact hurdle loss, validation metrics, and diagnostics after prediction"
+}

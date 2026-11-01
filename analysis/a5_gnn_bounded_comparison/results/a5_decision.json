@@ -1,0 +1,49 @@
+{
+  "evidence": {
+    "a3": {
+      "brier_skill": 0.37067938957048735,
+      "calibration_intercept": 0.10313514313819724,
+      "calibration_slope": 1.185496155472436,
+      "joint_hurdle_nll": 0.07633329000869966,
+      "pr_auc": 0.47413505691593183
+    },
+    "a5_gnn": {
+      "brier_skill": 0.3638900589314451,
+      "calibration_intercept": -0.2108367503200279,
+      "calibration_slope": 1.020717708357792,
+      "joint_hurdle_nll": 0.07619987970506677,
+      "pr_auc": 0.5137387653983486
+    },
+    "decision": "A5_GNN_NOT_SUPPORTED",
+    "graph_ablation": {
+      "gnn_joint_nll_not_worse": true,
+      "graph_structural_advantage": false
+    },
+    "positional_interpretation": null,
+    "predictive_preservation": {
+      "calibration_intercept": true,
+      "calibration_slope": true,
+      "joint_hurdle_nll": true,
+      "mean_brier_skill": true,
+      "mean_pr_auc": true,
+      "worst_fold_pr_auc": true
+    },
+    "seed_stability": {
+      "convergence_failures": 0,
+      "no_severe_seed_instability": true,
+      "pr_auc_seed_sd": 0.0033469186665952225
+    },
+    "spatial_guardrails": {
+      "occurrence": false,
+      "positive_count": false
+    },
+    "spatial_improvement": {
+      "occurrence_moran_reduction_vs_a3": -0.0077934542225555625,
+      "occurrence_moran_reduction_vs_a4s": -0.012504692477769419,
+      "positive_count_moran_reduction_vs_a3": 9.475886008863954e-05
+    }
+  },
+  "frontier_rows": 40,
+  "primary_decision": "A5_GNN_NOT_SUPPORTED",
+  "temporal_rows": 45
+}
