@@ -138,6 +138,25 @@ STGNN-output/
 !analysis/predictor_augmentation/hpc/
 !analysis/predictor_augmentation/hpc/*.sbatch
 
+# Keep the bounded A5 challenger source and compact audit artifacts tracked;
+# prediction arrays and other large runtime products remain ignored above.
+!analysis/a5_gnn_bounded_comparison/
+!analysis/a5_gnn_bounded_comparison/README.md
+!analysis/a5_gnn_bounded_comparison/prespecification.md
+!analysis/a5_gnn_bounded_comparison/config/
+!analysis/a5_gnn_bounded_comparison/config/*.json
+!analysis/a5_gnn_bounded_comparison/scripts/
+!analysis/a5_gnn_bounded_comparison/scripts/*.py
+!analysis/a5_gnn_bounded_comparison/results/
+!analysis/a5_gnn_bounded_comparison/results/*.csv
+!analysis/a5_gnn_bounded_comparison/results/*.json
+!analysis/a5_gnn_bounded_comparison/results/*.md
+!analysis/a5_gnn_bounded_comparison/provenance/
+!analysis/a5_gnn_bounded_comparison/provenance/*.json
+!analysis/a5_gnn_bounded_comparison/figures/
+!analysis/a5_gnn_bounded_comparison/figures/*.png
+!analysis/a5_gnn_bounded_comparison/figures/*.json
+
 # Keep caches excluded after source-directory unignore rules.
 **/__pycache__/
 **/*.py[cod]

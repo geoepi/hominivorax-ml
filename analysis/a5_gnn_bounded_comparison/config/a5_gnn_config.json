@@ -1,0 +1,85 @@
+{
+  "analysis": "a5_gnn_bounded_comparison",
+  "canonical_start_sha": "6715a4397dad21a77414bd2ce41586751290f374",
+  "production_model": "STRUCTURED_A3",
+  "production_artifact_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+  "frozen_challenger": "STRUCTURED_A4S_CHALLENGER",
+  "development_period": {
+    "start": "2025-W01",
+    "end": "2026-W16",
+    "week_count": 68,
+    "forbidden_response_period": "2026-W17 onward",
+    "forbidden_selection_periods": ["2026-W17 onward", "2026-W30 through 2026-W39"]
+  },
+  "folds": [
+    {"fold": 1, "train_start": "2025-W01", "train_end": "2025-W26", "validation_start": "2025-W27", "validation_end": "2025-W39", "train_indices": [0, 25], "validation_indices": [26, 38]},
+    {"fold": 2, "train_start": "2025-W01", "train_end": "2025-W39", "validation_start": "2025-W40", "validation_end": "2025-W52", "train_indices": [0, 38], "validation_indices": [39, 51]},
+    {"fold": 3, "train_start": "2025-W01", "train_end": "2025-W52", "validation_start": "2026-W01", "validation_end": "2026-W08", "train_indices": [0, 51], "validation_indices": [52, 59]},
+    {"fold": 4, "train_start": "2025-W01", "train_end": "2026-W08", "validation_start": "2026-W09", "validation_end": "2026-W16", "train_indices": [0, 59], "validation_indices": [60, 67]}
+  ],
+  "seeds": [1729, 31415, 271828],
+  "model": {
+    "hidden_dim": 16,
+    "layers": 2,
+    "activation": "relu",
+    "dropout": 0.1,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "gradient_clip_norm": 1.0,
+    "max_epochs": 60,
+    "early_stopping_patience": 8,
+    "inner_monitor_fraction": 0.2,
+    "inner_monitor_min_weeks": 4,
+    "theta": 0.7018903965556372,
+    "center_residual": true,
+    "optimizer": "AdamW",
+    "loss": "exact_joint_hurdle_nll"
+  },
+  "positional_encoding": {
+    "coordinate_features": ["lon", "lat"],
+    "coordinate_standardization": "all canonical nodes, response-independent",
+    "laplacian": "symmetric normalized graph Laplacian; isolated-node diagonal is zero",
+    "eigenvector_count": 8,
+    "eigenvector_orientation": "entry with maximum absolute value is positive",
+    "eigenvector_solver": "scipy.sparse.linalg.eigsh with fixed v0 and tolerance"
+  },
+  "graph": {
+    "artifact": "edges_queen.parquet",
+    "node_count": 10037,
+    "edge_direction": "deterministic bidirectional",
+    "self_loops": "none in persisted adjacency; self information is concatenated by GraphSAGE",
+    "aggregation": "mean over incoming neighbors; zero vector for isolates",
+    "normalization": "row degree mean, with explicit zero-degree handling",
+    "outcome_free": true
+  },
+  "candidates": ["A3", "STRUCTURED_A4S_CHALLENGER", "A5-PE", "A5-GNN-NOPE", "A5-GNN"],
+  "permutation": {"count": 199, "seed": 20261101},
+  "spatial_stress_test": {
+    "partition": "existing deterministic spatial_node_assignments.parquet",
+    "fold_count": 5,
+    "selection_used": false
+  },
+  "storage": {
+    "output_root_env": "A5_GNN_OUTPUT_ROOT",
+    "durable_summary_root_env": "A5_GNN_DURABLE_SUMMARY_ROOT",
+    "temporary_storage_class": "TEMPORARY_90DAY_STORAGE",
+    "large_output_subdirectories": ["checkpoints", "predictions", "training", "tmp", "cache", "figures_work"],
+    "durable_compact_subdirectories": ["results", "provenance", "figures"],
+    "retention_warning": "TEMPORARY_90DAY_STORAGE is automatically removed after 90 days without activity"
+  },
+  "guardrails": {
+    "mean_pr_auc_degradation": 0.02,
+    "mean_brier_skill_degradation": 0.02,
+    "worst_fold_pr_auc_degradation": 0.03,
+    "calibration_intercept_worsening": 0.25,
+    "calibration_slope_worsening": 0.25,
+    "joint_hurdle_nll_worsening": 0.02,
+    "mean_occurrence_moran_reduction": 0.05,
+    "mean_positive_count_moran_reduction": 0.05
+  },
+  "forbidden": {
+    "architectures": ["GConvGRU", "STGNN", "GAT", "GATv2", "GCN", "graph_transformer", "DCRNN", "recurrent_GNN"],
+    "inputs": ["same_week_outcomes", "future_outcomes", "same_week_residuals", "node_id_embedding", "SIT_or_intervention_proxy"],
+    "procedures": ["random_rowwise_cv", "threshold_tuning", "A3_retuning", "A4S_retuning", "production_release"]
+  }
+}
