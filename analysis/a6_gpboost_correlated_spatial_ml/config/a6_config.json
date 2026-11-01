@@ -1,0 +1,92 @@
+{
+  "analysis": "a6_gpboost_correlated_spatial_ml",
+  "parent_a5b_commit": "d6651a8e221e54184c68c098805300723a598276",
+  "parent_a5_decision": "A5_GNN_NOT_SUPPORTED",
+  "parent_a5b_decision": "A5B_NOT_JUSTIFIED",
+  "development_classification": "DEVELOPMENT_INFORMED_FOLLOWUP",
+  "development_period": {
+    "start": "2025-W01",
+    "end": "2026-W16",
+    "week_count": 68,
+    "forbidden_response_period": "2026-W17 onward",
+    "folds": [
+      {"fold": 1, "train_start": "2025-W01", "train_end": "2025-W26", "validation_start": "2025-W27", "validation_end": "2025-W39"},
+      {"fold": 2, "train_start": "2025-W01", "train_end": "2025-W39", "validation_start": "2025-W40", "validation_end": "2025-W52"},
+      {"fold": 3, "train_start": "2025-W01", "train_end": "2025-W52", "validation_start": "2026-W01", "validation_end": "2026-W08"},
+      {"fold": 4, "train_start": "2025-W01", "train_end": "2026-W08", "validation_start": "2026-W09", "validation_end": "2026-W16"}
+    ]
+  },
+  "seeds": [1729, 31415, 271828],
+  "predictors": {
+    "count": 34,
+    "source": "canonical A3 predictor order",
+    "ordinary_tree_features": "standardized_34_A3_predictors_only",
+    "coordinates_are_tree_features": false,
+    "forbidden": ["latitude", "longitude", "laplacian_eigenvectors", "node_embeddings", "graph_shells", "GNN_quantities", "SIT_or_intervention_proxy", "same_week_outcomes", "future_outcomes"]
+  },
+  "coordinates": {
+    "source_columns": ["x", "y"],
+    "coordinate_system": "canonical Albers equal-area projected node x/y axes",
+    "units": "kilometres",
+    "crs_source": "canonical production raster/node artifact; no CRS selection by A6",
+    "space_time_order": ["time_week_offset", "x_km", "y_km"],
+    "time_coordinate": "integer week offsets from 2025-W01"
+  },
+  "candidates": ["A6-GB-IID", "A6-GPB-S", "A6-GPB-ST"],
+  "descriptive_hybrid": "A6-GPB-ST-HYBRID",
+  "gpboost": {
+    "version": "1.8.0",
+    "likelihood": "bernoulli_logit",
+    "gp_approx": "vecchia",
+    "num_neighbors": 20,
+    "num_neighbors_pred": 40,
+    "vecchia_pred_type": "order_obs_first_cond_obs_only",
+    "cov_fct_shape": 1.5,
+    "spatial_cov_function": "matern",
+    "spatiotemporal_cov_function": "matern_space_time",
+    "vecchia_ordering_spatial": "random",
+    "vecchia_ordering_spatiotemporal": "time",
+    "coordinate_time_column": 0
+  },
+  "boosting": {
+    "learning_rate": 0.03,
+    "max_depth": 3,
+    "num_leaves": 8,
+    "min_data_in_leaf": 200,
+    "feature_fraction": 1.0,
+    "bagging_fraction": 1.0,
+    "lambda_l2": 1.0,
+    "maximum_boosting_rounds": 500,
+    "early_stopping": "inner_terminal_training_block_only",
+    "inner_monitor_fraction": 0.2,
+    "inner_monitor_min_weeks": 4,
+    "early_stopping_rounds": 50
+  },
+  "count_component": {
+    "primary": "unchanged_A3_positive_count_component",
+    "likelihood": "exact_zero_truncated_negative_binomial",
+    "gpboost_count_fit": false,
+    "hybrid": "A6-GPB-ST-occurrence-plus-frozen-A4-S-positive-count-descriptive-only"
+  },
+  "permutation": {"count": 199, "seed": 20261101},
+  "spatial_stress_test": {"partition": "existing deterministic spatial_node_assignments.parquet", "selection_used": false, "a4s_refit": false},
+  "guardrails": {
+    "mean_pr_auc_degradation": 0.02,
+    "mean_brier_skill_degradation": 0.02,
+    "worst_fold_pr_auc_degradation": 0.03,
+    "calibration_intercept_worsening": 0.25,
+    "calibration_slope_worsening": 0.25,
+    "joint_hurdle_nll_worsening": 0.02,
+    "shell1_occurrence_moran_reduction": 0.05,
+    "shell1_attribution_over_iid": 0.01,
+    "outer_shell_moran_worsening": 0.01
+  },
+  "storage": {
+    "output_root_env": "A6_OUTPUT_ROOT",
+    "temporary_storage_class": "TEMPORARY_90DAY_STORAGE",
+    "durable_storage_class": "DURABLE_PROJECT_ARTIFACTS",
+    "large_subdirectories": ["models", "predictions", "gp_cache", "datasets", "residuals", "tmp", "logs", "environment", "figures_work", "manifests"],
+    "retention": "automatically deleted after 90 days without activity"
+  },
+  "decision_options": ["A6_GPB_ST_PROVISIONAL_CHALLENGER_JUSTIFIED", "A6_BOOSTED_MEAN_SUPPORTED_CORRELATED_PROCESS_NOT_JUSTIFIED", "A6_NOT_JUSTIFIED", "A6_INCONCLUSIVE"]
+}

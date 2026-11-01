@@ -176,6 +176,25 @@ STGNN-output/
 !analysis/a5b_multiscale_component_spatial_ml/figures/*.csv
 !analysis/a5b_multiscale_component_spatial_ml/figures/*.json
 
+# Keep A6 GPBoost source and compact durable audit artifacts tracked; model
+# binaries, predictions, caches, and other runtime products remain ignored.
+!analysis/a6_gpboost_correlated_spatial_ml/
+!analysis/a6_gpboost_correlated_spatial_ml/README.md
+!analysis/a6_gpboost_correlated_spatial_ml/prespecification.md
+!analysis/a6_gpboost_correlated_spatial_ml/config/
+!analysis/a6_gpboost_correlated_spatial_ml/config/*.json
+!analysis/a6_gpboost_correlated_spatial_ml/scripts/
+!analysis/a6_gpboost_correlated_spatial_ml/scripts/*.py
+!analysis/a6_gpboost_correlated_spatial_ml/results/
+!analysis/a6_gpboost_correlated_spatial_ml/results/*.csv
+!analysis/a6_gpboost_correlated_spatial_ml/results/*.json
+!analysis/a6_gpboost_correlated_spatial_ml/results/*.md
+!analysis/a6_gpboost_correlated_spatial_ml/provenance/
+!analysis/a6_gpboost_correlated_spatial_ml/provenance/*.json
+!analysis/a6_gpboost_correlated_spatial_ml/figures/
+!analysis/a6_gpboost_correlated_spatial_ml/figures/*.csv
+!analysis/a6_gpboost_correlated_spatial_ml/figures/*.json
+
 # Keep caches excluded after source-directory unignore rules.
 **/__pycache__/
 **/*.py[cod]
