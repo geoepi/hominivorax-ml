@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=stgnn_a6_gpb
 #SBATCH --account=disease_ecology
-#SBATCH --partition=general
+#SBATCH --partition=atlas
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
