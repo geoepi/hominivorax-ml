@@ -1,0 +1,89 @@
+{
+  "analysis": "a5b_multiscale_component_spatial_ml",
+  "development_classification": "DEVELOPMENT_INFORMED_FOLLOWUP",
+  "parent_a5_commit": "e71c02c3ea87a4ab13dbb7733277c17b9c53c550",
+  "canonical_start_sha": "6715a4397dad21a77414bd2ce41586751290f374",
+  "production_model": "STRUCTURED_A3",
+  "production_artifact_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+  "frozen_a4s_manifest_sha256": "156ab650b8fa79f7a4fe390f3687ca53212fbf37fb7e9963ba91b9f70c9b68af",
+  "development_period": {
+    "start": "2025-W01",
+    "end": "2026-W16",
+    "week_count": 68,
+    "forbidden_response_period": "2026-W17 onward",
+    "forbidden_selection_periods": ["2026-W17 onward", "2026-W30 through 2026-W39"]
+  },
+  "folds": [
+    {"fold": 1, "train_start": "2025-W01", "train_end": "2025-W26", "validation_start": "2025-W27", "validation_end": "2025-W39", "train_indices": [0, 25], "validation_indices": [26, 38]},
+    {"fold": 2, "train_start": "2025-W01", "train_end": "2025-W39", "validation_start": "2025-W40", "validation_end": "2025-W52", "train_indices": [0, 38], "validation_indices": [39, 51]},
+    {"fold": 3, "train_start": "2025-W01", "train_end": "2025-W52", "validation_start": "2026-W01", "validation_end": "2026-W08", "train_indices": [0, 51], "validation_indices": [52, 59]},
+    {"fold": 4, "train_start": "2025-W01", "train_end": "2026-W08", "validation_start": "2026-W09", "validation_end": "2026-W16", "train_indices": [0, 59], "validation_indices": [60, 67]}
+  ],
+  "seeds": [1729, 31415, 271828],
+  "model": {
+    "input_contract": ["standardized_34_A3_predictors", "A3_occurrence_linear_predictor", "A3_positive_count_linear_predictor"],
+    "shell_count": 4,
+    "shell_hidden_dim": 8,
+    "post_hidden_dim": 8,
+    "dropout": 0.1,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "gradient_clip_norm": 1.0,
+    "max_epochs": 60,
+    "early_stopping_patience": 8,
+    "inner_monitor_fraction": 0.2,
+    "inner_monitor_min_weeks": 4,
+    "theta": 0.7018903965556372,
+    "center_residual": true,
+    "optimizer": "AdamW",
+    "training_loss": "occurrence_component_of_exact_joint_hurdle_nll",
+    "evaluation_loss": "exact_joint_hurdle_nll"
+  },
+  "graph": {
+    "primitive_artifact": "edges_queen.parquet",
+    "node_count": 10037,
+    "directed_edge_count": 77614,
+    "canonical_edge_sha256": "539876a1528c84f2bf7ab97f5b8f20b3da480cb1c705ac47611542e4a00ad9a7",
+    "shells": [1, 2, 3, 4],
+    "shell_definition": "exact shortest-path graph-distance relations from canonical queen adjacency",
+    "learned_adjacency": false,
+    "outcome_free": true,
+    "self_loops": "none"
+  },
+  "candidates": ["STRUCTURED_A3", "STRUCTURED_A4S_CHALLENGER", "A5-GNN-NOPE", "A5B-MS-OCC", "A5B-HYBRID"],
+  "a5_reference": {
+    "compact_root": "analysis/a5_gnn_bounded_comparison",
+    "decision_required": "A5_GNN_NOT_SUPPORTED",
+    "reuse_compact_outputs": true
+  },
+  "spatial_stress_test": {
+    "partition": "existing deterministic spatial_node_assignments.parquet",
+    "selection_used": false
+  },
+  "permutation": {"count": 199, "seed": 20261101},
+  "storage": {
+    "output_root_env": "A5B_OUTPUT_ROOT",
+    "cache_root_env": "A5B_CACHE_ROOT",
+    "tmp_root_env": "A5B_TMP_ROOT",
+    "durable_summary_root_env": "A5B_DURABLE_SUMMARY_ROOT",
+    "temporary_storage_class": "TEMPORARY_90DAY_STORAGE",
+    "large_output_subdirectories": ["checkpoints", "predictions", "tensors", "residuals", "cache", "tmp", "logs", "figures_work"],
+    "durable_compact_subdirectories": ["results", "provenance", "figures"],
+    "retention_warning": "TEMPORARY_90DAY_STORAGE is automatically removed after 90 days without activity"
+  },
+  "guardrails": {
+    "mean_pr_auc_degradation": 0.02,
+    "mean_brier_skill_degradation": 0.02,
+    "worst_fold_pr_auc_degradation": 0.03,
+    "calibration_intercept_worsening": 0.25,
+    "calibration_slope_worsening": 0.25,
+    "joint_hurdle_nll_worsening": 0.02,
+    "shell1_occurrence_moran_reduction": 0.05,
+    "outer_shell_moran_worsening": 0.01
+  },
+  "forbidden": {
+    "architectures": ["GConvGRU", "STGNN", "GAT", "GATv2", "GCN", "graph_transformer", "DCRNN", "recurrent_GNN", "attention"],
+    "inputs": ["same_week_outcomes", "future_outcomes", "same_week_residuals", "node_id_embedding", "longitude_latitude", "laplacian_positional_encoding", "free_node_embedding", "SIT_or_intervention_proxy"],
+    "procedures": ["random_rowwise_cv", "threshold_tuning", "A3_retuning", "A4S_retuning", "production_release"]
+  }
+}
