@@ -1,0 +1,129 @@
+{
+  "durable_summary_root": "/project/disease_ecology/STGNN-output/_WORKTREES/a5b-multiscale-component-spatial-ml/analysis/a5b_multiscale_component_spatial_ml",
+  "files": [
+    {
+      "path": "results/fold_seed_metrics.csv",
+      "sha256": "fe7088bcdf88396da59b69fc5904a57e8db1c67260c70eb34159bc1cddba2819",
+      "size_bytes": 323763
+    },
+    {
+      "path": "results/aggregate_metrics.csv",
+      "sha256": "7dd5902f32524102d7f3d380dd07ec5716dd8a2413d1d2d834509b4f0de43904",
+      "size_bytes": 9154
+    },
+    {
+      "path": "results/a3_baseline_reproduction.csv",
+      "sha256": "fe44f702f5608a01feb63e988e9683cabe37129566f8e66a14efdb9c34a3eef7",
+      "size_bytes": 3242
+    },
+    {
+      "path": "results/residual_spatial_summary.csv",
+      "sha256": "ebbebe81d1f7c64f978b8c3df183bb5b7114d1fa8dea6703f2f03df25f4b4f7e",
+      "size_bytes": 6521
+    },
+    {
+      "path": "results/residual_temporal_summary.csv",
+      "sha256": "b20d353a78ae2b333ed7a3b60c2f7c4d6fe9432a5358013a2f2224b558a01819",
+      "size_bytes": 2530
+    },
+    {
+      "path": "results/frontier_metrics.csv",
+      "sha256": "b7ba37390b994720084991fbf22ce39d19b065ebc50ee735e439bb6314612f84",
+      "size_bytes": 99095
+    },
+    {
+      "path": "results/spatial_stress_metrics.csv",
+      "sha256": "284f4f18d89f182a17b52b9acfc08cfd4be4a704aed1a8fb1966802f4877d71b",
+      "size_bytes": 90377
+    },
+    {
+      "path": "results/spatial_stress_status.json",
+      "sha256": "be5fb1830e89e9271012d0351ca67ea0ccd8e7e6b264ad3ab75fbb77404f77ec",
+      "size_bytes": 166
+    },
+    {
+      "path": "results/a5b_decision.json",
+      "sha256": "48a1ef9926483cf9f6d0e049f36a5c67c1e31004bae39f7c1157190bc9353036",
+      "size_bytes": 10701
+    },
+    {
+      "path": "results/spatial_shell_contract.csv",
+      "sha256": "25f754429c69e8dcf8c256c4ace43cb9cc1ed700d5c6e0de9b3ab33f0b2ef4d8",
+      "size_bytes": 535
+    },
+    {
+      "path": "results/occurrence_centering_audit.csv",
+      "sha256": "70a834c7ee9eca847f2794f637b0b7a4ca3415f080e4f1fd8dc79630c89e0585",
+      "size_bytes": 704
+    },
+    {
+      "path": "results/hybrid_count_reproduction.csv",
+      "sha256": "d1d01ba04e4f646235587aacdbadbbf9ddc83142d5e591b37ac7ac8ee5c27dcc",
+      "size_bytes": 340
+    },
+    {
+      "path": "results/selected_candidate_configuration.json",
+      "sha256": "a6f9c9b5e91594d8fe48e43865ccbe74a0b7ae75662f740e10d3e16f27d7c968",
+      "size_bytes": 160
+    },
+    {
+      "path": "figures/figure_generation_status.json",
+      "sha256": "4191a9974e0cb90ca10012214c55dc111d4e7e814b31cc3a5a2e90b5405957e8",
+      "size_bytes": 175
+    },
+    {
+      "path": "figures/figure_source_pr_auc.csv",
+      "sha256": "2859b4df419e326115417239283bc98e6dd4a56c572b1321b938b6fca83cf059",
+      "size_bytes": 1356
+    },
+    {
+      "path": "figures/figure_source_brier_skill.csv",
+      "sha256": "2fbbcb474aa60be2b8e6ff9f0f95c65b947a68f2f340962abc8339dcd2ff9d8e",
+      "size_bytes": 1364
+    },
+    {
+      "path": "figures/figure_source_moran.csv",
+      "sha256": "4afc974fcd686e20ea070f706c2a14a33826568c7ce980a19ad08000f6fe6b37",
+      "size_bytes": 3754
+    },
+    {
+      "path": "figures/figure_source_seed_stability.csv",
+      "sha256": "d1f7e587b67d55f4114cefa4145db0621bc971eba80475d8a9887ae2b19e08e2",
+      "size_bytes": 387
+    },
+    {
+      "path": "figures/figure_source_spatial_stress.csv",
+      "sha256": "90cc84fa2ad4d4a7051f4b7d8a87f50e66b5455953edbcfe60cf63091cade942",
+      "size_bytes": 89631
+    },
+    {
+      "path": "provenance/a5b_analysis_manifest.json",
+      "sha256": "19d962a2c41b923160b7e8653840ab267138efacbcb6c4d3e7509da3400b3fa5",
+      "size_bytes": 25184
+    },
+    {
+      "path": "provenance/environment_manifest.json",
+      "sha256": "f88eb795480acbd2955736bd5d95756bbbfd14ef130bc782e968f3fa2094291a",
+      "size_bytes": 1351
+    },
+    {
+      "path": "provenance/feature_target_access_audit.json",
+      "sha256": "c23cf3e03c90e1637fc38fb27ac1cd9aab0701262bb33972ee0c3b5dd5a17563",
+      "size_bytes": 743
+    },
+    {
+      "path": "provenance/checksum_manifest.json",
+      "sha256": "115e4db52a9f669aa8a7856f68543502b494d6e08f8ad508e95dba6bebfbbf36",
+      "size_bytes": 10830
+    },
+    {
+      "path": "final_decision_report.md",
+      "sha256": "fec0dbbaf59d4fb5426f67b62ba847306b41a05a0147822b103599f95afc6833",
+      "size_bytes": 8934
+    }
+  ],
+  "source_output_root": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc",
+  "status": "COMPLETED",
+  "storage_class": "DURABLE_PROJECT_ARTIFACTS",
+  "temporary_storage_warning": "TEMPORARY_90DAY_STORAGE large products remain under /90daydata and are automatically removed after 90 days without activity."
+}

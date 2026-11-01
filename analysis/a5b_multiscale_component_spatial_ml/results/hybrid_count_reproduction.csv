@@ -1,0 +1,13 @@
+fold,seed,conditional_max_abs_difference,mu_max_abs_difference,a4s_component_reproduced
+1,1729,0.0,0.0,True
+1,31415,0.0,0.0,True
+1,271828,0.0,0.0,True
+2,1729,0.0,0.0,True
+2,31415,0.0,0.0,True
+2,271828,0.0,0.0,True
+3,1729,0.0,0.0,True
+3,31415,0.0,0.0,True
+3,271828,0.0,0.0,True
+4,1729,0.0,0.0,True
+4,31415,0.0,0.0,True
+4,271828,0.0,0.0,True

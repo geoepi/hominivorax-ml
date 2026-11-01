@@ -1,0 +1,20 @@
+{
+  "development_classification": "DEVELOPMENT_INFORMED_FOLLOWUP",
+  "forbidden_inputs": [
+    "same_week_outcomes",
+    "future_outcomes",
+    "same_week_residuals",
+    "node_id_embedding",
+    "longitude_latitude",
+    "laplacian_positional_encoding",
+    "free_node_embedding",
+    "SIT_or_intervention_proxy"
+  ],
+  "graph_contract": "canonical queen graph with exact shortest-path shells 1-4; no outcome-derived edges",
+  "positional_encoding_used": false,
+  "post_w16_outcomes_used": false,
+  "selection_boundary": "2025-W01 through 2026-W16; F1-F4 only",
+  "sit_included": false,
+  "status": "PASSED",
+  "target_access": "targets are used only by the occurrence training loss, exact hurdle metrics, and diagnostics after prediction"
+}

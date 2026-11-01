@@ -1,0 +1,598 @@
+{
+  "a3_reproduction_max_difference": 2.220446049250313e-16,
+  "a5_reference": {
+    "decision": "A5_GNN_NOT_SUPPORTED",
+    "manifest_sha256": "8406a7d79456816aefdd40941876e572908652e2b622f1186a7d47485686c3d1",
+    "root": "/project/disease_ecology/STGNN-output/_WORKTREES/a5b-multiscale-component-spatial-ml/analysis/a5_gnn_bounded_comparison"
+  },
+  "analysis": "a5b_multiscale_component_spatial_ml",
+  "branch": "feature/a5b-multiscale-component-spatial-ml",
+  "candidate_scope": [
+    "STRUCTURED_A3",
+    "STRUCTURED_A4S_CHALLENGER",
+    "A5-GNN-NOPE",
+    "A5B-MS-OCC",
+    "A5B-HYBRID"
+  ],
+  "decision": "A5B_NOT_JUSTIFIED",
+  "development_classification": "DEVELOPMENT_INFORMED_FOLLOWUP",
+  "development_period": {
+    "end": "2026-W16",
+    "forbidden_response_period": "2026-W17 onward",
+    "forbidden_selection_periods": [
+      "2026-W17 onward",
+      "2026-W30 through 2026-W39"
+    ],
+    "start": "2025-W01",
+    "week_count": 68
+  },
+  "evidence": {
+    "a3": {
+      "bernoulli_nll": 0.03970350397742897,
+      "brier": 0.012597399208878073,
+      "brier_skill": 0.37067938957048735,
+      "calibration_intercept": 0.10313514313819724,
+      "calibration_slope": 1.185496155472436,
+      "conditional_mean_bias": 0.7976390085614682,
+      "full_hurdle_expected_count_mae": 0.08153463232759968,
+      "full_hurdle_rmse": 0.5190322247926334,
+      "full_hurdle_signed_bias": 0.015795488530232098,
+      "joint_hurdle_nll": 0.07633329000869966,
+      "observed_predicted_positive_count_total_ratio": 1.3455082858427085,
+      "positive_count_mae": 2.331013108398705,
+      "positive_count_rmse": 3.199617256047841,
+      "pr_auc": 0.47413505691593183,
+      "roc_auc": 0.9844955985740946,
+      "zt_nb_nll": 1.8954968187784176
+    },
+    "a3_first_shell_occurrence_moran": 0.29326029693048483,
+    "a5_gnn_nope": {
+      "bernoulli_nll": 0.03951114847267241,
+      "brier": 0.012588344361234459,
+      "brier_skill": 0.37068671280603643,
+      "calibration_intercept": -0.10079674601319606,
+      "calibration_slope": 1.0540696415393733,
+      "conditional_mean_bias": 0.7273325177615222,
+      "full_hurdle_expected_count_mae": 0.08179602344181504,
+      "full_hurdle_rmse": 0.5245592896275492,
+      "full_hurdle_signed_bias": 0.020465101738843174,
+      "joint_hurdle_nll": 0.07576565076463285,
+      "observed_predicted_positive_count_total_ratio": 1.31894125155637,
+      "positive_count_mae": 2.2300918794581768,
+      "positive_count_rmse": 3.1103435457818023,
+      "pr_auc": 0.5094554321315202,
+      "roc_auc": 0.9851431979522096,
+      "zt_nb_nll": 1.8742014455539726
+    },
+    "a5_prior_decision_preserved": "A5_GNN_NOT_SUPPORTED",
+    "candidate_assessments": {
+      "A5B-HYBRID": {
+        "a4s_count_reproduction": true,
+        "all_guardrails": false,
+        "complete": true,
+        "mean_metrics": {
+          "bernoulli_nll": 0.03966714824357303,
+          "brier": 0.012646609295254836,
+          "brier_skill": 0.36732133014434404,
+          "calibration_intercept": -0.10500341495605736,
+          "calibration_slope": 1.0375282914099493,
+          "conditional_mean_bias": -0.15368072981867698,
+          "full_hurdle_expected_count_mae": 0.06987501955400721,
+          "full_hurdle_rmse": 0.4849659009229901,
+          "full_hurdle_signed_bias": -0.00029887251207616077,
+          "joint_hurdle_nll": 0.07408535905728243,
+          "observed_predicted_positive_count_total_ratio": 0.981576058301784,
+          "positive_count_mae": 1.7284100841581493,
+          "positive_count_rmse": 2.7228618085897405,
+          "pr_auc": 0.5125939396620244,
+          "roc_auc": 0.9850058113379013,
+          "zt_nb_nll": 1.7786855420551213
+        },
+        "mean_metrics_a3": {
+          "bernoulli_nll": 0.03970350397742897,
+          "brier": 0.012597399208878073,
+          "brier_skill": 0.37067938957048735,
+          "calibration_intercept": 0.10313514313819724,
+          "calibration_slope": 1.185496155472436,
+          "conditional_mean_bias": 0.7976390085614682,
+          "full_hurdle_expected_count_mae": 0.08153463232759968,
+          "full_hurdle_rmse": 0.5190322247926334,
+          "full_hurdle_signed_bias": 0.015795488530232098,
+          "joint_hurdle_nll": 0.07633329000869966,
+          "observed_predicted_positive_count_total_ratio": 1.3455082858427085,
+          "positive_count_mae": 2.331013108398705,
+          "positive_count_rmse": 3.199617256047841,
+          "pr_auc": 0.47413505691593183,
+          "roc_auc": 0.9844955985740946,
+          "zt_nb_nll": 1.8954968187784176
+        },
+        "mean_metrics_a5_gnn_nope": {
+          "bernoulli_nll": 0.03951114847267241,
+          "brier": 0.012588344361234459,
+          "brier_skill": 0.37068671280603643,
+          "calibration_intercept": -0.10079674601319606,
+          "calibration_slope": 1.0540696415393733,
+          "conditional_mean_bias": 0.7273325177615222,
+          "full_hurdle_expected_count_mae": 0.08179602344181504,
+          "full_hurdle_rmse": 0.5245592896275492,
+          "full_hurdle_signed_bias": 0.020465101738843174,
+          "joint_hurdle_nll": 0.07576565076463285,
+          "observed_predicted_positive_count_total_ratio": 1.31894125155637,
+          "positive_count_mae": 2.2300918794581768,
+          "positive_count_rmse": 3.1103435457818023,
+          "pr_auc": 0.5094554321315202,
+          "roc_auc": 0.9851431979522096,
+          "zt_nb_nll": 1.8742014455539726
+        },
+        "occurrence_shell_reduction_vs_a3": {
+          "1": -0.008132106014046125,
+          "2": -0.0321161519040401,
+          "3": -0.03630122064943467,
+          "4": -0.0466505127929257
+        },
+        "outer_shell_worst_worsening": 0.0466505127929257,
+        "predictive_guardrails": {
+          "calibration_intercept": true,
+          "calibration_slope": true,
+          "joint_hurdle_nll": true,
+          "mean_brier_skill": true,
+          "mean_pr_auc": true,
+          "worst_fold_pr_auc": true
+        },
+        "seed_stability": {
+          "convergence_failures": 0,
+          "finite_predictions": true,
+          "no_major_seed_collapse": true,
+          "pr_auc_seed_sd": 0.0036086452206666097
+        },
+        "spatial_guardrails": {
+          "larger_shell_mean_improves_over_a5_gnn_nope": false,
+          "shell1_reduction_at_least_0.05": false,
+          "shell2_to_4_not_worse_than_0.01": false
+        }
+      },
+      "A5B-MS-OCC": {
+        "a4s_count_reproduction": "not_applicable",
+        "all_guardrails": false,
+        "complete": true,
+        "mean_metrics": {
+          "bernoulli_nll": 0.03966714824357303,
+          "brier": 0.012646609295254836,
+          "brier_skill": 0.36732133014434404,
+          "calibration_intercept": -0.10500341495605736,
+          "calibration_slope": 1.0375282914099493,
+          "conditional_mean_bias": 0.7976390085614682,
+          "full_hurdle_expected_count_mae": 0.0847776776873544,
+          "full_hurdle_rmse": 0.5337794185345475,
+          "full_hurdle_signed_bias": 0.023485676852443283,
+          "joint_hurdle_nll": 0.0762969342748437,
+          "observed_predicted_positive_count_total_ratio": 1.3455082858427085,
+          "positive_count_mae": 2.3310131083987047,
+          "positive_count_rmse": 3.199617256047842,
+          "pr_auc": 0.5125939396620244,
+          "roc_auc": 0.9850058113379013,
+          "zt_nb_nll": 1.8954968187784178
+        },
+        "mean_metrics_a3": {
+          "bernoulli_nll": 0.03970350397742897,
+          "brier": 0.012597399208878073,
+          "brier_skill": 0.37067938957048735,
+          "calibration_intercept": 0.10313514313819724,
+          "calibration_slope": 1.185496155472436,
+          "conditional_mean_bias": 0.7976390085614682,
+          "full_hurdle_expected_count_mae": 0.08153463232759968,
+          "full_hurdle_rmse": 0.5190322247926334,
+          "full_hurdle_signed_bias": 0.015795488530232098,
+          "joint_hurdle_nll": 0.07633329000869966,
+          "observed_predicted_positive_count_total_ratio": 1.3455082858427085,
+          "positive_count_mae": 2.331013108398705,
+          "positive_count_rmse": 3.199617256047841,
+          "pr_auc": 0.47413505691593183,
+          "roc_auc": 0.9844955985740946,
+          "zt_nb_nll": 1.8954968187784176
+        },
+        "mean_metrics_a5_gnn_nope": {
+          "bernoulli_nll": 0.03951114847267241,
+          "brier": 0.012588344361234459,
+          "brier_skill": 0.37068671280603643,
+          "calibration_intercept": -0.10079674601319606,
+          "calibration_slope": 1.0540696415393733,
+          "conditional_mean_bias": 0.7273325177615222,
+          "full_hurdle_expected_count_mae": 0.08179602344181504,
+          "full_hurdle_rmse": 0.5245592896275492,
+          "full_hurdle_signed_bias": 0.020465101738843174,
+          "joint_hurdle_nll": 0.07576565076463285,
+          "observed_predicted_positive_count_total_ratio": 1.31894125155637,
+          "positive_count_mae": 2.2300918794581768,
+          "positive_count_rmse": 3.1103435457818023,
+          "pr_auc": 0.5094554321315202,
+          "roc_auc": 0.9851431979522096,
+          "zt_nb_nll": 1.8742014455539726
+        },
+        "occurrence_shell_reduction_vs_a3": {
+          "1": -0.008132106014046125,
+          "2": -0.0321161519040401,
+          "3": -0.03630122064943467,
+          "4": -0.0466505127929257
+        },
+        "outer_shell_worst_worsening": 0.0466505127929257,
+        "predictive_guardrails": {
+          "calibration_intercept": true,
+          "calibration_slope": true,
+          "joint_hurdle_nll": true,
+          "mean_brier_skill": true,
+          "mean_pr_auc": true,
+          "worst_fold_pr_auc": true
+        },
+        "seed_stability": {
+          "convergence_failures": 0,
+          "finite_predictions": true,
+          "no_major_seed_collapse": true,
+          "pr_auc_seed_sd": 0.0036086452206666097
+        },
+        "spatial_guardrails": {
+          "larger_shell_mean_improves_over_a5_gnn_nope": false,
+          "shell1_reduction_at_least_0.05": false,
+          "shell2_to_4_not_worse_than_0.01": false
+        }
+      }
+    },
+    "decision": "A5B_NOT_JUSTIFIED",
+    "development_classification": "DEVELOPMENT_INFORMED_FOLLOWUP",
+    "hybrid_artifact": {
+      "json_sha256": "05dcb211d4bacb24dd4ef9399aa2e495ff85c1121439a40c32a3a05d09de4373",
+      "npz_sha256": "eef5fadc614c543dada56ace20104ee0f9aca49cc88321c43f9c8e4d9f40c6ca",
+      "refit": false,
+      "root": "/project/disease_ecology/STGNN-output/a4s_challenger_freeze_2026-10-17",
+      "status": "VALID_EXACTLY_EXTRACTABLE"
+    },
+    "required_interpretation": {
+      "component_specific_treatments_supported": true,
+      "hybrid_preserved_frozen_a4s_count": true,
+      "improved_beyond_a5_gnn_nope": false,
+      "improved_occurrence_beyond_a3": false,
+      "predictive_discrimination_and_calibration_acceptable": false,
+      "sustained_through_shells_2_to_4": false
+    },
+    "selected_candidate": null,
+    "shell_contract": {
+      "1": {
+        "pair_count": 77614,
+        "sha256": "aa709b2cae3239a8e98072a92f988c7079ebe7c389931d0a71c6aa0383822801"
+      },
+      "2": {
+        "pair_count": 150880,
+        "sha256": "8054a77175c3ff20480f6121589396fe40497a82c68abe0ecec0ef5491d4b8be"
+      },
+      "3": {
+        "pair_count": 220116,
+        "sha256": "52af6540c1989ad025749fde1c594665b28403b741340a4f54460b2ed719cc79"
+      },
+      "4": {
+        "pair_count": 285662,
+        "sha256": "1db445c03c69e302bc9b14f5d64326e6b650b1201d6f32b3cf73c37cfa823b90"
+      }
+    }
+  },
+  "execution_sha": "51c08cc8531aae290e7b778d543249475c2a9bb0",
+  "figures": {
+    "figure_source_tables": "generated",
+    "reason": "matplotlib unavailable in supported Atlas environment",
+    "status": "FIGURE_RENDERING_DEFERRED_ENVIRONMENT_LIMITATION"
+  },
+  "folds": [
+    {
+      "fold": 1,
+      "train_end": "2025-W26",
+      "train_indices": [
+        0,
+        25
+      ],
+      "train_start": "2025-W01",
+      "validation_end": "2025-W39",
+      "validation_indices": [
+        26,
+        38
+      ],
+      "validation_start": "2025-W27"
+    },
+    {
+      "fold": 2,
+      "train_end": "2025-W39",
+      "train_indices": [
+        0,
+        38
+      ],
+      "train_start": "2025-W01",
+      "validation_end": "2025-W52",
+      "validation_indices": [
+        39,
+        51
+      ],
+      "validation_start": "2025-W40"
+    },
+    {
+      "fold": 3,
+      "train_end": "2025-W52",
+      "train_indices": [
+        0,
+        51
+      ],
+      "train_start": "2025-W01",
+      "validation_end": "2026-W08",
+      "validation_indices": [
+        52,
+        59
+      ],
+      "validation_start": "2026-W01"
+    },
+    {
+      "fold": 4,
+      "train_end": "2026-W08",
+      "train_indices": [
+        0,
+        59
+      ],
+      "train_start": "2025-W01",
+      "validation_end": "2026-W16",
+      "validation_indices": [
+        60,
+        67
+      ],
+      "validation_start": "2026-W09"
+    }
+  ],
+  "frozen_a3": {
+    "production_artifact_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+    "root": "/project/disease_ecology/STGNN-output/structured_a3_final_comparison"
+  },
+  "frozen_a4s": {
+    "manifest_sha256": "156ab650b8fa79f7a4fe390f3687ca53212fbf37fb7e9963ba91b9f70c9b68af",
+    "model_json_sha256": "05dcb211d4bacb24dd4ef9399aa2e495ff85c1121439a40c32a3a05d09de4373",
+    "model_npz_sha256": "eef5fadc614c543dada56ace20104ee0f9aca49cc88321c43f9c8e4d9f40c6ca",
+    "refit": false,
+    "root": "/project/disease_ecology/STGNN-output/a4s_challenger_freeze_2026-10-17"
+  },
+  "generated_utc": "2026-11-01T20:47:17+00:00",
+  "graph": {
+    "directed_edge_count": 77614,
+    "edge_sha256": "539876a1528c84f2bf7ab97f5b8f20b3da480cb1c705ac47611542e4a00ad9a7",
+    "node_count": 10037,
+    "shells": {
+      "1": {
+        "pair_count": 77614,
+        "sha256": "aa709b2cae3239a8e98072a92f988c7079ebe7c389931d0a71c6aa0383822801"
+      },
+      "2": {
+        "pair_count": 150880,
+        "sha256": "8054a77175c3ff20480f6121589396fe40497a82c68abe0ecec0ef5491d4b8be"
+      },
+      "3": {
+        "pair_count": 220116,
+        "sha256": "52af6540c1989ad025749fde1c594665b28403b741340a4f54460b2ed719cc79"
+      },
+      "4": {
+        "pair_count": 285662,
+        "sha256": "1db445c03c69e302bc9b14f5d64326e6b650b1201d6f32b3cf73c37cfa823b90"
+      }
+    }
+  },
+  "input_sha256": {
+    "a3_frozen_fold_1": "c3651efce40c5fb6c02f6bbdb5caa16fc5acca4423f45f73707528026d057d60",
+    "a3_frozen_fold_2": "2cced91bb76cff9f0eb4bc03c25f36e3e215541c0778d7574c06b4b1234c5917",
+    "a3_frozen_fold_3": "381c5020bc2f43c94573ec65ffcb17b229dacdf93fec52d338d1a11bdef88219",
+    "a3_frozen_fold_4": "2804786a9aec0c52163ffdadad5b77530e5ee0e8d8f0655dfbc7b5872f133e74",
+    "a3_frozen_prediction_1": "344f4b47ebd09124902035bf3671c3c03beb3a83019989802cb61f56aba15b72",
+    "a3_frozen_prediction_2": "de9f4a746551d2b402e9f6d8a521df379da423007fd0221c8c4f6c5a078324ce",
+    "a3_frozen_prediction_3": "774ba3e911dfc572d3dc454fedfd8d379d162d907452d9dc9e128dbc9bd5b031",
+    "a3_frozen_prediction_4": "6c3a5de7786cd5530d2dcaec1d3c7e087377437cacdf2fc656f4c56cfa2f4969",
+    "a3_reference": "3d7e58333486505904903746a309a0ae260a6b230f663d29af234b1f14f7c89c",
+    "anthropogenic_features": "cb9c6275141cdad33f3563b1c4125d6f97afd7381325a71dcf20d5e1e76e26c6",
+    "causal_front_features": "7f0f366af90cb3e4da3c3259da9cea01eaccd05c2e22de238f7ae238cfe13dba",
+    "config": "1c215c9f7811feb1835e83cd0b8513fde135eb14a62cdc7b9b8d9e99051b63ec",
+    "dynamic_features": "91e353804469e59851e8eaef7c7fc21b7b26614eaccd1299a9f7666b578705df",
+    "edges": "539876a1528c84f2bf7ab97f5b8f20b3da480cb1c705ac47611542e4a00ad9a7",
+    "model_manifest": "ce60e713ccaf1651f0a9724bd7209c52ee83ee6efa4613a9ffc3b2882b8c74b7",
+    "nodes": "942215b94236e7b01596c6681aaed4d9c54e07f9e7fcbd68313d6b7998d4050a",
+    "soil_features": "58fcd1314c91f4d792ee221e9d9b7d9d01676087ea953b81a602dc2345bfd4b9",
+    "spatial_assignments": "91c50beac1f670b63cb5b4b85e208ebf5f153a69da99ef7775412e744b1f772d",
+    "static_features": "c629df4b9658c11c3330d8b6ddbba1a64ce597df5c722554ea0560a2973e4f75",
+    "targets_count": "651cddb515db515db298a68f94324199387239de9df6e68fc96c8ad75ae96a05",
+    "weeks": "0442ffb577797e82c4fa8c650e0b09c65c487fb774ff9d2f2662885accc42d34"
+  },
+  "parent_a5_sha": "e71c02c3ea87a4ab13dbb7733277c17b9c53c550",
+  "prior_a5_decision": "A5_GNN_NOT_SUPPORTED",
+  "runtime": {
+    "cache_root": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc/cache",
+    "cuda_available": true,
+    "cuda_version": "12.8",
+    "device_used": "cuda",
+    "durable_summary_root": "/project/disease_ecology/STGNN-output/_WORKTREES/a5b-multiscale-component-spatial-ml/analysis/a5b_multiscale_component_spatial_ml",
+    "gpu": "NVIDIA A100-SXM4-80GB",
+    "logs_root": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc/logs",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "positional_encoding_used": false,
+    "project_filesystem": {
+      "free_bytes": 542423121920,
+      "path": "/project/disease_ecology",
+      "total_bytes": 5500000272384,
+      "used_bytes": 4957577150464
+    },
+    "python": "3.12.14",
+    "scipy": "1.18.1",
+    "temporary_filesystem": {
+      "free_bytes": 4976129652817920,
+      "path": "/90daydata/disease_ecology",
+      "total_bytes": 7694654027857920,
+      "used_bytes": 2718524375040000
+    },
+    "temporary_output_root": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc",
+    "temporary_storage_class": "TEMPORARY_90DAY_STORAGE",
+    "tmp_root": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc/tmp",
+    "torch": "2.10.0"
+  },
+  "script_sha256": {
+    "a5b_model.py": "4822e760dba28300982478a232a806b31af4e4f391c751130be0d1a7f73182b0",
+    "config": "1c215c9f7811feb1835e83cd0b8513fde135eb14a62cdc7b9b8d9e99051b63ec",
+    "run_a5b.py": "570158ee120a09b26642acb261195299ea42c3c763d9d88f5db8da24f49e3b8e"
+  },
+  "seeds": [
+    1729,
+    31415,
+    271828
+  ],
+  "spatial_stress_test": {
+    "a4s_refit": false,
+    "reference_stress_source": "completed_a5_compact_artifact",
+    "selection_used": false,
+    "spatial_fold_count": 5,
+    "status": "COMPLETED"
+  },
+  "status": "completed",
+  "storage": {
+    "durable_promotion": {
+      "durable_summary_root": "/project/disease_ecology/STGNN-output/_WORKTREES/a5b-multiscale-component-spatial-ml/analysis/a5b_multiscale_component_spatial_ml",
+      "files": [
+        {
+          "path": "results/fold_seed_metrics.csv",
+          "sha256": "fe7088bcdf88396da59b69fc5904a57e8db1c67260c70eb34159bc1cddba2819",
+          "size_bytes": 323763
+        },
+        {
+          "path": "results/aggregate_metrics.csv",
+          "sha256": "7dd5902f32524102d7f3d380dd07ec5716dd8a2413d1d2d834509b4f0de43904",
+          "size_bytes": 9154
+        },
+        {
+          "path": "results/a3_baseline_reproduction.csv",
+          "sha256": "fe44f702f5608a01feb63e988e9683cabe37129566f8e66a14efdb9c34a3eef7",
+          "size_bytes": 3242
+        },
+        {
+          "path": "results/residual_spatial_summary.csv",
+          "sha256": "ebbebe81d1f7c64f978b8c3df183bb5b7114d1fa8dea6703f2f03df25f4b4f7e",
+          "size_bytes": 6521
+        },
+        {
+          "path": "results/residual_temporal_summary.csv",
+          "sha256": "b20d353a78ae2b333ed7a3b60c2f7c4d6fe9432a5358013a2f2224b558a01819",
+          "size_bytes": 2530
+        },
+        {
+          "path": "results/frontier_metrics.csv",
+          "sha256": "b7ba37390b994720084991fbf22ce39d19b065ebc50ee735e439bb6314612f84",
+          "size_bytes": 99095
+        },
+        {
+          "path": "results/spatial_stress_metrics.csv",
+          "sha256": "284f4f18d89f182a17b52b9acfc08cfd4be4a704aed1a8fb1966802f4877d71b",
+          "size_bytes": 90377
+        },
+        {
+          "path": "results/spatial_stress_status.json",
+          "sha256": "be5fb1830e89e9271012d0351ca67ea0ccd8e7e6b264ad3ab75fbb77404f77ec",
+          "size_bytes": 166
+        },
+        {
+          "path": "results/a5b_decision.json",
+          "sha256": "48a1ef9926483cf9f6d0e049f36a5c67c1e31004bae39f7c1157190bc9353036",
+          "size_bytes": 10701
+        },
+        {
+          "path": "results/spatial_shell_contract.csv",
+          "sha256": "25f754429c69e8dcf8c256c4ace43cb9cc1ed700d5c6e0de9b3ab33f0b2ef4d8",
+          "size_bytes": 535
+        },
+        {
+          "path": "results/occurrence_centering_audit.csv",
+          "sha256": "70a834c7ee9eca847f2794f637b0b7a4ca3415f080e4f1fd8dc79630c89e0585",
+          "size_bytes": 704
+        },
+        {
+          "path": "results/hybrid_count_reproduction.csv",
+          "sha256": "d1d01ba04e4f646235587aacdbadbbf9ddc83142d5e591b37ac7ac8ee5c27dcc",
+          "size_bytes": 340
+        },
+        {
+          "path": "results/selected_candidate_configuration.json",
+          "sha256": "a6f9c9b5e91594d8fe48e43865ccbe74a0b7ae75662f740e10d3e16f27d7c968",
+          "size_bytes": 160
+        },
+        {
+          "path": "figures/figure_generation_status.json",
+          "sha256": "4191a9974e0cb90ca10012214c55dc111d4e7e814b31cc3a5a2e90b5405957e8",
+          "size_bytes": 175
+        },
+        {
+          "path": "figures/figure_source_pr_auc.csv",
+          "sha256": "2859b4df419e326115417239283bc98e6dd4a56c572b1321b938b6fca83cf059",
+          "size_bytes": 1356
+        },
+        {
+          "path": "figures/figure_source_brier_skill.csv",
+          "sha256": "2fbbcb474aa60be2b8e6ff9f0f95c65b947a68f2f340962abc8339dcd2ff9d8e",
+          "size_bytes": 1364
+        },
+        {
+          "path": "figures/figure_source_moran.csv",
+          "sha256": "4afc974fcd686e20ea070f706c2a14a33826568c7ce980a19ad08000f6fe6b37",
+          "size_bytes": 3754
+        },
+        {
+          "path": "figures/figure_source_seed_stability.csv",
+          "sha256": "d1f7e587b67d55f4114cefa4145db0621bc971eba80475d8a9887ae2b19e08e2",
+          "size_bytes": 387
+        },
+        {
+          "path": "figures/figure_source_spatial_stress.csv",
+          "sha256": "90cc84fa2ad4d4a7051f4b7d8a87f50e66b5455953edbcfe60cf63091cade942",
+          "size_bytes": 89631
+        },
+        {
+          "path": "provenance/a5b_analysis_manifest.json",
+          "sha256": "6904cae116fbf3b3404018259548106d433e424ef7b9c85f2f7bd80a176447d9",
+          "size_bytes": 19969
+        },
+        {
+          "path": "provenance/environment_manifest.json",
+          "sha256": "f88eb795480acbd2955736bd5d95756bbbfd14ef130bc782e968f3fa2094291a",
+          "size_bytes": 1351
+        },
+        {
+          "path": "provenance/feature_target_access_audit.json",
+          "sha256": "c23cf3e03c90e1637fc38fb27ac1cd9aab0701262bb33972ee0c3b5dd5a17563",
+          "size_bytes": 743
+        },
+        {
+          "path": "provenance/checksum_manifest.json",
+          "sha256": "2bc4f1a88aa036efa31c3548efe259cb1305420bb7bb73ea729038383e8d58ab",
+          "size_bytes": 10830
+        },
+        {
+          "path": "final_decision_report.md",
+          "sha256": "fec0dbbaf59d4fb5426f67b62ba847306b41a05a0147822b103599f95afc6833",
+          "size_bytes": 8934
+        }
+      ],
+      "source_output_root": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc",
+      "status": "COMPLETED",
+      "storage_class": "DURABLE_PROJECT_ARTIFACTS",
+      "temporary_storage_warning": "TEMPORARY_90DAY_STORAGE large products remain under /90daydata and are automatically removed after 90 days without activity."
+    },
+    "durable_summary_root": "/project/disease_ecology/STGNN-output/_WORKTREES/a5b-multiscale-component-spatial-ml/analysis/a5b_multiscale_component_spatial_ml",
+    "large_output_paths": {
+      "cache": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc/cache",
+      "checkpoints": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc/checkpoints",
+      "figures_work": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc/figures_work",
+      "logs": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc/logs",
+      "predictions": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc/predictions",
+      "residuals": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc/residuals",
+      "tensors": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc/tensors",
+      "tmp": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc/tmp"
+    },
+    "temporary_output_root": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc",
+    "temporary_storage_class": "TEMPORARY_90DAY_STORAGE",
+    "temporary_storage_retention": "90 days without activity"
+  }
+}

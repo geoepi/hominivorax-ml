@@ -1,0 +1,5 @@
+{
+  "figure_source_tables": "generated",
+  "reason": "matplotlib unavailable in supported Atlas environment",
+  "status": "FIGURE_RENDERING_DEFERRED_ENVIRONMENT_LIMITATION"
+}

@@ -1,0 +1,30 @@
+{
+  "cache_root": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc/cache",
+  "cuda_available": true,
+  "cuda_version": "12.8",
+  "device_used": "cuda",
+  "durable_summary_root": "/project/disease_ecology/STGNN-output/_WORKTREES/a5b-multiscale-component-spatial-ml/analysis/a5b_multiscale_component_spatial_ml",
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "logs_root": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc/logs",
+  "numpy": "2.5.3",
+  "pandas": "3.0.6",
+  "positional_encoding_used": false,
+  "project_filesystem": {
+    "free_bytes": 542423121920,
+    "path": "/project/disease_ecology",
+    "total_bytes": 5500000272384,
+    "used_bytes": 4957577150464
+  },
+  "python": "3.12.14",
+  "scipy": "1.18.1",
+  "temporary_filesystem": {
+    "free_bytes": 4976129652817920,
+    "path": "/90daydata/disease_ecology",
+    "total_bytes": 7694654027857920,
+    "used_bytes": 2718524375040000
+  },
+  "temporary_output_root": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc",
+  "temporary_storage_class": "TEMPORARY_90DAY_STORAGE",
+  "tmp_root": "/90daydata/disease_ecology/hominivorax-ml/a5b_multiscale_component_spatial_ml/run_20261102T030000Z_51c08cc/tmp",
+  "torch": "2.10.0"
+}
