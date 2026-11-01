@@ -950,6 +950,7 @@ def main() -> int:
     parser.add_argument("--durable-summary-root", type=Path, default=Path(os.environ["A5B_DURABLE_SUMMARY_ROOT"]) if os.environ.get("A5B_DURABLE_SUMMARY_ROOT") else None)
     parser.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto")
     parser.add_argument("--skip-spatial-stress", action="store_true")
+    parser.add_argument("--preflight", action="store_true")
     args = parser.parse_args()
 
     config = read_config(args.config)
@@ -988,6 +989,9 @@ def main() -> int:
     shell_frame = pd.DataFrame([{"shell": relation.shell, "pair_count": relation.pair_count, "sha256": relation.sha256, "response_independent": True, "source": "canonical_queen_edges_exact_shortest_path"} for relation in relations])
     write_csv(output / "results/spatial_shell_contract.csv", shell_frame)
     a3_gate, _ = a3_reproduction_gate(data, args.a3_frozen_output, reference, output)
+    if args.preflight:
+        print(json.dumps({"status": "a5b_preflight_passed", "shell_pair_counts": {str(relation.shell): relation.pair_count for relation in relations}, "a3_gate_max_absolute_difference": float(a3_gate["absolute_difference"].max()), "frozen_a4s_json_sha256": a4s.json_sha256, "frozen_a4s_npz_sha256": a4s.npz_sha256}, indent=2))
+        return 0
 
     fold_metrics, records, arrays_by_candidate, prepared, audits = primary_oof(data, config, relations, reference, a4s, args.a3_frozen_output, output, durable_root, device)
     spatial, temporal, frontier, predictions = diagnostics(data, config, reference, records, arrays_by_candidate, output)
