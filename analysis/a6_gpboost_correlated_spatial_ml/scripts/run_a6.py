@@ -847,6 +847,7 @@ def main() -> int:
     parser.add_argument("--spatial-assignments", type=Path)
     parser.add_argument("--output-root", type=Path)
     parser.add_argument("--durable-summary-root", type=Path)
+    parser.add_argument("--preflight-only", action="store_true")
     args = parser.parse_args()
     output = resolve_output_root(args.output_root)
     durable = args.durable_summary_root.resolve() if args.durable_summary_root else None
@@ -866,6 +867,9 @@ def main() -> int:
     leak = run_leakage_tests(config, data, output)
     prepared = A5.prepare_temporal_fold(data, FOLDS[0], args.a3_frozen_output)
     preflight = run_feasibility_preflight(data, prepared, config, coords_xy, gpb, output)
+    if args.preflight_only:
+        print(json.dumps({"status": "PREFLIGHT_COMPLETED", "preflight": preflight}, indent=2))
+        return 0
     a4s = A5B.load_frozen_a4s(args.a4s_frozen_output)
     frame, records, arrays, covariance_rows, candidate_status = primary_oof(data, config, reference, a4s, args.a3_frozen_output, output, coords_xy, gpb)
     aggregate = pd.concat([reference["aggregate"].loc[reference["aggregate"]["candidate"].astype(str).isin(REFERENCE_CANDIDATES)], aggregate_new(frame)], ignore_index=True, sort=False)
