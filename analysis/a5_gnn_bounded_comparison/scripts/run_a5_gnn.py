@@ -1271,7 +1271,7 @@ def write_report(output: Path, data: DataBundle, config: dict[str, Any], fold_me
         "## XI. Spatial stress test", "",
         f"Spatial stress-test status: `{stress.get('status')}`. The existing deterministic spatial partition was used when available; held-out outcomes were excluded from training loss, and stress-test results were not used for model selection. A4-S was not refit in the stress test because its frozen artifact is immutable.", "",
         "## XII. Seed stability", "",
-        f"Three fixed seeds were applied to every A5 variant. Seed-level summaries and the A5-GNN seed plot are included. The guardrail evidence reports PR-AUC seed SD `{evidence.get('seed_stability', {}).get('pr_auc_seed_sd')}`.", "",
+        f"Three fixed seeds were applied to every A5 variant. Seed-level summaries are included; figure-generation status is recorded separately because the supported Atlas environment may not provide matplotlib. The guardrail evidence reports PR-AUC seed SD `{evidence.get('seed_stability', {}).get('pr_auc_seed_sd')}`.", "",
         "## XIII. Guardrail assessment", "",
         f"Predictive preservation: `{evidence.get('predictive_preservation')}`. Spatial guardrails: `{evidence.get('spatial_guardrails')}`. Graph-ablation evidence: `{evidence.get('graph_ablation')}`. These are development guardrails only.", "",
         "## XIV. Limitations", "",
@@ -1414,7 +1414,7 @@ def main() -> int:
         "durable_promotion": {"status": "PENDING"},
     }
     write_json(output / "provenance/a5_analysis_manifest.json", manifest)
-    write_report(output, data, config, fold_metrics, aggregate, spatial, temporal, stress, evidence, environment)
+    write_report(output, data, config, fold_metrics, aggregate, spatial, temporal, stress, decision, evidence, environment)
     def write_checksum_manifest() -> None:
         write_json(output / "provenance/checksum_manifest.json", {"files": {str(path.relative_to(output)): sha256_file(path) for path in output.rglob("*") if path.is_file() and path.name != "checksum_manifest.json"}})
 
