@@ -46,6 +46,7 @@ RUNNER_ARGS=( \
   --spatial-assignments /project/disease_ecology/STGNN-output/revised_model_data/splits/spatial_node_assignments.parquet \
   --output-root "${A6_OUTPUT_ROOT}" \
   --durable-summary-root analysis/a6_gpboost_correlated_spatial_ml
+)
 
 if [[ "${A6_PREFLIGHT_ONLY:-0}" == "1" ]]; then
   RUNNER_ARGS+=(--preflight-only)
