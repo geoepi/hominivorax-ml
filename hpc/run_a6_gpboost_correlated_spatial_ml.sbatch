@@ -32,7 +32,7 @@ mkdir -p "${A6_OUTPUT_ROOT}" "${A6_TMP_ROOT}" "${A6_CACHE_ROOT}" "${XDG_CACHE_HO
 df -h /project/disease_ecology
 df -h /90daydata/disease_ecology
 
-python analysis/a6_gpboost_correlated_spatial_ml/scripts/run_a6.py \
+RUNNER_ARGS=( \
   --config analysis/a6_gpboost_correlated_spatial_ml/config/a6_config.json \
   --model-output /project/disease_ecology/STGNN-output/revised_model_data \
   --front-features /project/disease_ecology/STGNN-output/v2_model/front_features/causal_front_features.parquet \
@@ -46,3 +46,9 @@ python analysis/a6_gpboost_correlated_spatial_ml/scripts/run_a6.py \
   --spatial-assignments /project/disease_ecology/STGNN-output/revised_model_data/splits/spatial_node_assignments.parquet \
   --output-root "${A6_OUTPUT_ROOT}" \
   --durable-summary-root analysis/a6_gpboost_correlated_spatial_ml
+
+if [[ "${A6_PREFLIGHT_ONLY:-0}" == "1" ]]; then
+  RUNNER_ARGS+=(--preflight-only)
+fi
+
+python analysis/a6_gpboost_correlated_spatial_ml/scripts/run_a6.py "${RUNNER_ARGS[@]}"
