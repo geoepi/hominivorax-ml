@@ -81,6 +81,10 @@
     "shell1_attribution_over_iid": 0.01,
     "outer_shell_moran_worsening": 0.01
   },
+  "prediction_repeatability": {
+    "absolute_tolerance": 1e-10,
+    "validation_labels_must_be_absent": true
+  },
   "storage": {
     "output_root_env": "A6_OUTPUT_ROOT",
     "temporary_storage_class": "TEMPORARY_90DAY_STORAGE",

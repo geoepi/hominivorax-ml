@@ -21,6 +21,8 @@ class A6ContractTests(unittest.TestCase):
         self.assertFalse(CONFIG["predictors"]["coordinates_are_tree_features"])
         self.assertEqual(CONFIG["coordinates"]["space_time_order"], ["time_week_offset", "x_km", "y_km"])
         self.assertEqual(CONFIG["gpboost"]["vecchia_pred_type"], "order_obs_first_cond_obs_only")
+        self.assertEqual(CONFIG["prediction_repeatability"]["absolute_tolerance"], 1e-10)
+        self.assertTrue(CONFIG["prediction_repeatability"]["validation_labels_must_be_absent"])
 
     def test_temporal_coordinate_construction(self):
         times = np.array([0, 0, 2, 2], dtype=float)

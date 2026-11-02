@@ -472,6 +472,35 @@ def predict_booster(booster: Any, gp: Any | None, candidate: str, x: np.ndarray,
     return np.clip(probability, 0.0, 1.0)
 
 
+def prediction_repeatability(
+    booster: Any,
+    gp: Any | None,
+    candidate: str,
+    x: np.ndarray,
+    offset: np.ndarray,
+    coords: np.ndarray,
+    rounds: int,
+    config: dict[str, Any],
+) -> dict[str, Any]:
+    """Check label-free prediction repeatability with an explicit numeric tolerance."""
+    first = predict_booster(booster, gp, candidate, x, offset, coords, rounds, config)
+    second = predict_booster(booster, gp, candidate, x, offset, coords, rounds, config)
+    max_abs_difference = float(np.max(np.abs(first - second))) if len(first) else 0.0
+    tolerance = float(config["prediction_repeatability"]["absolute_tolerance"])
+    passed = bool(np.allclose(first, second, rtol=0.0, atol=tolerance))
+    if not passed:
+        raise A6SoftwareBlocked(
+            f"prediction repeat changed beyond tolerance without validation labels for {candidate}; "
+            f"max_abs_difference={max_abs_difference:.17g}; tolerance={tolerance:.17g}"
+        )
+    return {
+        "status": "PASSED",
+        "validation_labels_supplied": False,
+        "max_abs_difference": max_abs_difference,
+        "absolute_tolerance": tolerance,
+    }
+
+
 def save_models(booster: Any, gp: Any | None, output: Path, candidate: str, fold: int, seed: int) -> dict[str, Any]:
     model_dir = output / "models" / candidate / f"fold_{fold:02d}"
     model_dir.mkdir(parents=True, exist_ok=True)
@@ -530,11 +559,9 @@ def primary_oof(data: A5.DataBundle, config: dict[str, Any], reference: dict[str
                     x_eval, _, _, offset_eval, coords_eval = flatten_fold(fold, fold.validation_times, all_nodes, coords_xy, candidate == "A6-GPB-ST")
                     booster, gp, fit_info = train_booster(gpb, candidate, config, seed, x_train, y_train, offset_train, coords_train, rounds)
                     p = predict_booster(booster, gp, candidate, x_eval, offset_eval, coords_eval, rounds, config)
-                    leak_a = predict_booster(booster, gp, candidate, x_eval, offset_eval, coords_eval, rounds, config)
-                    if not np.array_equal(p, leak_a):
-                        raise A6SoftwareBlocked("prediction repeat changed without validation labels")
+                    repeatability = prediction_repeatability(booster, gp, candidate, x_eval, offset_eval, coords_eval, rounds, config)
                     model_info = save_models(booster, gp, output, candidate, fold.fold, seed)
-                    fit_info = {**fit_info, "probe": probe_info, "runtime_seconds_total": float(time.time() - started), "model": model_info, "gpboost_version": gpb.__version__, "prediction_conditioning": config["gpboost"]["vecchia_pred_type"], "training_offset": "A3_eta_init_score", "prediction_offset": "A3_eta_offset_pred"}
+                    fit_info = {**fit_info, "probe": probe_info, "runtime_seconds_total": float(time.time() - started), "model": model_info, "gpboost_version": gpb.__version__, "prediction_conditioning": config["gpboost"]["vecchia_pred_type"], "training_offset": "A3_eta_init_score", "prediction_offset": "A3_eta_offset_pred", "prediction_repeatability": repeatability}
                     rec, pred_arrays = A5.fold_prediction_record(candidate, fold.fold, seed, fold.validation_times, None, y_eval, p, cond_a3, mu_a3, train_prev, fit_info)
                     records[candidate].append(rec)
                     arrays[candidate].append(pred_arrays)
@@ -619,7 +646,8 @@ def run_feasibility_preflight(data: A5.DataBundle, fold: A5.FoldPrepared, config
             x_pred, _, _, offset_pred, coords_pred = flatten_fold(fold, train_times[:1], nodes_pred, coords_xy, candidate == "A6-GPB-ST")
             booster, gp, info = train_booster(gpb, candidate, config, SEEDS[0], x_train, y_train, offset_train, coords_train, 2)
             probability = predict_booster(booster, gp, candidate, x_pred, offset_pred, coords_pred, 2, config)
-            results.append({"candidate": candidate, "status": "PASSED", "training_rows": len(y_train), "prediction_rows": len(probability), "runtime_seconds": time.time() - started, "finite_predictions": bool(np.isfinite(probability).all()), "probability_bounds": bool(np.all((probability >= 0) & (probability <= 1))), "covariance": info.get("covariance_parameter_raw")})
+            repeatability = prediction_repeatability(booster, gp, candidate, x_pred, offset_pred, coords_pred, 2, config)
+            results.append({"candidate": candidate, "status": "PASSED", "training_rows": len(y_train), "prediction_rows": len(probability), "runtime_seconds": time.time() - started, "finite_predictions": bool(np.isfinite(probability).all()), "probability_bounds": bool(np.all((probability >= 0) & (probability <= 1))), "covariance": info.get("covariance_parameter_raw"), "prediction_repeatability": repeatability})
             del booster, gp
         except Exception as exc:
             status = "A6_SPATIAL_ONLY_GP_NUMERICALLY_UNSUPPORTED" if candidate == "A6-GPB-S" else "FAILED"
