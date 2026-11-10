@@ -692,7 +692,17 @@ def save_a3_baseline(fold: Any, data: Any, fold_root: Path, frozen_output: Path)
             return record["record"], arrays
         raise RuntimeError("existing A3 fold baseline has incompatible inputs; refusing to overwrite")
     frozen = A5.load_frozen_a3_predictions(frozen_output, fold.fold, data.counts, fold.validation_times)
-    reproduced = A5.numpy_a3_predictions(fold, fold.validation_times)
+    raw_validation = data.a3[np.asarray(fold.validation_times, dtype=np.int64)].reshape(-1, 34)
+    precise_x = A5.apply_frozen_scaling(
+        raw_validation,
+        fold.scaling,
+        A5.AUG.BASE_FEATURES + A5.AUG.ADDED_FEATURES,
+    )
+    precise_predictions = A5.AUG.predict(fold.a3_state, precise_x)
+    reproduced = (
+        fold.counts[np.asarray(fold.validation_times, dtype=np.int64)].reshape(-1).astype(np.int64),
+        *precise_predictions,
+    )
     for name, expected, observed in zip(("y", "p", "conditional", "mu"), (frozen[k] for k in ("y", "p", "conditional", "mu")), reproduced):
         if name == "y":
             if not np.array_equal(expected, observed):
