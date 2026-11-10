@@ -1,0 +1,64 @@
+{
+  "analysis": "a6_opt_efficient",
+  "parent_a6_commit": "e734427b29111917261861a67aafa2379a5bfc07",
+  "base_config": "../../a6_gpboost_correlated_spatial_ml/config/a6_config.json",
+  "gpboost_overrides": {
+    "gp_approx": "vecchia",
+    "num_neighbors": 8,
+    "num_neighbors_pred": 40,
+    "vecchia_pred_type": "order_obs_first_cond_obs_only",
+    "vecchia_ordering_spatiotemporal": "time",
+    "spatiotemporal_cov_function": "matern_space_time",
+    "cov_fct_shape": 1.5,
+    "likelihood": "bernoulli_logit"
+  },
+  "covariance_estimation": {
+    "sampling_method": "deterministic_spatial_stratification_all_training_weeks",
+    "sample_nodes": 2048,
+    "spatial_grid_bins_per_axis": 32,
+    "sampling_seed": 20261110,
+    "optimizer_cov": "lbfgs",
+    "maxit": 1000,
+    "delta_rel_conv": 1e-6,
+    "trace": false,
+    "initial_covariance_parameters": {
+      "GP_var": 1.0,
+      "GP_range_time": 8.0,
+      "GP_range_space": 50.0
+    },
+    "parameter_names": ["GP_var", "GP_range_time", "GP_range_space"],
+    "fit_inner_partition_for_round_selection": true
+  },
+  "fixed_covariance_training": {
+    "train_gp_model_cov_pars": false,
+    "initialization_api": "GPModel.set_optim_params(init_cov_pars=stage_a_values)",
+    "verify_after_training": "all_named_covariance_parameters_unchanged",
+    "estimate_gp_random_effect_modes": true
+  },
+  "gate": {
+    "minimum_speedup_vs_original_a6": 2.0,
+    "maximum_pr_auc_degradation_vs_a3": 0.03,
+    "maximum_brier_skill_degradation_vs_a3": 0.02,
+    "maximum_joint_hurdle_nll_worsening_vs_a3": 0.02,
+    "maximum_calibration_intercept_worsening_vs_a3": 0.25,
+    "maximum_calibration_slope_worsening_vs_a3": 0.25,
+    "minimum_shell1_occurrence_moran_reduction_vs_a3": 0.05,
+    "maximum_shell1_occurrence_moran_worsening_vs_original_a6": 0.01
+  },
+  "execution": {
+    "mode": "fold_level_restartable",
+    "temporal_array_concurrency": 1,
+    "prediction_neighbor_setting_explicit": true,
+    "large_outputs": "/90daydata/disease_ecology/hominivorax-ml/a6_opt_efficient",
+    "durable_outputs": "analysis/a6_opt_efficient/results",
+    "gate_resources": {"cpus": 4, "memory": "32G", "walltime": "24:00:00"},
+    "temporal_fold_resources": {"cpus": 16, "memory": "64G", "walltime": "2-00:00:00"},
+    "spatial_stress_fold_resources": {"cpus": 16, "memory": "64G", "walltime": "2-00:00:00"}
+  },
+  "spatial_stress_test": {
+    "partition": "existing_deterministic_spatial_node_assignments",
+    "selection_used": false,
+    "a4s_refit": false,
+    "run_only_after_primary_guardrails_pass": true
+  }
+}
