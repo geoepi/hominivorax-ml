@@ -476,11 +476,11 @@ def estimate_covariance(
     initial = opt["initial_covariance_parameters"]
     if list(initial) != PARAMETER_NAMES:
         initial = {name: float(initial[name]) for name in PARAMETER_NAMES}
-    init_frame = pd.DataFrame([{name: float(initial[name]) for name in PARAMETER_NAMES}], columns=PARAMETER_NAMES)
+    init_vector = np.asarray([float(initial[name]) for name in PARAMETER_NAMES], dtype=np.float64)
     seed = int(opt["sampling_seed"]) + int(fold_id)
     gp = make_gp_model(gpb, coords, seed, config, threads)
     params = {
-        "init_cov_pars": init_frame,
+        "init_cov_pars": init_vector,
         "optimizer_cov": opt["optimizer_cov"],
         "maxit": int(opt["maxit"]),
         "delta_rel_conv": float(opt["delta_rel_conv"]),
@@ -523,7 +523,10 @@ def estimate_covariance(
             "sampled_occurrence_counts": {"positive": int(y.sum()), "negative": int(len(y) - y.sum())},
             "sampled_week_class_counts": week_class_counts,
             "spatial_sampling": sample_summary,
-            "optimizer": params | {"init_cov_pars": init_frame.to_dict(orient="records")},
+            "optimizer": {key: value for key, value in params.items() if key != "init_cov_pars"} | {
+                "init_cov_pars_parameter_order": PARAMETER_NAMES,
+                "init_cov_pars_values": init_vector.tolist(),
+            },
             "runtime": {
                 "wall_seconds": float(elapsed),
                 "cpu_seconds": max(0.0, after["cpu_seconds"] - before["cpu_seconds"]),
@@ -565,8 +568,8 @@ def thread_count() -> int:
     return max(1, min(16, requested))
 
 
-def covariance_frame(values: dict[str, float]) -> pd.DataFrame:
-    return pd.DataFrame([{name: float(values[name]) for name in PARAMETER_NAMES}], columns=PARAMETER_NAMES)
+def covariance_vector(values: dict[str, float]) -> np.ndarray:
+    return np.asarray([float(values[name]) for name in PARAMETER_NAMES], dtype=np.float64)
 
 
 def fixed_covariance_train(
@@ -583,7 +586,7 @@ def fixed_covariance_train(
     early_stopping: bool = False,
 ) -> tuple[Any, Any, dict[str, Any]]:
     gp = make_gp_model(gpb, coords_train, seed, config, thread_count())
-    gp.set_optim_params({"init_cov_pars": covariance_frame(covariance)})
+    gp.set_optim_params({"init_cov_pars": covariance_vector(covariance)})
     train_set = A6.make_dataset(gpb, x_train, y_train, offset_train)
     valid_set = None
     if valid is not None:
