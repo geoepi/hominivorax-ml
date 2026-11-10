@@ -219,6 +219,7 @@ def audit_gpboost_api(gpb: Any, output: Path) -> dict[str, Any]:
         "GPModel.fit_offset": "offset" in fit_sig.parameters,
         "GPModel.set_optim_params": "params" in optim_sig.parameters,
         "train_fixed_covariance": "train_gp_model_cov_pars" in train_sig.parameters,
+        "prediction_type_setting": "vecchia_pred_type" in pred_sig.parameters,
         "prediction_neighbor_setting": "num_neighbors_pred" in pred_sig.parameters,
         "GPModel_fit_init_cov_pars_documented": "init_cov_pars" in (inspect.getdoc(gpb.GPModel.set_optim_params) or ""),
         "train_fixed_covariance_documented": "provide values via the 'init_cov_pars'" in (inspect.getdoc(gpb.train) or ""),
@@ -349,8 +350,6 @@ def make_gp_model(gpb: Any, coords: np.ndarray, seed: int, config: dict[str, Any
         num_parallel_threads=threads,
         num_neighbors=gp["num_neighbors"],
         vecchia_ordering=gp["vecchia_ordering_spatiotemporal"],
-        vecchia_pred_type=gp["vecchia_pred_type"],
-        num_neighbors_pred=gp["num_neighbors_pred"],
         seed=int(seed),
     )
     return model
