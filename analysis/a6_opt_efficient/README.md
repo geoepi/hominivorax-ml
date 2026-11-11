@@ -57,6 +57,12 @@ This mode requires the original environment manifest and checksum-valid fit
 artifacts. It reuses the saved prediction archive without training and records
 the model-fit and comparison code revisions separately.
 
+Primary aggregation writes an explicit fold/seed coverage table for the
+original A6 comparators. Missing rows leave the comparator incomplete, suppress
+the full runtime ratio, and prevent a supported primary decision or spatial-
+stress authorization; available A6-OPT versus frozen A3 results are still
+reported.
+
 After the primary temporal aggregation reports `primary_guardrails_passed: true`,
 set `A6_OPT_OUTPUT_ROOT` to that run root and execute
 `hpc/submit_a6_opt_spatial_stress.sh`. The launcher checks the primary decision

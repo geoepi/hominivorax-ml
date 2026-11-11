@@ -1640,6 +1640,7 @@ def aggregate_primary(args: argparse.Namespace, config: dict[str, Any], data: An
     diagnostics_arrays: dict[str, list[dict[str, np.ndarray]]] = {"A3": [], "A6-GB-IID": [], "A6-GPB-ST": [], OPT_CANDIDATE: []}
     covariance_rows: list[dict[str, Any]] = []
     support_rows: list[dict[str, Any]] = []
+    original_coverage_rows: list[dict[str, Any]] = []
     coords_xy = A6.node_coordinates(data)
     for fold_record in A6.FOLDS:
         fold_id = int(fold_record["fold"])
@@ -1685,14 +1686,29 @@ def aggregate_primary(args: argparse.Namespace, config: dict[str, Any], data: An
             with np.load(completed["artifact_paths"]["prediction"], allow_pickle=False) as archive:
                 opt_arrays.append({key: np.asarray(archive[key]) for key in archive.files})
             for candidate in ("A6-GB-IID", "A6-GPB-ST"):
-                original_metrics, original_arrays, _ = get_original_a6_row(args.original_a6_run_root, candidate, fold_id, seed, data)
+                try:
+                    original_metrics, original_arrays, _ = get_original_a6_row(args.original_a6_run_root, candidate, fold_id, seed, data)
+                except RuntimeError as exc:
+                    message = str(exc)
+                    if not (message.startswith("original A6 comparison artifacts are incomplete") or message.startswith("original A6 metrics row is missing")):
+                        raise
+                    original_coverage_rows.append({
+                        "candidate": candidate,
+                        "fold": fold_id,
+                        "seed": seed,
+                        "status": "MISSING",
+                        "reason": message,
+                    })
+                    continue
                 for key in ("y", "week_index", "node_id"):
                     if key not in original_arrays or not np.array_equal(original_arrays[key], a3_arrays[key]):
                         raise RuntimeError(f"original A6 {candidate} rows differ from the frozen A3 fold for {key}")
                 metrics_rows.append(original_metrics)
                 a6_original_arrays_by_type[candidate].append(original_arrays)
+                original_coverage_rows.append({"candidate": candidate, "fold": fold_id, "seed": seed, "status": "MATCHED", "reason": ""})
         for candidate, candidate_arrays in a6_original_arrays_by_type.items():
-            diagnostics_arrays[candidate].append(mean_prediction_arrays(candidate_arrays))
+            if candidate_arrays:
+                diagnostics_arrays[candidate].append(mean_prediction_arrays(candidate_arrays))
         diagnostics_arrays[OPT_CANDIDATE].append(mean_prediction_arrays(opt_arrays))
 
         fold = A5.prepare_temporal_fold(data, next(item for item in A6.FOLDS if int(item["fold"]) == fold_id), args.a3_frozen_output)
@@ -1702,6 +1718,19 @@ def aggregate_primary(args: argparse.Namespace, config: dict[str, Any], data: An
         support["validation_start"] = fold_record["validation_start"]
         support["validation_end"] = fold_record["validation_end"]
         support_rows.append(support)
+
+    coverage_frame = pd.DataFrame(original_coverage_rows)
+    write_csv_atomic(args.output_root / "results/original_a6_comparator_coverage.csv", coverage_frame)
+    expected_original_rows = len(A6.FOLDS) * len(seed_ids)
+    original_coverage = {
+        candidate: {
+            "expected_fold_seed_rows": expected_original_rows,
+            "matched_fold_seed_rows": int(coverage_frame.loc[coverage_frame["candidate"].eq(candidate) & coverage_frame["status"].eq("MATCHED")].shape[0]),
+            "missing_fold_seed_rows": int(coverage_frame.loc[coverage_frame["candidate"].eq(candidate) & coverage_frame["status"].eq("MISSING")].shape[0]),
+        }
+        for candidate in ("A6-GB-IID", "A6-GPB-ST")
+    }
+    original_coverage_complete = all(value["matched_fold_seed_rows"] == expected_original_rows for value in original_coverage.values())
 
     metric_frame = pd.DataFrame(metrics_rows)
     write_csv_atomic(args.output_root / "results/fold_seed_metrics.csv", metric_frame)
@@ -1718,7 +1747,7 @@ def aggregate_primary(args: argparse.Namespace, config: dict[str, Any], data: An
     write_csv_atomic(args.output_root / "results/covariance_parameters.csv", covariance_frame_out)
     write_csv_atomic(args.output_root / "results/spatial_support_assessment.csv", pd.DataFrame(support_rows))
 
-    combined_predictions = {name: concatenate_prediction_arrays(items) for name, items in diagnostics_arrays.items()}
+    combined_predictions = {name: concatenate_prediction_arrays(items) for name, items in diagnostics_arrays.items() if items}
     spatial = A5.spatial_diagnostics(combined_predictions, data, config, args.output_root)
     temporal = A5.temporal_diagnostics(combined_predictions, args.output_root)
     frontier = A5.frontier_diagnostics(combined_predictions, data, args.output_root)
@@ -1741,7 +1770,11 @@ def aggregate_primary(args: argparse.Namespace, config: dict[str, Any], data: An
     calibration_slope_worsening = abs(abs(opt_mean["calibration_slope"]) - abs(a3_mean["calibration_slope"]))
     shell_reductions = {str(shell_id): float(a3_shell.loc[shell_id] - opt_shell.loc[shell_id]) for shell_id in (1, 2, 3, 4)}
     outer_shell_worst_worsening = max(float(opt_shell.loc[shell_id] - a3_shell.loc[shell_id]) for shell_id in (2, 3, 4))
-    iid_attribution = float(iid_shell.loc[1] - opt_shell.loc[1])
+    iid_shell1 = float(iid_shell.get(1, math.nan))
+    original_st_shell1 = float(
+        occurrence.loc[occurrence["candidate"].eq("A6-GPB-ST") & occurrence["shell"].eq(1), "moran_i"].iloc[0]
+    ) if not occurrence.loc[occurrence["candidate"].eq("A6-GPB-ST") & occurrence["shell"].eq(1)].empty else math.nan
+    iid_attribution = float(iid_shell1 - opt_shell.loc[1]) if math.isfinite(iid_shell1) else math.nan
     seed_sd = float(opt_rows.groupby("seed")["pr_auc"].mean().std(ddof=0))
     cov_ok = bool(not covariance_frame_out.empty and covariance_frame_out["converged"].astype(bool).all() and covariance_frame_out["covariance_non_degenerate"].astype(bool).all())
     predictive_guardrails = {
@@ -1755,7 +1788,7 @@ def aggregate_primary(args: argparse.Namespace, config: dict[str, Any], data: An
     spatial_guardrails = {
         "shell1_occurrence_reduction_vs_a3": bool(shell_reductions["1"] >= guard["shell1_occurrence_moran_reduction"]),
         "shell2_to_4_not_worse_than_a3": bool(outer_shell_worst_worsening <= guard["outer_shell_moran_worsening"]),
-        "shell1_attribution_over_iid": bool(iid_attribution >= guard["shell1_attribution_over_iid"]),
+        "shell1_attribution_over_iid": bool(original_coverage["A6-GB-IID"]["matched_fold_seed_rows"] == expected_original_rows and math.isfinite(iid_attribution) and iid_attribution >= guard["shell1_attribution_over_iid"]),
     }
     stability_guardrails = {
         "all_fits_covariance_fixed": bool(opt_rows["covariance_fixed_verified"].astype(bool).all()),
@@ -1764,11 +1797,16 @@ def aggregate_primary(args: argparse.Namespace, config: dict[str, Any], data: An
         "pr_auc_seed_sd_at_most_0_05": bool(seed_sd <= 0.05),
         "covariance_estimates_valid": cov_ok,
         "leakage_contract": leakage.get("status") == "PASSED",
+        "original_a6_comparator_coverage_complete": original_coverage_complete,
     }
     all_primary_guardrails = bool(all(predictive_guardrails.values()) and all(spatial_guardrails.values()) and all(stability_guardrails.values()))
-    decision = "A6_OPT_SUPPORTED_WITH_LIMITATIONS" if all_primary_guardrails else "A6_OPT_NOT_SUPPORTED"
+    if not original_coverage_complete:
+        decision = "A6_OPT_EVALUATION_INCOMPLETE"
+    else:
+        decision = "A6_OPT_SUPPORTED_WITH_LIMITATIONS" if all_primary_guardrails else "A6_OPT_NOT_SUPPORTED"
     runtime_opt = float(opt_rows["runtime_seconds_total"].sum())
-    runtime_original = float(original_st_rows["runtime_seconds_total"].sum()) if "runtime_seconds_total" in original_st_rows else float("nan")
+    observed_original_runtime = float(original_st_rows["runtime_seconds_total"].sum()) if "runtime_seconds_total" in original_st_rows else float("nan")
+    runtime_original = observed_original_runtime if original_coverage["A6-GPB-ST"]["matched_fold_seed_rows"] == expected_original_rows else float("nan")
     speedup = runtime_original / runtime_opt if math.isfinite(runtime_original) and runtime_opt > 0 else float("nan")
     stage_a_total = float(covariance_frame_out["runtime_seconds"].sum())
     stage_a_cpu = float(covariance_frame_out["cpu_seconds"].sum())
@@ -1791,9 +1829,11 @@ def aggregate_primary(args: argparse.Namespace, config: dict[str, Any], data: An
         "mean_cpu_utilization_fraction": float(cpu_seconds / max(wall_seconds * cpus, 1e-9)),
         "peak_rss_bytes": peak_rss,
         "allocated_cpus_per_fold_job": cpus,
-        "original_a6_spatiotemporal_runtime_seconds": runtime_original,
+        "original_a6_spatiotemporal_runtime_seconds": runtime_original if math.isfinite(runtime_original) else None,
+        "original_a6_spatiotemporal_runtime_seconds_observed_partial": observed_original_runtime,
         "a6_opt_runtime_seconds": runtime_opt,
-        "measured_speedup_vs_original_a6": speedup,
+        "measured_speedup_vs_original_a6": speedup if math.isfinite(speedup) else None,
+        "original_a6_comparator_coverage": original_coverage,
         "vecchia_training_neighbors": 8,
         "vecchia_prediction_neighbors": 40,
         "covariance_estimates_reused_across_three_seeds": True,
@@ -1804,26 +1844,29 @@ def aggregate_primary(args: argparse.Namespace, config: dict[str, Any], data: An
     write_json_atomic(args.output_root / "results/computational_performance.json", computation)
     a3_occ_mean = float(a3_shell.loc[1])
     opt_occ_mean = float(opt_shell.loc[1])
-    original_mean = {name: float(original_st_rows[name].mean()) for name in A6.REQUIRED_METRICS}
+    original_mean = {name: float(original_st_rows[name].mean()) if not original_st_rows.empty else math.nan for name in A6.REQUIRED_METRICS}
     evidence = {
         "status": decision,
         "primary_guardrails_passed": all_primary_guardrails,
+        "decision_reason": "Original A6 fold/seed comparator artifacts are incomplete; full comparator guardrails and the speedup ratio cannot be established." if not original_coverage_complete else None,
         "development_classification": "DEVELOPMENT_INFORMED_FOLLOWUP",
         "predictive_guardrails": predictive_guardrails,
         "spatial_guardrails": spatial_guardrails,
         "stability_guardrails": stability_guardrails,
+        "original_a6_comparator_coverage": original_coverage,
         "mean_metrics": {"A3": a3_mean, "original_A6_GPB_ST": original_mean, "A6_OPT": opt_mean},
         "worst_fold_pr_auc_difference_vs_a3": pr_fold_worst,
         "calibration_intercept_worsening_vs_a3": calibration_intercept_worsening,
         "calibration_slope_worsening_vs_a3": calibration_slope_worsening,
         "occurrence_shell_reductions_vs_a3": shell_reductions,
         "outer_shell_worst_worsening_vs_a3": outer_shell_worst_worsening,
-        "shell1_attribution_over_original_a6_iid": iid_attribution,
-        "shell1_occurrence_moran": {"A3": a3_occ_mean, "A6-GB-IID": float(iid_shell.loc[1]), "A6-GPB-ST": float(occurrence.loc[occurrence["candidate"].eq("A6-GPB-ST") & occurrence["shell"].eq(1)]["moran_i"].iloc[0]), OPT_CANDIDATE: opt_occ_mean},
+        "shell1_attribution_over_original_a6_iid": iid_attribution if original_coverage["A6-GB-IID"]["matched_fold_seed_rows"] == expected_original_rows else None,
+        "shell1_attribution_over_original_a6_iid_observed_partial": iid_attribution,
+        "shell1_occurrence_moran": {"A3": a3_occ_mean, "A6-GB-IID": iid_shell1, "A6-GPB-ST": original_st_shell1, OPT_CANDIDATE: opt_occ_mean},
         "seed_pr_auc_standard_deviation": seed_sd,
         "covariance_estimates": covariance_rows,
         "computational_performance": computation,
-        "spatial_stress_status": "AUTHORIZED_AFTER_PRIMARY_GUARDRAILS_PASS" if all_primary_guardrails else "NOT_RUN_PRIMARY_GUARDRAILS_FAILED",
+        "spatial_stress_status": "AUTHORIZED_AFTER_PRIMARY_GUARDRAILS_PASS" if all_primary_guardrails else ("NOT_RUN_INCOMPLETE_ORIGINAL_A6_COMPARATORS" if not original_coverage_complete else "NOT_RUN_PRIMARY_GUARDRAILS_FAILED"),
         "production_promotion": "NOT_AUTHORIZED",
         "a3_artifact_modified": False,
         "a4s_artifact_modified": False,
@@ -1849,6 +1892,16 @@ def aggregate_primary(args: argparse.Namespace, config: dict[str, Any], data: An
             continue
         item = row.iloc[0]
         lines.append(f"| {candidate} | {item['pr_auc']:.4f} | {item['brier_skill']:.4f} | {item['calibration_intercept']:.4f} | {item['calibration_slope']:.4f} | {item['joint_hurdle_nll']:.4f} |")
+    lines.extend([
+        "", "## Original A6 comparator coverage", "",
+        "| Candidate | Matched fold/seed rows | Expected rows | Missing rows |", "|---|---:|---:|---:|",
+    ])
+    lines.extend(
+        f"| {candidate} | {coverage['matched_fold_seed_rows']} | {coverage['expected_fold_seed_rows']} | {coverage['missing_fold_seed_rows']} |"
+        for candidate, coverage in original_coverage.items()
+    )
+    if not original_coverage_complete:
+        lines.append("\nOriginal A6 metrics and residual diagnostics below use only matched artifacts. The incomplete coverage prevents a full original-A6 comparison and leaves the primary evaluation incomplete.")
     lines.extend(["", "## Spatial residual dependence", "", "| Candidate | Shell 1 Moran’s I | Shell 2 | Shell 3 | Shell 4 |", "|---|---:|---:|---:|---:|"])
     for candidate in ("A3", "A6-GB-IID", "A6-GPB-ST", OPT_CANDIDATE):
         vals = occurrence.loc[occurrence["candidate"].eq(candidate)].set_index("shell")["moran_i"]
@@ -1860,7 +1913,8 @@ def aggregate_primary(args: argparse.Namespace, config: dict[str, Any], data: An
     lines.extend(f"| {section.replace('_', ' ')}: {name.replace('_', ' ')} | {'PASS' if passed else 'FAIL'} |" for section, checks in (("predictive", predictive_guardrails), ("spatial", spatial_guardrails), ("stability", stability_guardrails)) for name, passed in checks.items())
     lines.extend([
         "", "## Computational performance", "",
-        f"Measured A6-OPT to original A6 runtime ratio: **{speedup:.2f}×**. Stage A covariance estimation used a deterministic 2,048-site spatial sample across all training weeks. Stage B used all applicable training rows.",
+        (f"Measured A6-OPT to original A6 runtime ratio: **{speedup:.2f}×**." if math.isfinite(speedup) else f"A full A6-OPT to original A6 runtime ratio is unavailable because only {original_coverage['A6-GPB-ST']['matched_fold_seed_rows']} of {expected_original_rows} original A6 spatiotemporal fits are available."),
+        "Stage A covariance estimation used a deterministic 2,048-site spatial sample across all training weeks. Stage B used all applicable training rows.",
         "",
         f"Stage A wall time: {stage_a_total / 3600:.2f} hours; Stage B inner selection: {computation['stage_b_inner_selection_wall_seconds'] / 3600:.2f} hours; Stage B final training: {computation['stage_b_full_training_wall_seconds'] / 3600:.2f} hours; prediction: {computation['prediction_wall_seconds'] / 3600:.2f} hours.",
         f"Total measured CPU: {computation['total_cpu_hours']:.2f} CPU-hours; peak process RSS: {peak_rss / (1024**3):.2f} GiB; fold array concurrency: 1.",
@@ -1882,7 +1936,7 @@ def aggregate_primary(args: argparse.Namespace, config: dict[str, Any], data: An
         "results/fold_seed_metrics.csv", "results/aggregate_metrics.csv", "results/covariance_parameters.csv",
         "results/residual_spatial_summary.csv", "results/residual_spatial_map_data.csv",
         "results/residual_temporal_summary.csv", "results/frontier_metrics.csv",
-        "results/spatial_support_assessment.csv", "results/computational_performance.json",
+        "results/spatial_support_assessment.csv", "results/original_a6_comparator_coverage.csv", "results/computational_performance.json",
         "results/a6_opt_decision.json", "results/a6_opt_diagnostics.svg", "results/final_decision_report.md",
         "results/spatial_stress_gate.json", "results/leakage_tests.json", "provenance/environment_manifest.json", "provenance/gpboost_api_audit.json",
     ]
