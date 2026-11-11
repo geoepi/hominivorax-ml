@@ -50,6 +50,13 @@ estimates, seed attempts, checksums, and completion status. A rerun reuses
 validated covariance and completed seed artifacts; failed attempts receive a
 new attempt directory.
 
+If the Stage B completion marker exists but the gate comparison stopped on a
+recoverable comparison error, run
+`A6_OPT_OUTPUT_ROOT=<existing-gate-run> bash hpc/submit_a6_opt_gate_compare.sh`.
+This mode requires the original environment manifest and checksum-valid fit
+artifacts. It reuses the saved prediction archive without training and records
+the model-fit and comparison code revisions separately.
+
 After the primary temporal aggregation reports `primary_guardrails_passed: true`,
 set `A6_OPT_OUTPUT_ROOT` to that run root and execute
 `hpc/submit_a6_opt_spatial_stress.sh`. The launcher checks the primary decision

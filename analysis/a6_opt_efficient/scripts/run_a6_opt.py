@@ -1240,6 +1240,8 @@ def compare_gate(
     a3_record: dict[str, Any],
     a3_arrays: dict[str, np.ndarray],
     covariance: dict[str, Any],
+    fit_completion: dict[str, Any],
+    comparison_source_sha256: dict[str, str],
 ) -> dict[str, Any]:
     original_root = args.original_a6_run_root
     original_metrics, original_arrays, original_provenance = get_original_a6_row(original_root, "A6-GPB-ST", fold_id, seed, data)
@@ -1327,6 +1329,11 @@ def compare_gate(
             "A successful gate permits, but does not automatically launch, the complete temporal evaluation.",
         ],
         "execution_sha": os.environ.get("STGNN_GIT_SHA", "unknown"),
+        "comparison_execution_sha": os.environ.get("STGNN_GIT_SHA", "unknown"),
+        "model_execution_sha": fit_completion.get("execution_sha", "unknown"),
+        "model_execution_branch": fit_completion.get("execution_branch", "unknown"),
+        "model_source_sha256": fit_completion.get("source_sha256", {}),
+        "comparison_source_sha256": comparison_source_sha256,
         "config_sha256": config["a6_opt_provenance"]["opt_config_sha256"],
     }
     write_csv_atomic(args.output_root / "results/a6_opt_gate_metrics.csv", pd.DataFrame([
@@ -1401,7 +1408,7 @@ def run_gate(args: argparse.Namespace, config: dict[str, Any], opt: dict[str, An
         a3_record = result["a3_record"]
         a3_arrays = result["a3_arrays"]
         outer_cov = result["outer_covariance"]
-        gate = compare_gate(args, config, data, fold_id, seed, seed_complete["record"], opt_arrays, a3_record, a3_arrays, outer_cov)
+        gate = compare_gate(args, config, data, fold_id, seed, seed_complete["record"], opt_arrays, a3_record, a3_arrays, outer_cov, seed_complete, source_checksums(args.config))
         write_json_atomic(args.output_root / "results/run_status.json", {"status": gate["status"], "completed_utc": utc_now(), "fold": fold_id, "seed": seed})
         return gate
     except Exception as exc:
@@ -1454,6 +1461,80 @@ def completed_covariance_estimate(fold_root: Path, stage_name: str) -> dict[str,
         result["reused"] = True
         return result
     raise RuntimeError(f"no completed Stage A covariance estimate in {stage_root}")
+
+
+def run_gate_compare(args: argparse.Namespace, config: dict[str, Any], data: Any, fold_id: int, seed: int, comparison_source_sha256: dict[str, str]) -> dict[str, Any]:
+    """Finish a gate comparison from checksum-verified fit artifacts without refitting."""
+    existing_decision_path = args.output_root / "results/a6_opt_gate_decision.json"
+    if existing_decision_path.exists():
+        existing = json.loads(existing_decision_path.read_text(encoding="utf-8"))
+        if existing.get("status") in {"A6_OPT_GATE_SUPPORTED", "A6_OPT_GATE_SUPPORTED_WITH_LIMITATIONS"}:
+            return existing
+
+    all_nodes = np.arange(A6.NODE_COUNT, dtype=np.int64)
+    fold_root = args.output_root / "folds" / f"fold_{fold_id:02d}"
+    seed_root = fold_root / "seeds" / f"seed_{seed}"
+    completed = find_completed_seed(seed_root, seed, config, data, all_nodes, all_nodes)
+    if completed is None:
+        raise RuntimeError("comparison-only mode requires a completed, provenance-matched Stage B fit")
+    fold, a3_record, a3_arrays = prepare_fold(args, data, fold_id, args.a3_frozen_output)
+    outer_covariance = completed_covariance_estimate(fold_root, "outer_final_fit")
+    if completed.get("outer_covariance_sha256") != outer_covariance.get("estimate_sha256"):
+        raise RuntimeError("completed Stage B fit does not reference the checksum-verified outer covariance estimate")
+    with np.load(completed["artifact_paths"]["prediction"], allow_pickle=False) as archive:
+        opt_arrays = {key: np.asarray(archive[key]) for key in archive.files}
+
+    archives_root = args.output_root / "results/gate_attempts"
+    archives_root.mkdir(parents=True, exist_ok=True)
+    attempt = 1
+    while (archives_root / f"attempt_{attempt:03d}").exists():
+        attempt += 1
+    archive_dir = archives_root / f"attempt_{attempt:03d}"
+    archive_dir.mkdir()
+    if existing_decision_path.exists():
+        shutil.copy2(existing_decision_path, archive_dir / "prior_gate_decision.json")
+    report_path = args.durable_summary_root / f"a6_opt_gate_report_{args.output_root.name}.md"
+    if report_path.exists():
+        shutil.copy2(report_path, archive_dir / report_path.name)
+    write_json_atomic(archive_dir / "comparison_attempt.json", {
+        "status": "RUNNING",
+        "fold": int(fold_id),
+        "seed": int(seed),
+        "model_execution_sha": completed.get("execution_sha", "unknown"),
+        "comparison_execution_sha": os.environ.get("STGNN_GIT_SHA", "unknown"),
+        "comparison_source_sha256": comparison_source_sha256,
+        "started_utc": utc_now(),
+    })
+    try:
+        result = compare_gate(
+            args, config, data, fold_id, seed, completed["record"], opt_arrays,
+            a3_record, a3_arrays, outer_covariance, completed, comparison_source_sha256,
+        )
+        write_json_atomic(archive_dir / "comparison_attempt.json", {
+            "status": "COMPLETED",
+            "gate_status": result["status"],
+            "fold": int(fold_id),
+            "seed": int(seed),
+            "model_execution_sha": completed.get("execution_sha", "unknown"),
+            "comparison_execution_sha": os.environ.get("STGNN_GIT_SHA", "unknown"),
+            "comparison_source_sha256": comparison_source_sha256,
+            "completed_utc": utc_now(),
+        })
+        write_json_atomic(args.output_root / "results/run_status.json", {"status": result["status"], "completed_utc": utc_now(), "fold": fold_id, "seed": seed, "comparison_only": True})
+        return result
+    except Exception as exc:
+        write_json_atomic(archive_dir / "comparison_attempt.json", {
+            "status": "FAILED",
+            "fold": int(fold_id),
+            "seed": int(seed),
+            "reason": str(exc),
+            "traceback": traceback.format_exc(),
+            "model_execution_sha": completed.get("execution_sha", "unknown"),
+            "comparison_execution_sha": os.environ.get("STGNN_GIT_SHA", "unknown"),
+            "comparison_source_sha256": comparison_source_sha256,
+            "failed_utc": utc_now(),
+        })
+        raise
 
 
 def mean_prediction_arrays(arrays: list[dict[str, np.ndarray]]) -> dict[str, np.ndarray]:
@@ -1952,7 +2033,7 @@ def aggregate_spatial_stress(args: argparse.Namespace, config: dict[str, Any], d
 
 def create_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mode", choices=["gate", "fold", "aggregate", "spatial-fold", "spatial-aggregate"], required=True)
+    parser.add_argument("--mode", choices=["gate", "gate-compare", "fold", "aggregate", "spatial-fold", "spatial-aggregate"], required=True)
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--model-output", type=Path, required=True)
     parser.add_argument("--front-features", type=Path, required=True)
@@ -1977,7 +2058,26 @@ def main() -> int:
     args.output_root = resolve_output_root(args.output_root)
     args.original_a6_run_root = args.original_a6_run_root.expanduser().resolve()
     args.durable_summary_root = args.durable_summary_root.expanduser().resolve() / args.output_root.name
-    source_sha256 = source_checksums(args.config)
+    comparison_source_sha256 = source_checksums(args.config)
+    source_sha256 = comparison_source_sha256
+    if args.mode == "gate-compare":
+        environment_path = args.output_root / "provenance/environment_manifest.json"
+        if not environment_path.exists():
+            raise RuntimeError("comparison-only mode requires the original fit environment manifest")
+        prior_environment = json.loads(environment_path.read_text(encoding="utf-8"))
+        prior_source_sha256 = prior_environment.get("source_sha256")
+        if not isinstance(prior_source_sha256, dict) or set(prior_source_sha256) != set(comparison_source_sha256):
+            raise RuntimeError("original fit environment manifest has incomplete source provenance")
+        changed_non_runner_sources = [
+            name for name, digest in comparison_source_sha256.items()
+            if name != "a6_opt_runner" and prior_source_sha256.get(name) != digest
+        ]
+        if changed_non_runner_sources:
+            raise RuntimeError(f"comparison-only source changed outside the runner: {changed_non_runner_sources}")
+        prior_config = prior_environment.get("config_provenance", {})
+        if prior_config.get("opt_config_sha256") != config["a6_opt_provenance"]["opt_config_sha256"] or prior_config.get("base_config_sha256") != config["a6_opt_provenance"]["base_config_sha256"]:
+            raise RuntimeError("comparison-only mode config differs from the completed fit")
+        source_sha256 = prior_source_sha256
     config["a6_opt_provenance"]["source_sha256"] = source_sha256
     for name in ("results", "provenance", "folds", "logs", "spatial_stress"):
         (args.output_root / name).mkdir(parents=True, exist_ok=True)
@@ -2013,6 +2113,12 @@ def main() -> int:
             raise ValueError("gate mode requires --fold and exactly one --seeds value")
         result = run_gate(args, config, opt, data, gpb, args.fold, args.seeds[0])
         print(json.dumps({"status": result["status"], "fold": args.fold, "seed": args.seeds[0]}, indent=2))
+        return 0
+    if args.mode == "gate-compare":
+        if args.fold is None or args.seeds is None or len(args.seeds) != 1:
+            raise ValueError("gate-compare mode requires --fold and exactly one --seeds value")
+        result = run_gate_compare(args, config, data, args.fold, args.seeds[0], comparison_source_sha256)
+        print(json.dumps({"status": result["status"], "fold": args.fold, "seed": args.seeds[0], "comparison_only": True}, indent=2))
         return 0
     if args.mode == "fold":
         if args.fold is None or not args.seeds:

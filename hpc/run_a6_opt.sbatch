@@ -31,7 +31,7 @@ export XDG_CACHE_HOME="${A6_OPT_CACHE_ROOT}/xdg"
 mkdir -p "${A6_OPT_OUTPUT_ROOT}" "${A6_OPT_TMP_ROOT}" "${A6_OPT_CACHE_ROOT}" "${XDG_CACHE_HOME}" "${A6_OPT_OUTPUT_ROOT}/logs"
 
 RUNNER_ARGS=( \
-  --mode "${A6_OPT_MODE:?A6_OPT_MODE must be gate, fold, aggregate, spatial-fold, or spatial-aggregate}" \
+  --mode "${A6_OPT_MODE:?A6_OPT_MODE must be gate, gate-compare, fold, aggregate, spatial-fold, or spatial-aggregate}" \
   --config analysis/a6_opt_efficient/config/a6_opt_config.json \
   --model-output /project/disease_ecology/STGNN-output/revised_model_data \
   --front-features /project/disease_ecology/STGNN-output/v2_model/front_features/causal_front_features.parquet \
@@ -47,8 +47,8 @@ RUNNER_ARGS=( \
 )
 
 case "${A6_OPT_MODE}" in
-  gate)
-    RUNNER_ARGS+=(--fold "${A6_OPT_FOLD:?A6_OPT_FOLD is required in gate mode}" --seeds "${A6_OPT_SEED:?A6_OPT_SEED is required in gate mode}")
+  gate|gate-compare)
+    RUNNER_ARGS+=(--fold "${A6_OPT_FOLD:?A6_OPT_FOLD is required in gate or gate-compare mode}" --seeds "${A6_OPT_SEED:?A6_OPT_SEED is required in gate or gate-compare mode}")
     ;;
   fold)
     RUNNER_ARGS+=(--fold "${SLURM_ARRAY_TASK_ID:?fold array requires SLURM_ARRAY_TASK_ID}" --seeds 1729 31415 271828)
