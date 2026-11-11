@@ -649,7 +649,7 @@ def fixed_covariance_train(
     return booster, gp, info
 
 
-def get_original_a6_row(original_root: Path, candidate: str, fold: int, seed: int) -> tuple[dict[str, Any], dict[str, np.ndarray], dict[str, Any]]:
+def get_original_a6_row(original_root: Path, candidate: str, fold: int, seed: int, data: Any) -> tuple[dict[str, Any], dict[str, np.ndarray], dict[str, Any]]:
     metric_path = original_root / "results/fold_seed_metrics.csv"
     prediction_path = original_root / "predictions" / f"{candidate}_fold{fold}_seed{seed}.npz"
     manifest_path = original_root / "manifests" / f"{candidate}_fold{fold}_seed{seed}.json"
@@ -661,16 +661,40 @@ def get_original_a6_row(original_root: Path, candidate: str, fold: int, seed: in
         candidate_rows["fold"].astype(int).eq(int(fold))
         & candidate_rows["seed"].astype(int).eq(int(seed))
     ]
-    if len(selected) != 1:
-        raise RuntimeError(f"expected one original A6 metrics row for {candidate}, fold {fold}, seed {seed}")
     with np.load(prediction_path, allow_pickle=False) as archive:
         arrays = {key: np.asarray(archive[key]) for key in archive.files}
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    return selected.iloc[0].to_dict(), arrays, {
+    if manifest.get("candidate") != candidate or int(manifest.get("seed", -1)) != int(seed):
+        raise RuntimeError(f"original A6 manifest identity mismatch for {candidate}, fold {fold}, seed {seed}")
+    if len(selected) == 0:
+        raise RuntimeError(f"original A6 metrics row is missing for {candidate}, fold {fold}, seed {seed}")
+    fold_record = next((item for item in A6.FOLDS if int(item["fold"]) == int(fold)), None)
+    if fold_record is None:
+        raise RuntimeError(f"unknown original A6 fold {fold}")
+    train_times = np.asarray(fold_record["train_indices"], dtype=np.int64)
+    train_prevalence = float(np.mean(data.counts[train_times] > 0))
+    computed_metrics = A5.metric_frame(
+        arrays["y"], arrays["p"], arrays["conditional"], arrays["mu"], train_prevalence,
+    )
+    matched_rows = []
+    for _, row in selected.iterrows():
+        if all(
+            name in row and pd.notna(row[name]) and math.isclose(float(row[name]), float(computed_metrics[name]), rel_tol=0.0, abs_tol=1e-12)
+            for name in A6.REQUIRED_METRICS
+        ):
+            matched_rows.append(row)
+    if not matched_rows:
+        raise RuntimeError(f"no original A6 metrics row matches its prediction artifact for {candidate}, fold {fold}, seed {seed}")
+    canonical_metrics = matched_rows[0].to_dict()
+    canonical_metrics.update({name: float(computed_metrics[name]) for name in A6.REQUIRED_METRICS})
+    return canonical_metrics, arrays, {
         "manifest_path": str(manifest_path),
         "manifest_sha256": sha256_file(manifest_path),
         "prediction_path": str(prediction_path),
         "prediction_sha256": sha256_file(prediction_path),
+        "metrics_row_count": int(len(selected)),
+        "metrics_rows_matching_prediction": int(len(matched_rows)),
+        "metrics_recomputed_from_prediction": True,
         "original_runtime_seconds_total": float(manifest.get("runtime_seconds_total", math.nan)),
         "original_manifest": manifest,
     }
@@ -1218,7 +1242,7 @@ def compare_gate(
     covariance: dict[str, Any],
 ) -> dict[str, Any]:
     original_root = args.original_a6_run_root
-    original_metrics, original_arrays, original_provenance = get_original_a6_row(original_root, "A6-GPB-ST", fold_id, seed)
+    original_metrics, original_arrays, original_provenance = get_original_a6_row(original_root, "A6-GPB-ST", fold_id, seed, data)
     for key in ("y", "week_index", "node_id"):
         if key not in original_arrays or key not in opt_arrays or not np.array_equal(original_arrays[key], opt_arrays[key]):
             raise RuntimeError(f"original A6 and A6-OPT fold rows do not align for {key}")
@@ -1346,8 +1370,25 @@ def run_gate(args: argparse.Namespace, config: dict[str, Any], opt: dict[str, An
     existing_decision_path = args.output_root / "results/a6_opt_gate_decision.json"
     if existing_decision_path.exists():
         existing = json.loads(existing_decision_path.read_text(encoding="utf-8"))
-        if existing.get("status") in {"A6_OPT_GATE_SUPPORTED", "A6_OPT_GATE_SUPPORTED_WITH_LIMITATIONS", "A6_OPT_GATE_NOT_SUPPORTED"}:
+        if existing.get("status") in {"A6_OPT_GATE_SUPPORTED", "A6_OPT_GATE_SUPPORTED_WITH_LIMITATIONS"}:
             return existing
+        if existing.get("status") == "A6_OPT_GATE_NOT_SUPPORTED":
+            all_nodes = np.arange(A6.NODE_COUNT, dtype=np.int64)
+            seed_root = args.output_root / "folds" / f"fold_{fold_id:02d}" / "seeds" / f"seed_{seed}"
+            completed = find_completed_seed(seed_root, seed, config, data, all_nodes, all_nodes)
+            if completed is None:
+                return existing
+            archives_root = args.output_root / "results/gate_attempts"
+            archives_root.mkdir(parents=True, exist_ok=True)
+            attempt = 1
+            while (archives_root / f"attempt_{attempt:03d}").exists():
+                attempt += 1
+            archive_dir = archives_root / f"attempt_{attempt:03d}"
+            archive_dir.mkdir()
+            shutil.copy2(existing_decision_path, archive_dir / "a6_opt_gate_decision.json")
+            old_report = args.durable_summary_root / f"a6_opt_gate_report_{args.output_root.name}.md"
+            if old_report.exists():
+                shutil.copy2(old_report, archive_dir / old_report.name)
     try:
         result = run_fold(args, config, opt, data, gpb, fold_id, [seed], "gate")
         fold_root = args.output_root / "folds" / f"fold_{fold_id:02d}"
@@ -1366,7 +1407,7 @@ def run_gate(args: argparse.Namespace, config: dict[str, Any], opt: dict[str, An
     except Exception as exc:
         if existing_decision_path.exists():
             existing = json.loads(existing_decision_path.read_text(encoding="utf-8"))
-            if existing.get("status") in {"A6_OPT_GATE_SUPPORTED", "A6_OPT_GATE_SUPPORTED_WITH_LIMITATIONS", "A6_OPT_GATE_NOT_SUPPORTED"}:
+            if existing.get("status") in {"A6_OPT_GATE_SUPPORTED", "A6_OPT_GATE_SUPPORTED_WITH_LIMITATIONS"}:
                 return existing
         decision = {
             "status": "A6_OPT_GATE_NOT_SUPPORTED",
@@ -1563,7 +1604,7 @@ def aggregate_primary(args: argparse.Namespace, config: dict[str, Any], data: An
             with np.load(completed["artifact_paths"]["prediction"], allow_pickle=False) as archive:
                 opt_arrays.append({key: np.asarray(archive[key]) for key in archive.files})
             for candidate in ("A6-GB-IID", "A6-GPB-ST"):
-                original_metrics, original_arrays, _ = get_original_a6_row(args.original_a6_run_root, candidate, fold_id, seed)
+                original_metrics, original_arrays, _ = get_original_a6_row(args.original_a6_run_root, candidate, fold_id, seed, data)
                 for key in ("y", "week_index", "node_id"):
                     if key not in original_arrays or not np.array_equal(original_arrays[key], a3_arrays[key]):
                         raise RuntimeError(f"original A6 {candidate} rows differ from the frozen A3 fold for {key}")
