@@ -9,7 +9,7 @@ mkdir -p "${RUN_ROOT}/logs"
 
 sbatch --parsable \
   --job-name=stgnn_a6o_gate \
-  --cpus-per-task=4 --mem=32G --time=24:00:00 \
+  --cpus-per-task=4 --mem=32G --time=72:00:00 \
   --output="${RUN_ROOT}/logs/a6opt-gate-%j.out" \
   --error="${RUN_ROOT}/logs/a6opt-gate-%j.err" \
   --export="ALL,STGNN_A6_OPT_REPOSITORY_ROOT=${REPO_ROOT},A6_OPT_MODE=gate,A6_OPT_FOLD=3,A6_OPT_SEED=31415,A6_OPT_OUTPUT_ROOT=${RUN_ROOT},A6_OPT_ORIGINAL_RUN_ROOT=${ORIGINAL_ROOT}" \
