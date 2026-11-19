@@ -1,0 +1,398 @@
+{
+  "audit_version": "1.0.0",
+  "audit_status": "COMPLETE",
+  "source_integrity": {
+    "updated": {
+      "path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-11-13.csv",
+      "sha256": "8fd21f9db11db3df20596fe7ad0b4cbbc8b895fbaad6f702c847ed5a05dd19fc",
+      "size_bytes": 7304653,
+      "mtime_utc": "2026-11-19T00:35:14.058126+00:00",
+      "row_count": 167078,
+      "columns": [
+        "date",
+        "host",
+        "lon",
+        "lat"
+      ],
+      "parser": "Python csv.DictReader; UTF-8-sig; all fields retained as strings"
+    },
+    "historical": {
+      "path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2027-07-31.csv",
+      "sha256": "a3d55f3ddf867087b578df803920bf59c6c303fa695e3218a5f3463e596d497e",
+      "size_bytes": 5193033,
+      "mtime_utc": "2026-10-03T20:24:17.197046+00:00",
+      "row_count": 136714,
+      "columns": [
+        "date",
+        "host",
+        "lon",
+        "lat"
+      ],
+      "parser": "Python csv.DictReader; UTF-8-sig; all fields retained as strings"
+    },
+    "checksum_gate": "Both authoritative source checksums matched before parsing or comparison."
+  },
+  "comparison_methodology": {
+    "initial_parser": "Python csv.DictReader; UTF-8-sig; every source field remains a string.",
+    "raw_character_key": "(date,lon,lat), compared exactly as stored.",
+    "exact_decimal_key": "Decimal strings canonicalized by integer digits and base-10 exponent; no context rounding or coordinate precision reduction.",
+    "float64_key": "Python float conversion from raw coordinate strings; date remains raw unless the method explicitly says otherwise.",
+    "complete_record_key": "Every source column, raw character representation.",
+    "previous_audit_reconstruction": {
+      "parser": "pandas.read_csv with default dtype inference",
+      "pandas_version": "3.0.6",
+      "date_operation": "pandas.to_datetime(errors='raise').dt.strftime('%Y-%m-%d')",
+      "coordinate_operation": "pd.to_numeric(errors='raise').astype('float64')",
+      "host_operation": "astype(str)",
+      "script_status": "Reconstructed from prior report description; exact prior executable source was not retained in the repository or audit deliverables.",
+      "detection_semantics": "The prior report did not record whether its displayed count meant duplicate groups, rows in duplicate groups, or redundant rows; all three are recomputed here."
+    },
+    "previous_audit_code_recovered_verbatim": false,
+    "no_spatial_processing": true,
+    "no_source_mutation": true,
+    "record_level_output_written": false,
+    "count_definitions": {
+      "duplicate_groups": "Number of distinct keys with multiplicity k greater than 1.",
+      "rows_in_duplicate_groups": "Sum of k across groups with k greater than 1.",
+      "redundant_rows": "Sum of k-1 across duplicate groups.",
+      "maximum_multiplicity": "Largest k among duplicate groups, or 1 when none exist."
+    }
+  },
+  "date_audit": {
+    "updated": {
+      "record_count": 167078,
+      "raw_unique_date_strings": 1637,
+      "lossless_normalized_unique_date_values": 1637,
+      "calendar_date_unique_values": 1637,
+      "format_counts": {
+        "ISO calendar date": 167078
+      },
+      "leading_or_trailing_whitespace_records": 0,
+      "date_time_records": 0,
+      "timezone_tagged_records": 0,
+      "unparseable_calendar_dates": 0,
+      "date_conversion_effect_note": "Calendar-date keys intentionally use the source-local calendar date; timezone conversion is not applied before assigning an ISO week."
+    },
+    "historical": {
+      "record_count": 136714,
+      "raw_unique_date_strings": 1529,
+      "lossless_normalized_unique_date_values": 1529,
+      "calendar_date_unique_values": 1529,
+      "format_counts": {
+        "ISO calendar date": 136714
+      },
+      "leading_or_trailing_whitespace_records": 0,
+      "date_time_records": 0,
+      "timezone_tagged_records": 0,
+      "unparseable_calendar_dates": 0,
+      "date_conversion_effect_note": "Calendar-date keys intentionally use the source-local calendar date; timezone conversion is not applied before assigning an ISO week."
+    },
+    "normalization_comparisons": [
+      {
+        "Dataset": "Updated 2026-11-13",
+        "Temporal subset": "Entire observation dataset",
+        "Comparison method": "Date representation effect: Raw date text plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 167078,
+        "Unique keys": 164767,
+        "Duplicate groups": 2311,
+        "Rows in duplicate groups": 4622,
+        "Redundant rows": 2311,
+        "Maximum multiplicity": 2
+      },
+      {
+        "Dataset": "Updated 2026-11-13",
+        "Temporal subset": "Entire observation dataset",
+        "Comparison method": "Date representation effect: Lossless normalized date-time plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 167078,
+        "Unique keys": 164767,
+        "Duplicate groups": 2311,
+        "Rows in duplicate groups": 4622,
+        "Redundant rows": 2311,
+        "Maximum multiplicity": 2
+      },
+      {
+        "Dataset": "Updated 2026-11-13",
+        "Temporal subset": "Entire observation dataset",
+        "Comparison method": "Date representation effect: Source-local calendar date plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 167078,
+        "Unique keys": 164767,
+        "Duplicate groups": 2311,
+        "Rows in duplicate groups": 4622,
+        "Redundant rows": 2311,
+        "Maximum multiplicity": 2
+      },
+      {
+        "Dataset": "Updated 2026-11-13",
+        "Temporal subset": "Original W16 training horizon",
+        "Comparison method": "Date representation effect: Raw date text plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 91993,
+        "Unique keys": 91005,
+        "Duplicate groups": 988,
+        "Rows in duplicate groups": 1976,
+        "Redundant rows": 988,
+        "Maximum multiplicity": 2
+      },
+      {
+        "Dataset": "Updated 2026-11-13",
+        "Temporal subset": "Original W16 training horizon",
+        "Comparison method": "Date representation effect: Lossless normalized date-time plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 91993,
+        "Unique keys": 91005,
+        "Duplicate groups": 988,
+        "Rows in duplicate groups": 1976,
+        "Redundant rows": 988,
+        "Maximum multiplicity": 2
+      },
+      {
+        "Dataset": "Updated 2026-11-13",
+        "Temporal subset": "Original W16 training horizon",
+        "Comparison method": "Date representation effect: Source-local calendar date plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 91993,
+        "Unique keys": 91005,
+        "Duplicate groups": 988,
+        "Rows in duplicate groups": 1976,
+        "Redundant rows": 988,
+        "Maximum multiplicity": 2
+      },
+      {
+        "Dataset": "Updated 2026-11-13",
+        "Temporal subset": "After original W16 training horizon",
+        "Comparison method": "Date representation effect: Raw date text plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 30178,
+        "Unique keys": 28855,
+        "Duplicate groups": 1323,
+        "Rows in duplicate groups": 2646,
+        "Redundant rows": 1323,
+        "Maximum multiplicity": 2
+      },
+      {
+        "Dataset": "Updated 2026-11-13",
+        "Temporal subset": "After original W16 training horizon",
+        "Comparison method": "Date representation effect: Lossless normalized date-time plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 30178,
+        "Unique keys": 28855,
+        "Duplicate groups": 1323,
+        "Rows in duplicate groups": 2646,
+        "Redundant rows": 1323,
+        "Maximum multiplicity": 2
+      },
+      {
+        "Dataset": "Updated 2026-11-13",
+        "Temporal subset": "After original W16 training horizon",
+        "Comparison method": "Date representation effect: Source-local calendar date plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 30178,
+        "Unique keys": 28855,
+        "Duplicate groups": 1323,
+        "Rows in duplicate groups": 2646,
+        "Redundant rows": 1323,
+        "Maximum multiplicity": 2
+      },
+      {
+        "Dataset": "Updated 2026-11-13",
+        "Temporal subset": "Before original W16 training horizon",
+        "Comparison method": "Date representation effect: Raw date text plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 44907,
+        "Unique keys": 44907,
+        "Duplicate groups": 0,
+        "Rows in duplicate groups": 0,
+        "Redundant rows": 0,
+        "Maximum multiplicity": 1
+      },
+      {
+        "Dataset": "Updated 2026-11-13",
+        "Temporal subset": "Before original W16 training horizon",
+        "Comparison method": "Date representation effect: Lossless normalized date-time plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 44907,
+        "Unique keys": 44907,
+        "Duplicate groups": 0,
+        "Rows in duplicate groups": 0,
+        "Redundant rows": 0,
+        "Maximum multiplicity": 1
+      },
+      {
+        "Dataset": "Updated 2026-11-13",
+        "Temporal subset": "Before original W16 training horizon",
+        "Comparison method": "Date representation effect: Source-local calendar date plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 44907,
+        "Unique keys": 44907,
+        "Duplicate groups": 0,
+        "Rows in duplicate groups": 0,
+        "Redundant rows": 0,
+        "Maximum multiplicity": 1
+      },
+      {
+        "Dataset": "Frozen W16 source 2027-07-31",
+        "Temporal subset": "Entire observation dataset",
+        "Comparison method": "Date representation effect: Raw date text plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 136714,
+        "Unique keys": 136707,
+        "Duplicate groups": 4,
+        "Rows in duplicate groups": 11,
+        "Redundant rows": 7,
+        "Maximum multiplicity": 4
+      },
+      {
+        "Dataset": "Frozen W16 source 2027-07-31",
+        "Temporal subset": "Entire observation dataset",
+        "Comparison method": "Date representation effect: Lossless normalized date-time plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 136714,
+        "Unique keys": 136707,
+        "Duplicate groups": 4,
+        "Rows in duplicate groups": 11,
+        "Redundant rows": 7,
+        "Maximum multiplicity": 4
+      },
+      {
+        "Dataset": "Frozen W16 source 2027-07-31",
+        "Temporal subset": "Entire observation dataset",
+        "Comparison method": "Date representation effect: Source-local calendar date plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 136714,
+        "Unique keys": 136707,
+        "Duplicate groups": 4,
+        "Rows in duplicate groups": 11,
+        "Redundant rows": 7,
+        "Maximum multiplicity": 4
+      },
+      {
+        "Dataset": "Frozen W16 source 2027-07-31",
+        "Temporal subset": "Original W16 training horizon",
+        "Comparison method": "Date representation effect: Raw date text plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 79257,
+        "Unique keys": 79257,
+        "Duplicate groups": 0,
+        "Rows in duplicate groups": 0,
+        "Redundant rows": 0,
+        "Maximum multiplicity": 1
+      },
+      {
+        "Dataset": "Frozen W16 source 2027-07-31",
+        "Temporal subset": "Original W16 training horizon",
+        "Comparison method": "Date representation effect: Lossless normalized date-time plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 79257,
+        "Unique keys": 79257,
+        "Duplicate groups": 0,
+        "Rows in duplicate groups": 0,
+        "Redundant rows": 0,
+        "Maximum multiplicity": 1
+      },
+      {
+        "Dataset": "Frozen W16 source 2027-07-31",
+        "Temporal subset": "Original W16 training horizon",
+        "Comparison method": "Date representation effect: Source-local calendar date plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 79257,
+        "Unique keys": 79257,
+        "Duplicate groups": 0,
+        "Rows in duplicate groups": 0,
+        "Redundant rows": 0,
+        "Maximum multiplicity": 1
+      },
+      {
+        "Dataset": "Frozen W16 source 2027-07-31",
+        "Temporal subset": "After original W16 training horizon",
+        "Comparison method": "Date representation effect: Raw date text plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 12549,
+        "Unique keys": 12543,
+        "Duplicate groups": 3,
+        "Rows in duplicate groups": 9,
+        "Redundant rows": 6,
+        "Maximum multiplicity": 4
+      },
+      {
+        "Dataset": "Frozen W16 source 2027-07-31",
+        "Temporal subset": "After original W16 training horizon",
+        "Comparison method": "Date representation effect: Lossless normalized date-time plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 12549,
+        "Unique keys": 12543,
+        "Duplicate groups": 3,
+        "Rows in duplicate groups": 9,
+        "Redundant rows": 6,
+        "Maximum multiplicity": 4
+      },
+      {
+        "Dataset": "Frozen W16 source 2027-07-31",
+        "Temporal subset": "After original W16 training horizon",
+        "Comparison method": "Date representation effect: Source-local calendar date plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 12549,
+        "Unique keys": 12543,
+        "Duplicate groups": 3,
+        "Rows in duplicate groups": 9,
+        "Redundant rows": 6,
+        "Maximum multiplicity": 4
+      },
+      {
+        "Dataset": "Frozen W16 source 2027-07-31",
+        "Temporal subset": "Before original W16 training horizon",
+        "Comparison method": "Date representation effect: Raw date text plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 44908,
+        "Unique keys": 44907,
+        "Duplicate groups": 1,
+        "Rows in duplicate groups": 2,
+        "Redundant rows": 1,
+        "Maximum multiplicity": 2
+      },
+      {
+        "Dataset": "Frozen W16 source 2027-07-31",
+        "Temporal subset": "Before original W16 training horizon",
+        "Comparison method": "Date representation effect: Lossless normalized date-time plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 44908,
+        "Unique keys": 44907,
+        "Duplicate groups": 1,
+        "Rows in duplicate groups": 2,
+        "Redundant rows": 1,
+        "Maximum multiplicity": 2
+      },
+      {
+        "Dataset": "Frozen W16 source 2027-07-31",
+        "Temporal subset": "Before original W16 training horizon",
+        "Comparison method": "Date representation effect: Source-local calendar date plus exact decimal coordinates",
+        "Key columns": "date,Decimal(lon),Decimal(lat)",
+        "Total rows": 44908,
+        "Unique keys": 44907,
+        "Duplicate groups": 1,
+        "Rows in duplicate groups": 2,
+        "Redundant rows": 1,
+        "Maximum multiplicity": 2
+      }
+    ]
+  },
+  "historical_release_overlap": {
+    "temporal_scope": "2025-W01 through 2026-W16",
+    "key": "source-local calendar date plus exact Decimal longitude and latitude; host excluded",
+    "unique_keys_in_both_releases": 53641,
+    "matched_key_multiplicity": 53641,
+    "updated_only_multiplicity": 38352,
+    "historical_only_multiplicity": 25616,
+    "exact_full_record_overlap_multiplicity": 15988,
+    "interpretation": "Cross-release overlap is reported separately and is not counted as within-dataset duplication."
+  },
+  "output_files": [
+    "observation_duplicate_precision_summary.csv",
+    "observation_coordinate_precision_summary.csv",
+    "observation_rounding_sensitivity.csv",
+    "observation_date_normalization_summary.csv"
+  ],
+  "privacy": "The manifest contains aggregate metadata only; no coordinates, source rows, or record-level diagnostics are emitted."
+}

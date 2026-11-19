@@ -14,7 +14,7 @@ Atlas upstream STGNN was at 87b9d32cf0dbdafbc91d2017a0d816fdf76bdb3a. The deploy
 
 The November 13 source is 7,304,653 bytes, SHA-256 8fd21f9db11db3df20596fe7ad0b4cbbc8b895fbaad6f702c847ed5a05dd19fc, modified November 18. Its schema is date, host, lon, lat; it has 167,078 rows, no blank fields, no invalid dates, and globally valid coordinates for all rows. It spans 2022-02-10 through 2026-11-13, with observed rows in W44, W45, and W46.
 
-The release does not document the latest complete week. The filename date is not a completeness declaration. There are 2,295 exact repeated rows, 980 in the frozen fit horizon; their semantics are undocumented.
+The release does not document the latest complete week. The filename date is not a completeness declaration. The follow-up duplicate/precision investigation confirms 2,311 duplicated `(date, lon, lat)` key groups in the updated source (4,622 participating rows; 2,311 redundant rows), including 988 groups in the frozen fit horizon (1,976 participating; 988 redundant). The earlier 2,295 and 980 figures are confirmed as repeated complete-row groups/redundant rows, not all coordinate-key groups. Exact source-coordinate duplication is therefore confirmed. Whether repeated records represent separate detections or duplicate ingestion remains undocumented.
 
 ## IV. Environmental data audit
 
@@ -50,13 +50,13 @@ The active Atlas configuration still points to the pre-existing production input
 
 ## XI. Repository and pull-request status
 
-This branch contains only audit documentation and machine-readable manifests. Validation classification is A. No package test suite or HPC validation was run; JSON manifests were parsed and the document diff was reviewed. Draft pull request 31 is open with the audit result and blocker.
+The original refresh audit consisted of audit documentation and machine-readable manifests (classification A). The follow-up adds read-only audit scripts, aggregate outputs, documentation, and focused synthetic tests (classification C; no production data pathway or model code changed). Its targeted tests and cross-check are documented in observation_duplicate_precision_audit.md. No package-wide or HPC validation was run. Draft pull request 31 remains open with the refresh result and blocker.
 
 ## XII. Outstanding limitations and blockers
 
 1. The new observation release has no documented latest complete week.
 2. Most original-fit-horizon observation key multiplicities differ from the frozen source; the size and cause of the historical revisions are undocumented.
-3. Exact duplicate observation rows are present, and the source does not document their meaning.
+3. Exact duplicate observation coordinate keys are present at source precision; the source does not document whether repeated rows represent separate detections or duplicate ingestion. See observation_duplicate_precision_audit.md for the superseding counts and method reconciliation.
 4. The frozen source filename ends in 2027-07-31, while its content ends in 2026-07-31.
 5. Provider release-time or revision-lag metadata for the environmental sources was not established.
 6. Atlas's configured rasterio environment cannot locate proj.db, limiting authority-code validation.
@@ -65,4 +65,10 @@ This branch contains only audit documentation and machine-readable manifests. Va
 
 REFRESH_BLOCKED_BY_INPUT_DATA.
 
-Resume candidate work after the source owner documents the complete observation week, explains the historical revision process, and clarifies duplicate-row semantics. Re-audit the resulting immutable source snapshot before any candidate model execution. No decision to modify the model, change the data contract, or promote a production artifact was made.
+The duplicate-specific classification is OBSERVATION_DUPLICATES_CONFIRMED_AT_SOURCE. The overall refresh decision remains REFRESH_BLOCKED_BY_INPUT_DATA. Resume candidate work only after the source owner documents the complete observation week, explains the historical revision process, and clarifies duplicate-record semantics. Re-audit the resulting immutable source snapshot before any candidate model execution. No decision to modify the model, change the data contract, or promote a production artifact was made.
+
+## Follow-up addendum — observation duplicate and precision audit
+
+The follow-up is classified C because it adds executable read-only audit logic and focused synthetic tests. The audit scripts do not change the observation source, production data path, model code, dependencies, or scientific parameters. Validation used the intended Atlas R environment wrapper for an independent base R checksum/key-count cross-check and the Atlas project Python environment for the focused 12-test synthetic module. The Python environment did not contain pytest; the available standard-library unittest runner passed all 12 tests, and no dependency or environment was installed or changed. The audit did not run the package suite, HPC workflows, model fitting, Slurm, or production qualification because those are outside this integrity investigation.
+
+The source hashes matched before parsing. Python and R agreed on the raw-record, raw-key, and exact-decimal key aggregates. The detailed metrics, rounding sensitivity, method recovery limitations, and source-integrity classification are in observation_duplicate_precision_audit.md and its aggregate outputs. The original findings above remain in the report for traceability; the duplicate-specific statements are superseded by the follow-up findings.

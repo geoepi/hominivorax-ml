@@ -28,6 +28,28 @@
     "release_date_label": "2026-11-13",
     "exact_duplicate_rows": 2295,
     "exact_duplicate_rows_in_original_fit_horizon": 980,
+    "duplicate_count_scope_note": "Retained values from the earlier report; the follow-up audit confirms these as complete-record duplicate groups and redundant rows. They are not the total number of duplicate (date, lon, lat) key groups.",
+    "source_precision_duplicate_key_audit": {
+      "decision": "OBSERVATION_DUPLICATES_CONFIRMED_AT_SOURCE",
+      "method": "Source-local ISO calendar date plus losslessly canonicalized exact decimal longitude and latitude; no coordinate precision reduction.",
+      "entire_dataset": {
+        "rows": 167078,
+        "unique_keys": 164767,
+        "duplicate_groups": 2311,
+        "rows_in_duplicate_groups": 4622,
+        "redundant_rows": 2311,
+        "maximum_multiplicity": 2
+      },
+      "original_fit_horizon": {
+        "rows": 91993,
+        "unique_keys": 91005,
+        "duplicate_groups": 988,
+        "rows_in_duplicate_groups": 1976,
+        "redundant_rows": 988,
+        "maximum_multiplicity": 2
+      },
+      "report": "observation_duplicate_precision_audit.md"
+    },
     "completeness_evidence": {
       "release_specific_complete_week_manifest_found": false,
       "complete_week_metadata_found": false,

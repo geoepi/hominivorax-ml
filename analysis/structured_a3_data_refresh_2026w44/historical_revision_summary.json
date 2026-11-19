@@ -26,6 +26,17 @@
   "exact_duplicate_records_in_new_source": {
     "all_weeks": 2295,
     "original_fit_horizon": 980,
+    "count_scope": "Earlier reported complete-record duplicate groups and redundant rows; all groups are pairs. These legacy counts are retained for traceability.",
+    "source_precision_coordinate_key_duplicate_groups": {
+      "all_weeks": 2311,
+      "original_fit_horizon": 988,
+      "all_weeks_rows_in_groups": 4622,
+      "original_fit_horizon_rows_in_groups": 1976,
+      "all_weeks_redundant_rows": 2311,
+      "original_fit_horizon_redundant_rows": 988,
+      "maximum_multiplicity": 2
+    },
+    "superseding_audit": "observation_duplicate_precision_audit.md",
     "upstream_refresh_behavior": "The existing builder reports duplicates but aggregates every row; it does not deduplicate.",
     "record_semantics_documented": false
   },
