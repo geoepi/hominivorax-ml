@@ -74,6 +74,49 @@
     "row_count": 160676,
     "schema_issue": "An additional blank first header was present."
   },
+  "current_source_verification": {
+    "verification_date": "2026-11-19",
+    "path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-11-13.csv",
+    "previous_source_sha256": "2f9cf04ffe01712b8e5498d809f542d159ff1cb33ae8b567aa6644e9c4f05de5",
+    "sha256_before": "784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac",
+    "sha256_after": "784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac",
+    "unchanged_during_verification": true,
+    "size_bytes": 7191829,
+    "mtime": "2026-11-19T10:06:23.592700507-06:00",
+    "r_version": "4.5.1",
+    "rscript_elapsed_seconds": 3.46,
+    "rows": 164767,
+    "columns": 4,
+    "expected_column_names": ["date", "host", "lon", "lat"],
+    "observed_column_names": ["date", "lon", "lat", "host"],
+    "column_name_set_matches_expected": true,
+    "column_order_matches_expected": false,
+    "unique_observation_keys": 164767,
+    "redundant_observation_keys": 0,
+    "any_duplicated_keys": false,
+    "missing_values": 0,
+    "invalid_dates": 0,
+    "invalid_coordinates": 0,
+    "date_range": ["2022-02-10", "2026-11-13"],
+    "original_w16_horizon_rows": 91005,
+    "extended_w44_horizon_rows": 118892,
+    "recent_weekly_observation_totals": {
+      "2026-W42": 994,
+      "2026-W43": 1021,
+      "2026-W44": 911,
+      "2026-W45": 668,
+      "2026-W46": 300
+    },
+    "method": "R 4.5.1 read.csv numeric key comparison on named date, lon, and lat columns; exact-decimal and rounding investigations were not repeated.",
+    "source_decision": "OBSERVATION_SOURCE_CORRECTION_VERIFIED",
+    "duplicate_related_blocker": "CLOSED",
+    "overall_refresh_readiness": "REFRESH_BLOCKED_BY_INPUT_DATA",
+    "remaining_blockers": [
+      "Reporting completeness through 2026-W44 remains undocumented.",
+      "Historical observation revisions relative to the frozen W16 source remain unexplained.",
+      "The separate W29 artifact-lineage question remains unresolved."
+    ]
+  },
   "environmental_inventory": "environmental_completeness_inventory.json",
   "scope_note": "Only metadata and aggregate audit results are recorded here. Restricted row-level observations, rasters, and fitted artifacts remain on Atlas."
 }

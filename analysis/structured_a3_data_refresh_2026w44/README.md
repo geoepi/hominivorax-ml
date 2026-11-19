@@ -1,8 +1,8 @@
 # STRUCTURED_A3 data refresh audit: 2026-W44
 
-Administrative result: REFRESH_BLOCKED_BY_INPUT_DATA. The corrected-source re-audit is the current observation-integrity result: `OBSERVATION_DUPLICATES_REMAIN` (2,263 exact-decimal observation-key groups across the corrected source). The earlier audit remains preserved as the historical result for its original source checksum.
+Administrative result: REFRESH_BLOCKED_BY_INPUT_DATA. The latest source verification, for SHA-256 `784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac`, found 164,767 unique `(date, lon, lat)` keys and zero redundant keys (`OBSERVATION_SOURCE_CORRECTION_VERIFIED`). Earlier duplicate findings remain preserved as historical results for their respective source checksums.
 
-The read-only input and specification audit is documented here. The environmental products reach W44 and match the frozen training bundle over its original fit horizon. The observation release has no documented complete-week cutoff and makes substantial, unexplained revisions in the frozen training period. The user-provided stop rule therefore halted work before model execution. The original duplicate-precision audit and its source-specific result are retained in observation_duplicate_precision_audit.md. The corrected-source re-audit, which supersedes that result for the current source snapshot while preserving it for provenance, is in observation_corrected_source_reaudit.md.
+The read-only input and specification audit is documented here. The environmental products reach W44 and match the frozen training bundle over its original fit horizon. The current observation source passes the duplicate-key verification, but still has no documented complete-week cutoff and historical revisions remain unexplained. The original duplicate-precision audits and their source-specific results are retained in observation_duplicate_precision_audit.md and observation_corrected_source_reaudit.md. The latest verification is recorded in decision_report.md and input_manifest.json.
 
 ## Audit files
 
@@ -34,4 +34,4 @@ The read-only input and specification audit is documented here. The environmenta
 - production_isolation_verification.md: current production boundary.
 - decision_report.md: required 13-part execution summary.
 
-Restricted data and fitted artifacts remain outside Git. No candidate model or qualification result was created. The corrected source still contains 2,263 duplicate exact-decimal keys; reporting completeness through W44 and historical revision provenance remain unresolved, so model fitting must not begin.
+Restricted data and fitted artifacts remain outside Git. No candidate model or qualification result was created. Reporting completeness through W44, historical revision provenance, and the separate W29 artifact-lineage question remain unresolved, so model fitting must not begin.

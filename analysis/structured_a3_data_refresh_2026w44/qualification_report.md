@@ -28,3 +28,7 @@ No Atlas quota check was made because execution stopped before any large output 
 ## Corrected-source re-audit — 2026-11-19
 
 The corrected observation snapshot was re-audited using the existing Python implementation and independent base-R cross-check. Both agree that 2,263 exact-decimal observation-key groups remain across 167,030 records, including 975 in the original W16 horizon. The current source integrity decision is `OBSERVATION_DUPLICATES_REMAIN`; overall readiness remains `REFRESH_BLOCKED_BY_INPUT_DATA`. W44 completeness and historical revision provenance remain unresolved, and the separate W29 artifact-lineage question remains open. Consequently, Stage C and Stage D remain not started/not run and model fitting must not begin. See `observation_corrected_source_reaudit.md` for the source checksum, aggregate results, limitations, and focused validation record. The earlier source-specific audit and results remain preserved separately.
+
+## Latest source verification — 2026-11-19
+
+A minimal R 4.5.1 check of the source at the authoritative path (SHA-256 `784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac`) found 164,767 rows, 164,767 unique observation keys, and zero redundant keys. The source-specific decision is `OBSERVATION_SOURCE_CORRECTION_VERIFIED`; the duplicate-related blocker is closed for this source checksum. Overall readiness remains `REFRESH_BLOCKED_BY_INPUT_DATA` because reporting completeness, historical revision provenance, and W29 artifact lineage remain unresolved. Stages C and D remain not started/not run.
