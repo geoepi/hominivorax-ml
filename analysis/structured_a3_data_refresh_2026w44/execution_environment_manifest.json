@@ -1,12 +1,13 @@
 {
-  "audit_date": "2026-11-18",
-  "execution_status": "READ_ONLY_STAGE_A_AND_STAGE_B_AUDIT_ONLY",
+  "audit_date": "2026-11-19",
+  "execution_status": "W44_CANDIDATE_REFRESH_AND_DESCRIPTIVE_FULLFIT_COMPLETE_PENDING_REVIEW",
   "canonical_repository": {
     "name": "geoepi/hominivorax-ml",
     "base_branch": "main",
     "base_sha": "6715a4397dad21a77414bd2ce41586751290f374",
     "isolated_branch": "analysis/structured-a3-2026w44-refresh",
-    "isolated_worktree": "D:/Github/STGNN/worktrees/structured-a3-2026w44-refresh"
+    "isolated_worktree": "D:/Github/STGNN/worktrees/structured-a3-2026w44-refresh",
+    "candidate_execution_sha": "44d44197a0f55b828f4f386afc02a3770e38ac33"
   },
   "atlas_repositories": {
     "production_code_path": "/project/disease_ecology/STGNN-production",
@@ -26,29 +27,64 @@
     "environment_modified": false,
     "warning": "GDAL/PROJ repeatedly reported Cannot find proj.db during CRS reads."
   },
+  "runtime_used": {
+    "task2a_task2e_r": "R 4.4.3 via repository hpc/env_r.sh",
+    "r_library_paths": ["/project/disease_ecology/STGNN-r-lib", "/home/john.humphreys/R/x86_64-pc-linux-gnu-library/4.4"],
+    "fullfit_python_module": "py-torch/2.10.0",
+    "fullfit_r_modules_requested": ["udunits", "proj", "geos/3.12.1", "gdal/3.8.5", "intel-oneapi-mkl/2023.2.0", "r/4.4.3"],
+    "module_reload_notice": "Slurm reported intel-oneapi-mkl/2023.2.0 reloaded as intel-oneapi-mkl/2024.2.1 during the R-render stage.",
+    "warnings": [
+      "NumPy correlation calculations emitted invalid-value warnings for constant inputs during descriptive rendering.",
+      "The R renderer noted existing coordinate systems before assigning the target CRS; six raster spot checks passed, but authority-code normalization remains limited by the recorded missing proj.db environment issue."
+    ],
+    "runtime_environments_modified": false
+  },
   "execution_controls": {
     "access_route": "Windows to WSL Ubuntu to /home/johnh/bin/atlas-ssh; existing healthy ControlMaster reused",
-    "atlas_access": "read-only",
-    "slurm_jobs_submitted": false,
-    "job_ids": [],
-    "candidate_model_fit_started": false,
-    "candidate_output_created": false,
-    "storage_quota_checked": false,
-    "storage_note": "No large outputs were created; execution stopped at the Stage A input gate."
+    "atlas_access": "Targeted candidate writes via approved workflows plus restoration of the prior October derived refresh output after a logged path-override error.",
+    "slurm_jobs_submitted": true,
+    "job_ids": ["21272742", "21272766", "21272802", "21272811", "21272817", "21272837"],
+    "job_records": [
+      {"job_id": "21272742", "task": "Task 2A", "status": "FAILED", "reason": "The initially selected R library path did not contain data.table; no candidate data files were produced."},
+      {"job_id": "21272766", "task": "Task 2A", "status": "COMPLETED", "reason": "Candidate W44 environmental and static feature bundle built using existing installed R libraries."},
+      {"job_id": "21272802", "task": "Task 2E", "status": "COMPLETED_WRONG_OUTPUT_PATH", "reason": "Unrecognized environment-variable names left wrapper defaults active; old October source and W44 candidate feature bundle were written to the pre-existing October derived-output directory."},
+      {"job_id": "21272811", "task": "Task 2E", "status": "COMPLETED", "reason": "Corrected wrapper variable names; rebuilt candidate response under the isolated W44 candidate root from the authoritative November source."},
+      {"job_id": "21272817", "task": "Full-fit products", "status": "COMPLETED", "reason": "Candidate fit, spatial rendering, finalization, and output manifest completed successfully."},
+      {"job_id": "21272837", "task": "Task 2E recovery", "status": "COMPLETED", "reason": "Rebuilt the October derived refresh output from its preserved October source and matching untouched Task 2A bundle; the exact pre-run generated files were not backed up."}
+    ],
+    "candidate_model_fit_started": true,
+    "candidate_output_created": true,
+    "candidate_output_root": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44",
+    "production_outputs_modified": false,
+    "production_promoted": false,
+    "w16_w29_artifacts_preserved": true,
+    "storage_quota_checked": true,
+    "storage_note": "SCINet my_quotas initially showed about 4,136 GB available on /project/disease_ecology; after execution, df reported 4.5 TB available on the project filesystem."
   },
   "existing_workflow": {
     "refresh_sequence": "Task2A dataset construction then Task2E refresh, followed by the production fullfit entry point",
     "task2e_cli_accepts_observation_path": true,
     "task2e_sbatch_observation_path_is_current": false,
     "sbatch_observation_path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-10-17.csv",
+    "task2e_observation_override_used": "STGNN_OBSERVATION_PATH",
+    "task2e_refresh_root_override_used": "STGNN_REFRESH_ROOT",
     "runbook": "docs/current/atlas.md and docs/production_runbook.md",
     "qualification_plan": "docs/production_qualification_plan.md"
   },
   "validation": {
-    "change_classification": "A",
-    "reason": "Documentation and audit manifests only; no executable code, workflow, model, or configuration changed.",
-    "tests_run": [],
-    "tests_omitted": "No candidate existed to qualify; the attached Stage A stop condition prevented candidate execution. The JSON manifests were parsed locally and the document diff was reviewed.",
-    "hpc_or_production_validation": "Not run; no job was submitted and no production output was changed."
+    "change_classification": "D",
+    "reason": "The authorized work exercised the controlled observation-to-response-to-model pathway and generated candidate model and spatial products; model algorithms, predictors, scientific parameters, dependencies, and production configuration were unchanged.",
+    "tests_run": [
+      "bash -n passed for the changed Task 2E and full-fit Slurm wrappers.",
+      "Task 2A candidate bundle contract and manifest completed.",
+      "Task 2E source checksum, row count, duplicate diagnostics, response horizon, and array shapes verified from aggregate manifests.",
+      "Full-fit occurrence and count optimizer success flags were true; fit horizon and frozen 34-predictor specification were confirmed.",
+      "Causal-history leakage audit passed for all 963,552 node-week rows with zero future-history uses or missing cutoffs.",
+      "Output manifest status was complete for 346 artifacts; all 288 weekly GeoTIFF tasks completed and six raster spot checks passed.",
+      "W29 model and active production configuration SHA-256 values were unchanged after candidate execution.",
+      "Updated JSON manifests were parsed locally and the final Git diff passed whitespace review."
+    ],
+    "tests_omitted": "No unrelated package-wide suite, P1-P7 scientific qualification, independent prospective evaluation, or production workflow was run. The user authorized work through the candidate-review boundary only.",
+    "hpc_or_production_validation": "The targeted user-authorized Atlas candidate jobs ran. No production job, qualification promotion, or production pointer update occurred."
   }
 }

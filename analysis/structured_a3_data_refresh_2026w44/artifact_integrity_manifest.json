@@ -55,6 +55,26 @@
     "size_bytes": 39023936,
     "shape": [81, 10037, 12]
   },
-  "candidate_artifacts": [],
-  "integrity_result": "Frozen public files and the current deployed fullfit were identified by checksum. No candidate artifact was generated. No Atlas write or Slurm submission was performed."
+  "candidate_artifacts": [
+    {
+      "path": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44/revised_model_data/manifests/revised_production_manifest.json",
+      "source_sha256": "784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac",
+      "row_count": 164767,
+      "response_horizon": "2025-W01 through 2026-W44",
+      "status": "production_dataset_built_audit_complete"
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44/fullfit_products/model/fullfit_a3_model.json",
+      "sha256": "b1a66a65efbb9a65f6a4c966044d2f87576ee7e6a1d1a294c0fb1855f684f53b",
+      "fit_horizon": "2025-W01 through 2026-W44",
+      "status": "fit_complete_descriptive_not_independent_validation"
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44/fullfit_products/structured_a3_fullfit_output_manifest.csv",
+      "sha256": "52205515e55e42de2ede04259913aac5bb2093fe8b7a5ff98fd41fc4824e73d7",
+      "artifact_count": 346,
+      "status": "complete"
+    }
+  ],
+  "integrity_result": "Frozen public files and the pre-existing W29 fullfit were rechecked by checksum after candidate execution. The W44 candidate dataset and descriptive fullfit were generated under the separate candidate output root; the model and output manifest checksums and completion status are recorded above. Candidate outputs remain on Atlas. No production output or pointer was changed, and no artifact was promoted."
 }

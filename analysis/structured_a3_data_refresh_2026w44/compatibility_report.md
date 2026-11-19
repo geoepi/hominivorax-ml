@@ -1,6 +1,6 @@
 # Input compatibility and historical revision report
 
-## Decision
+## Initial audit decision (historical)
 
 Stage A found a material observation-input blocker. The source has observations through 2026-W46, but the release does not identify its latest complete observation week. The same source revises most keys in the frozen 68-week fit horizon, with no release note or method history explaining the differences. Under the controlled-refresh stop rule, model execution is not authorized until these points are resolved.
 
@@ -58,3 +58,7 @@ The corrected snapshot has no newly identified schema, missingness, date-validit
 ## Minimal verification of the latest source — 2026-11-19
 
 The source at the same absolute path now has SHA-256 `784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac`. R 4.5.1 read 164,767 rows and found 164,767 unique named `(date, lon, lat)` keys, with zero redundant keys, missing values, invalid dates, or invalid coordinates. The same four column names are present in order `date, lon, lat, host`, which differs from the earlier manifest order. The duplicate-related input blocker is closed for this checksum. W44 reporting completeness, historical revision provenance, and W29 artifact lineage remain unresolved; overall refresh readiness remains blocked.
+
+## User disposition and current execution result — 2026-11-19
+
+The user accepted this corrected source snapshot as the authoritative replacement, selected W44 provisionally, accepted undocumented reporting completeness and historical revisions as limitations for the controlled refresh, and deferred the W29 lineage question. This establishes readiness for the authorized candidate workflow without certifying those limitations. Task 2E job `21272811` built the 2025-W01 through 2026-W44 response from the source checksum above; its manifest confirms 164,767 source rows, zero exact duplicate rows, zero duplicate `(date, lon, lat)` keys, and 10,037 revised-domain nodes. The candidate and descriptive full-fit completed and are ready for review only. See `decision_report.md` for job results, artifact integrity, and the production boundary.

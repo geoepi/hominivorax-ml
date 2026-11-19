@@ -1,7 +1,7 @@
 {
   "manifest_version": "1.0.0",
-  "audit_status": "READ_ONLY_AUDIT_COMPLETE_REFRESH_BLOCKED_BY_INPUT_DATA",
-  "audit_date": "2026-11-18",
+  "audit_status": "CONTROLLED_REFRESH_CANDIDATE_COMPLETE_PENDING_REVIEW",
+  "audit_date": "2026-11-19",
   "canonical_repository": "geoepi/hominivorax-ml",
   "repository_base_sha": "6715a4397dad21a77414bd2ce41586751290f374",
   "observation_source": {
@@ -129,6 +129,29 @@
       "observed_schema": ["date", "lon", "lat", "host"],
       "compatible": true
     }
+  },
+  "candidate_build": {
+    "candidate_status": "CANDIDATE_READY_FOR_REVIEW_NOT_PRODUCTION_QUALIFIED",
+    "candidate_name": "STRUCTURED_A3_2026W44",
+    "candidate_output_root": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44",
+    "task2a_job_id": "21272766",
+    "task2e_job_id": "21272811",
+    "fullfit_job_id": "21272817",
+    "observation_source_sha256": "784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac",
+    "observation_rows": 164767,
+    "exact_duplicate_rows": 0,
+    "duplicate_date_lon_lat_keys": 0,
+    "response_horizon": "2025-W01 through 2026-W44 (96 weeks)",
+    "revised_domain_nodes": 10037,
+    "predictor_count": 34,
+    "occurrence_optimizer_success": true,
+    "count_optimizer_success": true,
+    "history_leakage_audit": "PASS; zero same-week/future uses and zero missing cutoffs across 963552 node-week rows",
+    "candidate_model_sha256": "b1a66a65efbb9a65f6a4c966044d2f87576ee7e6a1d1a294c0fb1855f684f53b",
+    "candidate_output_manifest_sha256": "52205515e55e42de2ede04259913aac5bb2093fe8b7a5ff98fd41fc4824e73d7",
+    "candidate_output_artifact_count": 346,
+    "production_qualified": false,
+    "production_promoted": false
   },
   "environmental_inventory": "environmental_completeness_inventory.json",
   "scope_note": "Only metadata and aggregate audit results are recorded here. Restricted row-level observations, rasters, and fitted artifacts remain on Atlas."

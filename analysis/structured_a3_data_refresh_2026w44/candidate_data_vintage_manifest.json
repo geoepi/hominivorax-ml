@@ -2,7 +2,7 @@
   "manifest_version": "1.0.0",
   "architecture_id": "STRUCTURED_A3",
   "candidate_name": "STRUCTURED_A3_2026W44",
-  "candidate_status": "INPUT_READINESS_ESTABLISHED_CANDIDATE_PENDING",
+  "candidate_status": "CANDIDATE_READY_FOR_REVIEW_NOT_PRODUCTION_QUALIFIED",
   "intended_environmental_endpoint": "2026-W44",
   "observation_release_path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-11-13.csv",
   "observation_release_sha256": "784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac",
@@ -15,7 +15,37 @@
   "selected_training_endpoint": "2026-W44",
   "training_endpoint_status": "PROVISIONAL_USER_AUTHORIZED_NOT_COMPLETENESS_CERTIFIED",
   "candidate_output_path": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44",
-  "candidate_artifacts": [],
+  "candidate_artifacts": [
+    {
+      "artifact": "refreshed_response_manifest",
+      "path": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44/revised_model_data/manifests/revised_production_manifest.json",
+      "source_sha256": "784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac",
+      "row_count": 164767,
+      "response_horizon": "2025-W01 through 2026-W44",
+      "status": "production_dataset_built_audit_complete"
+    },
+    {
+      "artifact": "causal_front_features",
+      "path": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44/front_features/causal_front_features.parquet",
+      "sha256": "430ffcedc65be5899537016a81423d14023fa01e554356e2a4832ee5c18a90d8",
+      "leakage_audit": "PASS",
+      "status": "candidate_feature_complete"
+    },
+    {
+      "artifact": "candidate_fullfit_model",
+      "path": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44/fullfit_products/model/fullfit_a3_model.json",
+      "sha256": "b1a66a65efbb9a65f6a4c966044d2f87576ee7e6a1d1a294c0fb1855f684f53b",
+      "fit_horizon": "2025-W01 through 2026-W44",
+      "status": "fit_complete_descriptive_not_independent_validation"
+    },
+    {
+      "artifact": "candidate_fullfit_output_manifest",
+      "path": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44/fullfit_products/structured_a3_fullfit_output_manifest.csv",
+      "sha256": "52205515e55e42de2ede04259913aac5bb2093fe8b7a5ff98fd41fc4824e73d7",
+      "artifact_count": 346,
+      "status": "complete"
+    }
+  ],
   "blocked_by": [],
   "accepted_limitations": [
     "The observation release does not certify reporting completeness through 2026-W44; W44 is the user's provisional endpoint selection.",
@@ -23,5 +53,12 @@
     "The separate W29 artifact-lineage investigation is deferred; existing W29 artifacts remain unchanged."
   ],
   "naming_decision": "STRUCTURED_A3_2026W44 follows the user-authorized provisional W44 vintage; it does not imply a certified complete reporting week.",
-  "no_model_execution_performed": true
+  "no_model_execution_performed": false,
+  "atlas_job_ids": {
+    "task2a": ["21272766"],
+    "task2e_candidate": "21272811",
+    "fullfit": "21272817"
+  },
+  "production_qualified": false,
+  "production_promoted": false
 }

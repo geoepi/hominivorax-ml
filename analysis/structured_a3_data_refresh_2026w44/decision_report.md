@@ -26,15 +26,15 @@ After correcting the stored node row/column index origin, no W44 predictor has m
 
 The frozen model is STRUCTURED_A3: 25 by 25 km canonical cells, 10,037 nodes, 34 ordered predictors, a penalized spatiotemporal hurdle model, Bernoulli/logistic occurrence, zero-truncated negative-binomial positive counts, and response threshold count greater than zero. The original frozen fit uses 2025-W01 through 2026-W16, theta 0.7018903965556372, penalty 0.01, and exact_joint_hurdle_nll. Flight-path and SIT predictors are excluded. Fit is deterministic given inputs; the recorded diagnostic permutation seed is 20261006.
 
-## VI. Candidate data vintage
+## VI. Candidate data vintage at the initial audit (historical)
 
 No candidate vintage was assigned. The environmental endpoint is W44, but the observation complete-week endpoint is unknown; W46 is only the latest observed week. The proposed label STRUCTURED_A3_2026W44 was not used because the verified endpoint is unknown.
 
-## VII. Atlas execution status
+## VII. Atlas execution status at the initial audit (historical)
 
 Read-only audit only. No model refresh, fit, Slurm submission, or candidate artifact creation occurred. No job IDs or execution logs exist. Storage quota was not checked because no large output was created.
 
-## VIII. Qualification results
+## VIII. Qualification results at the initial audit (historical)
 
 Stage A input and compatibility audit is complete and blocked. Stage B frozen specification audit is complete. Stages C and D were not run under the attached stop gate. No qualification criteria are reported as passed for a new candidate.
 
@@ -44,15 +44,15 @@ The public frozen model SHA-256 is 8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf
 
 The pre-existing Atlas fullfit model SHA-256 is 1cb694f4323ac2d05d973b5631539bd4e3a95ed3ffe3a7405a9e35c6b377092e; its fit manifest records 2025-W01 through 2026-W29 and fit_complete. No new model artifacts were produced.
 
-## X. Production-isolation verification
+## X. Production-isolation verification before candidate execution (historical)
 
 The active Atlas configuration still points to the pre-existing production inputs and output. The separate proposed refresh output path did not exist at audit time. No Atlas write, configuration change, production pointer change, or promotion occurred.
 
-## XI. Repository and pull-request status
+## XI. Repository and pull-request status at the initial audit (historical)
 
 The original refresh audit consisted of audit documentation and machine-readable manifests (classification A). The follow-up adds read-only audit scripts, aggregate outputs, documentation, and focused synthetic tests (classification C; no production data pathway or model code changed). Its targeted tests and cross-check are documented in observation_duplicate_precision_audit.md. No package-wide or HPC validation was run. Draft pull request 31 remains open with the refresh result and blocker.
 
-## XII. Outstanding limitations and blockers
+## XII. Outstanding limitations and blockers at the initial audit (historical)
 
 1. The new observation release has no documented latest complete week.
 2. Most original-fit-horizon observation key multiplicities differ from the frozen source; the size and cause of the historical revisions are undocumented.
@@ -61,7 +61,7 @@ The original refresh audit consisted of audit documentation and machine-readable
 5. Provider release-time or revision-lag metadata for the environmental sources was not established.
 6. Atlas's configured rasterio environment cannot locate proj.db, limiting authority-code validation.
 
-## XIII. Final decision
+## XIII. Initial decision (historical; superseded for the controlled refresh)
 
 REFRESH_BLOCKED_BY_INPUT_DATA.
 
@@ -92,3 +92,31 @@ The user explicitly accepted the corrected observation snapshot as the authorita
 The current source checksum was rechecked on Atlas before refresh: `784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac`. The established `scripts/run_task2e_refresh.R` ingestion uses named fields (`date`, `lon`, `lat`, `host`) through `data.table::fread`, so the verified schema order `date, lon, lat, host` is compatible. The current shared Task 2A response bundle ends at W29, while the accepted environmental raster inventory reaches W44; the approved Task 2A builder therefore needs to construct the W44 bundle in the separate candidate root. The existing Task 1 preflight, revised-domain graph, static A3, and runtime inputs are present at their established Atlas paths. The exact candidate output path `/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44` was absent before execution.
 
 **Input-readiness decision: `REFRESH_INPUT_READINESS_ESTABLISHED`.** This decision accepts the stated limitations for this controlled refresh; it does not certify reporting completeness or establish revision provenance. Stage C and Stage D execution status is recorded in the subsequent resumption addendum.
+
+## Controlled W44 candidate execution — 2026-11-19
+
+The authorized work remained on `analysis/structured-a3-2026w44-refresh` at repository commit `44d44197a0f55b828f4f386afc02a3770e38ac33`, in the isolated local and Atlas worktrees. Atlas was accessed only through the approved WSL/Ubuntu SSH wrapper. Candidate observations and fitted outputs remained on Atlas. The change classification is D because this work exercised the controlled data and model pathway; no model algorithm, predictor definition, or production configuration was changed.
+
+### Candidate data refresh
+
+Task 2A job `21272742` failed before producing candidate files because the first R library path lacked `data.table`. The retry, `21272766`, completed after using the already-installed combined project and user R libraries; no packages or shared software environments were changed. The candidate feature bundle has 16,756 canonical nodes, 148 target weeks from 2024-01-01 through the week beginning 2026-10-26, 12 dynamic features, and 10 static features.
+
+Task 2E job `21272811` completed at `/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44/revised_model_data`. It used source SHA-256 `784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac`, 164,767 rows, and 164,767 valid dates and coordinates. Its source diagnostics report zero exact repeated complete rows and zero duplicate `(date, lon, lat)` keys. The response spans 2025-W01 through the user-selected provisional endpoint 2026-W44 (96 weeks), with 10,037 nodes and 34 frozen predictors. These aggregate diagnostics agree with the minimal source verification. The release itself still does not certify W44 completeness.
+
+### Full-fit and candidate artifact checks
+
+Full-fit job `21272817` completed successfully (Slurm exit code 0) in 8 minutes 47 seconds. The fitted candidate retains model ID `STRUCTURED_A3_FULLFIT`, uses the unchanged 34-predictor specification, and covers 2025-W01 through 2026-W44. The occurrence and count optimizers both report success. The causal front-feature audit passed for all 963,552 node-week rows, with zero same-week/future history uses, zero missing history cutoffs, zero duplicate node-week rows, and zero nonfinite feature values.
+
+The candidate model SHA-256 is `b1a66a65efbb9a65f6a4c966044d2f87576ee7e6a1d1a294c0fb1855f684f53b`. Its output manifest records 346 artifacts and has SHA-256 `52205515e55e42de2ede04259913aac5bb2093fe8b7a5ff98fd41fc4824e73d7`; all 288 weekly GeoTIFF tasks are marked complete and six spatial spot checks passed. This is a descriptive fitted-period product, not an independent validation. No P1-P7 scientific qualification or production promotion was performed. The rendering environment emitted NumPy constant-correlation warnings and CRS authority labels were not independently normalized because of the previously recorded PROJ environment limitation; the workflow completed, and its raster spot checks passed.
+
+### Output-path incident and repair
+
+The first Task 2E submission, job `21272802`, used environment-variable names that the wrapper does not read. It therefore wrote to the pre-existing October refresh output path while reading the older October observation file and the new W44 feature bundle. Inspection confirmed the older source checksum was `13ada45bf760f4690a64ebcd147b5743b23527c60650e635dcf1d071eb63653e`; that job did not change either source CSV. The mismatch was identified before full-fit submission. The candidate Task 2E job was then submitted with the wrapper's actual `STGNN_REFRESH_ROOT` and `STGNN_OBSERVATION_PATH` names and wrote to the isolated W44 candidate path above.
+
+The October derived refresh output was rebuilt by Task 2E job `21272837` from its still-present October source and matching, untouched October Task 2A bundle. The rebuilt manifest again identifies the October source checksum and the original bundle's 2026-W39 response endpoint. No pre-run backup of the October derived output was available, so byte-for-byte restoration of its former generated files cannot be claimed; the existing source and Task 2A inputs were preserved, and the derived output was regenerated from them. The October source, corrected November source, W16 frozen artifacts, W29 full-fit model, and active production configuration were not modified.
+
+### Isolation, decision, and validation
+
+After execution, the W29 full-fit model remained at SHA-256 `1cb694f4323ac2d05d973b5631539bd4e3a95ed3ffe3a7405a9e35c6b377092e`, and the active production configuration remained at SHA-256 `f51038b5fe553f1281418d7ed2c9f1060ca8fe32957708c80bbc7332b89b1e3d`. No production pointer was changed and no candidate artifact was promoted. Atlas reported 4.5 TB available on the project filesystem after execution.
+
+The source-integrity decision remains `OBSERVATION_SOURCE_CORRECTION_VERIFIED` for the current source checksum. Input readiness remains `REFRESH_INPUT_READINESS_ESTABLISHED` under the user's explicit acceptance of W44 as provisional and of the documented historical limitations. The candidate is ready for review, but is not production-qualified. Targeted validation consisted of wrapper `bash -n` checks, source and output manifest checks, candidate model status and checksum checks, leakage and raster spot checks, and confirmation that the frozen W29 model and production configuration checksums were unchanged. Package-wide tests, model qualification, independent prospective evaluation, and production workflows were not run because they are outside the candidate-review boundary.
