@@ -1,0 +1,159 @@
+{
+  "verification_status": "VERIFIED_AGAINST_FROZEN_REPOSITORY_RECORDS",
+  "audit_date": "2026-11-18",
+  "authority": [
+    "config/production_model_freeze.json",
+    "analysis/structured_a3_evaluation/results/final_a3_model.json",
+    "analysis/structured_a3_evaluation/results/frozen_a3_evaluation_manifest.json",
+    "docs/current/predictors.csv"
+  ],
+  "frozen_artifact": {
+    "model_id": "STRUCTURED_A3",
+    "model_version": "structured-a3-development-fit-v1",
+    "freeze_date": "2026-10-06",
+    "repository_sha_at_freeze_branch_base": "a83b5be0b589f56bbd1b4a4af2ee0064449db25d",
+    "public_model_path": "analysis/structured_a3_evaluation/results/final_a3_model.json",
+    "public_model_sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+    "frozen_evaluation_manifest_sha256": "9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61",
+    "model_role": "primary production candidate under qualification"
+  },
+  "response": {
+    "definition": "Weekly recorded Cochliomyia hominivorax detection count per canonical node-week.",
+    "occurrence_definition": "Presence equals 1 when recorded count is greater than 0.",
+    "occurrence_component": "Bernoulli/logistic",
+    "positive_count_component": "Zero-truncated negative binomial conditional on count greater than 0",
+    "hurdle_threshold": "count > 0"
+  },
+  "spatial_specification": {
+    "resolution": "25 x 25 km canonical cells",
+    "node_count": 10037,
+    "geographic_domain": "Mexico plus the established United States footprint south of 40 degrees north",
+    "node_order": "canonical revised-domain model_node_id 0 through 10036"
+  },
+  "temporal_specification": {
+    "resolution": "weekly ISO weeks",
+    "frozen_fit_horizon": {
+      "start_week": "2025-W01",
+      "end_week": "2026-W16",
+      "week_count": 68
+    },
+    "development_response_bundle": {
+      "start_week": "2025-W01",
+      "end_week": "2026-W29",
+      "week_count": 81
+    },
+    "history_cutoff_rule": "For forecast week t, only observations from weeks strictly earlier than t may be used.",
+    "evaluation_responses_loaded_for_fit": false
+  },
+  "predictor_schema": {
+    "count": 34,
+    "definitions_and_order_authority": "docs/current/predictors.csv",
+    "definitions_and_order_authority_sha256": "da347dff9ebdb87a02c7c31de85a6f50b95793b66ed066c4a8946e950fd85e67",
+    "ordered_predictor_names": [
+      "era5_mintemp",
+      "era5_soilmoist",
+      "era5_lai_low",
+      "agera5_relhum_min",
+      "era5land_tmean",
+      "era5land_soiltemp_l1_mean",
+      "era5land_soiltemp_l2_mean",
+      "era5land_soilwater_l1_mean",
+      "era5land_soilwater_l2_mean",
+      "era5land_surface_pressure_mean",
+      "era5land_lai_high_mean",
+      "era5land_lai_low_mean",
+      "cattle_density",
+      "goat_density",
+      "sheep_density",
+      "horse_density",
+      "pig_density",
+      "cattle_density_imputed",
+      "goat_density_imputed",
+      "sheep_density_imputed",
+      "horse_density_imputed",
+      "pig_density_imputed",
+      "week_sin",
+      "week_cos",
+      "distance_to_any_prior_positive_log1p",
+      "distance_to_prev4_positive_log1p",
+      "weeks_since_detection_within_50km_log1p",
+      "any_prior_positive_available",
+      "prev4_positive_available",
+      "detection_within_50km_ever_available",
+      "road_density",
+      "night_illumination",
+      "clay_0_15",
+      "water_difference_wv0033_minus_wv0010_0_15"
+    ],
+    "preprocessing": {
+      "environmental": "Identity then frozen development-fit mean/SD scaling.",
+      "livestock_density": "log1p then frozen development-fit mean/SD scaling.",
+      "livestock_imputation_indicators": "Identity binary indicators, unscaled.",
+      "calendar": "Identity periodic week sine/cosine encoding.",
+      "detection_history": "Causal history features use weeks strictly before the forecast week; distances and elapsed weeks use the specified log1p forms and frozen scaling; availability indicators remain binary.",
+      "road_density_and_night_illumination": "log1p then frozen development-fit mean/SD scaling.",
+      "soil_predictors": "Identity then frozen development-fit mean/SD scaling."
+    },
+    "excluded_predictors": ["SIT predictors", "flight-path predictors"]
+  },
+  "model_specification": {
+    "architecture": "Penalized spatiotemporal hurdle regression",
+    "objective": "exact_joint_hurdle_nll",
+    "regularization_penalty": 0.01,
+    "theta": 0.7018903965556372,
+    "theta_fixed": true,
+    "optimizer": {
+      "method": "L-BFGS-B",
+      "maxiter": 2000,
+      "ftol": 1e-10,
+      "gtol": 1e-7,
+      "maxls_count_component": 40,
+      "initialization": "Zero occurrence coefficients; occurrence solution used as count initialization where applicable",
+      "occurrence_converged": true,
+      "positive_count_converged": true
+    }
+  },
+  "random_seed_policy": {
+    "fit_seed": null,
+    "fit_is_deterministic_given_inputs": true,
+    "diagnostic_permutation_seed": 20261006,
+    "deployed_fullfit_manifest_seed": 20261006
+  },
+  "training_data_provenance": {
+    "original_observation_path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2027-07-31.csv",
+    "original_observation_sha256": "a3d55f3ddf867087b578df803920bf59c6c303fa695e3218a5f3463e596d497e",
+    "content_endpoint": "2026-07-31 / 2026-W31",
+    "provenance_note": "The source filename date is 2027-07-31; its contents end 2026-07-31.",
+    "training_rows": 682516,
+    "training_positive_rows": 9546,
+    "training_negative_rows": 672970,
+    "training_prevalence": 0.013986485298513148
+  },
+  "software": {
+    "frozen_fit_record": {
+      "python": "3.12.14",
+      "numpy": "2.5.3",
+      "pandas": "3.0.6",
+      "scipy": "Version not captured in compact freeze record"
+    },
+    "preexisting_atlas_fullfit_record": {
+      "python": "3.12.14",
+      "numpy": "2.5.3",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1"
+    }
+  },
+  "existing_entry_points_and_contracts": {
+    "freeze_verifier": "python scripts/verify_production_model_freeze.py",
+    "production_fullfit": "analysis/structured_a3_fullfit/scripts/run_fullfit_products.py fit",
+    "refresh_path": "Upstream Task2A dataset construction followed by Task2E refresh.",
+    "task2e_script": "scripts/run_task2e_refresh.R accepts --observation-path.",
+    "task2e_sbatch_note": "hpc/run_task2e_refresh.sbatch still names combined_clean_obs_2026-10-17.csv.",
+    "production_configuration": "/project/disease_ecology/STGNN-production-config/atlas-production.yaml",
+    "qualification_requirements": "docs/production_qualification_plan.md, phases P0-P7"
+  },
+  "discrepancies": [
+    "The frozen source filename date and content endpoint differ.",
+    "Atlas rasterio emitted Cannot find proj.db; authority-code normalization could not be independently confirmed."
+  ]
+}

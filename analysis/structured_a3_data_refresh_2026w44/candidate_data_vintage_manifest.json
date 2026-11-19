@@ -1,0 +1,21 @@
+{
+  "manifest_version": "1.0.0",
+  "architecture_id": "STRUCTURED_A3",
+  "candidate_name": null,
+  "candidate_status": "NOT_CREATED_REFRESH_BLOCKED_BY_INPUT_DATA",
+  "intended_environmental_endpoint": "2026-W44",
+  "observation_release_path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-11-13.csv",
+  "observation_release_sha256": "8fd21f9db11db3df20596fe7ad0b4cbbc8b895fbaad6f702c847ed5a05dd19fc",
+  "latest_observed_iso_week": "2026-W46",
+  "latest_documented_complete_observation_week": null,
+  "verified_training_endpoint": null,
+  "candidate_output_path": null,
+  "candidate_artifacts": [],
+  "blocked_by": [
+    "The observation source does not document a latest complete week.",
+    "Most original-fit-horizon observation key multiplicities differ from the frozen source without release notes or method provenance.",
+    "The meaning of exact repeated observation rows is undocumented."
+  ],
+  "naming_decision": "STRUCTURED_A3_2026W44 was not assigned because the verified observation training endpoint is unknown.",
+  "no_model_execution_performed": true
+}

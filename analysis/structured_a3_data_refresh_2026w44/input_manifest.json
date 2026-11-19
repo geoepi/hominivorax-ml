@@ -1,0 +1,57 @@
+{
+  "manifest_version": "1.0.0",
+  "audit_status": "READ_ONLY_AUDIT_COMPLETE_REFRESH_BLOCKED_BY_INPUT_DATA",
+  "audit_date": "2026-11-18",
+  "canonical_repository": "geoepi/hominivorax-ml",
+  "repository_base_sha": "6715a4397dad21a77414bd2ce41586751290f374",
+  "observation_source": {
+    "path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-11-13.csv",
+    "size_bytes": 7304653,
+    "sha256": "8fd21f9db11db3df20596fe7ad0b4cbbc8b895fbaad6f702c847ed5a05dd19fc",
+    "mtime": "2026-11-18T18:35:14.058126-06:00",
+    "schema": ["date", "host", "lon", "lat"],
+    "row_count": 167078,
+    "blank_fields": 0,
+    "invalid_dates": 0,
+    "globally_valid_coordinates": 167078,
+    "longitude_range": [-111.812103, -77.403],
+    "latitude_range": [7.2174, 33.847694],
+    "first_observation_date": "2022-02-10",
+    "last_observation_date": "2026-11-13",
+    "latest_observed_iso_week": "2026-W46",
+    "observed_rows_by_latest_week": {
+      "2026-W44": 911,
+      "2026-W45": 668,
+      "2026-W46": 300
+    },
+    "latest_documented_complete_observation_week": null,
+    "release_date_label": "2026-11-13",
+    "exact_duplicate_rows": 2295,
+    "exact_duplicate_rows_in_original_fit_horizon": 980,
+    "completeness_evidence": {
+      "release_specific_complete_week_manifest_found": false,
+      "complete_week_metadata_found": false,
+      "case_detections_readme": "61-byte pointer stub; no release completeness statement"
+    }
+  },
+  "frozen_training_observation_source": {
+    "path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2027-07-31.csv",
+    "sha256": "a3d55f3ddf867087b578df803920bf59c6c303fa695e3218a5f3463e596d497e",
+    "size_bytes": 5193033,
+    "mtime": "2026-10-03T15:24:17-05:00",
+    "row_count": 136714,
+    "content_latest_date": "2026-07-31",
+    "content_latest_iso_week": "2026-W31",
+    "provenance_issue": "The filename date 2027-07-31 is later than the audit date; the content ends 2026-07-31."
+  },
+  "previous_observation_snapshot": {
+    "path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-10-17.csv",
+    "sha256": "13ada45bf760f4690a64ebcd147b5743b23527c60650e635dcf1d071eb63653e",
+    "size_bytes": 8360170,
+    "mtime": "2026-10-17T13:58:53-05:00",
+    "row_count": 160676,
+    "schema_issue": "An additional blank first header was present."
+  },
+  "environmental_inventory": "environmental_completeness_inventory.json",
+  "scope_note": "Only metadata and aggregate audit results are recorded here. Restricted row-level observations, rasters, and fitted artifacts remain on Atlas."
+}

@@ -1,0 +1,54 @@
+{
+  "audit_date": "2026-11-18",
+  "execution_status": "READ_ONLY_STAGE_A_AND_STAGE_B_AUDIT_ONLY",
+  "canonical_repository": {
+    "name": "geoepi/hominivorax-ml",
+    "base_branch": "main",
+    "base_sha": "6715a4397dad21a77414bd2ce41586751290f374",
+    "isolated_branch": "analysis/structured-a3-2026w44-refresh",
+    "isolated_worktree": "D:/Github/STGNN/worktrees/structured-a3-2026w44-refresh"
+  },
+  "atlas_repositories": {
+    "production_code_path": "/project/disease_ecology/STGNN-production",
+    "production_code_sha": "b1095e7fc8ef94ce4613aa7adcdc643e76a2e927",
+    "upstream_stgnn_path": "/project/disease_ecology/STGNN",
+    "upstream_stgnn_sha": "87b9d32cf0dbdafbc91d2017a0d816fdf76bdb3a",
+    "production_configuration_path": "/project/disease_ecology/STGNN-production-config/atlas-production.yaml",
+    "production_configuration_sha256": "f51038b5fe553f1281418d7ed2c9f1060ca8fe32957708c80bbc7332b89b1e3d"
+  },
+  "atlas_python_environment": {
+    "environment_path": "/project/disease_ecology/STGNN-python-venv",
+    "python": "3.12.14",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "scipy": "1.18.1",
+    "rasterio": "1.5.2",
+    "environment_modified": false,
+    "warning": "GDAL/PROJ repeatedly reported Cannot find proj.db during CRS reads."
+  },
+  "execution_controls": {
+    "access_route": "Windows to WSL Ubuntu to /home/johnh/bin/atlas-ssh; existing healthy ControlMaster reused",
+    "atlas_access": "read-only",
+    "slurm_jobs_submitted": false,
+    "job_ids": [],
+    "candidate_model_fit_started": false,
+    "candidate_output_created": false,
+    "storage_quota_checked": false,
+    "storage_note": "No large outputs were created; execution stopped at the Stage A input gate."
+  },
+  "existing_workflow": {
+    "refresh_sequence": "Task2A dataset construction then Task2E refresh, followed by the production fullfit entry point",
+    "task2e_cli_accepts_observation_path": true,
+    "task2e_sbatch_observation_path_is_current": false,
+    "sbatch_observation_path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-10-17.csv",
+    "runbook": "docs/current/atlas.md and docs/production_runbook.md",
+    "qualification_plan": "docs/production_qualification_plan.md"
+  },
+  "validation": {
+    "change_classification": "A",
+    "reason": "Documentation and audit manifests only; no executable code, workflow, model, or configuration changed.",
+    "tests_run": [],
+    "tests_omitted": "No candidate existed to qualify; the attached Stage A stop condition prevented candidate execution. The JSON manifests were parsed locally and the document diff was reviewed.",
+    "hpc_or_production_validation": "Not run; no job was submitted and no production output was changed."
+  }
+}

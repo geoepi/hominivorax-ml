@@ -1,0 +1,60 @@
+{
+  "manifest_version": "1.0.0",
+  "audit_date": "2026-11-18",
+  "frozen_public_artifacts": [
+    {
+      "path": "analysis/structured_a3_evaluation/results/final_a3_model.json",
+      "sha256": "8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e",
+      "size_bytes": 6654,
+      "status": "verified against frozen model manifest"
+    },
+    {
+      "path": "analysis/structured_a3_evaluation/results/frozen_a3_evaluation_manifest.json",
+      "sha256": "9d7bc7b9ce41263064104aa933e75771b2b918ed853e4e34145db83c3a2c8f61",
+      "size_bytes": 6625,
+      "status": "frozen evaluation contract"
+    },
+    {
+      "path": "analysis/structured_a3_final_comparison/results/a3_feature_manifest.json",
+      "sha256": "6c2082795bfeee4dc5bf1f6016f6a00c1e96e53a91a512f3b5e7251f4fb92a20",
+      "size_bytes": 16289,
+      "status": "production predictor provenance"
+    },
+    {
+      "path": "docs/current/predictors.csv",
+      "sha256": "da347dff9ebdb87a02c7c31de85a6f50b95793b66ed066c4a8946e950fd85e67",
+      "size_bytes": 6099,
+      "status": "predictor schema authority"
+    }
+  ],
+  "current_atlas_fullfit_artifacts": [
+    {
+      "path": "/project/disease_ecology/STGNN-output/structured_a3_fullfit/model/fullfit_a3_model.json",
+      "sha256": "1cb694f4323ac2d05d973b5631539bd4e3a95ed3ffe3a7405a9e35c6b377092e",
+      "size_bytes": 8323,
+      "mtime_utc": "2026-10-06T23:44:50Z",
+      "fit_horizon": "2025-W01 through 2026-W29",
+      "status": "pre-existing deployed fullfit artifact"
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/structured_a3_fullfit/model/fullfit_a3_manifest.json",
+      "sha256": "96251636c3811b0457c7ecb3f1c619ab288cdb204dfa1637f744fd116ee2d15e6",
+      "size_bytes": 7511,
+      "status": "fit_complete"
+    },
+    {
+      "path": "/project/disease_ecology/STGNN-output/structured_a3_fullfit/manifests/fullfit_fit_manifest.json",
+      "sha256": "c77c96ad38cfbbf15f7dbd468b84f0e089a978c89db68090acfd70a5d6aab008",
+      "size_bytes": 4381,
+      "status": "fit_complete"
+    }
+  ],
+  "input_bundle_reference": {
+    "path": "/project/disease_ecology/STGNN-output/revised_model_data/raw/dynamic_features.npy",
+    "sha256": "91e353804469e59851e8eaef7c7fc21b7b26614eaccd1299a9f7666b578705df",
+    "size_bytes": 39023936,
+    "shape": [81, 10037, 12]
+  },
+  "candidate_artifacts": [],
+  "integrity_result": "Frozen public files and the current deployed fullfit were identified by checksum. No candidate artifact was generated. No Atlas write or Slurm submission was performed."
+}

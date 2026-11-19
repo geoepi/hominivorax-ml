@@ -1,0 +1,33 @@
+{
+  "comparison_method": {
+    "key": ["ISO date", "host", "longitude normalized to numeric", "latitude normalized to numeric"],
+    "multiplicity_preserved": true,
+    "row_values_recorded": false
+  },
+  "original_fit_horizon": {
+    "start_week": "2025-W01",
+    "end_week": "2026-W16",
+    "week_count": 68
+  },
+  "new_source_vs_frozen_training_source": {
+    "new_source_training_rows": 91993,
+    "frozen_source_training_rows": 79257,
+    "matched_key_multiplicity": 15988,
+    "added_or_changed_in_new": 76005,
+    "removed_or_changed_from_frozen": 63269
+  },
+  "new_source_vs_2026-10-17_snapshot": {
+    "new_source_training_rows": 91993,
+    "previous_snapshot_training_rows": 90981,
+    "matched_key_multiplicity": 23759,
+    "added_or_changed_in_new": 68234,
+    "removed_or_changed_from_previous": 67222
+  },
+  "exact_duplicate_records_in_new_source": {
+    "all_weeks": 2295,
+    "original_fit_horizon": 980,
+    "upstream_refresh_behavior": "The existing builder reports duplicates but aggregates every row; it does not deduplicate.",
+    "record_semantics_documented": false
+  },
+  "interpretation": "The matched multiset counts are small relative to the revised training-period source counts. No release note or documented source-method change explains the historical additions, removals, or exact duplicate semantics. This is unresolved provenance, not evidence that the records are erroneous."
+}
