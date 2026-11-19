@@ -1,8 +1,8 @@
 # STRUCTURED_A3 data refresh audit: 2026-W44
 
-Administrative result: REFRESH_BLOCKED_BY_INPUT_DATA.
+Administrative result: REFRESH_BLOCKED_BY_INPUT_DATA. The corrected-source re-audit is the current observation-integrity result: `OBSERVATION_DUPLICATES_REMAIN` (2,263 exact-decimal observation-key groups across the corrected source). The earlier audit remains preserved as the historical result for its original source checksum.
 
-The read-only input and specification audit is documented here. The environmental products reach W44 and match the frozen training bundle over its original fit horizon. The observation release has no documented complete-week cutoff and makes substantial, unexplained revisions in the frozen training period. The user-provided stop rule therefore halted work before model execution. A follow-up observation integrity investigation confirmed duplicated coordinate keys at exact source precision; its separate finding and methods are in observation_duplicate_precision_audit.md.
+The read-only input and specification audit is documented here. The environmental products reach W44 and match the frozen training bundle over its original fit horizon. The observation release has no documented complete-week cutoff and makes substantial, unexplained revisions in the frozen training period. The user-provided stop rule therefore halted work before model execution. The original duplicate-precision audit and its source-specific result are retained in observation_duplicate_precision_audit.md. The corrected-source re-audit, which supersedes that result for the current source snapshot while preserving it for provenance, is in observation_corrected_source_reaudit.md.
 
 ## Audit files
 
@@ -15,6 +15,13 @@ The read-only input and specification audit is documented here. The environmenta
 - observation_duplicate_audit_manifest.json: source checksums, parser/method details, and aggregate audit metadata.
 - observation_duplicate_precision_r_crosscheck.csv: independent aggregate base R key-count cross-check.
 - scripts/observation_duplicate_precision_audit.py and scripts/observation_duplicate_precision_audit.R: reproducible read-only audit implementations.
+- observation_corrected_source_reaudit.md: corrected-source re-audit and current readiness decision.
+- observation_corrected_source_summary.csv: current source duplicate metrics by temporal subset and method.
+- observation_source_version_comparison.csv: comparison with retained prior aggregate results; key-level comparison is unavailable because the prior source file was not found.
+- observation_corrected_weekly_inventory.csv: corrected-source aggregate weekly counts and duplicate-key metrics.
+- observation_corrected_source_manifest.json: corrected source identity, validation, decisions, and blockers.
+- observation_corrected_coordinate_precision.csv, observation_corrected_rounding_sensitivity.csv, observation_historical_release_comparison.csv, observation_historical_weekly_comparison.csv, and observation_corrected_source_r_crosscheck.csv: aggregate precision, rounding diagnostic, historical-release, weekly, and independent R results.
+- scripts/observation_corrected_source_reaudit.py: reproducible corrected-source audit runner using the committed Python helpers.
 - ../../tests/test_observation_duplicate_precision.py: focused synthetic duplicate and exact-decimal tests.
 - environmental_completeness_inventory.json: per-predictor weekly coverage, W44 hashes, node support, and provenance.
 - historical_revision_summary.json: aggregate multiset comparisons; no row-level values.
@@ -27,4 +34,4 @@ The read-only input and specification audit is documented here. The environmenta
 - production_isolation_verification.md: current production boundary.
 - decision_report.md: required 13-part execution summary.
 
-Restricted data and fitted artifacts remain outside Git. No candidate model or qualification result was created.
+Restricted data and fitted artifacts remain outside Git. No candidate model or qualification result was created. The corrected source still contains 2,263 duplicate exact-decimal keys; reporting completeness through W44 and historical revision provenance remain unresolved, so model fitting must not begin.

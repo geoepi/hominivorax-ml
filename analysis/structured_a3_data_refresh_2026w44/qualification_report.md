@@ -24,3 +24,7 @@ The repository qualification plan records P0-P7 procedures. This audit does not 
 The change set is documentation and machine-readable audit metadata only (Class A). The changed files were reviewed; JSON manifests were parsed locally. No package tests, model fit, Slurm execution, or production workflow was run. These omissions follow the Stage A stop gate, not a passing qualification result.
 
 No Atlas quota check was made because execution stopped before any large output was created. No Slurm job IDs, logs, exit codes, fitted candidate artifacts, or candidate output paths exist.
+
+## Corrected-source re-audit — 2026-11-19
+
+The corrected observation snapshot was re-audited using the existing Python implementation and independent base-R cross-check. Both agree that 2,263 exact-decimal observation-key groups remain across 167,030 records, including 975 in the original W16 horizon. The current source integrity decision is `OBSERVATION_DUPLICATES_REMAIN`; overall readiness remains `REFRESH_BLOCKED_BY_INPUT_DATA`. W44 completeness and historical revision provenance remain unresolved, and the separate W29 artifact-lineage question remains open. Consequently, Stage C and Stage D remain not started/not run and model fitting must not begin. See `observation_corrected_source_reaudit.md` for the source checksum, aggregate results, limitations, and focused validation record. The earlier source-specific audit and results remain preserved separately.

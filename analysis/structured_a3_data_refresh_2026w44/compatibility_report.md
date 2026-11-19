@@ -48,3 +48,9 @@ Detailed counts are in historical_revision_summary.json.
 | CRS authority normalization | Limited by missing proj.db; grid and projection parameters agree |
 
 No model execution, candidate artifact generation, or data transformation was performed. Restricted rows and raster values remain on Atlas.
+
+## Corrected-source re-audit — 2026-11-19
+
+The preceding observation counts describe the original updated-source snapshot with SHA-256 `8fd21f9db11db3df20596fe7ad0b4cbbc8b895fbaad6f702c847ed5a05dd19fc`. The source at the same path has since been corrected; its SHA-256 is `2f9cf04ffe01712b8e5498d809f542d159ff1cb33ae8b567aa6644e9c4f05de5`. The current snapshot contains 167,030 rows and 2,263 exact-decimal `(date, lon, lat)` duplicate groups (4,526 participating rows; 2,263 redundant rows), including 975 groups in the original W16 horizon. Python and independent R metrics agree. The old immutable source was unavailable, so aggregate differences do not establish which individual groups were removed or retained. The detailed re-audit and current decision are in `observation_corrected_source_reaudit.md` and its aggregate outputs.
+
+The corrected snapshot has no newly identified schema, missingness, date-validity, or coordinate-validity problem. The duplicate-key blocker remains, as do undocumented W44 reporting completeness and unexplained historical revisions. The previous source-specific counts above remain for audit traceability and must not be read as counts for the corrected snapshot.

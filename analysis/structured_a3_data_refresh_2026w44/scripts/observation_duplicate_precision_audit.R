@@ -2,7 +2,7 @@
 # Independent base-R cross-check of raw-character and exact-decimal keys.
 # All input columns are read as character. Only aggregate rows are written.
 
-expected_updated <- "8fd21f9db11db3df20596fe7ad0b4cbbc8b895fbaad6f702c847ed5a05dd19fc"
+default_updated_sha <- "8fd21f9db11db3df20596fe7ad0b4cbbc8b895fbaad6f702c847ed5a05dd19fc"
 expected_historical <- "a3d55f3ddf867087b578df803920bf59c6c303fa695e3218a5f3463e596d497e"
 required <- c("date", "host", "lon", "lat")
 subsets <- c(
@@ -13,12 +13,13 @@ subsets <- c(
 )
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 3L) {
-  stop("Usage: Rscript observation_duplicate_precision_audit.R UPDATED.csv HISTORICAL.csv OUTPUT_DIR")
+if (!(length(args) %in% c(3L, 4L))) {
+  stop("Usage: Rscript observation_duplicate_precision_audit.R UPDATED.csv HISTORICAL.csv OUTPUT_DIR [UPDATED_SHA256]")
 }
 updated_path <- args[[1L]]
 historical_path <- args[[2L]]
 output_dir <- args[[3L]]
+expected_updated <- if (length(args) == 4L) args[[4L]] else default_updated_sha
 
 sha256_file <- function(path) {
   result <- system2("sha256sum", shQuote(path), stdout = TRUE, stderr = TRUE)
