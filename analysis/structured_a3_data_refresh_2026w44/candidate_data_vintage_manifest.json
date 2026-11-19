@@ -1,21 +1,27 @@
 {
   "manifest_version": "1.0.0",
   "architecture_id": "STRUCTURED_A3",
-  "candidate_name": null,
-  "candidate_status": "NOT_CREATED_REFRESH_BLOCKED_BY_INPUT_DATA",
+  "candidate_name": "STRUCTURED_A3_2026W44",
+  "candidate_status": "INPUT_READINESS_ESTABLISHED_CANDIDATE_PENDING",
   "intended_environmental_endpoint": "2026-W44",
   "observation_release_path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-11-13.csv",
-  "observation_release_sha256": "8fd21f9db11db3df20596fe7ad0b4cbbc8b895fbaad6f702c847ed5a05dd19fc",
+  "observation_release_sha256": "784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac",
+  "observation_release_rows": 164767,
+  "observation_release_columns": ["date", "lon", "lat", "host"],
+  "observation_source_decision": "OBSERVATION_SOURCE_CORRECTION_VERIFIED",
   "latest_observed_iso_week": "2026-W46",
   "latest_documented_complete_observation_week": null,
   "verified_training_endpoint": null,
-  "candidate_output_path": null,
+  "selected_training_endpoint": "2026-W44",
+  "training_endpoint_status": "PROVISIONAL_USER_AUTHORIZED_NOT_COMPLETENESS_CERTIFIED",
+  "candidate_output_path": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44",
   "candidate_artifacts": [],
-  "blocked_by": [
-    "The observation source does not document a latest complete week.",
-    "Most original-fit-horizon observation key multiplicities differ from the frozen source without release notes or method provenance.",
-    "The meaning of exact repeated observation rows is undocumented."
+  "blocked_by": [],
+  "accepted_limitations": [
+    "The observation release does not certify reporting completeness through 2026-W44; W44 is the user's provisional endpoint selection.",
+    "Historical observation revisions relative to the frozen W16 source remain unexplained and are accepted for this controlled refresh.",
+    "The separate W29 artifact-lineage investigation is deferred; existing W29 artifacts remain unchanged."
   ],
-  "naming_decision": "STRUCTURED_A3_2026W44 was not assigned because the verified observation training endpoint is unknown.",
+  "naming_decision": "STRUCTURED_A3_2026W44 follows the user-authorized provisional W44 vintage; it does not imply a certified complete reporting week.",
   "no_model_execution_performed": true
 }

@@ -110,12 +110,25 @@
     "method": "R 4.5.1 read.csv numeric key comparison on named date, lon, and lat columns; exact-decimal and rounding investigations were not repeated.",
     "source_decision": "OBSERVATION_SOURCE_CORRECTION_VERIFIED",
     "duplicate_related_blocker": "CLOSED",
-    "overall_refresh_readiness": "REFRESH_BLOCKED_BY_INPUT_DATA",
-    "remaining_blockers": [
-      "Reporting completeness through 2026-W44 remains undocumented.",
-      "Historical observation revisions relative to the frozen W16 source remain unexplained.",
-      "The separate W29 artifact-lineage question remains unresolved."
-    ]
+    "overall_refresh_readiness": "REFRESH_INPUT_READINESS_ESTABLISHED",
+    "remaining_blockers": [],
+    "user_authorized_dispositions": {
+      "corrected_observation_snapshot": "ACCEPTED_AS_AUTHORITATIVE_REPLACEMENT",
+      "training_endpoint": "2026-W44_PROVISIONAL",
+      "reporting_completeness_certification": "NOT_ESTABLISHED_ACCEPTED_AS_LIMITATION",
+      "historical_observation_revisions": "ACCEPTED_AS_LIMITATION",
+      "w29_artifact_lineage": "DEFERRED"
+    },
+    "accepted_limitations": [
+      "No formal reporting-completeness certification exists for 2026-W44.",
+      "Historical revisions are not independently explained.",
+      "The separate W29 artifact-lineage question remains deferred."
+    ],
+    "ingestion_compatibility": {
+      "implementation": "scripts/run_task2e_refresh.R uses named date, lon, and lat fields from data.table::fread; source column order is not used as positional schema.",
+      "observed_schema": ["date", "lon", "lat", "host"],
+      "compatible": true
+    }
   },
   "environmental_inventory": "environmental_completeness_inventory.json",
   "scope_note": "Only metadata and aggregate audit results are recorded here. Restricted row-level observations, rasters, and fitted artifacts remain on Atlas."

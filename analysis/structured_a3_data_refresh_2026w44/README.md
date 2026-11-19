@@ -1,8 +1,8 @@
 # STRUCTURED_A3 data refresh audit: 2026-W44
 
-Administrative result: REFRESH_BLOCKED_BY_INPUT_DATA. The latest source verification, for SHA-256 `784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac`, found 164,767 unique `(date, lon, lat)` keys and zero redundant keys (`OBSERVATION_SOURCE_CORRECTION_VERIFIED`). Earlier duplicate findings remain preserved as historical results for their respective source checksums.
+Current input-readiness result: `REFRESH_INPUT_READINESS_ESTABLISHED` for the user-authorized provisional W44 endpoint. The latest source verification, for SHA-256 `784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac`, found 164,767 unique `(date, lon, lat)` keys and zero redundant keys (`OBSERVATION_SOURCE_CORRECTION_VERIFIED`). Earlier duplicate findings remain preserved as historical results for their respective source checksums.
 
-The read-only input and specification audit is documented here. The environmental products reach W44 and match the frozen training bundle over its original fit horizon. The current observation source passes the duplicate-key verification, but still has no documented complete-week cutoff and historical revisions remain unexplained. The original duplicate-precision audits and their source-specific results are retained in observation_duplicate_precision_audit.md and observation_corrected_source_reaudit.md. The latest verification is recorded in decision_report.md and input_manifest.json.
+The environmental products reach W44 and match the frozen training bundle over its original fit horizon. By explicit user direction, the absence of a reporting-completeness certificate and the unexplained historical revisions are retained as limitations, not input-readiness blockers; the user selected W44 as a provisional endpoint. The separate W29 artifact-lineage question is deferred. These decisions do not establish completeness or explain the revisions, and they do not authorize production promotion. The original duplicate-precision audits and their source-specific results are retained in observation_duplicate_precision_audit.md and observation_corrected_source_reaudit.md. Current readiness and refresh execution are recorded in decision_report.md and the manifests.
 
 ## Audit files
 
@@ -27,11 +27,11 @@ The read-only input and specification audit is documented here. The environmenta
 - historical_revision_summary.json: aggregate multiset comparisons; no row-level values.
 - compatibility_report.md: Stage A findings.
 - frozen_specification_verification.json: frozen predictor and model contract.
-- candidate_data_vintage_manifest.json: blocked candidate status; no candidate artifacts.
+- candidate_data_vintage_manifest.json: selected provisional W44 vintage and candidate output identity/status.
 - execution_environment_manifest.json: Atlas, repository, and validation record.
 - artifact_integrity_manifest.json: frozen and pre-existing deployed artifact checksums.
 - qualification_report.md: stage gates and omitted qualification.
 - production_isolation_verification.md: current production boundary.
 - decision_report.md: required 13-part execution summary.
 
-Restricted data and fitted artifacts remain outside Git. No candidate model or qualification result was created. Reporting completeness through W44, historical revision provenance, and the separate W29 artifact-lineage question remain unresolved, so model fitting must not begin.
+Restricted data and fitted artifacts remain outside Git. The accepted limitations remain visible in the final decision report; candidate execution and qualification status are recorded separately from production approval.

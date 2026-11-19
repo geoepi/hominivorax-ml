@@ -1,8 +1,12 @@
 # Qualification report
 
-## Status
+## Current status
 
-The refresh is not qualified. Administrative decision: REFRESH_BLOCKED_BY_INPUT_DATA.
+Input readiness is established as `REFRESH_INPUT_READINESS_ESTABLISHED` under the user's explicit dispositions. Candidate execution and review qualification remain pending; no production promotion is implied.
+
+## Initial audit status (historical)
+
+At the end of the original read-only audit, the administrative decision was `REFRESH_BLOCKED_BY_INPUT_DATA`.
 
 ## Stage results
 
@@ -32,3 +36,7 @@ The corrected observation snapshot was re-audited using the existing Python impl
 ## Latest source verification — 2026-11-19
 
 A minimal R 4.5.1 check of the source at the authoritative path (SHA-256 `784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac`) found 164,767 rows, 164,767 unique observation keys, and zero redundant keys. The source-specific decision is `OBSERVATION_SOURCE_CORRECTION_VERIFIED`; the duplicate-related blocker is closed for this source checksum. Overall readiness remains `REFRESH_BLOCKED_BY_INPUT_DATA` because reporting completeness, historical revision provenance, and W29 artifact lineage remain unresolved. Stages C and D remain not started/not run.
+
+## Controlled refresh resumption — 2026-11-19
+
+The user authorized continuation after accepting the provisional W44 endpoint and the documented limitations. Stage A is now `REFRESH_INPUT_READINESS_ESTABLISHED`; Stage B remains verified. Stages C and D are pending. This does not qualify or authorize the candidate for production. The original W16 frozen artifact and existing W29 fullfit remain separate and unchanged.
