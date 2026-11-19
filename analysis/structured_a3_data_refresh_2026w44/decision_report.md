@@ -50,7 +50,7 @@ The active Atlas configuration still points to the pre-existing production input
 
 ## XI. Repository and pull-request status
 
-This branch contains only audit documentation and machine-readable manifests. Validation classification is A. No package test suite or HPC validation was run; JSON manifests were parsed and the document diff was reviewed. A draft pull request will carry the audit result and blocker.
+This branch contains only audit documentation and machine-readable manifests. Validation classification is A. No package test suite or HPC validation was run; JSON manifests were parsed and the document diff was reviewed. Draft pull request 31 is open with the audit result and blocker.
 
 ## XII. Outstanding limitations and blockers
 
