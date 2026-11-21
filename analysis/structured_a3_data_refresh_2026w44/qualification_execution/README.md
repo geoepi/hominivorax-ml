@@ -18,6 +18,18 @@ Run these wrappers from the isolated Atlas worktree:
    `sbatch hpc/run_w44_q1_origin.sbatch`
 4. After all 26 origin manifests are `COMPLETED`, run
    `sbatch hpc/run_w44_q1_aggregate.sbatch`.
+5. After the aggregation job completes, reconcile the job IDs and resources:
+
+   ```bash
+   python analysis/structured_a3_data_refresh_2026w44/qualification_execution/record_w44_q1_resources.py \
+     --output-root /project/disease_ecology/STGNN-output/structured_a3_2026w44_q1_retrospective_attempt02 \
+     --results-root analysis/structured_a3_data_refresh_2026w44/qualification_execution/results/2026w44_q1_retrospective \
+     --prepare-job 21299800 --prepare-job 21299855 \
+     --successful-origin-array 21299859:0,25 \
+     --successful-origin-array 21299867:1-24 \
+     --failed-pilot-array 21299809:0,25 \
+     --aggregate-job <aggregate-job-id>
+   ```
 
 The runner checks the fixed W44 candidate and observation hashes and writes all
 fits, per-node predictions, coordinates, and detailed diagnostics under

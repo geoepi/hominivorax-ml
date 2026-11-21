@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 
 from analysis.structured_a3_data_refresh_2026w44.qualification_execution import run_w44_q1_retrospective as q1
+from analysis.structured_a3_data_refresh_2026w44.qualification_execution import record_w44_q1_resources as resources
 
 
 def week_labels() -> list[str]:
@@ -97,6 +98,17 @@ class W44Q1Contracts(unittest.TestCase):
         self.assertTrue(result["bounded_pass_descriptive"].all())
         self.assertTrue(result["comparison_status"].eq("DESCRIPTIVE_ONLY_UNCERTIFIED_TARGET_MATURITY").all())
         self.assertTrue(result["threshold_source"].str.contains("p7i_prespecification.md").all())
+
+    def test_slurm_array_accounting_parses_task_and_batch_memory(self) -> None:
+        rows = resources.parse_sacct_output(
+            "21299859_0|stgnn-w44-q1-origin|COMPLETED|00:00:10||0:0\n"
+            "21299859_0.batch|batch|COMPLETED|00:00:10|647.50M|0:0\n"
+        )
+        task = resources.task_accounting(rows, "21299859", 0)
+        self.assertEqual(task["slurm_job_id"], "21299859_0")
+        self.assertEqual(task["slurm_state"], "COMPLETED")
+        self.assertAlmostEqual(task["slurm_max_rss_kib"], 647.5 * 1024)
+        self.assertEqual(resources.parse_array_spec("21299867:1-3,5"), ("21299867", [1, 2, 3, 5]))
 
 
 if __name__ == "__main__":
