@@ -10,13 +10,20 @@ value_for <- function(flag, default = NULL) {
   args[[position + 1L]]
 }
 
-output_root <- value_for("--output-root", Sys.getenv("STGNN_OUTPUT_ROOT", "/project/disease_ecology/STGNN-output"))
-environment_root <- value_for("--environment-root", Sys.getenv("STGNN_ENVIRONMENTAL_ROOT"))
-template_path <- value_for("--template", Sys.getenv("STGNN_TEMPLATE_PATH"))
+output_root <- value_for("--output-root")
+environment_root <- value_for("--environment-root")
+template_path <- value_for("--template")
 analysis_start <- as.Date(value_for("--analysis-start", "2024-01-01"))
 history_weeks <- as.integer(value_for("--history-weeks", "52"))
 
-if (!nzchar(environment_root) || !nzchar(template_path)) stop("environment root and template are required")
+if (is.null(output_root) || !nzchar(output_root)) stop("--output-root is required and must not be empty")
+if (is.null(environment_root) || !nzchar(environment_root) || !dir.exists(environment_root)) stop("--environment-root must name an existing directory")
+if (is.null(template_path) || !nzchar(template_path) || !file.exists(template_path)) stop("--template must name an existing file")
+model_root <- file.path(output_root, "model_data")
+raw_root <- file.path(model_root, "raw")
+if (!dir.exists(output_root)) stop("--output-root must already exist: ", output_root)
+if (nzchar(Sys.readlink(model_root))) stop("Task 2A model_data destination must not be a symbolic link")
+if (file.exists(model_root) && (!dir.exists(model_root) || length(list.files(model_root, all.files = TRUE, no.. = TRUE)) > 0L)) stop("refusing to overwrite existing Task 2A model_data output")
 for (package in c("arrow", "data.table", "digest", "jsonlite", "terra")) {
   if (!requireNamespace(package, quietly = TRUE)) stop(package, " is required")
 }
@@ -34,13 +41,13 @@ analysis_end <- if (is.na(analysis_end_value) || !nzchar(analysis_end_value)) {
   as.Date(analysis_end_value)
 }
 
-raw_root <- file.path(output_root, "model_data", "raw")
-dir.create(raw_root, recursive = TRUE, showWarnings = FALSE)
 nodes_path <- file.path(output_root, "preflight", "nodes.parquet")
 edges_path <- file.path(output_root, "preflight", "edges_queen.parquet")
 mask_path <- file.path(output_root, "preflight", "canonical_environment_mask.tif")
 livestock_nodes_path <- file.path(output_root, "preflight", "livestock_node_covariates.parquet")
 diagnostic_counts_path <- file.path(output_root, "preflight", "observation_node_week_counts.parquet")
+task1_manifest_path <- file.path(output_root, "manifests", "preflight_manifest.json")
+task2d_require_files(c(task1_manifest_path, nodes_path, edges_path, mask_path, livestock_nodes_path, diagnostic_counts_path, template_path))
 
 nodes <- arrow::read_parquet(nodes_path, as_data_frame = TRUE)
 edges <- arrow::read_parquet(edges_path, as_data_frame = TRUE)
@@ -64,6 +71,8 @@ resolve_week_files <- function(product) {
 }
 
 week_paths <- setNames(lapply(environmental_features, resolve_week_files), environmental_features)
+resolved_environment_files <- unlist(week_paths, use.names = FALSE)
+task2d_require_files(resolved_environment_files)
 
 template <- terra::rast(template_path)
 mask <- terra::rast(mask_path)
@@ -86,6 +95,7 @@ read_week_matrix <- function(week_index) {
 }
 
 livestock <- arrow::read_parquet(livestock_nodes_path, as_data_frame = TRUE)
+diagnostic_counts <- arrow::read_parquet(diagnostic_counts_path, as_data_frame = TRUE)
 missing_livestock <- setdiff(c("node_id", livestock_features), names(livestock))
 if (length(missing_livestock)) stop("livestock schema missing: ", paste(missing_livestock, collapse = ", "))
 livestock <- livestock[match(nodes$node_id, livestock$node_id), c("node_id", livestock_features)]
@@ -126,6 +136,7 @@ imputation_provenance <- if (length(imputation_records)) {
   data.frame(node_id = integer(), species = character(), original_missing = logical(), donor_node_id = integer(),
              distance_to_donor_km = numeric(), donor_density = numeric(), stringsAsFactors = FALSE)
 }
+dir.create(raw_root, recursive = TRUE, showWarnings = FALSE)
 imputation_provenance_path <- file.path(raw_root, "livestock_imputation_provenance.parquet")
 arrow::write_parquet(imputation_provenance, imputation_provenance_path)
 imputation_summary <- lapply(seq_along(livestock_features), function(species_index) {
@@ -152,7 +163,6 @@ livestock <- data.frame(node_id = nodes$node_id, density_matrix, imputation_indi
 names(livestock) <- c("node_id", static_features)
 
 counts <- matrix(0L, nrow = length(target_week_ids), ncol = nrow(nodes))
-diagnostic_counts <- arrow::read_parquet(diagnostic_counts_path, as_data_frame = TRUE)
 if (nrow(diagnostic_counts)) {
   week_index <- match(diagnostic_counts$iso_week, target_week_ids)
   node_index <- match(as.integer(diagnostic_counts$node_id), nodes$node_id)
