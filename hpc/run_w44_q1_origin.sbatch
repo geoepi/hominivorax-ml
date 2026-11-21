@@ -16,7 +16,7 @@ set -euo pipefail
 
 REPO="/project/disease_ecology/STGNN-output/worktrees/structured-a3-2026w44-q1-retrospective"
 CANDIDATE_ROOT="/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44"
-OUTPUT_ROOT="/project/disease_ecology/STGNN-output/structured_a3_2026w44_q1_retrospective"
+OUTPUT_ROOT="/project/disease_ecology/STGNN-output/structured_a3_2026w44_q1_retrospective_attempt02"
 OBSERVATION_SOURCE="/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-11-13.csv"
 
 export STGNN_PYTHON_ENV=/project/disease_ecology/STGNN-python-venv

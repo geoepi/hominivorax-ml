@@ -21,8 +21,14 @@ Run these wrappers from the isolated Atlas worktree:
 
 The runner checks the fixed W44 candidate and observation hashes and writes all
 fits, per-node predictions, coordinates, and detailed diagnostics under
-`/project/disease_ecology/STGNN-output/structured_a3_2026w44_q1_retrospective`.
+`/project/disease_ecology/STGNN-output/structured_a3_2026w44_q1_retrospective_attempt02`.
 Only aggregate result tables and reports are written into the repository.
+
+The first pilot attempt used the original
+`structured_a3_2026w44_q1_retrospective` root and stopped after its prediction
+files were written, before origin fit/status manifests were complete. Those
+partial files and logs remain on Atlas as a failure record; the validated
+rerun uses the separate `attempt02` root.
 
 The origin fit ends at each origin T. Detection-history inputs are taken from
 the T-causal T+1 feature row and held fixed over horizons 1–3. Environmental
