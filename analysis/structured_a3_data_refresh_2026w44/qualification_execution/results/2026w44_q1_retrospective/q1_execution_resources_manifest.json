@@ -1,0 +1,25 @@
+{
+  "status": "COMPLETED",
+  "candidate_model_sha256": "b1a66a65efbb9a65f6a4c966044d2f87576ee7e6a1d1a294c0fb1855f684f53b",
+  "observation_source_sha256": "784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac",
+  "origin_count": 26,
+  "origin_horizon_block_count": 78,
+  "successful_origin_array_jobs": [
+    "21299859:0,25",
+    "21299867:1-24"
+  ],
+  "failed_pilot_array_jobs": [
+    "21299809:0,25"
+  ],
+  "prepare_job_ids": [
+    "21299800",
+    "21299855"
+  ],
+  "aggregate_job_id": "21299924",
+  "origin_execution_csv_sha256": "ffd5097378fdf7e3d0a9278e630160e1fcf9852351480eed0262f9ff351934ae",
+  "origin_horizon_execution_csv_sha256": "75ce2b82a96a9478eda68f779141d4634521fac317e88eb0bda3f45b53c3ff56",
+  "job_resource_summary_csv_sha256": "f1e0a6436e74cc41f3686bf927d7d14e9e9f390e04f3d7d4cb44581f97bbcd79",
+  "aggregate_report_sha256": "744c5320137d3d02f95f594f3e6d6b628285f3b834f195e5aea5c6e978120e80",
+  "aggregate_results_path": "analysis/structured_a3_data_refresh_2026w44/qualification_execution/results/2026w44_q1_retrospective",
+  "row_level_and_coordinate_data_committed": false
+}
