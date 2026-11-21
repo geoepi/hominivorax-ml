@@ -531,7 +531,7 @@ def origin(args: argparse.Namespace) -> None:
         "occurrence_coefficients": np.asarray(fit_state["occurrence_beta"], dtype=float).tolist(),
         "count_coefficients": np.asarray(fit_state["count_beta"], dtype=float).tolist(),
         "fit_info": fit_state["fit_info"],
-        "fitting_implementation_sha256": manifest["source_files"]["origin_fit_implementation"]["sha256"],
+        "fitting_implementation_sha256": manifest["source_files"]["rolling_origin_fit_implementation"]["sha256"],
         "environmental_proxy_predictions": list(PROXIES),
         "origin_causal_history_features_held_across_horizons": list(HISTORY_FEATURES),
         "future_history_uses": 0,
