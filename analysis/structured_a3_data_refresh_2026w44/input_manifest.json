@@ -1,0 +1,158 @@
+{
+  "manifest_version": "1.0.0",
+  "audit_status": "CONTROLLED_REFRESH_CANDIDATE_COMPLETE_PENDING_REVIEW",
+  "audit_date": "2026-11-19",
+  "canonical_repository": "geoepi/hominivorax-ml",
+  "repository_base_sha": "6715a4397dad21a77414bd2ce41586751290f374",
+  "observation_source": {
+    "path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-11-13.csv",
+    "size_bytes": 7304653,
+    "sha256": "8fd21f9db11db3df20596fe7ad0b4cbbc8b895fbaad6f702c847ed5a05dd19fc",
+    "mtime": "2026-11-18T18:35:14.058126-06:00",
+    "schema": ["date", "host", "lon", "lat"],
+    "row_count": 167078,
+    "blank_fields": 0,
+    "invalid_dates": 0,
+    "globally_valid_coordinates": 167078,
+    "longitude_range": [-111.812103, -77.403],
+    "latitude_range": [7.2174, 33.847694],
+    "first_observation_date": "2022-02-10",
+    "last_observation_date": "2026-11-13",
+    "latest_observed_iso_week": "2026-W46",
+    "observed_rows_by_latest_week": {
+      "2026-W44": 911,
+      "2026-W45": 668,
+      "2026-W46": 300
+    },
+    "latest_documented_complete_observation_week": null,
+    "release_date_label": "2026-11-13",
+    "exact_duplicate_rows": 2295,
+    "exact_duplicate_rows_in_original_fit_horizon": 980,
+    "duplicate_count_scope_note": "Retained values from the earlier report; the follow-up audit confirms these as complete-record duplicate groups and redundant rows. They are not the total number of duplicate (date, lon, lat) key groups.",
+    "source_precision_duplicate_key_audit": {
+      "decision": "OBSERVATION_DUPLICATES_CONFIRMED_AT_SOURCE",
+      "method": "Source-local ISO calendar date plus losslessly canonicalized exact decimal longitude and latitude; no coordinate precision reduction.",
+      "entire_dataset": {
+        "rows": 167078,
+        "unique_keys": 164767,
+        "duplicate_groups": 2311,
+        "rows_in_duplicate_groups": 4622,
+        "redundant_rows": 2311,
+        "maximum_multiplicity": 2
+      },
+      "original_fit_horizon": {
+        "rows": 91993,
+        "unique_keys": 91005,
+        "duplicate_groups": 988,
+        "rows_in_duplicate_groups": 1976,
+        "redundant_rows": 988,
+        "maximum_multiplicity": 2
+      },
+      "report": "observation_duplicate_precision_audit.md"
+    },
+    "completeness_evidence": {
+      "release_specific_complete_week_manifest_found": false,
+      "complete_week_metadata_found": false,
+      "case_detections_readme": "61-byte pointer stub; no release completeness statement"
+    }
+  },
+  "frozen_training_observation_source": {
+    "path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2027-07-31.csv",
+    "sha256": "a3d55f3ddf867087b578df803920bf59c6c303fa695e3218a5f3463e596d497e",
+    "size_bytes": 5193033,
+    "mtime": "2026-10-03T15:24:17-05:00",
+    "row_count": 136714,
+    "content_latest_date": "2026-07-31",
+    "content_latest_iso_week": "2026-W31",
+    "provenance_issue": "The filename date 2027-07-31 is later than the audit date; the content ends 2026-07-31."
+  },
+  "previous_observation_snapshot": {
+    "path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-10-17.csv",
+    "sha256": "13ada45bf760f4690a64ebcd147b5743b23527c60650e635dcf1d071eb63653e",
+    "size_bytes": 8360170,
+    "mtime": "2026-10-17T13:58:53-05:00",
+    "row_count": 160676,
+    "schema_issue": "An additional blank first header was present."
+  },
+  "current_source_verification": {
+    "verification_date": "2026-11-19",
+    "path": "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-11-13.csv",
+    "previous_source_sha256": "2f9cf04ffe01712b8e5498d809f542d159ff1cb33ae8b567aa6644e9c4f05de5",
+    "sha256_before": "784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac",
+    "sha256_after": "784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac",
+    "unchanged_during_verification": true,
+    "size_bytes": 7191829,
+    "mtime": "2026-11-19T10:06:23.592700507-06:00",
+    "r_version": "4.5.1",
+    "rscript_elapsed_seconds": 3.46,
+    "rows": 164767,
+    "columns": 4,
+    "expected_column_names": ["date", "host", "lon", "lat"],
+    "observed_column_names": ["date", "lon", "lat", "host"],
+    "column_name_set_matches_expected": true,
+    "column_order_matches_expected": false,
+    "unique_observation_keys": 164767,
+    "redundant_observation_keys": 0,
+    "any_duplicated_keys": false,
+    "missing_values": 0,
+    "invalid_dates": 0,
+    "invalid_coordinates": 0,
+    "date_range": ["2022-02-10", "2026-11-13"],
+    "original_w16_horizon_rows": 91005,
+    "extended_w44_horizon_rows": 118892,
+    "recent_weekly_observation_totals": {
+      "2026-W42": 994,
+      "2026-W43": 1021,
+      "2026-W44": 911,
+      "2026-W45": 668,
+      "2026-W46": 300
+    },
+    "method": "R 4.5.1 read.csv numeric key comparison on named date, lon, and lat columns; exact-decimal and rounding investigations were not repeated.",
+    "source_decision": "OBSERVATION_SOURCE_CORRECTION_VERIFIED",
+    "duplicate_related_blocker": "CLOSED",
+    "overall_refresh_readiness": "REFRESH_INPUT_READINESS_ESTABLISHED",
+    "remaining_blockers": [],
+    "user_authorized_dispositions": {
+      "corrected_observation_snapshot": "ACCEPTED_AS_AUTHORITATIVE_REPLACEMENT",
+      "training_endpoint": "2026-W44_PROVISIONAL",
+      "reporting_completeness_certification": "NOT_ESTABLISHED_ACCEPTED_AS_LIMITATION",
+      "historical_observation_revisions": "ACCEPTED_AS_LIMITATION",
+      "w29_artifact_lineage": "DEFERRED"
+    },
+    "accepted_limitations": [
+      "No formal reporting-completeness certification exists for 2026-W44.",
+      "Historical revisions are not independently explained.",
+      "The separate W29 artifact-lineage question remains deferred."
+    ],
+    "ingestion_compatibility": {
+      "implementation": "scripts/run_task2e_refresh.R uses named date, lon, and lat fields from data.table::fread; source column order is not used as positional schema.",
+      "observed_schema": ["date", "lon", "lat", "host"],
+      "compatible": true
+    }
+  },
+  "candidate_build": {
+    "candidate_status": "CANDIDATE_READY_FOR_REVIEW_NOT_PRODUCTION_QUALIFIED",
+    "candidate_name": "STRUCTURED_A3_2026W44",
+    "candidate_output_root": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44",
+    "task2a_job_id": "21272766",
+    "task2e_job_id": "21272811",
+    "fullfit_job_id": "21272817",
+    "observation_source_sha256": "784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac",
+    "observation_rows": 164767,
+    "exact_duplicate_rows": 0,
+    "duplicate_date_lon_lat_keys": 0,
+    "response_horizon": "2025-W01 through 2026-W44 (96 weeks)",
+    "revised_domain_nodes": 10037,
+    "predictor_count": 34,
+    "occurrence_optimizer_success": true,
+    "count_optimizer_success": true,
+    "history_leakage_audit": "PASS; zero same-week/future uses and zero missing cutoffs across 963552 node-week rows",
+    "candidate_model_sha256": "b1a66a65efbb9a65f6a4c966044d2f87576ee7e6a1d1a294c0fb1855f684f53b",
+    "candidate_output_manifest_sha256": "52205515e55e42de2ede04259913aac5bb2093fe8b7a5ff98fd41fc4824e73d7",
+    "candidate_output_artifact_count": 346,
+    "production_qualified": false,
+    "production_promoted": false
+  },
+  "environmental_inventory": "environmental_completeness_inventory.json",
+  "scope_note": "Only metadata and aggregate audit results are recorded here. Restricted row-level observations, rasters, and fitted artifacts remain on Atlas."
+}

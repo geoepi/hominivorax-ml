@@ -4,6 +4,15 @@
 # It never recomputes predictions. Each frame derives x/y/value together from
 # terra::as.data.frame(), then renders an opaque, fixed-extent ggplot frame.
 
+animation_source_file <- tryCatch(sys.frame(1L)$ofile, error = function(e) NULL)
+animation_style_candidates <- c(
+  if (!is.null(animation_source_file)) file.path(dirname(animation_source_file), "cartographic_style.R"),
+  file.path(getwd(), "analysis/structured_a3_fullfit/scripts/cartographic_style.R")
+)
+animation_style_candidates <- animation_style_candidates[!is.na(animation_style_candidates) & file.exists(animation_style_candidates)]
+if (!length(animation_style_candidates)) stop("Shared Structured A3 cartographic style was not found")
+source(animation_style_candidates[[1L]])
+
 parse_animation_week_files <- function(raster_dir) {
   files <- list.files(raster_dir, pattern = "\\.tif$", full.names = TRUE)
   if (!length(files)) stop("No GeoTIFF files found in ", raster_dir)
@@ -102,9 +111,10 @@ render_animation_frame <- function(frame, template, boundaries, limits, value_la
   if (!is.null(provenance)) subtitle <- paste0(subtitle, " | ", provenance)
   plot <- ggplot2::ggplot(frame, ggplot2::aes(x = x, y = y, fill = value)) +
     ggplot2::geom_raster(na.rm = FALSE) +
-    ggplot2::scale_fill_viridis_c(
-      option = "magma", limits = limits, oob = scales::squish,
-      na.value = "white", name = value_label
+    a3_cartographic_fill_scale(
+      limits = limits,
+      label = value_label,
+      na.value = A3_CARTOGRAPHIC_NODATA
     ) +
     ggplot2::coord_sf(
       crs = target_crs,
@@ -113,7 +123,8 @@ render_animation_frame <- function(frame, template, boundaries, limits, value_la
     ) +
     ggplot2::labs(
       title = paste0(title_prefix, " - ", value_label),
-      subtitle = subtitle
+      subtitle = subtitle,
+      caption = "Valid zero = #F4F4F4; NoData = #BDBDBD."
     ) +
     ggplot2::theme_void(base_size = 12) +
     ggplot2::theme(
@@ -123,6 +134,7 @@ render_animation_frame <- function(frame, template, boundaries, limits, value_la
       legend.key = ggplot2::element_rect(fill = "white", color = NA),
       plot.title = ggplot2::element_text(hjust = 0.5, face = "bold"),
       plot.subtitle = ggplot2::element_text(hjust = 0.5, size = 9),
+      plot.caption = ggplot2::element_text(hjust = 0, size = 8),
       legend.position = "right"
     )
   for (boundary in boundaries) {

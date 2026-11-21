@@ -1,0 +1,41 @@
+Dataset,Coordinate,Decimal places as written,Record count,Minimum decimal places,Maximum decimal places,Records with trailing fractional zeros,Scientific notation records,Unique textual values,Unique exact decimal values,Exact values with multiple textual forms,Rows using those multiple forms,Distinct exact values collapsed into float64 bins
+Corrected 2026-11-13,lon,0,12,0,8,0,0,7,7,0,0,0
+Corrected 2026-11-13,lon,1,82,0,8,0,0,41,41,0,0,0
+Corrected 2026-11-13,lon,2,871,0,8,0,0,334,334,0,0,0
+Corrected 2026-11-13,lon,3,5337,0,8,0,0,1625,1625,0,0,0
+Corrected 2026-11-13,lon,4,52581,0,8,0,0,15022,15022,0,0,0
+Corrected 2026-11-13,lon,5,38634,0,8,0,0,22958,22958,0,0,0
+Corrected 2026-11-13,lon,6,59526,0,8,0,0,37684,37684,0,0,0
+Corrected 2026-11-13,lon,7,3845,0,8,0,0,2370,2370,0,0,0
+Corrected 2026-11-13,lon,8,6142,0,8,0,0,2400,2400,0,0,0
+Corrected 2026-11-13,lat,0,3,0,14,0,0,2,2,0,0,0
+Corrected 2026-11-13,lat,1,44,0,14,0,0,15,15,0,0,0
+Corrected 2026-11-13,lat,2,253,0,14,0,0,129,129,0,0,0
+Corrected 2026-11-13,lat,3,1319,0,14,0,0,471,471,0,0,0
+Corrected 2026-11-13,lat,4,12553,0,14,0,0,4205,4205,0,0,0
+Corrected 2026-11-13,lat,5,24249,0,14,0,0,15855,15855,0,0,0
+Corrected 2026-11-13,lat,6,55001,0,14,0,0,36410,36410,0,0,0
+Corrected 2026-11-13,lat,7,2783,0,14,0,0,2175,2175,0,0,0
+Corrected 2026-11-13,lat,8,3910,0,14,0,0,2164,2164,0,0,0
+Corrected 2026-11-13,lat,9,310,0,14,0,0,21,21,0,0,0
+Corrected 2026-11-13,lat,13,7747,0,14,0,0,3580,3580,0,0,0
+Corrected 2026-11-13,lat,14,58858,0,14,0,0,17286,17286,0,0,0
+Frozen W16 source 2027-07-31,lon,0,5,0,8,0,0,3,3,0,0,0
+Frozen W16 source 2027-07-31,lon,1,45,0,8,0,0,25,25,0,0,0
+Frozen W16 source 2027-07-31,lon,2,489,0,8,0,0,179,179,0,0,0
+Frozen W16 source 2027-07-31,lon,3,4456,0,8,0,0,1439,1439,0,0,0
+Frozen W16 source 2027-07-31,lon,4,43607,0,8,0,0,13340,13340,0,0,0
+Frozen W16 source 2027-07-31,lon,5,28956,0,8,0,0,16549,16549,0,0,0
+Frozen W16 source 2027-07-31,lon,6,51141,0,8,0,0,32100,32100,0,0,0
+Frozen W16 source 2027-07-31,lon,7,2571,0,8,0,0,1467,1467,0,0,0
+Frozen W16 source 2027-07-31,lon,8,5444,0,8,0,0,2122,2122,0,0,0
+Frozen W16 source 2027-07-31,lat,0,4,0,9,0,0,3,3,0,0,0
+Frozen W16 source 2027-07-31,lat,1,48,0,9,0,0,16,16,0,0,0
+Frozen W16 source 2027-07-31,lat,2,615,0,9,0,0,151,151,0,0,0
+Frozen W16 source 2027-07-31,lat,3,4454,0,9,0,0,1165,1165,0,0,0
+Frozen W16 source 2027-07-31,lat,4,42672,0,9,0,0,10903,10903,0,0,0
+Frozen W16 source 2027-07-31,lat,5,27795,0,9,0,0,15353,15353,0,0,0
+Frozen W16 source 2027-07-31,lat,6,53092,0,9,0,0,33489,33489,0,0,0
+Frozen W16 source 2027-07-31,lat,7,2231,0,9,0,0,1510,1510,0,0,0
+Frozen W16 source 2027-07-31,lat,8,4765,0,9,0,0,2045,2045,0,0,0
+Frozen W16 source 2027-07-31,lat,9,1038,0,9,0,0,109,109,0,0,0

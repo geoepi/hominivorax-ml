@@ -10,14 +10,28 @@ suppressPackageStartupMessages({
 })
 
 args <- commandArgs(trailingOnly = TRUE)
-arg <- function(name, default) { i <- match(name, args); if (is.na(i) || i == length(args)) default else args[[i + 1L]] }
-out <- normalizePath(arg("--output-root", "/project/disease_ecology/STGNN-output/structured_a3_fullfit"), winslash = "/", mustWork = FALSE)
-mask_path <- arg("--mask", "/project/disease_ecology/STGNN-output/preflight/canonical_environment_mask.tif")
+if (!"--resume-after-fit" %in% args) stop("spatial rendering requires the explicit --resume-after-fit continuation")
+arg <- function(name, default = NULL, required = FALSE) {
+  i <- match(name, args)
+  if (is.na(i)) {
+    if (required) stop("missing required argument: ", name)
+    return(default)
+  }
+  if (i == length(args) || !nzchar(args[[i + 1L]])) stop("missing argument value: ", name)
+  args[[i + 1L]]
+}
+out_value <- arg("--output-root", required = TRUE)
+if (nzchar(Sys.readlink(out_value))) stop("full-fit output root must not be a symbolic link")
+out <- normalizePath(out_value, winslash = "/", mustWork = TRUE)
+mask_path <- arg("--mask", required = TRUE)
 boundary_root <- arg("--boundary-root", "/project/disease_ecology/NWS/Chad/NWS_ABM/data/ancillary/border_shapefiles")
-for (folder in c("geotiff/occurrence", "geotiff/conditional_count", "geotiff/expected_count", "raster_summaries", "nowcast_pdf", "manifests", "interpretation/coefficients", "interpretation/importance", "interpretation/effects", "interpretation/seasonality", "tables")) dir.create(file.path(out, folder), recursive = TRUE, showWarnings = FALSE)
 pred_path <- file.path(out, "predictions", "weekly_predictions.parquet")
 horizon_path <- file.path(out, "manifests", "fullfit_data_horizon.json")
-if (any(!file.exists(c(pred_path, horizon_path, mask_path)))) stop("missing full-fit spatial input")
+fit_manifest_path <- file.path(out, "manifests", "fullfit_fit_manifest.json")
+if (any(!file.exists(c(pred_path, horizon_path, fit_manifest_path, mask_path)))) stop("missing full-fit spatial input")
+fit_manifest <- read_json(fit_manifest_path, simplifyVector = TRUE)
+if (!identical(as.character(fit_manifest$status), "fit_complete") || !identical(as.character(fit_manifest$model), "STRUCTURED_A3_FULLFIT")) stop("spatial rendering requires a completed STRUCTURED_A3_FULLFIT fit")
+for (folder in c("geotiff/occurrence", "geotiff/conditional_count", "geotiff/expected_count", "raster_summaries", "nowcast_pdf", "manifests", "interpretation/coefficients", "interpretation/importance", "interpretation/effects", "interpretation/seasonality", "tables")) dir.create(file.path(out, folder), recursive = TRUE, showWarnings = FALSE)
 
 sha <- function(path) { x <- system2("sha256sum", path, stdout = TRUE, stderr = TRUE); if (length(x)) sub("\\s+.*$", "", x[[1L]]) else NA_character_ }
 git_sha <- tryCatch(system2("git", c("rev-parse", "HEAD"), stdout = TRUE, stderr = FALSE)[[1L]], error = function(e) "unknown")

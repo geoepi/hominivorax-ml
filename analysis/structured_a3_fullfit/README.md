@@ -26,24 +26,29 @@ prior response use before fitting.
 
 ## Execution
 
-On Atlas, submit:
+The wrapper no longer supplies historical output or input defaults. Before
+submitting on Atlas, set `STGNN_FULLFIT_OUTPUT_ROOT`, `STGNN_MODEL_OUTPUT_ROOT`,
+`STGNN_FRONT_FEATURES` (or `STGNN_BUILD_A3_FRONT_FEATURES=1` and
+`STGNN_FRONT_FEATURE_ROOT`), `STGNN_ANTHROPOGENIC_FEATURES`,
+`STGNN_SOIL_FEATURES`, `STGNN_FULLFIT_MASK`,
+`STGNN_EXPECTED_OBSERVATION_SHA256`, `STGNN_RESPONSE_START`, and
+`STGNN_RESPONSE_END`. `STGNN_REPOSITORY_ROOT` may select the checkout; otherwise
+submit from that repository root. See [`W44 execution safety`](../../docs/current/w44_execution_safety.md)
+for the validation and path contract.
 
-```bash
-cd /project/disease_ecology/STGNN
-sbatch analysis/structured_a3_fullfit/scripts/run_fullfit_products.sbatch
-```
+The new-fit destination must be absent or empty. Slurm logs are written under
+`/project/disease_ecology/STGNN-output/logs/`, outside the model output. The
+Python `fit` stage produces the model, weekly Parquet archive, summaries, and
+interpretation-ready tables. After a completed fit, the R renderer skips
+existing weekly GeoTIFFs and regenerates missing/failed spatial products. The
+Python `finalize` stage updates the report and output manifests.
 
-The stages are restartable. The Python `fit` stage produces the model,
-weekly Parquet archive, summaries, and interpretation-ready tables. The R
-renderer skips existing weekly GeoTIFFs, regenerates missing/failed spatial
-products, and produces the map/PDF/plot outputs. The Python `finalize` stage
-updates checksums, the master artifact manifest, and the Markdown report.
-
-The output root is:
-
-```text
-/project/disease_ecology/STGNN-output/structured_a3_fullfit/
-```
+To continue rendering/finalization after the fit manifest is complete, set
+`STGNN_RESUME_AFTER_FIT=1`. The preflight requires the current data paths,
+source checksums, and response horizon to match the completed fit manifest;
+immutable repository manifests are compared by checksum across worktrees.
+Partial fit output without a completed fit manifest is not resumable through
+this wrapper.
 
 Weekly rasters use the exact canonical mask and persisted node-to-cell mapping;
 cells outside the 10,037-node domain are explicit NoData. The nowcast period is
@@ -51,3 +56,23 @@ the latest six complete supported weeks. Its layout is the established Task
 3E exact-cell continuous map design documented in `docs/V2A_MAP_FIGURES.md`
 and `scripts/task3e_raster_outputs.R`, adapted to Structured A3 full-fit
 predictions. Every PDF is labeled descriptive and non-validation.
+
+## W44 cartographic revision
+
+`scripts/render_cartographic_revision.R` renders the persisted W44 candidate
+products without fitting a model or writing source rasters, prediction tables,
+or existing figure files. It writes revised products to
+`/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44/figures_cartographic_revision_v1/`.
+Use `scripts/run_cartographic_revision.sbatch` for Atlas execution. Set
+`STGNN_CARTOGRAPHIC_MODE=pilot` and, if needed,
+`STGNN_CARTOGRAPHIC_OUTPUT_ROOT` for the focused preview before full rendering.
+The pilot is not part of the final figure inventory.
+
+Prediction maps use the shared palette in `scripts/cartographic_style.R`, a
+fixed 0-1 primary occurrence scale, a fixed full-period linear expected-count
+scale, and a supplementary scaled-log1p expected-count display with original
+count-unit legend ticks. Valid zero cells are very light gray; NoData is
+medium gray. Prediction maps contain no observation layer. Separate location
+maps use the existing persisted occupied 25 km model-cell centroids, and
+separate count maps show observed detections per model cell. Interpretation
+figures are re-exported with opaque white PNG backgrounds and matching PDFs.

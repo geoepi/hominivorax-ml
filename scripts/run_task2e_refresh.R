@@ -27,11 +27,13 @@ value_for <- function(args, flag, default = NULL, required = FALSE) {
 }
 
 cli <- commandArgs(trailingOnly = TRUE)
-source_root <- value_for(cli, "--source-output-root", Sys.getenv("STGNN_OUTPUT_ROOT", "/project/disease_ecology/STGNN-output"))
-previous_root <- value_for(cli, "--previous-output-root", Sys.getenv("STGNN_PREVIOUS_OUTPUT_ROOT", "/project/disease_ecology/STGNN-output"))
-model_output <- value_for(cli, "--model-output", Sys.getenv("STGNN_MODEL_OUTPUT_ROOT", "/project/disease_ecology/STGNN-output/revised_model_data"))
-observation_path <- value_for(cli, "--observation-path", "/project/disease_ecology/NWScrewworm/data/processed_data/case_detections/combined_clean_obs_2026-10-17.csv")
-boundary_path <- value_for(cli, "--boundary-path", Sys.getenv("STGNN_BOUNDARY_PATH", ""), required = TRUE)
+source_root <- value_for(cli, "--source-output-root", required = TRUE)
+previous_root <- value_for(cli, "--previous-output-root", required = TRUE)
+model_output <- value_for(cli, "--model-output", required = TRUE)
+observation_path <- value_for(cli, "--observation-path", required = TRUE)
+expected_observation_sha256 <- value_for(cli, "--expected-observation-sha256", required = TRUE)
+expected_feature_manifest_sha256 <- value_for(cli, "--expected-feature-manifest-sha256", required = TRUE)
+boundary_path <- value_for(cli, "--boundary-path", required = TRUE)
 boundary_layer <- value_for(cli, "--boundary-layer", Sys.getenv("STGNN_BOUNDARY_LAYER", "study_states"))
 analysis_start <- iso_week_start(as.Date(value_for(cli, "--analysis-start", "2024-01-01")))
 analysis_end_value <- value_for(cli, "--analysis-end", NA_character_)
@@ -44,8 +46,11 @@ git_sha <- value_for(cli, "--git-sha", Sys.getenv("STGNN_GIT_SHA", "unknown"))
 
 if (!is.null(analysis_end) && is.na(analysis_end)) stop("analysis end is invalid")
 if (!is.null(analysis_end) && analysis_end < analysis_start) stop("analysis end precedes analysis start")
-dir.create(model_output, recursive = TRUE, showWarnings = FALSE)
-invisible(lapply(file.path(model_output, c("raw", "splits", "scaling", "predictions", "diagnostics", "manifests")), dir.create, recursive = TRUE, showWarnings = FALSE))
+if (!nzchar(source_root) || !nzchar(previous_root) || !nzchar(model_output) || !nzchar(observation_path) || !nzchar(boundary_path)) stop("Task 2E paths must not be empty")
+if (!grepl("^[0-9a-fA-F]{64}$", expected_observation_sha256) || !grepl("^[0-9a-fA-F]{64}$", expected_feature_manifest_sha256)) stop("expected source checksums must be 64-character SHA-256 values")
+if (nzchar(Sys.readlink(model_output))) stop("Task 2E output must not be a symbolic link")
+if (!dir.exists(dirname(model_output))) stop("Task 2E output parent must already exist: ", dirname(model_output))
+if (file.exists(model_output) && (!dir.exists(model_output) || length(list.files(model_output, all.files = TRUE, no.. = TRUE)) > 0L)) stop("refusing to overwrite existing Task 2E output: ", model_output)
 
 old_raw <- file.path(source_root, "model_data", "raw")
 old_split <- file.path(source_root, "model_data", "splits")
@@ -60,8 +65,21 @@ static_path <- file.path(old_raw, "static_features.npy")
 feature_manifest_path <- file.path(old_raw, "feature_manifest.json")
 canonical_mask_path <- file.path(source_root, "preflight", "canonical_environment_mask.tif")
 spatial_assignments_path <- file.path(old_split, "spatial_node_assignments.parquet")
-required <- c(observation_path, boundary_path, nodes_path, edges_path, weeks_path, calendar_path, dynamic_path, history_path, static_path, canonical_mask_path, feature_manifest_path, spatial_assignments_path)
+previous_nodes_path <- file.path(old_revised, "raw", "nodes.parquet")
+previous_edges_path <- file.path(old_revised, "graph", "edges_queen.parquet")
+required <- c(observation_path, boundary_path, nodes_path, edges_path, weeks_path, calendar_path, dynamic_path, history_path, static_path, canonical_mask_path, feature_manifest_path, spatial_assignments_path, previous_nodes_path, previous_edges_path)
 task2d_require_files(required)
+
+feature_manifest <- jsonlite::fromJSON(feature_manifest_path, simplifyVector = FALSE)
+if (!identical(feature_manifest$status, "completed")) stop("Task 2A feature manifest is not complete")
+feature_target_start <- as.Date(feature_manifest$target_start)
+feature_target_end <- as.Date(feature_manifest$target_end)
+if (is.na(feature_target_start) || is.na(feature_target_end) || feature_target_start > feature_target_end) stop("Task 2A feature manifest has an invalid target horizon")
+if (analysis_start < feature_target_start) stop("analysis start precedes the Task 2A feature horizon")
+observation_sha256 <- digest::digest(file = observation_path, algo = "sha256")
+feature_manifest_sha256 <- digest::digest(file = feature_manifest_path, algo = "sha256")
+if (!identical(tolower(observation_sha256), tolower(expected_observation_sha256))) stop("observation source SHA-256 differs from the declared execution input")
+if (!identical(tolower(feature_manifest_sha256), tolower(expected_feature_manifest_sha256))) stop("Task 2A feature-manifest SHA-256 differs from the declared execution input")
 
 write_npy_matrix <- function(values, path, descr = "<i4") {
   values <- as.matrix(values)
@@ -88,6 +106,7 @@ expected_weeks <- iso_week_id(seq(min(weeks$week_start), max(weeks$week_start), 
 if (!identical(as.character(weeks$iso_week), expected_weeks)) stop("canonical weeks contain a gap")
 if (is.null(analysis_end)) analysis_end <- max(weeks$week_start)
 if (analysis_end > max(weeks$week_start)) stop("analysis end exceeds the environmental bundle horizon")
+if (analysis_end > feature_target_end) stop("analysis end exceeds the Task 2A feature manifest horizon")
 weeks <- weeks[weeks$week_start <= analysis_end, , drop = FALSE]
 weeks$week_index <- seq_len(nrow(weeks)) - 1L
 response_end <- if (is.null(response_end)) tail(weeks$iso_week, 1L) else response_end
@@ -148,8 +167,8 @@ revised_edges <- revised_edges[order(revised_edges$source_node, revised_edges$ta
 revised_graph_qa <- task2d_graph_qa(transform(revised_nodes, node_id = model_node_id), revised_edges)
 if (!identical(revised_graph_qa$node_count, 10037L) || !identical(revised_graph_qa$directed_edge_count, 77614L) || !identical(revised_graph_qa$connected_components, 4L) || !identical(revised_graph_qa$isolated_nodes, 3L)) stop("revised graph statistics do not match Task 2D")
 
-old_revised_nodes <- arrow::read_parquet(file.path(old_revised, "raw", "nodes.parquet"), as_data_frame = TRUE)
-old_revised_edges <- arrow::read_parquet(file.path(old_revised, "graph", "edges_queen.parquet"), as_data_frame = TRUE)
+old_revised_nodes <- arrow::read_parquet(previous_nodes_path, as_data_frame = TRUE)
+old_revised_edges <- arrow::read_parquet(previous_edges_path, as_data_frame = TRUE)
 if (!identical(as.integer(old_revised_nodes$canonical_node_id), as.integer(revised_nodes$canonical_node_id)) || !identical(as.integer(old_revised_nodes$model_node_id), as.integer(revised_nodes$model_node_id))) stop("Task 2D revised node ordering changed")
 if (!isTRUE(all.equal(old_revised_edges[, c("source_node", "target_node")], revised_edges[, c("source_node", "target_node")], check.attributes = FALSE))) stop("Task 2D induced graph changed")
 
@@ -186,6 +205,8 @@ raw_observations$revised_domain_exclusion_reason <- ifelse(raw_observations$revi
 
 classification_columns <- c("source_row_id", "date", "host", "lon", "lat", "country_code", "state", "broad_region", "source_group", "iso_week", "canonical_node_id", "model_node_id", "geographic_domain", "environmental_support", "revised_domain_membership", "revised_domain_exclusion_reason")
 source_classification <- as.data.frame(raw_observations[, ..classification_columns])
+dir.create(model_output, recursive = TRUE, showWarnings = FALSE)
+invisible(lapply(file.path(model_output, c("raw", "splits", "scaling", "predictions", "diagnostics", "manifests")), dir.create, recursive = TRUE, showWarnings = FALSE))
 task2d_write_table(source_classification, file.path(model_output, "diagnostics", "updated_observation_classification"))
 us_details <- source_classification[source_classification$source_group == "United States", c("source_row_id", "date", "host", "lon", "lat", "state", "iso_week", "canonical_node_id", "model_node_id", "revised_domain_membership", "revised_domain_exclusion_reason"), drop = FALSE]
 task2d_write_table(us_details, file.path(model_output, "diagnostics", "us_observation_assignments"))

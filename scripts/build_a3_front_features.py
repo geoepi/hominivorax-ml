@@ -270,11 +270,17 @@ def build_front_frame(model_output: Path, response_start: str = RESPONSE_START, 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model-output", type=Path, default=Path("/project/disease_ecology/STGNN-output/revised_model_data"))
-    parser.add_argument("--output", type=Path, default=Path("/project/disease_ecology/STGNN-output/v2_model/front_features"))
+    parser.add_argument("--model-output", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--response-start", default=RESPONSE_START)
     parser.add_argument("--response-end")
     args = parser.parse_args()
+    if not args.output.is_absolute():
+        parser.error("--output must be an absolute path")
+    if not args.output.parent.is_dir():
+        parser.error(f"--output parent must already exist: {args.output.parent}")
+    if args.output.is_symlink() or (args.output.exists() and (not args.output.is_dir() or any(args.output.iterdir()))):
+        parser.error(f"refusing to overwrite front-feature output: {args.output}")
     frame, response_weeks, audit = build_front_frame(args.model_output, args.response_start, args.response_end)
     args.output.mkdir(parents=True, exist_ok=True)
     frame.to_parquet(args.output / "causal_front_features.parquet", index=False)

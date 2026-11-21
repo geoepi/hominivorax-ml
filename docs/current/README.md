@@ -10,6 +10,7 @@ specifications are preserved separately under [`../history/`](../history/).
 - [Validation status](validation.md)
 - [Outputs](outputs.md)
 - [Atlas orchestration](atlas.md)
+- [W44 execution safety](w44_execution_safety.md)
 - [Limitations](limitations.md)
 - [Data and artifact map](data_artifact_map.md)
 - [Formal production freeze](../production_model_freeze.md)
