@@ -9,11 +9,5 @@
 #SBATCH --error=/project/disease_ecology/STGNN-output/logs/slurm/%x-%j.err
 
 set -euo pipefail
-source hpc/env_r.sh
-source hpc/env_python.sh
-# Set STGNN_REFRESH_ROOT for a versioned refresh; the ordinary default remains unchanged.
-export STGNN_OUTPUT_ROOT="${STGNN_OUTPUT_ROOT:-${STGNN_REFRESH_ROOT:-/project/disease_ecology/STGNN-output}}"
-export STGNN_ENVIRONMENTAL_ROOT="${STGNN_ENVIRONMENTAL_ROOT:?set STGNN_ENVIRONMENTAL_ROOT}"
-export STGNN_TEMPLATE_PATH="${STGNN_TEMPLATE_PATH:?set STGNN_TEMPLATE_PATH}"
 export STGNN_JOB_IDS="${STGNN_JOB_IDS:-${SLURM_JOB_ID:-}}"
 source scripts/run_task2a.sh

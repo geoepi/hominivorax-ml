@@ -34,6 +34,7 @@ The authorized W44 candidate refresh and descriptive full-fit completed on Atlas
 - artifact_integrity_manifest.json: frozen and pre-existing deployed artifact checksums.
 - qualification_report.md: stage gates and omitted qualification.
 - production_isolation_verification.md: current production boundary.
+- artifact_integrity_reconciliation.md: full-fit checksum discrepancy causes, output-path failure mechanism, safeguards, validation, and preservation checks.
 - decision_report.md: required 13-part execution summary.
 
 Restricted data and fitted artifacts remain outside Git. The accepted limitations remain visible in the final decision report; candidate execution and qualification status are recorded separately from production approval.
