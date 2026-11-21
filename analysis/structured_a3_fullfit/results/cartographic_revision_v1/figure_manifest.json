@@ -1,0 +1,52 @@
+{
+  "status": "W44_CARTOGRAPHIC_REVISION_RENDERED",
+  "generated_utc": "2026-11-21 00:39:13 UTC",
+  "candidate_status": "CANDIDATE_READY_FOR_REVIEW_NOT_PRODUCTION_QUALIFIED",
+  "candidate_model_sha256": "b1a66a65efbb9a65f6a4c966044d2f87576ee7e6a1d1a294c0fb1855f684f53b",
+  "source_output_manifest_path": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44/fullfit_products/structured_a3_fullfit_output_manifest.csv",
+  "source_output_manifest_sha256": "52205515e55e42de2ede04259913aac5bb2093fe8b7a5ff98fd41fc4824e73d7",
+  "source_artifact_count": 25,
+  "protected_candidate_artifact_count": 346,
+  "protected_candidate_artifacts_unchanged": true,
+  "candidate_artifact_manifest_match_count": 344,
+  "candidate_artifact_manifest_preexisting_mismatch_count": 2,
+  "candidate_artifact_manifest_preexisting_mismatch_paths": [
+    "logs/fullfit_21272817.out",
+    "structured_a3_fullfit_output_manifest.json"
+  ],
+  "output_root": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44/figures_cartographic_revision_v1",
+  "figure_count": 74,
+  "output_file_count": 148,
+  "output_formats": ["pdf", "png"],
+  "output_files_opaque_white": true,
+  "output_checksums_recorded": true,
+  "prediction_maps_have_observation_layer": false,
+  "observation_map_representation": "Existing observed_detections.csv is already aggregated to occupied 25 km model-cell centroids; no raw observation source was reprocessed.",
+  "prediction_weeks": ["2026-W39", "2026-W40", "2026-W41", "2026-W42", "2026-W43", "2026-W44"],
+  "original_snapshot_selection": ["2025-W01", "2025-W48", "2026-W17", "2026-W42", "2026-W44"],
+  "palette": [
+    "#F4F4F4",
+    "#E0EDF7",
+    "#A6CEE3",
+    "#5596C5",
+    "#2166AC",
+    "#08306B"
+  ],
+  "nodata_colour": "#BDBDBD",
+  "occurrence_primary_limits": [
+    0,
+    1
+  ],
+  "expected_count_fixed_linear_limit": 3.22590302155403,
+  "expected_count_log1p_reference_median": 0.00145766198758238,
+  "expected_count_log1p_ticks_are_original_units": true,
+  "northern_mexico_texas_extent_longitude": [
+    -108,
+    -93
+  ],
+  "northern_mexico_texas_extent_latitude": [
+    22,
+    37
+  ],
+  "figure_manifest_csv_sha256": "b8c41cb95eda295c2cc199bb7902b0480c70cd0e98e092c17bed8261bada789c"
+}
