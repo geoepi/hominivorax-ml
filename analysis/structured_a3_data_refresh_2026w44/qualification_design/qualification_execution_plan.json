@@ -41,6 +41,8 @@
     "origin_horizon_blocks": 78,
     "expected_node_horizon_rows": 782886,
     "target_range": "2026-W17 through 2026-W44",
+    "target_maturity_status": "Not certified; source manifest has no latest documented complete observation week.",
+    "qualification_use": "Count only target weeks verified complete under the existing maturity review; bundle presence alone is insufficient.",
     "validation_type": "Retrospective updated-vintage hindcast; historical observation revisions and environmental release timestamps are unavailable.",
     "model_fit_count": 26,
     "future_response_leakage_allowed": false
@@ -177,6 +179,7 @@
     "Retain exact issue timestamps and source availability vintages for W44 forecasts.",
     "Wait for at least 8 ordered, complete and mature post-issue target weeks for P1.",
     "Verify W44 node IDs, spatial graph and forecast/outcome keys.",
-    "Confirm Atlas project quota and destination before writing archives."
+    "Confirm Atlas project quota and destination before writing archives.",
+    "Verify weekly response completeness and maturity for every target; do not infer completeness from bundle inclusion."
   ]
 }

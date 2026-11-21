@@ -43,6 +43,8 @@ See [existing_evidence_inventory.csv](existing_evidence_inventory.csv). Reuse cl
 
 The P2 runner begins at origin W16, uses an expanding window from 2025-W01 through origin T, and evaluates h=1,2,3. Prior results covered 21 origins W16–W36 and targets W17–W39. On the 96-week W44 bundle, origins W16–W41 have three available targets: **26 origins, 78 origin-horizon blocks, 782,886 node-horizon rows** over 10,037 cells. Exact rows are in [rolling_origin_design.csv](rolling_origin_design.csv).
 
+These 26 origins are eligible by bundle coverage only. The W44 manifest reports no certified latest complete observation week; presence of a response week in the bundle does not establish reporting maturity. Before scoring or making qualification decisions, apply the existing outcome-maturity review to every target week. Exclude or mark unevaluable any incomplete target under the established protocol. The W44 endpoint remains provisional.
+
 Retain the 34 predictors/transforms/order, penalty 0.01, fixed theta 0.7018903965556372, exact_joint_hurdle_nll, L-BFGS-B settings, response definition, domain, and history cutoff strictly before each target. Fit response rows stop at T; no T+1:T+3 outcomes enter fitting or feature construction. Preserve exact origin/target/node keys and weekly responses.
 
 The historical replay uses current W44 response and feature snapshots even for past origins. It is a **retrospective updated-vintage hindcast**, not a reconstruction of information available then: observation revision history and environmental release timestamps are missing. Forecasts using realized target-week weather are retrospective. No W44 raster proves it was available at a historical origin.
