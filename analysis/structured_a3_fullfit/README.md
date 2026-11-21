@@ -56,3 +56,23 @@ the latest six complete supported weeks. Its layout is the established Task
 3E exact-cell continuous map design documented in `docs/V2A_MAP_FIGURES.md`
 and `scripts/task3e_raster_outputs.R`, adapted to Structured A3 full-fit
 predictions. Every PDF is labeled descriptive and non-validation.
+
+## W44 cartographic revision
+
+`scripts/render_cartographic_revision.R` renders the persisted W44 candidate
+products without fitting a model or writing source rasters, prediction tables,
+or existing figure files. It writes revised products to
+`/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44/figures_cartographic_revision_v1/`.
+Use `scripts/run_cartographic_revision.sbatch` for Atlas execution. Set
+`STGNN_CARTOGRAPHIC_MODE=pilot` and, if needed,
+`STGNN_CARTOGRAPHIC_OUTPUT_ROOT` for the focused preview before full rendering.
+The pilot is not part of the final figure inventory.
+
+Prediction maps use the shared palette in `scripts/cartographic_style.R`, a
+fixed 0-1 primary occurrence scale, a fixed full-period linear expected-count
+scale, and a supplementary scaled-log1p expected-count display with original
+count-unit legend ticks. Valid zero cells are very light gray; NoData is
+medium gray. Prediction maps contain no observation layer. Separate location
+maps use the existing persisted occupied 25 km model-cell centroids, and
+separate count maps show observed detections per model cell. Interpretation
+figures are re-exported with opaque white PNG backgrounds and matching PDFs.
