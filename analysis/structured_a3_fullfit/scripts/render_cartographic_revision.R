@@ -109,7 +109,6 @@ if (nrow(pred) != length(weeks) * 10037L || length(weeks) != 96L) stop("Weekly p
 if (pred[, .N, by = .(week, model_node_id)][, any(N != 1L)]) stop("Prediction archive contains duplicate week/node rows")
 focus_weeks <- sprintf("2026-W%02d", 39:44)
 if (!all(focus_weeks %in% weeks)) stop("Candidate prediction archive does not contain all W39-W44 maps")
-focus_rows <- as.character(pred[["week"]]) %in% focus_weeks
 occurrence_values <- as.numeric(pred[["p_occurrence"]])
 expected_values <- as.numeric(pred[["expected_count"]])
 observed_values <- as.numeric(pred[["observed_count"]])
@@ -118,14 +117,11 @@ if (any(!is.finite(expected_values)) || any(expected_values < 0)) stop("Expected
 if (any(!is.finite(observed_values)) || any(observed_values < 0)) stop("Observed-count range check failed")
 expected_limit <- max(expected_values)
 expected_reference <- median(expected_values[expected_values > 0])
-occurrence_focus_limit <- as.numeric(stats::quantile(occurrence_values[focus_rows], 0.995, names = FALSE, na.rm = TRUE))
 observation_limit <- max(observed_values[as.character(pred[["week"]]) %in% focus_weeks])
 if (!is.finite(expected_limit) || expected_limit <= 0 || !is.finite(expected_reference) || expected_reference <= 0) {
   stop("Expected-count display limits could not be established from persisted predictions")
 }
 
-week_number <- function(week) as.integer(sub("^.*-W", "", week))
-week_year <- function(week) as.integer(substr(week, 1L, 4L))
 snapshot_weeks <- unique(c(
   weeks[[1L]],
   weeks[max(1L, ceiling(length(weeks) / 2))],
@@ -261,7 +257,6 @@ frame_for <- function(week, variable) {
 
 prediction_limits <- list(
   occurrence_primary = c(0, 1),
-  occurrence_focus = c(0, occurrence_focus_limit),
   expected_linear = c(0, expected_limit),
   expected_log1p = c(0, expected_limit)
 )
@@ -271,12 +266,6 @@ expected_log_breaks <- sort(unique(c(
   stats::quantile(expected_values[expected_values > 0], c(0.5, 0.9, 0.99), names = FALSE),
   expected_limit
 )))
-occurrence_focus_breaks <- sort(unique(c(
-  0,
-  stats::quantile(occurrence_values[focus_rows], c(0.25, 0.5, 0.75, 0.95), names = FALSE),
-  occurrence_focus_limit
-)))
-
 prediction_style <- function(variable, style) {
   if (variable == "p_occurrence" && style == "primary") {
     return(list(
@@ -285,16 +274,6 @@ prediction_style <- function(variable, style) {
       trans = NULL,
       breaks = seq(0, 1, by = 0.2),
       norm = "linear; fixed 0-1 probability scale",
-      palette = "Sequential blue-grey; zero is #F4F4F4"
-    ))
-  }
-  if (variable == "p_occurrence" && style == "focus") {
-    return(list(
-      limits = prediction_limits$occurrence_focus,
-      label = "P(recorded detection; supplementary focus scale)",
-      trans = NULL,
-      breaks = occurrence_focus_breaks,
-      norm = "linear; fixed W39-W44 99.5th percentile upper limit; values above limit saturated",
       palette = "Sequential blue-grey; zero is #F4F4F4"
     ))
   }
@@ -319,8 +298,7 @@ prediction_style <- function(variable, style) {
 }
 
 prediction_caption <- function(style) {
-  note <- "Valid zero = #F4F4F4; NoData = #BDBDBD. Prediction-only map; no observation layer. Descriptive full-fit output, not independent validation."
-  if (style == "focus") paste(note, "Supplementary scale saturates values above its fixed 99.5th-percentile limit.") else note
+  "Valid zero = #F4F4F4; NoData = #BDBDBD. Prediction-only map; no observation layer. Descriptive full-fit output, not independent validation."
 }
 
 prediction_plot <- function(selected_weeks, variable, style, view) {
@@ -330,10 +308,10 @@ prediction_plot <- function(selected_weeks, variable, style, view) {
   title_label <- if (variable == "p_occurrence") "Occurrence probability" else "Expected count"
   if (length(selected_weeks) == 1L) {
     title <- paste("STRUCTURED A3", title_label, "-", selected_weeks[[1L]])
-    subtitle <- if (style == "focus") "Supplementary distribution-focused scale" else if (style == "log1p") "Supplementary monotonic nonlinear display; legend ticks remain in count units" else NULL
+    subtitle <- if (style == "log1p") "Supplementary monotonic nonlinear display; legend ticks remain in count units" else NULL
   } else {
     title <- paste("STRUCTURED A3", title_label, "- six-week comparison")
-    subtitle <- if (style == "focus") "Supplementary distribution-focused scale; identical limits in every panel" else if (style == "log1p") "Supplementary monotonic nonlinear display; legend ticks remain in count units" else "Common numerical scale in all panels"
+    subtitle <- if (style == "log1p") "Supplementary monotonic nonlinear display; legend ticks remain in count units" else "Common numerical scale in all panels"
   }
   plot <- ggplot2::ggplot(frames, ggplot2::aes(x = x, y = y, fill = value)) +
     ggplot2::geom_raster(na.rm = FALSE) +
@@ -495,7 +473,7 @@ write_prediction_product <- function(week, variable, style, view, prefix = "pred
   variable_slug <- if (variable == "p_occurrence") "p_occurrence" else "expected_count"
   weeks_for_map <- if (length(week) > 1L) week else week
   view_slug <- if (view == "full_domain") "full_domain" else "mexico_texas_detail"
-  style_slug <- switch(style, primary = "primary_0_1", focus = "supplementary_focus", linear = "linear", log1p = "supplementary_log1p")
+  style_slug <- switch(style, primary = "primary_0_1", linear = "linear", log1p = "supplementary_log1p")
   if (prefix == "snapshots") {
     stem <- file.path(prefix, paste0(variable_slug, "_", style_slug, "_progression_snapshots"))
     id <- paste(variable_slug, style_slug, "progression_snapshots", sep = "_")
@@ -678,7 +656,6 @@ if (mode == "pilot") {
     pilot_png_count = length(manifest_rows),
     expected_count_limit = expected_limit,
     expected_count_log1p_reference = expected_reference,
-    occurrence_focus_limit = occurrence_focus_limit,
     source_artifact_manifest_sha256 = artifact_manifest_sha
   ), auto_unbox = TRUE, pretty = TRUE), "\n")
   quit(save = "no", status = 0L)
@@ -686,7 +663,7 @@ if (mode == "pilot") {
 
 dir.create(output_root, recursive = TRUE, showWarnings = FALSE)
 for (variable in c("p_occurrence", "expected_count")) {
-  styles <- if (variable == "p_occurrence") c("primary", "focus") else c("linear", "log1p")
+  styles <- if (variable == "p_occurrence") "primary" else c("linear", "log1p")
   for (style in styles) {
     for (week in focus_weeks) {
       for (view in c("full_domain", "mexico_texas_detail")) {
@@ -798,7 +775,6 @@ summary <- list(
   palette = as.list(A3_CARTOGRAPHIC_PALETTE),
   nodata_colour = A3_CARTOGRAPHIC_NODATA,
   occurrence_primary_limits = list(0, 1),
-  occurrence_supplementary_995_percentile_limit = occurrence_focus_limit,
   expected_count_fixed_linear_limit = expected_limit,
   expected_count_log1p_reference_median = expected_reference,
   expected_count_log1p_ticks_are_original_units = TRUE,
