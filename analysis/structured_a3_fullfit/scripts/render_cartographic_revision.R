@@ -249,7 +249,7 @@ frame_for <- function(week, variable) {
   if (!exists(key, envir = raster_cache, inherits = FALSE)) {
     path <- source_paths[[rel]]
     raster <- terra::rast(path)
-    frame <- terra::as.data.frame(raster, xy = TRUE, cells = TRUE, na.rm = FALSE)
+    frame <- as.data.table(terra::as.data.frame(raster, xy = TRUE, cells = TRUE, na.rm = FALSE))
     value_name <- setdiff(names(frame), c("x", "y", "cell"))
     if (length(value_name) != 1L) stop("Unexpected single-band candidate raster structure: ", rel)
     data.table::setnames(frame, value_name, "value")
@@ -384,7 +384,7 @@ observation_location_plot <- function(week, view) {
 
 observation_count_frame <- function(week) {
   raster <- terra::rast(template_path)
-  frame <- terra::as.data.frame(raster, xy = TRUE, cells = TRUE, na.rm = FALSE)
+  frame <- as.data.table(terra::as.data.frame(raster, xy = TRUE, cells = TRUE, na.rm = FALSE))
   value_name <- setdiff(names(frame), c("x", "y", "cell"))
   if (length(value_name) != 1L) stop("Unexpected model-cell grid geometry for observed counts")
   data.table::setnames(frame, value_name, "value")
