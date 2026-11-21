@@ -1,6 +1,6 @@
 # W44 artifact integrity and execution reconciliation
 
-Date: 2026-11-20  
+Date: 2026-11-20
 Scope: manifest checksum accounting and output-path safeguards only. No model configuration, predictions, candidate artifacts, frozen artifacts, or production pointers were changed.
 
 ## Manifest discrepancies
