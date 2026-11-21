@@ -1,0 +1,185 @@
+{
+  "plan_version": "1.0.0",
+  "design_decision": "W44_QUALIFICATION_DESIGN_READY",
+  "candidate_status": "CANDIDATE_READY_FOR_REVIEW_NOT_PRODUCTION_QUALIFIED",
+  "execution_status": "DESIGN_ONLY_NOT_EXECUTED",
+  "execution_authorized": false,
+  "repository": "geoepi/hominivorax-ml",
+  "starting_refresh_commit": "955ae4375043552457a3f052458e4f9115ce9095",
+  "analysis_branch": "analysis/structured-a3-2026w44-qualification-design",
+  "candidate": {
+    "id": "STRUCTURED_A3_2026W44",
+    "model_sha256": "b1a66a65efbb9a65f6a4c966044d2f87576ee7e6a1d1a294c0fb1855f684f53b",
+    "observation_sha256": "784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac",
+    "training_start": "2025-W01",
+    "training_end": "2026-W44",
+    "node_count": 10037,
+    "predictor_count": 34,
+    "resolution_km": 25,
+    "candidate_root": "/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44",
+    "immutable": true
+  },
+  "governance": {
+    "no_fit_or_forecast_executed": true,
+    "no_production_config_modified": true,
+    "no_frozen_artifact_modified": true,
+    "record_level_outputs_commit_eligible": false,
+    "atlas_route": "/home/johnh/bin/atlas-ssh via WSL/Ubuntu",
+    "environment_input_clarification": "User confirmed existing P5A roles: E0_LAST_AVAILABLE (T-1) remains primary; E1_TRAILING3_MEAN (T-1:T-3) remains sensitivity. Apply identical forecast-origin information restrictions; do not change frozen model."
+  },
+  "retrospective_rolling_origin": {
+    "protocol": "analysis/p2_operational_nowcast/scripts/run_p2_operational_nowcast.py",
+    "origin_start": "2026-W16",
+    "origin_end": "2026-W41",
+    "origin_count": 26,
+    "training_window": "Expanding 2025-W01 through T; training response cut off at T.",
+    "horizons_weeks": [
+      1,
+      2,
+      3
+    ],
+    "origin_horizon_blocks": 78,
+    "expected_node_horizon_rows": 782886,
+    "target_range": "2026-W17 through 2026-W44",
+    "target_maturity_status": "Not certified; source manifest has no latest documented complete observation week.",
+    "qualification_use": "Count only target weeks verified complete under the existing maturity review; bundle presence alone is insufficient.",
+    "validation_type": "Retrospective updated-vintage hindcast; historical observation revisions and environmental release timestamps are unavailable.",
+    "model_fit_count": 26,
+    "future_response_leakage_allowed": false
+  },
+  "prospective_fixed_candidate": {
+    "model_fit_count": 0,
+    "consecutive_issue_origins": 8,
+    "horizons_weeks": [
+      1,
+      2,
+      3
+    ],
+    "origin_horizon_blocks": 24,
+    "expected_node_horizon_rows": 240888,
+    "targets_per_horizon": 8,
+    "distinct_target_weeks_across_horizons": 10,
+    "training_model_cutoff": "2026-W44; coefficients/preprocessing fixed",
+    "issue_timestamp_required": true,
+    "complete_mature_post_issue_outcomes_required": true,
+    "first_issue_week": "Not assigned; issue after exact freeze and before target outcomes.",
+    "existing_W45_W46_counts_as_prospective": false
+  },
+  "prespecified_reuse": {
+    "P1_uncertainty_resampling": {
+      "temporal_block_weeks": 2,
+      "spatial_block_cells": [
+        5,
+        5
+      ],
+      "replicates": 399,
+      "seed": 20261029
+    },
+    "P2_target_week_bootstrap": {
+      "replicates": 399,
+      "seed": 20261029
+    },
+    "P4_training_week_bootstrap": {
+      "successful_replicates": 100,
+      "maximum_slots": 120,
+      "seed_rule": "20261029 + deterministic replicate_id",
+      "resample_unit": "whole training week with all nodes"
+    },
+    "P4_support": {
+      "reference": "W44 training predictors only",
+      "distance_thresholds": "training leave-one-out Q95/Q99",
+      "feature_range_thresholds": "training min/max and 1st/99th percentiles"
+    },
+    "P5A_environment_proxy": {
+      "primary": "E0_LAST_AVAILABLE",
+      "sensitivity": "E1_TRAILING3_MEAN",
+      "information_cutoff": "same origin-time availability restrictions for both",
+      "release_timestamps_available": false
+    }
+  },
+  "required_future_stages": [
+    {
+      "stage": "P0",
+      "work": "Freeze candidate identity/manifest and verify inference",
+      "model_fits": 0
+    },
+    {
+      "stage": "P1",
+      "work": "Fixed W44 no-refit scoring over >=8 complete post-issue weeks; spatial/space-time/frontier summaries",
+      "model_fits": 0
+    },
+    {
+      "stage": "P2",
+      "work": "26-origin W44-vintage retrospective rolling-origin replay, h=1,2,3",
+      "model_fits": 26
+    },
+    {
+      "stage": "P3",
+      "work": "Prespecified W44 bounded robustness plus 9 initialization comparisons",
+      "additional_model_fits": 9
+    },
+    {
+      "stage": "P4",
+      "work": "W44 support/interval work and candidate-specific uncertainty; no W16 transfer",
+      "bootstrap_fits": "100 successes, up to 120 slots"
+    },
+    {
+      "stage": "P5/P5A",
+      "work": "W44 issue-time contract; E0 primary and E1 sensitivity; preserve limits",
+      "model_fits": 0
+    },
+    {
+      "stage": "P6",
+      "work": "Candidate hardening in isolated output root before production decision",
+      "model_fits": 0
+    },
+    {
+      "stage": "P7I",
+      "work": "Repeat issue-time/frontier evaluation for operational/frontier claims",
+      "model_fits": 0
+    },
+    {
+      "stage": "P7A-H",
+      "work": "Regenerate only if publication claims/results change",
+      "model_fits": 0
+    }
+  ],
+  "resource_observations": {
+    "p2_origin_task_seconds": "11-21",
+    "p2_origin_requested": "64G, 16 CPUs",
+    "p2_origin_sampled_maxrss_kb": [
+      642120,
+      758468
+    ],
+    "p2_aggregate_elapsed": "00:26:41",
+    "p2_aggregate_requested": "96G, 16 CPUs",
+    "p2_aggregate_maxrss_kb": 1114592,
+    "p4_support_elapsed": "00:04:37",
+    "p4_support_requested": "96G, 16 CPUs",
+    "p4_support_maxrss_kb": 4795768,
+    "w44_fullfit_repeat": false
+  },
+  "storage": {
+    "project_filesystem_total": "8.1 TB",
+    "project_filesystem_used": "3.6 TB",
+    "project_filesystem_available": "4.5 TB",
+    "project_quota": "Unavailable; quota -s returned Operation not permitted",
+    "existing_p2_archive_bytes": 23770151,
+    "existing_p2_archive_rows": 632331,
+    "new_archive_bytes_estimate": null,
+    "record_level_artifacts_remain_on_atlas": true
+  },
+  "decision_rules": {
+    "new_thresholds_introduced": false,
+    "phase_decisions_reported_separately": true,
+    "automatic_production_promotion": false,
+    "current_candidate_production_qualified": false
+  },
+  "execution_prerequisites": [
+    "Retain exact issue timestamps and source availability vintages for W44 forecasts.",
+    "Wait for at least 8 ordered, complete and mature post-issue target weeks for P1.",
+    "Verify W44 node IDs, spatial graph and forecast/outcome keys.",
+    "Confirm Atlas project quota and destination before writing archives.",
+    "Verify weekly response completeness and maturity for every target; do not infer completeness from bundle inclusion."
+  ]
+}
