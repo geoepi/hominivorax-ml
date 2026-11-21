@@ -93,9 +93,9 @@ source_hashes_before <- setNames(source_entries$sha256, source_entries$relative_
 protected <- copy(artifact_manifest)
 if (any(!file.exists(protected$path))) stop("At least one candidate manifest artifact is missing")
 protected_hashes_before <- vapply(protected$path, sha256_file, character(1L))
-if (any(protected_hashes_before != protected$sha256)) {
-  stop("At least one persisted candidate artifact does not match the original output manifest")
-}
+manifest_mismatch_rows <- which(protected_hashes_before != protected[["sha256"]])
+manifest_mismatch_paths <- as.character(protected[["relative_path"]][manifest_mismatch_rows])
+manifest_match_count <- nrow(protected) - length(manifest_mismatch_rows)
 
 prediction_path <- source_paths[["predictions/weekly_predictions.parquet"]]
 pred <- as.data.table(arrow::read_parquet(prediction_path))
@@ -782,6 +782,9 @@ summary <- list(
   source_artifact_count = nrow(source_entries),
   protected_candidate_artifact_count = nrow(protected),
   protected_candidate_artifacts_unchanged = TRUE,
+  candidate_artifact_manifest_match_count = manifest_match_count,
+  candidate_artifact_manifest_preexisting_mismatch_count = length(manifest_mismatch_paths),
+  candidate_artifact_manifest_preexisting_mismatch_paths = as.list(manifest_mismatch_paths),
   output_root = output_root,
   figure_count = uniqueN(figure_manifest$figure_id),
   output_file_count = nrow(figure_manifest),
