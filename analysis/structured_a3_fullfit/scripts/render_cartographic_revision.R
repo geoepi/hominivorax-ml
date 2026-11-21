@@ -66,12 +66,13 @@ if (length(model_shas) != 1L || !identical(model_shas[[1L]], expected_model_sha)
   stop("Candidate model SHA does not match the authorized W44 artifact")
 }
 
-artifact_entry <- function(relative_path) {
-  rows <- artifact_manifest[which(artifact_manifest[["relative_path"]] == relative_path)]
-  if (nrow(rows) != 1L) stop("Expected one exact source-manifest entry for ", relative_path, "; found ", nrow(rows))
+artifact_entry <- function(relative) {
+  index <- which(artifact_manifest[["relative_path"]] == relative)
+  rows <- artifact_manifest[index]
+  if (nrow(rows) != 1L) stop("Expected one exact source-manifest entry for ", relative, "; found ", nrow(rows))
   if (!file.exists(rows$path[[1L]])) stop("Candidate source artifact is missing: ", rows$path[[1L]])
   actual_sha <- sha256_file(rows$path[[1L]])
-  if (!identical(actual_sha, rows$sha256[[1L]])) stop("Candidate source checksum differs from its artifact manifest: ", relative_path)
+  if (!identical(actual_sha, rows$sha256[[1L]])) stop("Candidate source checksum differs from its artifact manifest: ", relative)
   rows[1L]
 }
 
