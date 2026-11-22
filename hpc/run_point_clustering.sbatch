@@ -5,7 +5,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=32G
+#SBATCH --mem=16G
 #SBATCH --time=08:00:00
 #SBATCH --output=/project/disease_ecology/STGNN-output/logs/slurm/a3-point-clustering-%j.out
 #SBATCH --error=/project/disease_ecology/STGNN-output/logs/slurm/a3-point-clustering-%j.err

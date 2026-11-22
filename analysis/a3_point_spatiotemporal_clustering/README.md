@@ -76,3 +76,9 @@ availability or prospective performance. The work does not modify production
 or model qualification artifacts. The final report records the evidence and
 whether the proposed clustering-oriented feature family is justified,
 not justified, or inconclusive.
+
+## Results
+
+The integrated 15-part findings and exploratory decision are in
+[`point_spatiotemporal_clustering_report.md`](point_spatiotemporal_clustering_report.md).
+Aggregate result tables and figures are stored in `results/` and `figures/`.
