@@ -1,0 +1,12 @@
+{
+  "candidate_id": "STRUCTURED_A3_2026W44",
+  "candidate_status": "CANDIDATE_READY_FOR_REVIEW_NOT_PRODUCTION_QUALIFIED",
+  "fit_and_prediction_construction": "VALIDATED_RETROSPECTIVE_ORIGIN_SPECIFIC",
+  "no_new_thresholds": true,
+  "predictive_scoring_eligibility": "LIMITED_NOT_CERTIFIED_TARGET_MATURITY",
+  "primary_proxy": "E0_LAST_AVAILABLE",
+  "q1_execution_status": "COMPLETED",
+  "reason": "The authoritative observation snapshot has no certified reporting-completeness or target-maturity evidence for the Q1 target weeks. Descriptive revised-vintage metrics are retained and are not treated as qualification scores.",
+  "scientific_qualification_decision": "NOT_ASSIGNED",
+  "sensitivity_proxy": "E1_TRAILING3_MEAN"
+}
