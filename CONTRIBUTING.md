@@ -12,6 +12,13 @@ Use the scientific/model-question issue template. Describe the estimand,
 response definition, predictor contract, evaluation period, and whether the
 question concerns the frozen production model or an experimental branch.
 
+Consult [`docs/current/status.md`](docs/current/status.md) before using or
+describing a model artifact. The W44 candidate and its Q1 retrospective results
+are not production-qualified. The completed A4–A6 and point-proximity decisions
+are recorded in [`docs/current/model_development_decisions.md`](docs/current/model_development_decisions.md);
+no new architectural challenger or point-pattern experiment is authorized by
+the current maintenance scope.
+
 ## Scientific changes
 
 Structured A3 is frozen. Any change to predictors, transformations, response,

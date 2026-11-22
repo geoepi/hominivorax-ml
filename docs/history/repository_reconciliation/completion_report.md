@@ -1,5 +1,10 @@
 # Repository reconciliation completion report
 
+This report preserves the earlier release-era reconciliation result. For the
+2026-11-22 W44 PR integration and reverified branch relationships, see the
+[W44 addendum](2026w44_branch_reconciliation_addendum.md) and the current
+machine-readable [branch inventory](../../repository_maintenance/branch_inventory.csv).
+
 ## Repository integration
 
 | Field | Result |

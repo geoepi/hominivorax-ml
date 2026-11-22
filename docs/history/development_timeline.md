@@ -13,6 +13,18 @@
 11. Historical exposed holdout — [holdout decision](modeling_decisions/007_historical_holdout_evaluation.md).
 12. Full-fit spatial products and interpretation — retained analysis artifacts under `analysis/structured_a3_fullfit/`.
 13. Current research release — release documentation under [`../release/`](../release/).
+14. W44 corrected-source refresh — candidate identity and accepted limitations
+    are recorded in `analysis/structured_a3_data_refresh_2026w44/` on the W44
+    branch; the full fit remains an unqualified candidate.
+15. W44 Q1 retrospective — 26 origin fits and aggregate diagnostics completed;
+    outcome maturity was uncertified, so the qualification decision is
+    `NOT_ASSIGNED`.
+16. Point-level proximity investigation — completed with
+    `POINT_PROXIMITY_CHALLENGER_NOT_JUSTIFIED`; the descriptive study and
+    aggregates remain on the W44 branch.
+17. W44 repository integration and current status audit — see
+    [`../repository_maintenance/`](../repository_maintenance/) and the
+    [branch reconciliation addendum](repository_reconciliation/2026w44_branch_reconciliation_addendum.md).
 
 The repository was originally named `STGNN` during evaluation of graph-neural-
 network approaches. After formal model-class evaluation supported the

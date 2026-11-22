@@ -5,6 +5,13 @@ frozen `STRUCTURED_A3` primary production candidate. The exact P0 object is
 defined by [`config/production_model_freeze.json`](../config/production_model_freeze.json)
 and summarized in [`production_model_freeze.md`](production_model_freeze.md).
 
+The later `STRUCTURED_A3_2026W44` full fit is a separate candidate and is not
+qualified by the W16 P1–P7 outcomes. Its W44 qualification design is planning
+material; its Q1 retrospective result is descriptive with decision
+`NOT_ASSIGNED` because target maturity is uncertified. No automatic or routine
+refresh exception to the acceptance requirements below is in force. See the
+[current status](current/status.md) and [decision register](current/model_development_decisions.md).
+
 ## Qualification sequence
 
 ### P0 — Formal production freeze
