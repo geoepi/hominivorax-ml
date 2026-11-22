@@ -767,19 +767,23 @@ def summarize_weeks(
     lag_rows: list[dict[str, object]] = []
     for week_ord in sorted(point_counts):
         week_label = ordinal_label(week_ord)
-        part = distances.loc[(distances["week_ord"] == week_ord) & (distances["lag"] == 0)]
+        part = distances.loc[
+            (distances["week_ord"] == week_ord) & (distances["lag_weeks"] == 0)
+        ]
         row: dict[str, object] = {"week": week_label, "week_ord": int(week_ord), "n_observations": int(point_counts[week_ord])}
         row.update(summarize_distances(part["distance_km"].to_numpy(), int(point_counts[week_ord])))
         weekly_rows.append(row)
     for lag in lags:
-        part = distances.loc[distances["lag"] == lag]
+        part = distances.loc[distances["lag_weeks"] == lag]
         row = {"lag_weeks": int(lag), "lag_label": "same_week" if lag == 0 else f"{lag}_week_earlier"}
         row.update(summarize_distances(part["distance_km"].to_numpy(), len(part)))
         lag_rows.append(row)
     return pd.DataFrame(weekly_rows), pd.DataFrame(lag_rows)
 
 
-def run_point_temporal_analysis(points: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+def run_point_temporal_analysis(
+    points: pd.DataFrame,
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     primary = points.loc[points["primary_period"]].copy()
     by_week = {int(key): group for key, group in points.groupby("week_ord", sort=True)}
     records: list[pd.DataFrame] = []
@@ -1073,7 +1077,8 @@ def between_cell_analysis(
         centroid_separation = np.hypot(cell_x - neighbor_cell_x, cell_y - neighbor_cell_y)
         point_d = d
         overstatement = centroid_separation - point_d
-        same_cell = neighbor_cells == focal_cell
+        same_cell = valid & (neighbor_cells == focal_cell)
+        cross_cell = valid & (neighbor_cells != focal_cell)
         boundary = group["distance_to_cell_boundary_km"].to_numpy(dtype=np.float64)
         near = boundary <= BOUNDARY_BAND_KM
         data = pd.DataFrame(
@@ -1090,6 +1095,7 @@ def between_cell_analysis(
                 "point_to_own_centroid_km": group["point_to_cell_centroid_km"].to_numpy(),
                 "point_to_point_nn_km": point_d,
                 "same_cell_neighbor": same_cell,
+                "cross_cell_neighbor": cross_cell,
                 "centroid_to_centroid_km": centroid_separation,
                 "centroid_overstatement_km": overstatement,
                 "within_boundary_band": near,
@@ -1101,7 +1107,7 @@ def between_cell_analysis(
     for (week, region), group in nearest_pairs.loc[nearest_pairs["within_boundary_band"]].groupby(
         ["week", "focal_region"], sort=True
     ):
-        cross = group.loc[~group["same_cell_neighbor"]]
+        cross = group.loc[group["cross_cell_neighbor"]]
         delta = cross["centroid_overstatement_km"].to_numpy(dtype=np.float64)
         actual = cross["point_to_point_nn_km"].to_numpy(dtype=np.float64)
         represented = cross["centroid_to_centroid_km"].to_numpy(dtype=np.float64)
