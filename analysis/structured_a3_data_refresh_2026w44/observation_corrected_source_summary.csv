@@ -1,0 +1,49 @@
+Dataset,Temporal subset,Comparison method,Total rows,Unique keys,Duplicate groups,Rows in duplicate groups,Redundant rows,Maximum multiplicity,Complete-record duplicate groups,Duplicate groups with conflicting host attributes
+Corrected 2026-11-13,Entire corrected source,Complete source record: raw character fields,167030,164782,2248,4496,2248,2,2248,15
+Corrected 2026-11-13,Entire corrected source,"Raw character (date,lon,lat)",167030,164767,2263,4526,2263,2,2248,15
+Corrected 2026-11-13,Entire corrected source,Exact decimal; calendar-date key,167030,164767,2263,4526,2263,2,2248,15
+Corrected 2026-11-13,Entire corrected source,Standard float64; calendar-date key,167030,164767,2263,4526,2263,2,2248,15
+Corrected 2026-11-13,Before 2025-W01,Complete source record: raw character fields,44907,44907,0,0,0,1,0,0
+Corrected 2026-11-13,Before 2025-W01,"Raw character (date,lon,lat)",44907,44907,0,0,0,1,0,0
+Corrected 2026-11-13,Before 2025-W01,Exact decimal; calendar-date key,44907,44907,0,0,0,1,0,0
+Corrected 2026-11-13,Before 2025-W01,Standard float64; calendar-date key,44907,44907,0,0,0,1,0,0
+Corrected 2026-11-13,Original W16 training horizon,Complete source record: raw character fields,91980,91013,967,1934,967,2,967,8
+Corrected 2026-11-13,Original W16 training horizon,"Raw character (date,lon,lat)",91980,91005,975,1950,975,2,967,8
+Corrected 2026-11-13,Original W16 training horizon,Exact decimal; calendar-date key,91980,91005,975,1950,975,2,967,8
+Corrected 2026-11-13,Original W16 training horizon,Standard float64; calendar-date key,91980,91005,975,1950,975,2,967,8
+Corrected 2026-11-13,Extended W44 training horizon,Complete source record: raw character fields,121155,118907,2248,4496,2248,2,2248,15
+Corrected 2026-11-13,Extended W44 training horizon,"Raw character (date,lon,lat)",121155,118892,2263,4526,2263,2,2248,15
+Corrected 2026-11-13,Extended W44 training horizon,Exact decimal; calendar-date key,121155,118892,2263,4526,2263,2,2248,15
+Corrected 2026-11-13,Extended W44 training horizon,Standard float64; calendar-date key,121155,118892,2263,4526,2263,2,2248,15
+Corrected 2026-11-13,After 2026-W16,Complete source record: raw character fields,30143,28862,1281,2562,1281,2,1281,7
+Corrected 2026-11-13,After 2026-W16,"Raw character (date,lon,lat)",30143,28855,1288,2576,1288,2,1281,7
+Corrected 2026-11-13,After 2026-W16,Exact decimal; calendar-date key,30143,28855,1288,2576,1288,2,1281,7
+Corrected 2026-11-13,After 2026-W16,Standard float64; calendar-date key,30143,28855,1288,2576,1288,2,1281,7
+Corrected 2026-11-13,After 2026-W44,Complete source record: raw character fields,968,968,0,0,0,1,0,0
+Corrected 2026-11-13,After 2026-W44,"Raw character (date,lon,lat)",968,968,0,0,0,1,0,0
+Corrected 2026-11-13,After 2026-W44,Exact decimal; calendar-date key,968,968,0,0,0,1,0,0
+Corrected 2026-11-13,After 2026-W44,Standard float64; calendar-date key,968,968,0,0,0,1,0,0
+Frozen W16 source 2027-07-31,Entire corrected source,Complete source record: raw character fields,136714,136708,3,9,6,4,3,1
+Frozen W16 source 2027-07-31,Entire corrected source,"Raw character (date,lon,lat)",136714,136707,4,11,7,4,3,1
+Frozen W16 source 2027-07-31,Entire corrected source,Exact decimal; calendar-date key,136714,136707,4,11,7,4,3,1
+Frozen W16 source 2027-07-31,Entire corrected source,Standard float64; calendar-date key,136714,136707,4,11,7,4,3,1
+Frozen W16 source 2027-07-31,Before 2025-W01,Complete source record: raw character fields,44908,44908,0,0,0,1,0,1
+Frozen W16 source 2027-07-31,Before 2025-W01,"Raw character (date,lon,lat)",44908,44907,1,2,1,2,0,1
+Frozen W16 source 2027-07-31,Before 2025-W01,Exact decimal; calendar-date key,44908,44907,1,2,1,2,0,1
+Frozen W16 source 2027-07-31,Before 2025-W01,Standard float64; calendar-date key,44908,44907,1,2,1,2,0,1
+Frozen W16 source 2027-07-31,Original W16 training horizon,Complete source record: raw character fields,79257,79257,0,0,0,1,0,0
+Frozen W16 source 2027-07-31,Original W16 training horizon,"Raw character (date,lon,lat)",79257,79257,0,0,0,1,0,0
+Frozen W16 source 2027-07-31,Original W16 training horizon,Exact decimal; calendar-date key,79257,79257,0,0,0,1,0,0
+Frozen W16 source 2027-07-31,Original W16 training horizon,Standard float64; calendar-date key,79257,79257,0,0,0,1,0,0
+Frozen W16 source 2027-07-31,Extended W44 training horizon,Complete source record: raw character fields,91806,91800,3,9,6,4,3,0
+Frozen W16 source 2027-07-31,Extended W44 training horizon,"Raw character (date,lon,lat)",91806,91800,3,9,6,4,3,0
+Frozen W16 source 2027-07-31,Extended W44 training horizon,Exact decimal; calendar-date key,91806,91800,3,9,6,4,3,0
+Frozen W16 source 2027-07-31,Extended W44 training horizon,Standard float64; calendar-date key,91806,91800,3,9,6,4,3,0
+Frozen W16 source 2027-07-31,After 2026-W16,Complete source record: raw character fields,12549,12543,3,9,6,4,3,0
+Frozen W16 source 2027-07-31,After 2026-W16,"Raw character (date,lon,lat)",12549,12543,3,9,6,4,3,0
+Frozen W16 source 2027-07-31,After 2026-W16,Exact decimal; calendar-date key,12549,12543,3,9,6,4,3,0
+Frozen W16 source 2027-07-31,After 2026-W16,Standard float64; calendar-date key,12549,12543,3,9,6,4,3,0
+Frozen W16 source 2027-07-31,After 2026-W44,Complete source record: raw character fields,0,0,0,0,0,1,0,0
+Frozen W16 source 2027-07-31,After 2026-W44,"Raw character (date,lon,lat)",0,0,0,0,0,1,0,0
+Frozen W16 source 2027-07-31,After 2026-W44,Exact decimal; calendar-date key,0,0,0,0,0,1,0,0
+Frozen W16 source 2027-07-31,After 2026-W44,Standard float64; calendar-date key,0,0,0,0,0,1,0,0

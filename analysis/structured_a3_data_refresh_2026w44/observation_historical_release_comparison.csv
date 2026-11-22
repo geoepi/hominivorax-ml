@@ -1,0 +1,7 @@
+Temporal subset,Corrected rows,Corrected unique keys,Corrected duplicate-key groups,Historical rows,Historical unique keys,Historical duplicate-key groups,Unique keys shared between releases,Corrected-only unique keys,Historical-only unique keys,Matched key multiplicity,Corrected-only key multiplicity,Historical-only key multiplicity,Exact complete-record overlap multiplicity,Shared keys with different host sets,Shared keys with different host multiplicities,Interpretation
+Entire corrected source,167030,164767,2263,136714,136707,4,82180,82587,54527,82180,84850,54534,31036,51144,51144,Cross-release overlap and revision; not within-source duplication.
+Before 2025-W01,44907,44907,0,44908,44907,1,16709,28198,28198,16709,28198,28199,15048,1661,1661,Cross-release overlap and revision; not within-source duplication.
+Original W16 training horizon,91980,91005,975,79257,79257,0,53641,37364,25616,53641,38339,25616,15988,37653,37653,Cross-release overlap and revision; not within-source duplication.
+Extended W44 training horizon,121155,118892,2263,91806,91800,3,65471,53421,26329,65471,55684,26335,15988,49483,49483,Cross-release overlap and revision; not within-source duplication.
+After 2026-W16,30143,28855,1288,12549,12543,3,11830,17025,713,11830,18313,719,0,11830,11830,Cross-release overlap and revision; not within-source duplication.
+After 2026-W44,968,968,0,0,0,0,0,968,0,0,968,0,0,0,0,Cross-release overlap and revision; not within-source duplication.

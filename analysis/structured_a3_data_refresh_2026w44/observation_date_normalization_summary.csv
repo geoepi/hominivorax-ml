@@ -1,0 +1,25 @@
+Dataset,Temporal subset,Comparison method,Key columns,Total rows,Unique keys,Duplicate groups,Rows in duplicate groups,Redundant rows,Maximum multiplicity
+Updated 2026-11-13,Entire observation dataset,Date representation effect: Raw date text plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",167078,164767,2311,4622,2311,2
+Updated 2026-11-13,Entire observation dataset,Date representation effect: Lossless normalized date-time plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",167078,164767,2311,4622,2311,2
+Updated 2026-11-13,Entire observation dataset,Date representation effect: Source-local calendar date plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",167078,164767,2311,4622,2311,2
+Updated 2026-11-13,Original W16 training horizon,Date representation effect: Raw date text plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",91993,91005,988,1976,988,2
+Updated 2026-11-13,Original W16 training horizon,Date representation effect: Lossless normalized date-time plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",91993,91005,988,1976,988,2
+Updated 2026-11-13,Original W16 training horizon,Date representation effect: Source-local calendar date plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",91993,91005,988,1976,988,2
+Updated 2026-11-13,After original W16 training horizon,Date representation effect: Raw date text plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",30178,28855,1323,2646,1323,2
+Updated 2026-11-13,After original W16 training horizon,Date representation effect: Lossless normalized date-time plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",30178,28855,1323,2646,1323,2
+Updated 2026-11-13,After original W16 training horizon,Date representation effect: Source-local calendar date plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",30178,28855,1323,2646,1323,2
+Updated 2026-11-13,Before original W16 training horizon,Date representation effect: Raw date text plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",44907,44907,0,0,0,1
+Updated 2026-11-13,Before original W16 training horizon,Date representation effect: Lossless normalized date-time plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",44907,44907,0,0,0,1
+Updated 2026-11-13,Before original W16 training horizon,Date representation effect: Source-local calendar date plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",44907,44907,0,0,0,1
+Frozen W16 source 2027-07-31,Entire observation dataset,Date representation effect: Raw date text plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",136714,136707,4,11,7,4
+Frozen W16 source 2027-07-31,Entire observation dataset,Date representation effect: Lossless normalized date-time plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",136714,136707,4,11,7,4
+Frozen W16 source 2027-07-31,Entire observation dataset,Date representation effect: Source-local calendar date plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",136714,136707,4,11,7,4
+Frozen W16 source 2027-07-31,Original W16 training horizon,Date representation effect: Raw date text plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",79257,79257,0,0,0,1
+Frozen W16 source 2027-07-31,Original W16 training horizon,Date representation effect: Lossless normalized date-time plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",79257,79257,0,0,0,1
+Frozen W16 source 2027-07-31,Original W16 training horizon,Date representation effect: Source-local calendar date plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",79257,79257,0,0,0,1
+Frozen W16 source 2027-07-31,After original W16 training horizon,Date representation effect: Raw date text plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",12549,12543,3,9,6,4
+Frozen W16 source 2027-07-31,After original W16 training horizon,Date representation effect: Lossless normalized date-time plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",12549,12543,3,9,6,4
+Frozen W16 source 2027-07-31,After original W16 training horizon,Date representation effect: Source-local calendar date plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",12549,12543,3,9,6,4
+Frozen W16 source 2027-07-31,Before original W16 training horizon,Date representation effect: Raw date text plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",44908,44907,1,2,1,2
+Frozen W16 source 2027-07-31,Before original W16 training horizon,Date representation effect: Lossless normalized date-time plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",44908,44907,1,2,1,2
+Frozen W16 source 2027-07-31,Before original W16 training horizon,Date representation effect: Source-local calendar date plus exact decimal coordinates,"date,Decimal(lon),Decimal(lat)",44908,44907,1,2,1,2

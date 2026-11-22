@@ -488,6 +488,12 @@ def main() -> int:
     parser.add_argument("--task1-manifest", type=Path, required=True)
     parser.add_argument("--git-sha", default="unknown")
     args = parser.parse_args()
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    from w44_execution_preflight import validate_task2a_pipeline
+
+    preflight = validate_task2a_pipeline(args.output_root, args.task1_manifest)
+    print(json.dumps(preflight, indent=2, sort_keys=True))
     model_root = args.output_root / "model_data"
     raw = model_root / "raw"
     splits = model_root / "splits"

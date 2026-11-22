@@ -29,6 +29,9 @@ SCRIPT_ROOT = Path(__file__).resolve().parents[3]
 REPO_ROOT = SCRIPT_ROOT
 sys.path.insert(0, str(REPO_ROOT / "analysis" / "predictor_augmentation" / "scripts"))
 sys.path.insert(0, str(REPO_ROOT / "python"))
+sys.path.insert(0, str(REPO_ROOT / "scripts"))
+from output_manifest import collect_records, write_master_manifests  # noqa: E402
+from w44_execution_preflight import PreflightError, validate_fullfit  # noqa: E402
 from run_predictor_augmentation import (  # noqa: E402
     ADDED_FEATURES,
     BASE_FEATURES,
@@ -260,8 +263,10 @@ def load_bundle(args: argparse.Namespace) -> dict[str, Any]:
         "calendar_features": raw / "calendar_features.parquet",
         "nodes": raw / "nodes.parquet",
         "front_features": args.front_features,
+        "front_feature_manifest": args.front_features.parent / "production_front_feature_manifest.json",
         "anthropogenic_features": args.anthropogenic_features,
         "soil_features": args.soil_features,
+        "a3_feature_manifest": REPO_ROOT / "analysis" / "structured_a3_final_comparison" / "results" / "a3_feature_manifest.json",
         "frozen_a3_evaluation_manifest": REPO_ROOT / "analysis" / "structured_a3_evaluation" / "results" / "frozen_a3_evaluation_manifest.json",
     }
     return {"root": root, "raw": raw, "manifest_path": manifest_path, "production_manifest": manifest, "dynamic": dynamic, "static": static, "counts": counts, "presence": presence, "calendar": calendar, "weeks": weeks, "labels": labels, "nodes": nodes, "front": front, "features": full, "static_a3": static_a3, "source_paths": source_paths}
@@ -307,7 +312,7 @@ def completeness(bundle: dict[str, Any]) -> tuple[dict[str, Any], pd.DataFrame]:
 def source_checksums(bundle: dict[str, Any]) -> dict[str, Any]:
     result = {}
     for name, path in bundle["source_paths"].items():
-        result[name] = {"path": str(path), "sha256": sha256_file(path) if path.exists() else None, "size_bytes": path.stat().st_size if path.exists() else None}
+        result[name] = {"path": str(path.resolve(strict=True)) if path.exists() else str(path), "sha256": sha256_file(path) if path.exists() else None, "size_bytes": path.stat().st_size if path.exists() else None}
     return result
 
 
@@ -527,22 +532,18 @@ def update_model_manifest(output: Path) -> None:
 
 def finalize(args: argparse.Namespace) -> None:
     out = args.output_root
+    fit_manifest_path = out / "manifests/fullfit_fit_manifest.json"
+    if not fit_manifest_path.is_file():
+        raise RuntimeError(f"cannot finalize without a completed fit manifest: {fit_manifest_path}")
+    fit_manifest = json.loads(fit_manifest_path.read_text(encoding="utf-8"))
+    if fit_manifest.get("status") != "fit_complete" or fit_manifest.get("model") != MODEL_ID:
+        raise RuntimeError("cannot finalize without a completed STRUCTURED_A3_FULLFIT fit")
     update_model_manifest(out)
     horizon = json.loads((out / "manifests/fullfit_data_horizon.json").read_text(encoding="utf-8"))
-    model_sha = sha256_file(out / "model/fullfit_a3_model.json")
-    records = []
-    manifest_path = out / "structured_a3_fullfit_output_manifest.csv"
-    for path in sorted(out.rglob("*")):
-        if not path.is_file() or path.name.startswith(".") or path.suffix.lower() in {".tmp", ".part"} or path == manifest_path or path.name.endswith(".sha256"):
-            continue
-        relative = path.relative_to(out).as_posix()
-        artifact_type = "geotiff" if path.suffix.lower() in {".tif", ".tiff"} else "pdf" if path.suffix.lower() == ".pdf" else "figure" if path.suffix.lower() in {".png", ".svg"} else "table" if path.suffix.lower() in {".csv", ".parquet"} else "report" if path.suffix.lower() in {".md", ".html"} else "model_artifact" if "/model/" in f"/{relative}" else "manifest"
-        records.append({"artifact_type": artifact_type, "week": "", "variable": "", "path": str(path), "relative_path": relative, "sha256": sha256_file(path), "size_bytes": path.stat().st_size, "model_sha": model_sha, "fit_end_week": horizon["full_fit_end_week"]})
-    master = pd.DataFrame(records)
-    write_csv(manifest_path, master)
-    manifest_sha = sha256_file(manifest_path)
-    write_json(out / "structured_a3_fullfit_output_manifest.json", {"status": "complete", "artifact_count": int(len(master)), "manifest_sha256": manifest_sha, "generated_utc": utc_now()})
-    (out / "structured_a3_fullfit_output_manifest.csv.sha256").write_text(f"{manifest_sha}  structured_a3_fullfit_output_manifest.csv\n", encoding="utf-8")
+    model_path = out / "model/fullfit_a3_model.json"
+    model_payload = json.loads(model_path.read_text(encoding="utf-8"))
+    model_sha = sha256_file(model_path)
+    generation_utc = str(model_payload.get("generation_utc", "not-recorded"))
     weekly = pd.read_csv(out / "tables/weekly_prediction_summary.csv")
     occ = pd.read_csv(out / "interpretation/coefficients/occurrence_coefficients_ranked.csv")
     count = pd.read_csv(out / "interpretation/coefficients/count_coefficients_ranked.csv")
@@ -551,40 +552,54 @@ def finalize(args: argparse.Namespace) -> None:
     report += [f"| {int(row.rank_by_absolute_magnitude)} | {row.predictor} | {row.group} | {row.coefficient:.6g} |" for row in occ.head(10).itertuples()]
     report += ["", "## 7. Count drivers", "", "The positive-count rankings are conditional coefficients, not causal effects or independent importance:", "", "| Rank | Predictor | Group | Coefficient |", "|---:|---|---|---:|"]
     report += [f"| {int(row.rank_by_absolute_magnitude)} | {row.predictor} | {row.group} | {row.coefficient:.6g} |" for row in count.head(10).itertuples()]
-    report += ["", "## 8. Key fitted relationships", "", "Selected effect-response curves are model-implied response-scale relationships over observed natural-scale predictor ranges with other predictors held at the documented reference profile. Curvature reflects link inversion, zero truncation, and log1p transformations; it is not evidence of an arbitrary nonlinear learner.", "", "## 9. Seasonality", "", "Week-sine and week-cosine coefficients are combined into one implied seasonal function for occurrence and positive-count linear-predictor contributions.", "", "## 10. Limitations", "", "- Fitted-period outputs are descriptive and are not independent validation.", "- Coefficients describe conditional associations, not causal effects.", "- Correlated predictors can share information and complicate permutation-importance rankings.", "- The model remains untested on a genuinely untouched prospective period beyond current complete A3 predictor support.", "- Zero recorded detections are not confirmed biological absences.", "", "## Provenance", "", f"Repository SHA: `{git_value('rev-parse', 'HEAD')}`. Full-fit end week: `{horizon['full_fit_end_week']}`. Generation UTC: `{utc_now()}`.", ""]
+    report += ["", "## 8. Key fitted relationships", "", "Selected effect-response curves are model-implied response-scale relationships over observed natural-scale predictor ranges with other predictors held at the documented reference profile. Curvature reflects link inversion, zero truncation, and log1p transformations; it is not evidence of an arbitrary nonlinear learner.", "", "## 9. Seasonality", "", "Week-sine and week-cosine coefficients are combined into one implied seasonal function for occurrence and positive-count linear-predictor contributions.", "", "## 10. Limitations", "", "- Fitted-period outputs are descriptive and are not independent validation.", "- Coefficients describe conditional associations, not causal effects.", "- Correlated predictors can share information and complicate permutation-importance rankings.", "- The model remains untested on a genuinely untouched prospective period beyond current complete A3 predictor support.", "- Zero recorded detections are not confirmed biological absences.", "", "## Provenance", "", f"Repository SHA: `{git_value('rev-parse', 'HEAD')}`. Full-fit end week: `{horizon['full_fit_end_week']}`. Generation UTC: `{generation_utc}`.", ""]
     atomic_write(out / "report/structured_a3_fullfit_summary.md", lambda p: p.write_text("\n".join(report), encoding="utf-8"))
-
-    # The report is created above, so refresh the artifact index once more on
-    # a clean run. This keeps the final manifest self-contained rather than
-    # relying on a later rerun to discover the report and JSON manifest.
-    records = []
-    for path in sorted(out.rglob("*")):
-        if not path.is_file() or path.name.startswith(".") or path.suffix.lower() in {".tmp", ".part"} or path == manifest_path or path.name.endswith(".sha256"):
-            continue
-        relative = path.relative_to(out).as_posix()
-        artifact_type = "geotiff" if path.suffix.lower() in {".tif", ".tiff"} else "pdf" if path.suffix.lower() == ".pdf" else "figure" if path.suffix.lower() in {".png", ".svg"} else "table" if path.suffix.lower() in {".csv", ".parquet"} else "report" if path.suffix.lower() in {".md", ".html"} else "model_artifact" if "/model/" in f"/{relative}" else "manifest"
-        records.append({"artifact_type": artifact_type, "week": "", "variable": "", "path": str(path), "relative_path": relative, "sha256": sha256_file(path), "size_bytes": path.stat().st_size, "model_sha": model_sha, "fit_end_week": horizon["full_fit_end_week"]})
-    master = pd.DataFrame(records)
-    write_csv(manifest_path, master)
-    manifest_sha = sha256_file(manifest_path)
-    write_json(out / "structured_a3_fullfit_output_manifest.json", {"status": "complete", "artifact_count": int(len(master)), "manifest_sha256": manifest_sha, "generated_utc": utc_now()})
-    (out / "structured_a3_fullfit_output_manifest.csv.sha256").write_text(f"{manifest_sha}  structured_a3_fullfit_output_manifest.csv\n", encoding="utf-8")
+    records = collect_records(out, model_sha, horizon["full_fit_end_week"])
+    write_master_manifests(out, records, model_sha)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("stage", choices=["fit", "finalize"])
-    parser.add_argument("--model-output", type=Path, default=Path("/project/disease_ecology/STGNN-output/revised_model_data"))
-    parser.add_argument("--front-features", type=Path, default=Path("/project/disease_ecology/STGNN-output/v2_model/front_features/causal_front_features.parquet"))
-    parser.add_argument("--anthropogenic-features", type=Path, default=Path("/project/disease_ecology/STGNN-output/predictor_augmentation/static/road_night_node_features.parquet"))
-    parser.add_argument("--soil-features", type=Path, default=Path("/project/disease_ecology/STGNN-output/soil_feature_screening_resumed_s1/soil_node_features.parquet"))
-    parser.add_argument("--output-root", type=Path, default=Path("/project/disease_ecology/STGNN-output/structured_a3_fullfit"))
+    parser.add_argument("--model-output", type=Path)
+    parser.add_argument("--front-features", type=Path)
+    parser.add_argument("--anthropogenic-features", type=Path)
+    parser.add_argument("--soil-features", type=Path)
+    parser.add_argument("--output-root", type=Path, required=True)
+    parser.add_argument("--expected-observation-sha256")
+    parser.add_argument("--response-start")
+    parser.add_argument("--response-end")
+    parser.add_argument("--mask-path")
+    parser.add_argument("--resume-after-fit", action="store_true")
     parser.add_argument("--permutation-replicates", type=int, default=10)
     parser.add_argument("--correlation-sample", type=int, default=100_000)
     parser.add_argument("--seed", type=int, default=20261006)
     parser.add_argument("--repository-audit-root", type=Path, default=None)
     args = parser.parse_args()
     if args.stage == "fit":
+        required = {
+            "--model-output": args.model_output,
+            "--front-features": args.front_features,
+            "--anthropogenic-features": args.anthropogenic_features,
+            "--soil-features": args.soil_features,
+            "--expected-observation-sha256": args.expected_observation_sha256,
+            "--response-start": args.response_start,
+            "--response-end": args.response_end,
+        }
+        missing = [name for name, value in required.items() if value is None or (isinstance(value, str) and not value.strip())]
+        if missing:
+            parser.error("fit requires explicit configuration: " + ", ".join(missing))
+        try:
+            preflight = validate_fullfit(
+                args.output_root, args.model_output, args.front_features,
+                args.anthropogenic_features, args.soil_features,
+                expected_observation_sha256=args.expected_observation_sha256,
+                response_start=args.response_start, response_end=args.response_end,
+                mask_path_value=args.mask_path,
+            )
+        except PreflightError as error:
+            parser.error(f"full-fit preflight failed: {error}")
+        print(json.dumps(preflight, indent=2, sort_keys=True))
         if args.permutation_replicates != 10:
             raise RuntimeError("permutation replicate count is predeclared at 10 for this workflow")
         bundle = load_bundle(args)
@@ -594,6 +609,32 @@ def main() -> int:
         update_model_manifest(args.output_root)
         print(json.dumps({"status": "fit_complete", "fit_end_week": horizon["full_fit_end_week"], "node_count": NODE_COUNT, "predictor_count": len(FEATURE_ORDER), "theta": FIXED_THETA, "penalty": PENALTY, "occurrence_converged": fit["state"]["fit_info"].get("occurrence_success"), "count_converged": fit["state"]["fit_info"].get("count_success")}, indent=2))
     else:
+        required = {
+            "--model-output": args.model_output,
+            "--front-features": args.front_features,
+            "--anthropogenic-features": args.anthropogenic_features,
+            "--soil-features": args.soil_features,
+            "--expected-observation-sha256": args.expected_observation_sha256,
+            "--response-start": args.response_start,
+            "--response-end": args.response_end,
+        }
+        missing = [name for name, value in required.items() if value is None or (isinstance(value, str) and not value.strip())]
+        if missing:
+            parser.error("finalize requires explicit source configuration: " + ", ".join(missing))
+        if not args.resume_after_fit:
+            parser.error("finalize requires --resume-after-fit after an explicit input-vintage preflight")
+        try:
+            preflight = validate_fullfit(
+                args.output_root, args.model_output, args.front_features,
+                args.anthropogenic_features, args.soil_features,
+                expected_observation_sha256=args.expected_observation_sha256,
+                response_start=args.response_start, response_end=args.response_end,
+                resume_after_fit=True,
+                mask_path_value=args.mask_path,
+            )
+        except PreflightError as error:
+            parser.error(f"full-fit finalization preflight failed: {error}")
+        print(json.dumps(preflight, indent=2, sort_keys=True))
         finalize(args)
         print(json.dumps({"status": "finalized", "output_root": str(args.output_root)}, indent=2))
     return 0
