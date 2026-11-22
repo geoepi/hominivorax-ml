@@ -60,6 +60,7 @@ HISTORY_WINDOWS = (1, 3, 8, 12)
 DISTANCE_THRESHOLDS_KM = (1.0, 5.0, 10.0, 25.0)
 CONCENTRATION_RADII_KM = (25.0, 50.0)
 BOUNDARY_BAND_KM = 5.0
+PAIRWISE_EXACT_MAX = 50_000
 WGS84_WKT = (
     'GEOGCS["WGS 84",DATUM["WGS_1984",'
     'SPHEROID["WGS 84",6378137,298.257223563,'
@@ -352,6 +353,12 @@ def run_synthetic_checks() -> dict[str, object]:
     tiny_weekly, tiny_lags = summarize_weeks(tiny_distances, {t: 1}, LAGS)
     assert tiny_weekly.loc[0, "median_km"] == 5.0
     assert tiny_lags.loc[tiny_lags["lag_weeks"] == 1, "median_km"].iloc[0] == 6.0
+    sampled_xy = np.column_stack((np.arange(400, dtype=np.float64), np.zeros(400)))
+    sampled_once = pairwise_distance_summary(sampled_xy, week_ord=t, node_id=3)
+    sampled_twice = pairwise_distance_summary(sampled_xy, week_ord=t, node_id=3)
+    assert sampled_once == sampled_twice
+    assert sampled_once["pairwise_summary_is_approximate"]
+    assert sampled_once["n_pairwise_distances_summarized"] == PAIRWISE_EXACT_MAX
 
     singleton_point = pd.DataFrame(
         {
@@ -391,6 +398,7 @@ def run_synthetic_checks() -> dict[str, object]:
             "self-record exclusion preserves distinct co-located records",
             "exact historical eligibility excludes target and future weeks",
             "lag summaries use the recorded lag_weeks field",
+            "large within-cell pairwise summaries use a deterministic bounded sample",
             "focal-cell exclusion selects the nearest outside-cell point",
             "missing outside-cell history remains undefined",
             "WGS84 geodesic diagnostic matches the equatorial one-degree reference",
@@ -931,6 +939,32 @@ def point_cell_week_counts(points: pd.DataFrame) -> pd.DataFrame:
     )
 
 
+def pairwise_distance_summary(
+    xy: np.ndarray, *, week_ord: int, node_id: int
+) -> dict[str, object]:
+    """Bound within-cell pairwise summaries while keeping sample selection deterministic."""
+    n_points = len(xy)
+    n_pairs = n_points * (n_points - 1) // 2
+    if n_pairs <= PAIRWISE_EXACT_MAX:
+        left, right = np.triu_indices(n_points, k=1)
+        method = "exact_unique_pairs"
+    else:
+        seed = 20261122 + int(week_ord) * 10037 + int(node_id)
+        rng = np.random.default_rng(seed)
+        left = rng.integers(0, n_points, size=PAIRWISE_EXACT_MAX, dtype=np.int64)
+        right = rng.integers(0, n_points - 1, size=PAIRWISE_EXACT_MAX, dtype=np.int64)
+        right += right >= left
+        method = "deterministic_uniform_distinct_point_pair_sample_with_replacement"
+    pair_distances = np.hypot(xy[left, 0] - xy[right, 0], xy[left, 1] - xy[right, 1])
+    return {
+        "median_pairwise_distance_km": float(np.median(pair_distances)),
+        "maximum_pairwise_separation_km": float(np.max(pair_distances)),
+        "n_pairwise_distances_summarized": int(len(pair_distances)),
+        "pairwise_summary_method": method,
+        "pairwise_summary_is_approximate": bool(len(pair_distances) < n_pairs),
+    }
+
+
 def within_cell_analysis(
     points: pd.DataFrame, cell_week_counts: pd.DataFrame
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
@@ -956,6 +990,11 @@ def within_cell_analysis(
             "nearest_neighbor_median_km": float(np.median(nearest_d)),
             "nearest_neighbor_mean_km": float(np.mean(nearest_d)),
         }
+        row.update(
+            pairwise_distance_summary(
+                xy, week_ord=int(group["week_ord"].iloc[0]), node_id=int(node_id)
+            )
+        )
         for threshold in (5.0, 10.0, 25.0):
             # count_neighbors counts ordered pairs and self-pairs. Subtract the
             # diagonal and halve to recover unique pairs without materializing
@@ -1013,6 +1052,12 @@ def within_cell_analysis(
     within_rows: list[dict[str, object]] = []
     if len(point_nn):
         for (week, region), group in point_nn.groupby(["week", "region"], sort=True):
+            pairwise = cell_metrics.loc[
+                (cell_metrics["week"] == week) & (cell_metrics["region"] == region)
+            ]
+            pair_medians = pairwise["median_pairwise_distance_km"].to_numpy(dtype=np.float64)
+            pair_maxima = pairwise["maximum_pairwise_separation_km"].to_numpy(dtype=np.float64)
+            approximate = pairwise["pairwise_summary_is_approximate"].to_numpy(dtype=bool)
             within_rows.append(
                 {
                     "week": str(week),
@@ -1021,6 +1066,23 @@ def within_cell_analysis(
                         (cell_metrics["week"] == week) & (cell_metrics["region"] == region)
                     ].shape[0]),
                     "n_observations": int(len(group)),
+                    "n_unique_point_pairs": int(pairwise["n_point_pairs"].sum()),
+                    "n_pair_distances_summarized": int(
+                        pairwise["n_pairwise_distances_summarized"].sum()
+                    ),
+                    "n_cell_weeks_with_approximate_pair_summary": int(approximate.sum()),
+                    "proportion_cell_weeks_with_approximate_pair_summary": (
+                        float(approximate.mean()) if len(approximate) else np.nan
+                    ),
+                    "median_of_cellweek_pairwise_medians_km": (
+                        float(np.median(pair_medians)) if len(pair_medians) else np.nan
+                    ),
+                    "median_of_cellweek_maximum_pairwise_separation_km": (
+                        float(np.median(pair_maxima)) if len(pair_maxima) else np.nan
+                    ),
+                    "p90_of_cellweek_maximum_pairwise_separation_km": (
+                        float(np.quantile(pair_maxima, 0.90)) if len(pair_maxima) else np.nan
+                    ),
                     **summarize_distances(
                         group["within_cell_nearest_neighbor_km"].to_numpy(), len(group)
                     ),

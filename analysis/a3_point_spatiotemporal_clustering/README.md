@@ -27,10 +27,12 @@ original point support. Distances are in kilometres.
   strictly earlier weekly lags of 1, 2, 3, 4, 8, and 12 weeks. Regional
   summaries use same-region references.
 - **B — Grid aggregation:** within-cell-week nearest-neighbour distances,
-  exact counts of unique pairs below 5, 10, and 25 km, short pairs crossing
-  cell boundaries, and point-neighbour versus centroid distances within 5 km
-  of a cell edge. Pair counts use spatial-tree queries and do not construct a
-  dense all-pairs distance matrix.
+  median and maximum pairwise separation (exact for cell-weeks with at most
+  50,000 pairs and a deterministic 50,000-pair sample otherwise), exact counts
+  of unique pairs below 5, 10, and 25 km, short pairs crossing cell boundaries,
+  and point-neighbour versus centroid distances within 5 km of a cell edge.
+  Pair summaries use bounded sampling and spatial-tree counts; they do not
+  construct a dense all-pairs distance matrix.
 - **C — Historical proximity:** A3 cell-centroid distances to any earlier
   point in fixed 1, 3, 8, and 12 week windows, with and without points from the
   focal cell. Previous-12-week record, distinct-location, and distinct-cell
@@ -58,9 +60,9 @@ The Atlas launcher `hpc/run_point_clustering.sbatch` runs that check before
 the complete analysis, using the repository Python bootstrap. Set
 `A3_POINT_REPO` to the isolated Atlas worktree. The default Atlas result root
 is `/project/disease_ecology/STGNN-output/a3_point_spatiotemporal_clustering_w44`;
-set `A3_POINT_OUTPUT_ROOT` to a new, separate path for a rerun after a partial
-failure. Completed or partial detailed roots are preserved and are never
-overwritten.
+set `A3_POINT_OUTPUT_ROOT` to a new, separate path for another analysis
+version or a rerun after a partial failure. Completed or partial detailed
+roots are preserved and are never overwritten.
 
 Raw point assignments, point-to-point distances, detailed cell-week features,
 and boundary pairs stay below the Atlas output root. Only aggregate CSV/SVG

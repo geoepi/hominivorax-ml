@@ -20,3 +20,9 @@ existing kilometre-based A3 CRS. Points are not snapped or rounded. The
 analysis will not fit a spatial model, change a scientific parameter, or infer
 prospective availability. In the absence of source release timestamps, no
 prospective issue-time claim will be made.
+
+For within-cell pairwise summaries, cell-weeks with at most 50,000 unique
+pairs are enumerated exactly. Larger cell-weeks use a reproducible uniform
+sample of 50,000 distinct-point pairs drawn with replacement; those medians
+and maxima are labeled approximate. Exact threshold pair counts are computed
+separately with spatial-tree queries.
