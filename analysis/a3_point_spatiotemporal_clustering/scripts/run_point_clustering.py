@@ -298,6 +298,41 @@ def wgs84_geodesic_km(lon1: float, lat1: float, lon2: float, lat2: float) -> flo
     return b * cap_a * (sigma - delta_sigma)
 
 
+def join_history_predictors(
+    panel: pd.DataFrame, front: pd.DataFrame, required_columns: Iterable[str]
+) -> pd.DataFrame:
+    """Join frozen history features by their unique ISO-week/cell key."""
+    keys = ["week", "model_node_id"]
+    missing_columns = set([*keys, *required_columns]) - set(front.columns)
+    if missing_columns:
+        raise RuntimeError(f"Frozen A3 history table is missing columns: {sorted(missing_columns)}")
+    right = front.drop(columns=["week_index"], errors="ignore")
+    merged = panel.merge(
+        right,
+        on=keys,
+        how="left",
+        validate="one_to_one",
+        indicator="_history_join_status",
+    )
+    if not (merged["_history_join_status"] == "both").all():
+        unmatched = int((merged["_history_join_status"] != "both").sum())
+        raise RuntimeError(f"Frozen A3 history join did not match {unmatched} cell-weeks")
+    merged = merged.drop(columns="_history_join_status")
+    no_finite_values = [
+        column
+        for column in required_columns
+        if not np.isfinite(
+            pd.to_numeric(merged[column], errors="coerce").to_numpy(dtype=np.float64)
+        ).any()
+    ]
+    if no_finite_values:
+        raise RuntimeError(
+            "Frozen A3 history predictors have no finite matched values: "
+            f"{no_finite_values}"
+        )
+    return merged
+
+
 def run_synthetic_checks() -> dict[str, object]:
     xy = np.array([[0.0, 0.0], [3.0, 4.0]], dtype=np.float64)
     d, ix = nearest_self_excluding(xy)
@@ -353,6 +388,14 @@ def run_synthetic_checks() -> dict[str, object]:
     tiny_weekly, tiny_lags = summarize_weeks(tiny_distances, {t: 1}, LAGS)
     assert tiny_weekly.loc[0, "median_km"] == 5.0
     assert tiny_lags.loc[tiny_lags["lag_weeks"] == 1, "median_km"].iloc[0] == 6.0
+    tiny_panel = pd.DataFrame(
+        {"week": [ordinal_label(t)], "week_index": [0], "model_node_id": [0]}
+    )
+    tiny_front = pd.DataFrame(
+        {"week": [ordinal_label(t)], "week_index": [1], "model_node_id": [0], "old_feature": [7.0]}
+    )
+    joined = join_history_predictors(tiny_panel, tiny_front, ["old_feature"])
+    assert joined.loc[0, "week_index"] == 0 and joined.loc[0, "old_feature"] == 7.0
     sampled_xy = np.column_stack((np.arange(400, dtype=np.float64), np.zeros(400)))
     sampled_once = pairwise_distance_summary(sampled_xy, week_ord=t, node_id=3)
     sampled_twice = pairwise_distance_summary(sampled_xy, week_ord=t, node_id=3)
@@ -398,6 +441,7 @@ def run_synthetic_checks() -> dict[str, object]:
             "self-record exclusion preserves distinct co-located records",
             "exact historical eligibility excludes target and future weeks",
             "lag summaries use the recorded lag_weeks field",
+            "frozen history predictors join on ISO week and cell despite differing week indices",
             "large within-cell pairwise summaries use a deterministic bounded sample",
             "focal-cell exclusion selects the nearest outside-cell point",
             "missing outside-cell history remains undefined",
@@ -1272,11 +1316,17 @@ def add_history_features(
             "y": "centroid_y_km",
         }
     )
-    panel = panel.merge(
+    panel = join_history_predictors(
+        panel,
         front,
-        on=["week", "week_index", "model_node_id"],
-        how="left",
-        validate="one_to_one",
+        [
+            "distance_to_any_prior_positive_log1p",
+            "distance_to_prev4_positive_log1p",
+            "weeks_since_detection_within_50km_log1p",
+            "any_prior_positive_available",
+            "prev4_positive_available",
+            "detection_within_50km_ever_available",
+        ],
     )
     panel["occurrence"] = (panel["count"] > 0).astype(np.int8)
     first_week_by_node = (
