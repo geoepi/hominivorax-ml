@@ -712,7 +712,7 @@ def focused_check(
     )
     assert set(region_map.values()).issubset({"Mexico", "U.S.-to-40N"})
     assigned = points.loc[points["in_fitted_domain"]]
-    if not len(assigned) or not np.isfinite(assigned["distance_to_cell_centroid_km"]).all():
+    if not len(assigned) or not np.isfinite(assigned["point_to_cell_centroid_km"]).all():
         raise RuntimeError("Focused point-to-cell centroid or footprint assignment failed")
     check = {
         "status": "PASS",
