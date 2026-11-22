@@ -1,0 +1,27 @@
+{
+  "aggregate_files": [
+    "between_cell_proximity_summary.csv",
+    "cell_week_concentration_summary.csv",
+    "domain_assignment_by_week.csv",
+    "feature_redundancy_correlations.csv",
+    "historical_feature_distribution_by_group.csv",
+    "historical_proximity_feature_inventory.csv",
+    "projection_distance_accuracy.csv",
+    "regional_clustering_summary.csv",
+    "regional_temporal_lag_summary.csv",
+    "response_associations_by_distance_bin.csv",
+    "short_distance_pair_summary.csv",
+    "temporal_lag_summary.csv",
+    "weekly_nearest_neighbor_summary.csv",
+    "within_cell_distance_summary.csv"
+  ],
+  "data_vintage": "784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac",
+  "detailed_point_outputs": "retained only under the Atlas output root",
+  "figures": [
+    "weekly_nearest_neighbor_distance.svg",
+    "temporal_lag_distance_distribution.svg",
+    "regional_clustering.svg",
+    "historical_proximity_response_associations.svg"
+  ],
+  "repository_results_path": "/project/disease_ecology/STGNN-output/worktrees/a3-point-spatiotemporal-clustering/analysis/a3_point_spatiotemporal_clustering/results"
+}
