@@ -341,6 +341,38 @@ def run_synthetic_checks() -> dict[str, object]:
     assert eligible.tolist() == [t - 2, t - 1]
     assert ordinal_label(t) == "2025-W01"
     assert abs(wgs84_geodesic_km(0.0, 0.0, 1.0, 0.0) - 111.3194908) < 1e-5
+    tiny_distances = pd.DataFrame(
+        {
+            "week": [ordinal_label(t), ordinal_label(t)],
+            "week_ord": [t, t],
+            "lag_weeks": [0, 1],
+            "distance_km": [5.0, 6.0],
+        }
+    )
+    tiny_weekly, tiny_lags = summarize_weeks(tiny_distances, {t: 1}, LAGS)
+    assert tiny_weekly.loc[0, "median_km"] == 5.0
+    assert tiny_lags.loc[tiny_lags["lag_weeks"] == 1, "median_km"].iloc[0] == 6.0
+
+    singleton_point = pd.DataFrame(
+        {
+            "primary_period": [True],
+            "in_fitted_domain": [True],
+            "x_km": [0.0],
+            "y_km": [0.0],
+            "point_id": [101],
+            "model_node_id": [3],
+            "region": ["Mexico"],
+            "distance_to_cell_boundary_km": [1.0],
+            "point_to_cell_centroid_km": [2.0],
+            "week": [ordinal_label(t)],
+            "week_ord": [t],
+        }
+    )
+    singleton_node = pd.DataFrame({"model_node_id": [3], "x": [2.0], "y": [0.0]})
+    singleton_pairs, singleton_summary = between_cell_analysis(singleton_point, singleton_node)
+    assert not singleton_pairs.loc[0, "same_cell_neighbor"]
+    assert not singleton_pairs.loc[0, "cross_cell_neighbor"]
+    assert singleton_summary.loc[0, "n_cross_cell_nearest_pairs"] == 0
 
     affine = Affine(25.0, 0.0, 0.0, 0.0, -25.0, 50.0)
     rows, columns = rowcol(affine, [10.0, 35.0, 80.0], [40.0, 40.0, 40.0])
@@ -358,10 +390,12 @@ def run_synthetic_checks() -> dict[str, object]:
             "streamed spatial-tree pair counts use strict distance thresholds",
             "self-record exclusion preserves distinct co-located records",
             "exact historical eligibility excludes target and future weeks",
+            "lag summaries use the recorded lag_weeks field",
             "focal-cell exclusion selects the nearest outside-cell point",
             "missing outside-cell history remains undefined",
             "WGS84 geodesic diagnostic matches the equatorial one-degree reference",
             "existing affine row/column crosswalk assigns only listed model cells",
+            "a week-region with one observation has no defined cross-cell neighbour",
         ],
     }
 
