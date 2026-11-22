@@ -1,5 +1,12 @@
 # Release blockers and transfer boundary
 
+**Historical snapshot:** this document records the 2026-10-07 release-preparation
+state and its then-current W29 support horizon. It is not the current W44
+candidate status. Use [`docs/current/status.md`](../current/status.md) and the
+[W44 repository addendum](../history/repository_reconciliation/2026w44_branch_reconciliation_addendum.md)
+for the later artifact, qualification, and branch state. The historical
+release findings below are retained as originally scoped.
+
 The final private-release candidate closes the repository and orchestration
 preparation blockers:
 

@@ -3,6 +3,10 @@
 Audit date: 2026-10-07. Scope: the release-preparation tree and every
 surviving branch/tag ref selected for the private `hominivorax-ml` release.
 
+This is a point-in-time release audit, not the later W44 tree/branch audit. For
+the 2026-11-22 update, see the [W44 reconciliation addendum](../history/repository_reconciliation/2026w44_branch_reconciliation_addendum.md)
+and [maintenance branch inventory](../repository_maintenance/branch_inventory.csv).
+
 ## Current tree
 
 - No high-confidence credential pattern was found by the targeted scan for

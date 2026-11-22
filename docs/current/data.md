@@ -31,3 +31,16 @@ features must include auditable cutoffs strictly before each forecast week.
 
 Schema or unit changes are stop conditions; the launcher does not silently
 reinterpret columns or units.
+
+## Data vintages
+
+The original frozen development/evaluation data and the later W44 candidate
+source are separate vintages. The W44 candidate used
+`combined_clean_obs_2026-11-13.csv` (SHA-256
+`784168081cc1d3206f3537b8731994cbfc34be15be7c515fe06710d4ea9bdaac`). That
+snapshot contains 164,767 records observed through W46; W45–W46 were excluded
+from the candidate's W44 fitting horizon. The source snapshot has no certified
+reporting-completeness or outcome-maturity record, and historical revisions
+remain unexplained. These caveats limit evaluation; they do not alter the
+frozen specification. See the [data-vintage and artifact map](data_artifact_map.md)
+and [current status](status.md).

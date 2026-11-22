@@ -1,17 +1,20 @@
 # Validation status
 
-Development of Structured A3 is complete and the scientific specification is
-frozen. The historical exposed holdout is supported under the project’s
-documented rubric, but it is not an independent prospective validation.
+The original `STRUCTURED_A3` scientific specification is frozen at the W16
+training cutoff. The W17–W29 exposed holdout is historical evidence and is not
+an independent prospective claim. The subsequent W29 full-fit remains the
+active production artifact according to the latest isolation record.
 
-Current status is intentionally explicit:
+The latest completed fit is the W44 candidate. It is not production-qualified.
+Its Q1 retrospective replay completed 26 origin fits and 78 horizon blocks,
+but the response snapshot does not certify reporting completeness or target
+maturity. The recorded decision is `NOT_ASSIGNED`; its metrics are descriptive
+revised-vintage diagnostics, not qualification scores. Independent post-issue
+evaluation of the fixed W44 artifact remains pending.
 
-- observations currently extend through **2026-W31**;
-- complete A3 predictor support currently extends through **2026-W29**;
-- the current descriptive full fit covers **2025-W01 through 2026-W29**;
-- independent prospective validation is **not yet tested**.
-
-`production_fullfit` is an operational update that refits the frozen model on
-the latest authorized complete data. It must not be described as prospective
-validation. `prospective_evaluation` scores complete weeks strictly after a
-deployed model’s frozen evaluation horizon without refitting.
+`production_fullfit` in the P0–P5 pipeline fits once on the accepted complete
+input horizon and produces descriptive fitted-period products. It is not P6
+operational inference and is not prospective validation. P6 runs inference
+from the declared frozen model and issue-time inputs without refitting.
+`prospective_evaluation` in the P0–P5 pipeline is a separate no-refit scoring
+mode. See the [current status](status.md) and [entrypoint inventory](../release/production_entrypoint_inventory.md).

@@ -1,5 +1,9 @@
 # Structured A3 predictors
 
+This is the original frozen W16 predictor schema. The later W44 candidate
+retains the same schema; it does not amend the W16 freeze. See the
+[current status](status.md) for candidate and production artifact identities.
+
 The exact 34-predictor order is recorded in [`predictors.csv`](predictors.csv)
 and is checked against the frozen manifest during preflight. The predictors
 include dynamic environmental variables, static livestock and landscape

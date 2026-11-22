@@ -1,11 +1,31 @@
-# Atlas production operations
+# Atlas execution paths and operations
 
-Atlas production is pinned deliberately to an immutable release tag. The
-active `main` branch is accepted development; an annotated release tag is a
-scientific/software milestone; production runs use an explicitly deployed
-tag. Updating `main` must not automatically change production.
+Atlas deployment is controlled by protected configuration and explicit
+release decisions. Updating the repository or `main` does not change the
+deployed model. The latest documented isolation record identifies the W29
+full-fit as the active production artifact; see the [current status](status.md).
+The Git-tracked Atlas configuration files are examples, not proof of the
+deployed tag or active path.
 
-## Submission
+## P6 issue-time operational inference
+
+The documented hardened inference implementation is
+`analysis/p6_production_hardening/scripts/p6_production.py`. It verifies the
+declared model and input contracts, builds the `E0_LAST_AVAILABLE` predictor
+view, produces h=1–3 inference with P4 support classes, and writes an immutable
+run-specific output. It does not fit, recalibrate, retune, or promote a model.
+
+Use the [production runbook](../production_runbook.md) and a separately
+validated Atlas configuration for `preflight`, `production`, `verify`, or
+`replay`. The tracked `config/p6_production_config.json` describes the frozen
+W16 model contract; it does not establish that P6 replaced the W29 artifact in
+the active deployment. Reconcile model and configuration identity before any
+operational run.
+
+## P0–P5 full-fit and prospective-evaluation pipeline
+
+`slurm/submit_a3_pipeline.sh` submits the P0→P5 chain from
+`scripts/a3_pipeline.py`:
 
 ```bash
 bash slurm/submit_a3_pipeline.sh --mode production_fullfit \
@@ -14,48 +34,41 @@ bash slurm/submit_a3_pipeline.sh --mode prospective_evaluation \
   --config /project/disease_ecology/STGNN-production-config/atlas-production.yaml
 ```
 
-For optional read-only correlation with an external workflow, set
-`CHIME_EXECUTION_ID` in the environment before invoking the native launcher:
+`production_fullfit` fits the frozen scientific specification once on the
+latest accepted complete input horizon and writes descriptive fitted-period
+products. Its updated coefficients are not prospective validation and are not
+deployed automatically. `prospective_evaluation` uses the deployed frozen
+artifact, performs no refit, and writes eligible post-horizon scores to its
+separate output root. Use `--dry-run` to inspect the dependency chain before
+submission. This pipeline is distinct from P6 inference.
 
-```bash
-CHIME_EXECUTION_ID='manual-correlation-validation-20261007' \
-bash slurm/submit_a3_pipeline.sh --mode prospective_evaluation \
-  --config /project/disease_ecology/STGNN-production-config/atlas-production.yaml
-```
+## W44 candidate-refresh development workflow
 
-The launcher trims the value, rejects control characters and values longer
-than 256 UTF-8 bytes, captures it once in the top-level submission manifest,
-and explicitly exports the same value to every P0–P5 job. Unset or blank
-values are recorded as `null`. This field is opaque provenance only: it does
-not affect run IDs, model fitting, scoring, products, or whether anything is
-executed. Historical runs without the field remain valid.
+The W44 candidate refresh is a development workflow represented by
+`scripts/w44_execution_preflight.py`, `scripts/run_task2e_refresh.R`, and
+`hpc/run_task2e_refresh.sbatch` on the consolidated W44 branch. It created
+`STRUCTURED_A3_2026W44` in the separate development root
+`/project/disease_ecology/STGNN-output/structured_a3_refresh_2026w44`.
+That candidate remains `CANDIDATE_READY_FOR_REVIEW_NOT_PRODUCTION_QUALIFIED`.
+Its presence in the W44 branch does not change production configuration or
+authorize another refresh, qualification run, or promotion.
 
-Use `--dry-run` first. The launcher creates a P0→P1→P2→P3→P4→P5 chain with
-`afterok:` dependencies, prints stage/job/dependency/log information, and
-writes a machine-readable submission manifest for real submissions.
+The Q1 retrospective workflow is separately recorded under
+`analysis/structured_a3_data_refresh_2026w44/qualification_execution/` on the
+W44 branch. It completed 26 origin fits, but outcomes are not certified as
+mature; its scientific qualification decision is `NOT_ASSIGNED`. Row-level
+predictions and logs remain on Atlas.
 
-`production_fullfit` determines the latest complete authorized horizon,
-assembles features, fits frozen Structured A3 once, generates established
-products, and finalizes QA. It is not prospective validation.
+## Run identity, recovery, and cancellation
 
-`prospective_evaluation` requires a deployed frozen-model manifest, scores only
-new complete weeks after its evaluation horizon, writes to a distinct output
-root, and refuses any refit command. A later, explicit full-fit run may use
-those observations after review.
+For P0–P5, inspect its submission manifest, stage/job IDs, dependency chain,
+and logs. Status and cancellation commands are documented with the launcher.
+For P6, use `status.json`, `failure.json`, and the declared run root; resume an
+incomplete identity only when model, configuration, inputs, and run ID match.
+Completed P6 runs are immutable. Do not copy or rename output directories or
+substitute stale environmental products. A replay requires a separate,
+explicitly named root and is not prospective evidence.
 
-## Restart and cancellation
-
-Stage manifests record run ID, stage, job ID, status, timestamps, input and
-output manifest hashes. A restart must use matching model/data manifests and
-may resume a valid downstream stage without refitting. Stale artifacts from a
-different manifest are rejected.
-
-Inspect a run with:
-
-```bash
-bash slurm/a3_pipeline_status.sh <run_id>
-```
-
-Cancel the chain with `scancel <job-id>` for each submitted job (or the
-explicit dependency-chain IDs in the submission manifest). Cancellation does
-not delete completed artifacts.
+An optional `CHIME_EXECUTION_ID` may be captured as opaque provenance by the
+P0–P5 launcher. It does not change run IDs, model inputs, scientific outputs,
+or execution policy; unset and blank values are recorded as null.

@@ -1,9 +1,12 @@
 # Model Qualification Summary
 
-This entry point summarizes the completed qualification program for the frozen
-`STRUCTURED_A3` candidate. The scientific model remains frozen; P1--P7
-artifacts are evaluation, operational-contract, hardening, and publication
-records around that immutable object.
+This entry point summarizes the completed qualification program for the
+original W16-frozen `STRUCTURED_A3` candidate. Those P1–P7 results are tied to
+that immutable model and do not qualify the later W44 candidate. The W44 Q1
+retrospective replay completed, but target maturity was uncertified and its
+scientific qualification decision is `NOT_ASSIGNED`; independent prospective
+qualification remains pending. See [current model status](current/status.md)
+and the [W44 model-development decisions](current/model_development_decisions.md).
 
 Frozen model artifact SHA-256: `8a6a0a32a1a1e56f810b6aa1eafec5207dc3ac8d45cdf2270999f9721f080d1e`
 

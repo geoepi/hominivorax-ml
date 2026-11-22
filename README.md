@@ -25,6 +25,21 @@ Mexico and the United States south of 40°N. The authoritative specification is
 in [`docs/current/model.md`](docs/current/model.md), with the frozen manifest
 at [`analysis/structured_a3_evaluation/results/frozen_a3_evaluation_manifest.json`](analysis/structured_a3_evaluation/results/frozen_a3_evaluation_manifest.json).
 
+## Project status (2026-11-22)
+
+| Area | Current record |
+|---|---|
+| Supported architecture | Frozen `STRUCTURED_A3`; the original scientific training cutoff remains W16. |
+| Active production artifact | W29 full fit, according to the last isolation record; the deployed tag is not established by the repository template. |
+| Latest completed candidate | `STRUCTURED_A3_2026W44`; full fit complete, not production-qualified. |
+| Forecast qualification | Q1 retrospective completed but target maturity is uncertified (`NOT_ASSIGNED`); independent fixed-W44 prospective qualification is pending. |
+| Scientific limitations | Opportunistic reporting, unexplained source revisions, outcome maturity, frontier support, and residual spatial correlation remain limitations/diagnostics. |
+| Historical decisions | A4, A5, A5B, and evaluated A6 alternatives were not selected; point proximity did not justify a new challenger. See the [decision register](docs/current/model_development_decisions.md). |
+| Remaining operational blocker | Reconcile the tracked P6 W16 model contract with the W29 artifact identified as active in the latest Atlas isolation record before operational deployment. |
+
+The detailed artifact identities and provenance are maintained in the
+[canonical current-status record](docs/current/status.md).
+
 Structured A3 is spatiotemporally informed rather than a latent
 spatial-random-field or graph model. Temporal dependence is represented by
 time-varying covariates, seasonality, and lagged detection history; spatial
@@ -33,18 +48,18 @@ distance-to-front/history variables.
 
 ## Model outputs
 
-The production workflow generates weekly occurrence probability, conditional
-positive-count mean, and unconditional expected recorded count, together with
-weekly and summary GeoTIFF products, nowcast PDFs, weekly summary tables,
-interpretation figures, optional GIF animations, and an artifact manifest.
-These are generated on Atlas and are not vendored in this repository.
+The P0–P5 descriptive full-fit workflow generates weekly occurrence
+probability, conditional positive-count mean, and unconditional expected
+recorded count, together with GeoTIFFs, tables, reports, and manifests. The P6
+inference path is separate. Atlas products are not vendored in this repository.
 
 ## Study domain and temporal resolution
 
-The model uses weekly node-level data on 10,037 canonical cells. The current
-descriptive full fit covers complete data through 2026-W29. Observations extend
-through 2026-W31, but complete A3 predictor support currently ends at
-2026-W29.
+The model uses weekly node-level data on 10,037 canonical cells. The original
+W16 frozen model, active W29 production artifact, W44 candidate full fit, and
+retrospective/qualification evidence have separate vintages and statuses;
+consult [`docs/current/status.md`](docs/current/status.md) for the canonical
+table.
 
 ## Model inputs
 
@@ -58,7 +73,7 @@ rasters, and Atlas-local products remain outside Git.
 
 - Development is complete and the Structured A3 specification is frozen.
 - The historical exposed holdout is supported under the documented rubric.
-- The qualified operational contract supports 1–3 week nowcasting with the
+- The W16-qualified operational contract supports 1–3 week nowcasting with the
   issue-time `E0_LAST_AVAILABLE` environmental proxy and explicit P4 support
   flags; this is prospective input construction, not a true future-environment
   forecast.
@@ -69,14 +84,15 @@ separate claims. See [`docs/current/validation.md`](docs/current/validation.md),
 [`docs/current/limitations.md`](docs/current/limitations.md), and the
 [`model qualification summary`](docs/model_qualification_summary.md).
 
-## Qualified operational contract and publication build
+## Operational inference and descriptive full-fit workflows
 
-The qualified configuration is the frozen `STRUCTURED_A3` model with
-`E0_LAST_AVAILABLE` held across horizons 1–3. Every output retains the P4
-`SUPPORTED`, `CAUTION`, or `EXTRAPOLATIVE` class and uncertainty/provenance
-fields. The canonical P6 entry point is
-`analysis/p6_production_hardening/scripts/p6_production.py`; the P7 publication
-package is generated from tracked P1–P6 artifacts with:
+The canonical operational inference entry point is
+`analysis/p6_production_hardening/scripts/p6_production.py`. It uses the
+versioned `E0_LAST_AVAILABLE` contract for horizons 1–3, retains P4 support
+classes and provenance, and does not refit. The separate P0–P5 pipeline and
+W44 candidate-refresh workflow have distinct purposes and roots; see the
+[entrypoint inventory](docs/release/production_entrypoint_inventory.md).
+The P7 publication package is generated from tracked P1–P6 artifacts with:
 
 ```text
 Rscript analysis/p7_publication/scripts/build_publication_artifacts.R --repo-root .
@@ -86,9 +102,13 @@ See [`analysis/p7_publication/p7_prespecification.md`](analysis/p7_publication/p
 the [`publication results`](analysis/p7_publication/results/results_synthesis.md),
 and [`docs/model_qualification_summary.md`](docs/model_qualification_summary.md).
 
-## Running the production workflow
+## Atlas execution paths
 
-Atlas users should use the limited-interaction launcher:
+The P0–P5 `production_fullfit` launcher fits the frozen specification once on
+the accepted complete input horizon and generates descriptive fitted-period
+products. It is not the P6 issue-time inference command and does not establish
+prospective validation. Atlas users should review the deployment configuration
+and runbook before invoking it:
 
 ```bash
 bash slurm/submit_a3_pipeline.sh \
@@ -96,7 +116,9 @@ bash slurm/submit_a3_pipeline.sh \
   --config /project/disease_ecology/STGNN-production-config/atlas-production.yaml
 ```
 
-For untouched weeks after a deployed frozen model’s evaluation horizon:
+P0–P5 also exposes a `prospective_evaluation` mode that scores only eligible
+weeks without refitting. The separately validated P6 entry point remains the
+operational inference path. These commands are not interchangeable:
 
 ```bash
 bash slurm/submit_a3_pipeline.sh \
@@ -121,10 +143,12 @@ Embedded control characters and values longer than 256 UTF-8 bytes are
 rejected. Native operators may use any opaque identifier format; no CHIME
 launch or execution action is implied by recording the value.
 
-Both modes are dependency-chained SLURM workflows. `prospective_evaluation`
-never refits and writes to a distinct output root. Use `--dry-run` to validate
-configuration and print the planned chain without submitting jobs. Details,
-restart rules, and cancellation instructions are in
+Both P0–P5 modes are dependency-chained SLURM workflows. Use `--dry-run` to
+validate configuration and print the planned chain without submitting jobs.
+The W44 candidate-refresh work is a development workflow under
+`scripts/run_task2e_refresh.R` and `hpc/run_task2e_refresh.sbatch`; it created
+the unpromoted W44 candidate and must use its separate development root. It is
+not the routine P6 inference command. Details and recovery instructions are in
 [`docs/current/atlas.md`](docs/current/atlas.md).
 
 ## Repository structure

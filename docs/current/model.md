@@ -2,6 +2,11 @@
 
 > **CURRENT FROZEN SUPPORTED SPECIFICATION**
 
+This specification is the original W16-frozen `STRUCTURED_A3` scientific
+object. Later full fits may use a newer accepted response vintage, but they do
+not replace this W16 freeze. The latest candidate and active production
+artifact are listed in the [current status page](status.md).
+
 This document is authoritative for the supported Structured A3 workflow. It
 supersedes earlier documents that describe the 24-predictor Hurdle-Current or
 V2-A-only specifications. Those documents remain historical records.
@@ -19,7 +24,11 @@ V2-A-only specifications. Those documents remain historical records.
 
 ## Spatial and temporal domain
 
-The domain contains 10,037 canonical 25 × 25 km cells covering Mexico and the United States south of 40°N. The temporal resolution is weekly. The development response bundle spans 2025-W01 through 2026-W29; fitting uses only 2025-W01 through 2026-W16.
+The domain contains 10,037 canonical 25 × 25 km cells covering Mexico and the
+United States south of 40°N. The temporal resolution is weekly. The original
+development response bundle spans 2025-W01 through 2026-W29; the original
+frozen model fit uses only 2025-W01 through 2026-W16. A separate W44 candidate
+full fit was completed later and is not a change to this specification.
 
 ## Exact predictor order
 
@@ -76,7 +85,7 @@ Predictors 1–30 are the frozen V2-A/A0 reference. Predictors 31–34 are the f
 - Development comparison: F1–F4 only; A0 and A3 each completed four fixed-theta fits.
 - Selection status: A3 improved the recorded development comparison metrics and the STRUCTURED A3 development specification was frozen.
 - Historical exposed holdout: 2026-W17–2026-W29, including the previously visible F5/F6 horizon; it is not an independent prospective claim.
-- Independent prospective evaluation: not yet available. Later source observations extend to 2026-W31, but complete A3 predictor support ends at 2026-W29 and the later source snapshot predates the freeze.
+- Independent prospective evaluation of the fixed W16 model: not available in the original freeze record. A later W44 candidate was evaluated retrospectively for Q1, but target maturity was not certified and its scientific qualification decision is `NOT_ASSIGNED`. Independent post-issue qualification of the fixed W44 candidate remains pending; see [current status](status.md).
 
 ## Causality rule
 
@@ -93,6 +102,7 @@ The canonical implementation and artifact paths are mapped in
 ## Known limitations
 
 - Historical exposed holdout support does not establish independent prospective validity.
-- Complete A3 predictor support is not available after 2026-W29.
+- The original W16 frozen model's exposed historical holdout ends at 2026-W29. W44 candidate data and output identity do not convert that holdout into prospective evidence.
 - Neural and graph/GConvGRU pathways were evaluated diagnostically and are not supported as the current production-development path.
+- A4, A5, A5B, and evaluated A6 challengers were not selected; residual spatial correlation remains a diagnostic limitation, not an elimination threshold.
 - The release-facing production launcher is documented in `docs/current/atlas.md`.
