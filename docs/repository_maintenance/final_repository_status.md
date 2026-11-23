@@ -6,10 +6,10 @@
 
 - Starting remote branch count: **17**.
 - Final remote branch count at the cleanup PR snapshot: **3**.
-- Surviving refs: main at 215aebb8bd75ac3a4f7bffbd2422bb0704a3ea63; analysis/structured-a3-2026w44-refresh at 92caffc788452e6c336aa0ed81d44b2df52776cd; and maintenance/repository-consolidation at 4faf0e415d9e3415f2adb9a5475f380cb1cdd7bc for draft PR #38.
+- Surviving refs: main at 215aebb8bd75ac3a4f7bffbd2422bb0704a3ea63; analysis/structured-a3-2026w44-refresh at 92caffc788452e6c336aa0ed81d44b2df52776cd; and maintenance/repository-consolidation for draft PR #38 (current remote tip).
 - PR #37 merged into main as merge commit 215aebb8bd75ac3a4f7bffbd2422bb0704a3ea63.
 - PR #31 remains open and draft against main. W44 is not merged or promoted.
-- The completion record is in draft PR #38 on maintenance/repository-consolidation at head 4faf0e415d9e3415f2adb9a5475f380cb1cdd7bc.
+- The completion record is in open draft PR #38 on maintenance/repository-consolidation.
 
 Fourteen remote refs were deleted after checking exact tips, ancestry, open PRs, and evidence preservation. Their full names and SHAs are listed in the [dated cleanup completion record](../history/repository_reconciliation/2026-11-22_branch_cleanup_completion.md) and the updated [branch inventory](branch_inventory.csv).
 
