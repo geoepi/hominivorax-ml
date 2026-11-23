@@ -72,3 +72,11 @@ The separately named maintenance branch created for this task is local only; the
 ## Explicitly retained ref
 
 The automatic approval review rejected deleting maintenance/repository-consolidation because it was outside the 14 named deletion targets. That ref was retained and reused for the follow-up records PR; it was not force-updated.
+
+## Separate W44 refresh integration review
+
+PR #31 remains an open draft at `analysis/structured-a3-2026w44-refresh` head `92caffc788452e6c336aa0ed81d44b2df52776cd`. Compared with current main, its diff contains 116 files (18,463 additions and 122 deletions). The changed paths include W44 implementation, reports, provenance, plans, tests, and aggregate descriptive results. The fitted candidate artifact remains on Atlas; the PR description states that only aggregate results, code, and documentation are stored in Git.
+
+The comparison contains no `config/` changes, no `config/production_model_freeze.json` change, and no frozen `analysis/structured_a3_evaluation/` artifact change. It does change shared Task 2A/2E and HPC execution paths, including `scripts/build_production_dataset.R`, `scripts/run_task2e_refresh.R`, `scripts/run_task2a.sh`, `python/task2a_pipeline.py`, and `hpc/run_task2e_refresh.sbatch`. These edits tighten required inputs, checksum declarations, preflight checks, and output-overwrite behavior, so integration of the full PR has operational consequences and requires its own explicit review and validation.
+
+Repository evidence can be incorporated into main while keeping deployment and scientific qualification separate, provided the W44 artifact remains labeled `CANDIDATE_READY_FOR_REVIEW_NOT_PRODUCTION_QUALIFIED`, the Q1 decision remains `NOT_ASSIGNED`, and no deployment configuration or production pointer is changed. The descriptive reports and aggregate tables do not by themselves qualify the fitted candidate. The shared execution-path changes should be reviewed as operational changes before integration; this branch reconciliation did not merge PR #31 or authorize its integration. Its branch remains retained for that decision.
