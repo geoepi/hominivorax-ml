@@ -15,4 +15,5 @@ under [`../history/repository_reconciliation/`](../history/repository_reconcilia
 | Engineering findings | [hardening_findings.md](hardening_findings.md) |
 | Non-destructive cleanup manifest | [branch_cleanup_manifest.csv](branch_cleanup_manifest.csv) |
 | Routine refresh policy proposal | Canonical [routine model-refresh proposal](../current/routine_model_refresh.md) |
+| Dated branch-cleanup completion | [2026-11-22 completion record](../history/repository_reconciliation/2026-11-22_branch_cleanup_completion.md) |
 | Final repository status | [final_repository_status.md](final_repository_status.md) |

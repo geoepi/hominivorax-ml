@@ -1,39 +1,36 @@
 # Final repository status
 
-**Audit date:** 2026-11-22
+**Reconciliation date:** 2026-11-22.
 
-- Default branch: `main`, SHA `6715a4397dad21a77414bd2ce41586751290f374`.
-- Supported architecture: original W16-frozen `STRUCTURED_A3`.
-- Active production artifact: W29 full fit according to the latest
-  isolation record (model SHA prefix `1cb694f`; active configuration SHA
-  prefix `f51038`).
-- Latest candidate: `STRUCTURED_A3_2026W44`, SHA-256
-  `b1a66a65efbb9a65f6a4c966044d2f87576ee7e6a1d1a294c0fb1855f684f53b`,
-  `CANDIDATE_READY_FOR_REVIEW_NOT_PRODUCTION_QUALIFIED`.
-- W44 Q1 retrospective: completed; 26 origin fits, 78 horizon blocks; target
-  maturity uncertified, scientific decision `NOT_ASSIGNED`.
-- Point-level clustering: integrated into W44; decision
-  `POINT_PROXIMITY_CHALLENGER_NOT_JUSTIFIED`.
-- W44 branch: `analysis/structured-a3-2026w44-refresh` at
-  `92caffc788452e6c336aa0ed81d44b2df52776cd`; PR #31 remains open and draft.
-  PRs #34, #35, and #36 are merged into W44 in order.
-- Remote deletion: none. Nine integrated zero-unique-commit branches are
-  candidates for later review; five A5/A6 branches remain preserved.
-- Main merge/promotion: none. Active production configuration was not edited.
+## GitHub state
 
-The maintenance worktree is based on `main` at
-`6715a4397dad21a77414bd2ce41586751290f374`. This maintenance record is a
-review proposal and remains outside `main` until its separate review/merge
-process. The exact review-branch commit is available from Git history and the
-pull request.
+- Starting remote branch count: **17**.
+- Final remote branch count at the cleanup PR snapshot: **3**.
+- Surviving refs: main at 215aebb8bd75ac3a4f7bffbd2422bb0704a3ea63; analysis/structured-a3-2026w44-refresh at 92caffc788452e6c336aa0ed81d44b2df52776cd; and maintenance/repository-consolidation, reused as the source branch for the completion PR.
+- PR #37 merged into main as merge commit 215aebb8bd75ac3a4f7bffbd2422bb0704a3ea63.
+- PR #31 remains open and draft against main. W44 is not merged or promoted.
+- The completion record is proposed in a draft follow-up PR on maintenance/repository-consolidation.
 
-## Remaining separate decisions
+Fourteen remote refs were deleted after checking exact tips, ancestry, open PRs, and evidence preservation. Their full names and SHAs are listed in the [dated cleanup completion record](../history/repository_reconciliation/2026-11-22_branch_cleanup_completion.md) and the updated [branch inventory](branch_inventory.csv).
 
-1. Independent fixed-W44 prospective qualification with mature, issue-time
-   eligible outcomes.
-2. Reconciliation and explicit validation of the deployed W29 model/config
-   identity with the supported P6 inference configuration.
-3. A policy decision on routine refresh versus complete P0–P7 qualification.
-4. Human review before deleting any branch in the cleanup-candidate manifest.
-5. Any production promotion or additional A5/A6/point-pattern experiment,
-   each requiring separate authorization.
+Five annotated tags now preserve the complete A5/A6 scientific and implementation branch histories. Exact tag names, tag object SHAs, and peeled commit SHAs are listed in the completion record. The five associated local worktrees and local branch refs remain intact. No worktree was removed.
+
+## Scientific and production state
+
+- Supported architecture: original W16-frozen STRUCTURED_A3.
+- Active production artifact: W29 full fit according to the latest isolation record (model SHA prefix 1cb694f; active configuration SHA prefix f51038).
+- Latest candidate: STRUCTURED_A3_2026W44, SHA-256 b1a66a65efbb9a65f6a4c966044d2f87576ee7e6a1d1a294c0fb1855f684f53b, CANDIDATE_READY_FOR_REVIEW_NOT_PRODUCTION_QUALIFIED.
+- W44 Q1 retrospective: 26 origin fits and 78 horizon blocks; target maturity is uncertified and the scientific decision remains NOT_ASSIGNED.
+- Point-level clustering remains a completed descriptive study with decision POINT_PROXIMITY_CHALLENGER_NOT_JUSTIFIED.
+- No model, production artifact, active Atlas configuration, scientific fit, or qualification run was changed or executed during this branch reconciliation.
+
+## Verification
+
+- git fetch origin --prune --tags completed after remote branch deletion.
+- GitHub branch enumeration returned three remote branches at the cleanup snapshot.
+- All five historical tags are annotated and peel to the exact recorded branch-tip commits. Their reports, scripts, and validation evidence remain readable from those tag trees.
+- The five subordinate W44 tips are ancestors of the surviving W44 branch; PR #34, #35, and #36 merge commits remain reachable there.
+- The four CHIME/P7 tips are ancestors of main. PR #37's commit is reachable from the merged main.
+- Local branch refs were retained where linked worktrees still use them. The unrelated dirty root checkout was untouched.
+
+The pre-existing maintenance/repository-consolidation ref was outside the 14 explicitly named deletion targets. The automatic approval review rejected deleting that extra ref; it is retained and reused for the completion-record PR.
